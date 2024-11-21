@@ -2,8 +2,8 @@
 
 # -- Project information
 
-project = 'Jasper Publisher'
-copyright = '2024, Cited, Inc.'
+project = 'Quail'
+copyright = '2025, Cited, Inc.'
 author = 'Cited Inc'
 
 release = '2.1'
