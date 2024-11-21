@@ -27,11 +27,26 @@ Change to the /jasper-report-publisher-2.11.0 directory and run the installers i
 
 .. code-block:: console
  
-    cd jasper-report-publisher-2.11.0
-   ./installer/postgres.sh
-   ./installer/app-install.sh
-   ./installer/jri-install.sh
-   ./installer/jri-sample.sh
+    cd quail
+    ./installer/postgres.sh
+    ./installer/app-install.sh [--no-mapproxy]
+
+
+Login with your default user of admin@admin.com and password from /root/auth.txt
+
+Docker Install
+
+.. code-block:: console
+
+    cd quail
+    ./installer/docker-install.sh
+    docker-compose up
+
+To clean persistent data, you can remove volumes with this command:
+
+.. code-block:: console
+
+    docker volume rm quail_{cache_qgis,data_layers,data_qgis,data_mapproxy,data_stores,html_layers,html_stores,pg_data,www_cache}
 
 Optionally, run below to provision SSL using letsencrypt:
 
