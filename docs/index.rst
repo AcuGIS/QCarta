@@ -12,7 +12,7 @@ Jasper Report Publisher
 
    intro
    installing
-   components/sample/index
+   sections/sample/index
    
    
 .. toctree::
@@ -22,20 +22,12 @@ Jasper Report Publisher
     sections/dashboard/index
     sections/users/index
     sections/usergroups/index
-    sections/data/index
-    sections/publish/index
-    sections/schedule/index
-    sections/reports/index
-    sections/parameters/index
-    sections/run/index
-    sections/email/index
-    sections/qgis/index
-    sections/r/index
-    sections/reportgroups/index
-    sections/context/index
-    sections/links/index
-    sections/thumbnail/index
-    sections/tomcat/index
+    sections/keys/index
+    sections/stores/index
+    sections/postgisstores/index
+    sections/qgisstore/index
+    sections/layers/index
+    sections/mapproxy/index
     sections/structure/index
     
 .. toctree::
@@ -54,7 +46,8 @@ Jasper Report Publisher
     resources/support
     resources/commercial
     resources/license
-    
+
+
     
     
     
