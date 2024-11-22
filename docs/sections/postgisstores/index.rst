@@ -7,7 +7,7 @@
    :width: 1em
 
 **********************
-PostGIS Sources
+PostGIS Stores
 **********************
 
 .. contents:: Table of Contents
