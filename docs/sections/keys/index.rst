@@ -7,7 +7,7 @@
    :width: 1em
 
 **********************
-Links
+Keys
 **********************
 
 .. contents:: Table of Contents
