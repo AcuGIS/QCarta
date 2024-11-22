@@ -16,23 +16,17 @@ Overview
 
 The Reports section on the left menu is where you add Reports to the end user Dashboard.
 
-Add New Report
+Add New Store
 ================
 
-To add a new report, click the "Add New" button at top.
+Quail suppports the following Stores
 
-.. image:: ../../_static/report-dashboard-0.png
-
-Enter the following information:
-
-* Report	- Name of the jrxml file
-* Data Souce - The JRI Data Source name
-* Format - Report Format (Defaults to HTML)
-* File Name	- jrxml name of the report
-* Name	- the name that will appear in the dashboard
-* Description	- the description that will appear in the dashboard
-* Access Groups - Group(s) that have access to this report
-* Grouped Report - Report is part of Grouped Report   
+* PostGIS
+* QGIS
+* shapefile (via PostGIS)
+* GeoPackage (via PostGIS)
+* PostgreSQL Dump
+* PostgreSQL SQL
 
 
 With all fields populated, click the Add icon at right:
