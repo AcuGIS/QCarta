@@ -1,5 +1,5 @@
 **********************
-Manual Run
+MapProxy
 **********************
 
 .. contents:: Table of Contents
