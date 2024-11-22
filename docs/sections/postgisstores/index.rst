@@ -7,7 +7,7 @@
    :width: 1em
 
 **********************
-Data Sources
+PostGIS Sources
 **********************
 
 .. contents:: Table of Contents
