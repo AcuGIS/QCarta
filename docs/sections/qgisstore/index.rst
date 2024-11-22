@@ -1,5 +1,5 @@
 *******
-QGIS
+QGIS Stores
 *******
 
 .. note::
