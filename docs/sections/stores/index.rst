@@ -7,7 +7,7 @@
    :width: 1em
 
 **********************
-Reports
+Stores
 **********************
 
 .. contents:: Table of Contents
