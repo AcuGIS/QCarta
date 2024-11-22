@@ -14,7 +14,7 @@ Stores
 Overview
 ==================
 
-The Reports section on the left menu is where you add Reports to the end user Dashboard.
+Quail supports both QGIS and PostGIS Store types.  Additionally, you can create a PostGIS Store via shapefile, geopackage, or PostgreSQL backup.
 
 Add New Store
 ================
