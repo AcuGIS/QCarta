@@ -53,7 +53,22 @@ Edit Report
 ===================
 To edit a report entry, click the Edit icon, as shown below:
 
-.. image:: _static/Edit-Report.png
+select-files-0.png
+
+.. image:: select-files-0.png
+
+select-files-1.png
+
+.. image:: select-files-1.png
+
+select-files-2.png
+
+.. image:: select-files-2.png
+
+select-files.png
+
+
+.. image:: select-files.png
 
 Delete Report
 ===================
