@@ -14,30 +14,40 @@ Stores
 Overview
 ==================
 
-Quail supports both QGIS and PostGIS Store types.  Additionally, you can create a PostGIS Store via shapefile, geopackage, or PostgreSQL backup.
+Quail divides Stores into two types:
 
-Add New Store
+* QGIS
+* PostGIS
+
+These Stores can be used to support virtually all GIS data formats.
+
+QGIS Store
 ================
 
-Quail suppports the following Stores
+A QGIS Store consists of your QGIS Project file, along with any static files if using a static data source.
 
-* PostGIS
-* QGIS
-* shapefile (via PostGIS)
-* GeoPackage (via PostGIS)
-* PostgreSQL Dump
-* PostgreSQL SQL
+Examples of static data sources include:
 
-
-With all fields populated, click the Add icon at right:
-
-.. image:: ../../_static/report-dashboard-1.png
+* GeoTiff
+* shapefile
+* GeoPackage
+* GeoJson
+* etc....
 
 
-Report Thumbnail
+PostGIS Store
 =====================
 
-You can set the thumbnail for a report by adding reportid.png to the assets/maps folder.
+A PostGIS Store is used when your QGIS Project is used when
+
+1. Your QGIS Project uses data from a PostGIS Layer
+2. You wish to convert your static data to PostGIS
+
+If you wish to convert a static data source to PostGIS, you can upload the following
+
+* Esri Shapefile
+* GeoPackage
+* PostGIS dump
 
 Edit Report
 ===================
