@@ -16,14 +16,21 @@ Overview
 
 Remote access to layers is handles via Keys.
 
+Each user has a secret key, which can be refreshed when needed.
 
-
-Add Link
+Secret Key
 ================
 
-To add a new Link, click the "Add New" button at top.
+Use Secret Keys are displayed on the Users tab:
 
-Give your link a Name, Description, and URL:
+.. image:: key-1.png
+
+To reset a User's Secret Key, click on the Edit button.
+
+In the modal box, click the Reset Key icon:
+
+.. image:: keys-reset.png
+
 
 add new
 
@@ -33,34 +40,42 @@ clear-expired
 
 .. image:: clear-expired.png
 
- create-key-1
+ 
+
+create-key-1
 
 .. image:: create-key-1.png
 
- create-key-2
+ 
+create-key-2
 
 .. image:: create-key-2.png
 
- create-key-3
+
+create-key-3
 
 .. image:: create-key-3.png
 
 
- key-1
+key-1
 
 .. image:: key-1.png
 
+
 keys-rest
 
-.. image:: keys-reset.png
+
+
 
 show-use.png
 
 .. image:: show-use.png
 
+
 show-use-3.png
 
 .. image:: show-use-3.png
+
 
 show-use-edit.png
 
