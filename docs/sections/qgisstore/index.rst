@@ -45,8 +45,11 @@ Select your QGIS project and any static sources you wish to upload.
 
 With files selected, chose if Store is Public and Access Groups (both can be changed later)
 
-
 .. image:: select-files-2.png
+
+Your new QGIS Store has now been created:
+
+.. image:: select-files-3.png
 
 
 
