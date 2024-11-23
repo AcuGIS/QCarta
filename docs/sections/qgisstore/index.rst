@@ -14,17 +14,10 @@ QGIS Stores
 Overview
 ==================
 
-Quail divides Stores into two types:
-
-* QGIS
-* PostGIS
-
-These Stores can be used to support virtually all GIS data formats.
-
-QGIS Store
-================
-
 A QGIS Store consists of your QGIS Project file, along with any static files if using a static data source.
+
+Create a QGIS Store
+================
 
 Examples of static data sources include:
 
@@ -34,41 +27,28 @@ Examples of static data sources include:
 * GeoJson
 * etc....
 
+Below, we'll create a QGIS Store that uses ESRI shapefile as the data source.
 
-PostGIS Store
-=====================
+NOTE: You can import the shapefile into PostGIS via Stores > PostGIS to create a database from your shapefile(s)
 
-A PostGIS Store is used when your QGIS Project is used when
-
-1. Your QGIS Project uses data from a PostGIS Layer
-2. You wish to convert your static data to PostGIS
-
-If you wish to convert a static data source to PostGIS, you can upload the following
-
-* Esri Shapefile
-* GeoPackage
-* PostGIS dump
-
-Edit Report
-===================
-To edit a report entry, click the Edit icon, as shown below:
-
-select-files-0.png
+On Stores > QGS, click the Add New button:
 
 .. image:: select-files-0.png
 
-select-files-1.png
+Give your Store a name.  Below we are using 'myqgisstore'.
 
 .. image:: select-files-1.png
 
-select-files-2.png
+Select your QGIS project and any static sources you wish to upload.
+
+.. image:: select-files.png
+
+With files selected, chose if Store is Public and Access Groups (both can be changed later)
+
 
 .. image:: select-files-2.png
 
-select-files.png
 
-
-.. image:: select-files.png
 
 Delete Report
 ===================
