@@ -14,9 +14,11 @@ Security
 Overview
 ==================
 
-Remote access to layers is handles via Keys.
+There are two options for Store and Layer security.
 
-Each user has a secret key, which can be refreshed when needed.
+The first is making Stores or Layers Public.  Doing so will expose them to anyone with the url.
+
+The second option is to set store or Layer to private and access using User Secret Key.
 
 Secret Key
 ================
