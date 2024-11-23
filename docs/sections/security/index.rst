@@ -27,10 +27,10 @@ Below is an example using User Secret key:
 
 **Add PHP Header**::
 
-<?php
-	const SECRET_KEY='0825aeed-6d95-48d0-81d2-ef90aac615b6';	// copy from Users->Secret Key
-	$auth = json_decode(file_get_contents('https://fish.webgis1.com/admin/action/authorize.php?secret_key='.SECRET_KEY.'&ip='.$_SERVER['REMOTE_ADDR']));
-?>
+	<?php
+		const SECRET_KEY='0825aeed-6d95-48d0-81d2-ef90aac615b6';	// copy from Users->Secret Key
+		$auth = json_decode(file_get_contents('https://fish.webgis1.com/admin/action/authorize.php?secret_key='.SECRET_KEY.'&ip='.$_SERVER['REMOTE_ADDR']));
+	?>
 
 More stuff here.
 
