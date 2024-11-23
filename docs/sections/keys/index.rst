@@ -25,12 +25,51 @@ To add a new Link, click the "Add New" button at top.
 
 Give your link a Name, Description, and URL:
 
-.. image:: ../../_static/links-1.png
+add new
+
+.. image:: add-new.png
+
+clear-expired
+
+.. image:: clear-expired.png
+
+ create-key-1
+
+.. image:: create-key-1.png
+
+ create-key-2
+
+.. image:: create-key-2.png
+
+ create-key-3
+
+.. image:: create-key-3.png
+
+
+ key-1
+
+.. image:: key-1.png
+
+keys-rest
+
+.. image:: keys-reset.png
+
+show-use.png
+
+.. image:: show-use.png
+
+show-use-3.png
+
+.. image:: show-use-3.png
+
+show-use-edit.png
+
+.. image:: show-use-edit.png
 
 
 The link will appear on the user dashboard as below:
 
-.. image:: ../../_static/links-2.png
+
 
 .. note::
     By default, links open in a new window.
