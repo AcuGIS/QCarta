@@ -27,6 +27,7 @@ Jasper Report Publisher
     sections/qgisstore/index
     sections/postgisstores/index   
     sections/layers/index
+    sections/security/index
     sections/mapproxy/index
     sections/structure/index
     
