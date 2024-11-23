@@ -14,7 +14,9 @@ Keys
 Overview
 ==================
 
-You can add external links to the end user dashboard.
+Remote access to layers is handles via Keys.
+
+
 
 Add Link
 ================
