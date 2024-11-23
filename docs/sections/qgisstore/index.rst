@@ -49,13 +49,24 @@ With files selected, chose if Store is Public and Access Groups (both can be cha
 
 Your new QGIS Store has now been created:
 
-.. image:: select-files-3.png
+.. image:: select-files-4.png
 
 
 
-Delete Report
+Show Info
 ===================
-To delete a report entry, click the Delete icon, as shown below:
 
-.. image:: _static/Edit-Report.png
+To view your GetCapability urls as well as ESPG and Bounding Box, click on the "info" link at right:
+
+.. image:: select-files-gdal.png
+
+The Store GetCapability urls, ESPG, and Bounding Box are displayed in modal:
+
+.. image:: select-files-6.png
+
+Clicking the link will take you to the document(s)
+
+.. image:: select-files-7.png
+
+
 
