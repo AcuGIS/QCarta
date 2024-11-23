@@ -39,14 +39,17 @@ Then call the url as needed.
 For exmaple, using MapProxy url for layer::
 
 
-	const wmsLayer = L.tileLayer.wms('https://fish.webgis1.com:443/mproxy/service?', {
+	const wmsLayer = L.tileLayer.wms('https:///yourdomain:443/mproxy/service?', {
 			layers: 'layer_3'
 		}).addTo(map);
 
 
 A full example would look like::
 
-
+	<?php
+		const SECRET_KEY='0825aeed-6d95-48d0-81d2-ef90aac615b6';	// copy from Users->Secret Key
+		$auth = json_decode(file_get_contents('https://yourdomain.com/admin/action/authorize.php?secret_key='.SECRET_KEY.'&ip='.$_SERVER['REMOTE_ADDR']));
+	?>
 	<!DOCTYPE html>
 	<html lang="en">
 	<head>
@@ -74,17 +77,13 @@ A full example would look like::
 		</style>	
 		</head>
 		<body>
-
 	<div id='map'></div>
-
 	<script type="text/javascript">
-
 	const map = L.map('map', {
 		center: [0, 0],
 		zoom: 16,
 		crs: L.CRS.EPSG4326
 	});
-
 	const wmsLayer = L.tileLayer.wms('https://fish.webgis1.com:443/mproxy/service?', {
 		layers: 'layer_3'
 	}).addTo(map);
