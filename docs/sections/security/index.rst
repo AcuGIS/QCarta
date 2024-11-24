@@ -94,7 +94,7 @@ A full example would look like::
 		zoom: 16,
 		crs: L.CRS.EPSG4326
 	});
-	const wmsLayer = L.tileLayer.wms('https://fish.webgis1.com:443/mproxy/service?', {
+	const wmsLayer = L.tileLayer.wms('https://yourdomain.com:443/mproxy/service?', {
 		layers: 'layer_3'
 	}).addTo(map);
 
@@ -104,7 +104,23 @@ A full example would look like::
 	</html>
 
 
-To reset a User's Secret Key, click on the Edit button.
+An exmaple in Python would be::
+
+
+	import requests
+	import json
+
+	secret_key='91f0abc6-bb8a-4b77-8d02-99841c2c1241'
+	remote_ip='1.2.3.4'
+	url = 'https://yourdomain.com/admin/action/authorize.php?secret_key='+ secret_key + '&ip=' + remote_ip
+
+	response = requests.get(url, headers=headers)
+
+	print("Status Code", response.status_code)
+	if response.status_code == 200:
+		response = requests.get('https://yourdomain.com/layers/1/geojson.php?access_key=' + response.access_key)
+		geojson = response.content
+
 
 In the modal box, click the Reset Key icon:
 
