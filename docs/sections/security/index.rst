@@ -111,14 +111,14 @@ An exmaple in Python would be::
 	import json
 
 	secret_key='91f0abc6-bb8a-4b77-8d02-99841c2c1331'
-	remote_ip='162.243.167.9'
+	remote_ip='192.243.167.9'
 	
 
 	# allow access to the IP of calling script
-	url = 'https://fish.webgis1.com/admin/action/authorize.php?secret_key='+ secret_key + '&ip='
+	url = 'https://yourdomain.com/admin/action/authorize.php?secret_key='+ secret_key + '&ip='
 
 	# no IP restrictions
-	#url = 'https://fish.webgis1.com/admin/action/authorize.php?secret_key='+ secret_key
+	#url = 'https://yourdomain.com/admin/action/authorize.php?secret_key='+ secret_key
 
 	response = requests.get(url)
 
@@ -126,7 +126,7 @@ An exmaple in Python would be::
 	if response.status_code == 200:
     	print("JSON Response ", response.json())
     	auth = response.json()
-    	response = requests.get('https://fish.webgis1.com/layers/1/geojson.php?access_key=' + auth['access_key'])
+    	response = requests.get('https://yourdomain.com/layers/1/geojson.php?access_key=' + auth['access_key'])
     	geojson = response.content
     	print(geojson)
 
