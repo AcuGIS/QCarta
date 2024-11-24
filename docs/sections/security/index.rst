@@ -18,9 +18,19 @@ There are two options for Store and Layer security.
 
 The first is making Stores or Layers Public.  Doing so will expose them to anyone with the url.
 
-The second option is to set store or Layer to private and access using User Secret Key.
+The second option is to set store or Layer to Private.
 
-Example
+Private Stores and Layers are assigned permissions to User Groups.
+
+Only those Group(s) that have permission to view the Store or Layer will be able to do so.
+
+
+Remote Access
+==================
+
+If a User Group has access to a Layer, they can access this Layer directly via the app, or remotely using the User's Secret Key.
+
+Remote Access Example
 ================
 
 Below is an example using User Secret key:
