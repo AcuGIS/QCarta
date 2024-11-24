@@ -110,16 +110,26 @@ An exmaple in Python would be::
 	import requests
 	import json
 
-	secret_key='91f0abc6-bb8a-4b77-8d02-99841c2c1241'
-	remote_ip='1.2.3.4'
-	url = 'https://yourdomain.com/admin/action/authorize.php?secret_key='+ secret_key + '&ip=' + remote_ip
+	secret_key='91f0abc6-bb8a-4b77-8d02-99841c2c1331'
+	remote_ip='162.243.167.9'
+	
 
-	response = requests.get(url, headers=headers)
+	# allow access to the IP of calling script
+	url = 'https://fish.webgis1.com/admin/action/authorize.php?secret_key='+ secret_key + '&ip='
+
+	# no IP restrictions
+	#url = 'https://fish.webgis1.com/admin/action/authorize.php?secret_key='+ secret_key
+
+	response = requests.get(url)
 
 	print("Status Code", response.status_code)
 	if response.status_code == 200:
-		response = requests.get('https://yourdomain.com/layers/1/geojson.php?access_key=' + response.access_key)
-		geojson = response.content
+    	print("JSON Response ", response.json())
+    	auth = response.json()
+    	response = requests.get('https://fish.webgis1.com/layers/1/geojson.php?access_key=' + auth['access_key'])
+    	geojson = response.content
+    	print(geojson)
+
 
 
 In the modal box, click the Reset Key icon:
