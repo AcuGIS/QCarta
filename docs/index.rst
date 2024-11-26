@@ -12,7 +12,7 @@ Jasper Report Publisher
 
    intro
    installing
-   sections/sample/index
+   
    
    
 .. toctree::
@@ -29,6 +29,7 @@ Jasper Report Publisher
     sections/layers/index
     sections/security/index
     sections/mapproxy/index
+    sections/sample/index
     sections/structure/index
     
 .. toctree::
