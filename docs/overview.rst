@@ -6,9 +6,9 @@ Overview
 Quail Overview
 ==================
 
-Quail is a lightweight Administration tool for serving QGIS Layers. 
+Quail is a lightweight Administration tool and layer server for QGIS Server. 
 
-Quail allows you to create and share both Public and Private layers as well as set Layer level permissions.
+You can create and share both Public and Private layers as well as set Layer level permissions.
 
 Quail is Written in pure PHP to make customization as easy and accessible as possible.
 
