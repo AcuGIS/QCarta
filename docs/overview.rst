@@ -27,13 +27,10 @@ These consist of any local or remote PostGIS connections, as well as the ability
 Once a Store is created it can be either accessed directly or used to create Layers.
 You can create any number of Layers from a single Store.
 
-**QGIS Layer**:
+**Layers**
 
-Layers created from QGIS Stores
-These layers also render any data and flat files used.
+Layers, in turn, can be created from QGIS and PostGIS Stores.
 
-**PostGIS Layers**:
-
-These Layers are created from PostGIS Stores. They can be served with QGIS Stores (e.g. Feature info) or independently.
+**MapProxy**
 
 Quail also installs MapProxy, for caching.  Quail Authentication is integrated with MapProxy.
