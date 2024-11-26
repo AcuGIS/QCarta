@@ -36,7 +36,4 @@ These layers also render any data and flat files used.
 
 These Layers are created from PostGIS Stores. They can be served with QGIS Stores (e.g. Feature info) or independently.
 
-   /usr/local/bin/
-   /home/tomcat/tomcat-VERIONS/jasper_reports
-
-Below is the structure and function of each.
+Quail also installs MapProxy, for caching.  Quail Authentication is integrated with MapProxy.
