@@ -22,9 +22,9 @@ Three Stores and Layers are created on installation.
 
 2. USData - PostGIS Data Source
 
-2. ChicagoStore - QGIS Project using ESRI Shapefiles
+3. ChicagoStore - QGIS Project using ESRI Shapefiles
 
-3. GeoTiff - QGIS Project with GeoTIFF
+4. GeoTiff - QGIS Project with GeoTIFF
 
 From these Stores, three Demo Layers are created:
 
