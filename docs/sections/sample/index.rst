@@ -7,18 +7,34 @@
    :width: 1em
 
 **********************
-Sample Data
+Demo Data
 **********************
 
 .. contents:: Table of Contents
 Overview
 ==================
 
-If you select the "Load Sample Data" box, it will create a sample database and reports.
+Three Stores and Layers are created on installation.
 
-**IMPORTANT** : If you load the Sample Data, you will need to restart Tomcat in order to pick up sample data.
+**Stores**
 
-.. image:: ../../_static/tomcat-restart.png
+1. UsDemoStore - A QGIS Project with PostGIS Connection
+
+2. USData - PostGIS Data Source
+
+2. ChicagoStore - QGIS Project using ESRI Shapefiles
+
+3. GeoTiff - QGIS Project with GeoTIFF
+
+From these Stores, three Demo Layers are created:
+
+**Layers**
+
+1. UsDemoLayer
+
+2. Neighborhoods
+
+3. GeoTiff
 
 
 Dashboard
