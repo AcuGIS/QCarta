@@ -67,7 +67,64 @@ Sample Data Source
 
 The included sample Data Source is a JNDI connection to the beedatabase:
 
-.. image:: ../../_static/sample-data-source.png
+layer-sample-chicago.png
+
+.. image:: layer-sample-chicago.png
+
+
+layer-sample-data.png
+
+.. image:: layer-sample-data.png
+
+layer-sample-neighborhoods.png
+
+
+.. image:: layer-sample-neighborhoods.png
+
+layer-sample-states.png
+
+
+.. image:: layer-sample-states.png
+
+
+layer-sample-usa.png
+
+.. image:: layer-sample-usa.png
+
+layers-sample-1.png
+
+.. image:: layers-sample-1.png
+
+
+layers-sample-2.png
+
+.. image:: layers-sample-2.png
+
+
+postgis-sample-1.png
+
+.. image:: postgis-sample-1.png
+
+
+qlayersdashboard.png
+
+.. image:: qlayersdashboard.png
+
+
+stores-sample-1.png
+
+.. image:: stores-sample-1.png
+
+stores-sample-2.png
+
+.. image:: stores-sample-2.png
+
+stores-sample-3.png
+
+.. image:: stores-sample-3.png
+
+
+stores-sample-4.png
 
 
 
