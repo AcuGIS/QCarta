@@ -52,27 +52,34 @@ Click Save.  Your Store has been created.
 
 .. image:: 6-add-new.png
 
-Select Type (JNDI or JDBC)
+Create PostGIS Database
+=====================
 
-Data Source Name (this should match name used in Jasper Report Adapter)
+You can create a PostGIS database from most common data sources, such as ESRI Shapefiles and GeoPackages, as well as from PostGIS backups.
 
-URL: The JDBC URL (e.g. jdbc:postgresql://localhost:5432/beedatabase)
+To create a PostGIS database, click the Import button at top right
 
-Username
+.. image:: 7-import-1
 
-Password
+The list of available databases will appear.  Select the database you wish to connect to.
 
-You can add as many Data Sources as you wish to:
+.. image:: 8-import-1
 
-.. image:: ../../_static/data-source-2.png
+Select the Group(s) that will have permission to the Store
 
-Restart Tomcat
-================
+.. image:: 9-import-1
 
-You must restart Tomcat after adding or editing Data Sources in order to pick up the new configuration
+Click Save.  Your Store has been created.
 
-.. image:: ../../_static/tomcat-restart.png
+.. image:: 10-import-1
 
+Click Save.  Your Store has been created.
+
+.. image:: 11-import-1
+
+Click Save.  Your Store has been created.
+
+.. image:: 12-import-1
 
 
 
