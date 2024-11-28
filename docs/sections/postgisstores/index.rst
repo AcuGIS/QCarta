@@ -23,12 +23,34 @@ Oracle (JDBC and JNDI)
 MySQL (JNDI)
 MSSQL (JNDI)
 
-Add Data Source
+Add PostGIS Store
 ================
 
 To add a new Link, click the "Add New" button at top.
 
-.. image:: ../../_static/data-source-1.png
+1-add-new.png
+
+.. image:: 1-add-new.png
+
+Populate the required fields for your PostgreSQL connection
+
+.. image:: 2-add-new.png
+
+Under Database, click the "Load Database Names" icon
+
+.. image:: 3-add-new.png
+
+The list of available databases will appear.  Select the database you wish to connect to.
+
+.. image:: 4-add-new.png
+
+Select the Group(s) that will have permission to the Store
+
+.. image:: 5-add-new.png
+
+Click Save.  Your Store has been created.
+
+.. image:: 6-add-new.png
 
 Select Type (JNDI or JDBC)
 
