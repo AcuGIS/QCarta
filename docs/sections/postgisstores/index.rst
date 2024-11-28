@@ -59,27 +59,27 @@ You can create a PostGIS database from most common data sources, such as ESRI Sh
 
 To create a PostGIS database, click the Import button at top right
 
-.. image:: 7-import-1.png
+.. image:: 7-import.png
 
 Give your database a name and click the upload button
 
-.. image:: 8-import-1.png
+.. image:: 8-import.png
 
 Browse to the location of the file you wish to import
 
-.. image:: 9-import-1.png
+.. image:: 9-import.png
 
 Click Import
 
-.. image:: 10-import-1.png
+.. image:: 10-import.png
 
-Click Save.  Your Store has been created.
+The import results are displayed at the bottom of the page.
 
-.. image:: 11-import-1.png
+.. image:: 11-import.png
 
-Click Save.  Your Store has been created.
+Click the PostGIS tab to refresh.  Your PostGIS database has now been created.
 
-.. image:: 12-import-1.png
+.. image:: 12-import.png
 
 
 
