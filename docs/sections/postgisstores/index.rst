@@ -14,14 +14,11 @@ PostGIS Stores
 Overview
 ==================
 
-Data Sources are added via the Data Source menu.
+PostGIS Stores are connections to PostGIS databases.
 
-By default, Jasper Report Publisher includes support for the following:
+These can be existing local or remote PostGIS databases.
 
-PostgreSQL (JNDI)
-Oracle (JDBC and JNDI)
-MySQL (JNDI)
-MSSQL (JNDI)
+You can also create new PostGIS databases from GeoPackages, ESRI Shapefiles, and PostgreSQL backups.
 
 Add PostGIS Store
 ================
