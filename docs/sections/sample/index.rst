@@ -42,21 +42,24 @@ Dashboard
 
 The sample reports are available on the Dashboard
 
-.. image:: ../../_static/sample-dashboard.png
+.. image:: qlayersdashboard.png
+
   
 Sample Database
 ================
 
-The sample database, beedatabase, is taken from the QFieldCloud Simple Bee Project::
+The sample database, states, contains the data for the PostGIS Store, usdata::
 
-  beedatabase=# \dt
+     states=# \dt
                List of relations
-   Schema |      Name       | Type  | Owner
-  --------+-----------------+-------+--------
-   public | apiary          | table | admin1
-   public | fields          | table | admin1
-   public | spatial_ref_sys | table | jrv
-  (3 rows)
+     Schema  |      Name       | Type  |  Owner
+   ----------+-----------------+-------+----------
+    public   | spatial_ref_sys | table | qgapp
+    public   | states          | table | qgapp
+    topology | layer           | table | qgapp
+    topology | topology        | table | qgapp
+   (4 rows)
+
 
 
 Sample Data Source
@@ -86,6 +89,20 @@ Three Sample Reports are created
 * Query Parameter - This is a basic report using two Query Parameters
 
 .. image:: ../../_static/query-report-3.png
+
+
+Change From:
+
+      const wmsLayer = L.tileLayer.wms('proxy_qgis.php?', {
+		   layers: '<?=implode(',', QGIS_LAYERS)?>'
+	   }).addTo(map);
+
+Change to::
+
+      const wmsLayer = L.tileLayer.wms('/mproxy/service', {
+       layers: 'neighborhoods'
+	   }).addTo(map);
+
 
 
 Sample Schedules
