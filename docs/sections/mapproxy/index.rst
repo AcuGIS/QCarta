@@ -90,6 +90,36 @@ to::
 Note that in addition to the new url, we are also referencing the Layer name explicitly.
 
 
+Service File
+=================
+
+MapProxy is configured to run as a systemd service.
+
+The mapproxy.service file contains below by default::
+
+	[Unit]
+	Description=MapProxy
+	After=multi-user.target
+
+	[Service]
+	User=www-data
+	Group=www-data
+
+	WorkingDirectory=/var/www/data/mapproxy
+	Type=simple
+	Restart=always
+
+	EnvironmentFile=/etc/environment
+	Environment=PGSYSCONFDIR=/var/www/data/qgis/
+	Environment=SKIP_AUTH=fish.webgis1.com
+
+	ExecStart=mapproxy-util serve-develop /var/www/data/mapproxy/mapproxy.yaml -b 127.0.0.1:8011
+
+	[Install]
+	WantedBy=multi-user.target
+
+
+
 
 
 
