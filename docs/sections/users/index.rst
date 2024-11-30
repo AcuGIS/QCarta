@@ -51,7 +51,26 @@ Edit Group Membership
 
 You can always edit Group Membership later as well via both Users and User Groups menu.
 
-.. image:: ../../_static/add-user-3.png
+To edit Group membership, click the Edit button as below
+
+.. image:: 4-edit-user.png
+
+Make any Group or access Level changes you wish to make, and then click Update
+
+.. image:: 5-edit-user.png
+
+Reset Secret Key
+===============
+
+To reset a user's Secret Key, click the Edit button for the user
+
+Click the Reset Secret Key icon
+
+.. image:: 6-edit-key.png
+
+The user's key has now been updated.  Be sure to click the UPdate button.
+
+.. image:: 7-edit-key-done.png
 
 
 Delete User
