@@ -34,15 +34,28 @@ This will open the mapporxy.yaml file for editing.
 .. note::
     Be sure to click the Submit button at bottom after making changes.
 
+MapProxy Directory
+================
+
+The MapProxy config directory is located at::
+
+        /var/www/data/mapproxy
+
+The default configuration files are shown below
+
+.. image:: mapproxy-edit-2.pngmapproxy-files.png
 
 
-If more than 3 reports are present, a "More" option will appear.
+Cache Directory
+================
 
-Clicking the "More" option will take you to the file output location to access all reports
+The MapProxy config directory is located at::
 
-.. image:: ../../_static/run-scheduled-report-3.png
+        /var/www/data/mapproxy/cache_data
 
+The ouput from the demo data is shown below
 
+.. image:: maproxy-cache-directory.png
 
 
 
