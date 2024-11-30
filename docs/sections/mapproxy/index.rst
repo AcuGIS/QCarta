@@ -6,26 +6,35 @@ MapProxy
 Overview
 ==================
 
-Admins can run Scheduled Reports manually at any time via the Reporting menu.
+MapProxy is run as a service.
 
-This menu also links to Scheduled Report outputs.
+To access MapProxy, click the MapProxy link on the left menu
 
-To run a Scheduled Report manually, click Reporting on the left menu
-
-Click the Run icon to the right of the report.
-
-.. image:: ../../_static/run-scheduled-report.png
-
-.. note::
-    Running a Scheduled Report that is emailed with result in the email being as well.
+.. image:: mapproxy-1.png
 
 
-View Output
+Restart
 ================
 
-To view the output, click on the Files column.
+To stop/start/restart MapProxy, click the Stop or Restart button as shown below.
 
-.. image:: ../../_static/run-scheduled-report-2.png
+.. image:: mapproxy-restart.png
+
+Edit
+================
+
+To edit the mapproxy.yaml file, click the edit button as shown below.
+
+.. image:: mapproxy-edit.png
+
+This will open the mapporxy.yaml file for editing.
+
+.. image:: mapproxy-edit-2.png
+
+.. note::
+    Be sure to click the Submit button at bottom after making changes.
+
+
 
 If more than 3 reports are present, a "More" option will appear.
 
