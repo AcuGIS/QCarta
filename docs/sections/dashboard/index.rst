@@ -16,14 +16,14 @@ Dashboard Layout
 
 Once logged in as an administrator, the dashboard is show below.
 
-.. image:: ../../_static/jasper-publisher-dashboard.png
+.. image:: _static/dashboard-qeoserver.png
 
 Items can be accessed via the dashboard as well as left side menu
 
-* Reports - add and edit Reports
-* Parameters - add and edit Report Parameters
-* Report Groups - add and edit Report Groups
-* Context - add and edit Report Contexts
+* Users - add and edit users
+* Stores - add and edit Stores
+* Layers - add and edit Layers
+* MapProxy - Manage MapProxy
 * Front End - view the front end as an end user
 
 
