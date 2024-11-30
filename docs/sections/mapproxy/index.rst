@@ -43,7 +43,7 @@ The MapProxy config directory is located at::
 
 The default configuration files are shown below
 
-.. image:: mapproxy-edit-2.pngmapproxy-files.png
+.. image:: mapproxy-files.png
 
 
 Cache Directory
