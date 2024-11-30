@@ -63,8 +63,11 @@ Authentication
 
 When a Layer is set to Private, MapProxy authenticates requests against the QeoSerer user database.
 
-Note: Authentication is not used during local access.
+Authentication is accomplished using the wsgiapp_authorize.patch file::
 
+	patch -d /usr/lib/python3/dist-packages/mapproxy -p0 < installer/wsgiapp_authorize.patch
+
+This file is located in the QeoServer installer directory.
 
 Layer Preview
 ================
