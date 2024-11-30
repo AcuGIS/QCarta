@@ -20,12 +20,15 @@ Add New Group
 
 To add a new Group, click the "Add New" button at top.
 
-Enter the following information:
+.. image:: 1-add-new.png
+
+
+Give your Group a name and click the Save button:
 
 * Name	- Group Name
 * Users	- Select Users for Group (Multiselect)
 
-.. image:: ../../_static/add-group-1.png
+.. image:: add-group-2.png
 
 Click the Add button
 
