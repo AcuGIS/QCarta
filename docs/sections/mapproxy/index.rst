@@ -63,6 +63,30 @@ Authentication
 
 When a Layer is set to Private, MapProxy authenticates requests against the QeoSerer user database.
 
+Note: Authentication is not used during local access.
+
+
+Layer Preview
+================
+
+To change Layer Preview or Custom Layers to use MapProxy in place of PHP Session Cache, change section below from::
+
+	    const wmsLayer = L.tileLayer.wms('proxy_qgis.php?', {
+		    layers: '<?=implode(',', QGIS_LAYERS)?>'
+	    }).addTo(map);
+
+
+to::
+
+
+        const wmsLayer = L.tileLayer.wms('/mproxy/service', {
+            layers: 'neighborhoods'
+        }).addTo(map);
+
+
+Note that in addition to the new url, we are also referencing the Layer name explicitly.
+
+
 
 
 
