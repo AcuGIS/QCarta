@@ -23,14 +23,11 @@ To add a new Group, click the "Add New" button at top.
 .. image:: 1-add-new.png
 
 
-Give your Group a name and click the Save button:
-
-* Name	- Group Name
-* Users	- Select Users for Group (Multiselect)
+Give your Group a name and click the Create button:
 
 .. image:: create-group.png
 
-Click the Add button
+
 
 Add and Edit Members
 =====================
