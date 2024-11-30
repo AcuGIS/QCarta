@@ -28,14 +28,6 @@ Give your Group a name and click the Create button:
 .. image:: create-group.png
 
 
-
-Add and Edit Members
-=====================
-
-You can add and edit members of a Group by clicking the Edit icon
-
-.. image:: ../../_static/add-group-1.png
-
 Delete Group
 ===================
 To delete a report entry, click the Delete icon.
