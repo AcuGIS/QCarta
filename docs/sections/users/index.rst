@@ -32,15 +32,18 @@ To create a new user, click on Users on the left menu.
 
 Click the Add User button
 
-.. image:: ../../_static/add-user.png
+.. image:: 1-add-new.png
+
+
 
 Enter the required information and be sure to set the Access Level (Admin or User)
 
-.. image:: ../../_static/add-user-2.png
+.. image:: 1-add-user-detail.png
 
-If the Group(s) you wish to add To add the user to are already created, you can add them as below:
+The user has now been created:
 
-.. image:: ../../_static/add-user-2-alt.png
+
+.. image:: 3-user-added.png
 
 
 Edit Group Membership
