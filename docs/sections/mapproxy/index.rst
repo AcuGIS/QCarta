@@ -58,4 +58,11 @@ The ouput from the demo data is shown below
 .. image:: maproxy-cache-directory.png
 
 
+Authentication
+================
+
+When a Layer is set to Private, MapProxy authenticates requests against the QeoSerer user database.
+
+
+
 
