@@ -28,7 +28,7 @@ Give your Group a name and click the Save button:
 * Name	- Group Name
 * Users	- Select Users for Group (Multiselect)
 
-.. image:: add-group-2.png
+.. image:: create-group.png
 
 Click the Add button
 
