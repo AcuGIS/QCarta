@@ -13,17 +13,17 @@ Users
 Overview
 ==================
 
-Jasper Report Publisher grants permissions on Reports to User Groups.
+QeoServer grants permissions on Stores and Layers to Groups.
 
 You can begin by creatting Users and then Groups, or vice versa.
 
 User Types
 ==================
 
-Jasper Report Publisher supports the following User types:
+QeoServer supports the following User types:
 
-1. Admins.  Can create Data Sources, Publish Reports, and create Schedules.
-2. Users.   Can consume reports via Dashboard
+1. Admins.  Can create Stores, Layers, Groups, and Users.
+2. Users.   Can consume Stores and Layers via Dashboard or via URL
 
 Add New User
 ================
