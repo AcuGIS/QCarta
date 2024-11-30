@@ -40,12 +40,12 @@ Connect via SSH and change to the plugins directory::
 Start the virtualenv::
 
 
-    virtualenv --python=/usr/bin/python3 --system-site-packages .venv
-		source .venv/bin/activate
+	virtualenv --python=/usr/bin/python3 --system-site-packages .venv
+	source .venv/bin/activate
 
 Use qgis-plugin-manager to install the plugin (replace PluginName below with your plugin::
 		
-		qgis-plugin-manager install PluginName
+	qgis-plugin-manager install PluginName
 
 
 
