@@ -7,7 +7,7 @@
    :width: 1em
 
 **********************
-Security
+Remote Authentication
 **********************
 
 .. contents:: Table of Contents
