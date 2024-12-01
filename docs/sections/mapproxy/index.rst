@@ -90,6 +90,30 @@ to::
 Note that in addition to the new url, we are also referencing the Layer name explicitly.
 
 
+Seed Layer
+==================
+
+Cache is created by MapProxy when requests are made for layers.
+
+You can also seed Layers to specified zoom levels.
+
+To do so, go to MapProxy > Seed on the left menu
+
+Select the layer to seed and click the Start button as shown below.
+
+The progress and status are displayed.  
+
+.. image:: seed-edit-3.png
+
+To edit the seed yaml file for the layer, click the edit icon as shown below:
+
+.. image:: seed-edit-1.png
+
+Make any edits and then click the submit button.
+
+.. image:: seed-edit-2.png
+
+
 Service File
 =================
 
