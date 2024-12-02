@@ -1,7 +1,7 @@
 Jasper Report Publisher
 ==================================================
 
-.. image:: _static/Jasper-Publisher-Main-min.png
+.. image:: _static/quail-login.png
 
 
 .. include:: ../README.rst
