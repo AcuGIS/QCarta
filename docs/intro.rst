@@ -41,7 +41,7 @@ View full Documentation
 .. _`JasperReportsIntegration`: https://github.com/daust/JasperReportsIntegration 
 
 
-.. image:: _static/Jasper-Publisher-Main-min.png
+.. image:: quail-layers.png
 
 
 Authors
@@ -57,18 +57,17 @@ Authors
 Components
 -------------
 
-* `JasperReportsIntegration`_
-.. _`JasperReportsIntegration`: https://github.com/daust/JasperReportsIntegration 
-* Apache Tomcat
+* QGIS Server
+* MapProxy
 * PostgreSQL
 * PHP
-* Postfix
-* MUTT
+* SimpleWebrowser
+* WFSExtension
 
 Open Source
 -----------
 
-Jasper Publisher is Free, Open Source Software.
+Quail is Free, Open Source Software.
 
 GNU GENERAL PUBLIC LICENSE v3
 
