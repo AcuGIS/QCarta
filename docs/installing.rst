@@ -17,7 +17,7 @@ Download the Quail binary and unzip:
 
 .. code-block:: console
 
-    wget https://github.com/AcuGIS/jasper-report-publisher/releases/download/2.11.0/jasper-report-publisher-2.11.0.zip
+    wget https://github.com/AcuGIS/quail/quail-2.11.0.zip
     unzip -q quail-server-1.11.0.zip
     
 
@@ -41,6 +41,8 @@ Optionally, run below to provision SSL using letsencrypt:
 
 Login with your default user of admin@admin.com and password 1234
 
+.. image:: quail-login.png
+
 
 Docker Install
 =======================
@@ -63,7 +65,8 @@ Navigate to http://yourdomain.com:8000
 
 You can log in using the admin@admin.com and password 1234.
 
-.. image:: _static/install-3.png
+
+
 
 
 
