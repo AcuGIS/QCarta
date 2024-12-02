@@ -1,4 +1,4 @@
-Jasper Report Publisher
+Quail
 ==================================================
 
 .. image:: _static/quail-login.png
