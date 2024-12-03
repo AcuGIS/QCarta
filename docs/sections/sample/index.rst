@@ -14,9 +14,28 @@ Demo Data
 Overview
 ==================
 
-Three Stores and Layers are created on installation.
+Quail contains 5 Demo Stores and 5 Demo Layers
 
-**Stores**
+Demo Stores
+=================
+
+QGIS Stores are QGIS Projects with any required flat files.
+
+The QGIS Demo Stores are below
+
+.. image:: demo-stores-1.png
+
+**BGS-GeoPackage** - This is a geopackage data source obtained from the British Geological Survey.
+
+**Chicago-ESRI** - This is an ESRI Shapefile data source obtained from the Chicago Data Portal
+
+**Gebco-WMS** - This is a WMS source obtained from GEBCO
+
+**NASA-GeoTIFF** - This is a GeoTiff data source from NASA showing percipitation
+
+**USA-PostGIS** - This is a PostGIS data source using the GeoServer USA Population data
+
+.. image:: demo-layers.png
 
 1. UsDemoStore - A QGIS Project with PostGIS Connection
 
