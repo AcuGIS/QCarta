@@ -16,7 +16,7 @@ Overview
 
 Quail contains 5 Demo Stores and 5 Demo Layers
 
-Demo Stores
+Demo QGIS Stores
 =================
 
 QGIS Stores are QGIS Projects with any required flat files.
@@ -37,9 +37,14 @@ The QGIS Demo Stores are below
 
 .. image:: demo-layers.png
 
-1. UsDemoStore - A QGIS Project with PostGIS Connection
+Demo PostGIS Stores
+=================
 
-2. USData - PostGIS Data Source
+The installation contains a Demo PostGIS Store
+
+.. image:: demo-postgis-store.png
+
+.. image:: demo-layers.png
 
 3. ChicagoStore - QGIS Project using ESRI Shapefiles
 
@@ -47,7 +52,7 @@ The QGIS Demo Stores are below
 
 From these Stores, three Demo Layers are created:
 
-**Layers**
+
 
 1. UsDemoLayer
 
