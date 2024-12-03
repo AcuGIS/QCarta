@@ -25,6 +25,24 @@ Private Stores and Layers are assigned permissions to User Groups.
 Only those Group(s) that have permission to view the Store or Layer will be able to do so.
 
 
+CORS
+======================
+
+For WFS requests, CORS needs to be enabled in Apache::
+
+	LoadModule headers_module /usr/lib/apache2/modules/mod_headers.so
+	<IfModule mod_headers.c>
+    	Header add Access-Control-Allow-Origin "*"
+    	Header add Access-Control-Allow-Headers "*"
+    	Header add Access-Control-Allow-Methods "GET"
+	</IfModule>
+
+
+
+
+
+
+
 Remote Access
 ==================
 
