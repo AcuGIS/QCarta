@@ -35,34 +35,35 @@ The QGIS Demo Stores are below
 
 **USA-PostGIS** - This is a PostGIS data source using the GeoServer USA Population data
 
-.. image:: demo-layers.png
 
 Demo PostGIS Stores
 =================
 
 The installation contains a Demo PostGIS Store
 
-.. image:: demo-postgis-store.png
+.. image:: postgis-demo-store.png
+
+This Store is created from a PostGIS database that is installed with Quail.
+
+It is used in the USA Layer demo.
+
+
+Demo QGIS Layers
+================
+
+QGIS Layers are Layers created from QGIS Stores.
+
+The QGIS Demo Layers are below
 
 .. image:: demo-layers.png
 
-3. ChicagoStore - QGIS Project using ESRI Shapefiles
+The Layer lists the Store from which it was created.
 
-4. GeoTiff - QGIS Project with GeoTIFF
-
-From these Stores, three Demo Layers are created:
+It also lists which layers from the QGIS Project will be included in the Layer.
 
 
 
-1. UsDemoLayer
 
-2. Neighborhoods
-
-3. GeoTiff
-
-
-Dashboard
-================
 
 The sample reports are available on the Dashboard
 
