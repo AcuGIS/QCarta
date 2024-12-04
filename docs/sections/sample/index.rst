@@ -25,15 +25,17 @@ The QGIS Demo Stores are below
 
 .. image:: demo-stores-1.png
 
-**BGS-GeoPackage** - This is a geopackage data source obtained from the British Geological Survey.
+**BGS-GeoPackage.** Geopackage data source obtained from the British Geological Survey.
 
-**Chicago-ESRI** - This is an ESRI Shapefile data source obtained from the Chicago Data Portal
+**Chicago-ESRI-Shapefile.** - ESRI Shapefile data source obtained from the Chicago Data Portal
 
-**Gebco-WMS** - This is a WMS source obtained from GEBCO
+**Gebco-WMS.** - WMS source obtained from GEBCO
 
-**NASA-GeoTIFF** - This is a GeoTiff data source from NASA showing percipitation
+**Monarch-ESRI-Geodatabase.** ESRI Geodatabase data source for Monarch butterfly habitat
 
-**USA-PostGIS** - This is a PostGIS data source using the GeoServer USA Population data
+**NASA-GeoTIFF.** GeoTiff data source from NASA showing percipitation
+
+**USA-PostGIS.**  PostGIS data source using the GeoServer USA Population data
 
 
 Demo PostGIS Stores
