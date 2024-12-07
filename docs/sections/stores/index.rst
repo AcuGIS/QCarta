@@ -55,9 +55,9 @@ To edit a report entry, click the Edit icon, as shown below:
 
 .. image:: _static/Edit-Report.png
 
-Delete Report
+Details
 ===================
-To delete a report entry, click the Delete icon, as shown below:
 
-.. image:: _static/Edit-Report.png
+Details on Stores and Layers can be found in the next section of these Docs.
+
 
