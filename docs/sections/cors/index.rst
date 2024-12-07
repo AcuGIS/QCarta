@@ -21,30 +21,17 @@ By default it is not enabled.
 Enable CORS
 ================
 
-The following plugins are installed during installation
+To enable CORS, add below to your apache2/apache2.conf file::
 
-* serversimplebrowser
-* wfsOutputExtension
-
-Install Plugins
-================
-
-To install a plugin, follow below.
-
-Connect via SSH and change to the plugins directory::
-
-    cd /var/www/data/qgis/plugins
-
-Start the virtualenv::
+	LoadModule headers_module /usr/lib/apache2/modules/mod_headers.so
+	<IfModule mod_headers.c>
+	Header add Access-Control-Allow-Origin "*"
+	Header add Access-Control-Allow-Headers "*"
+	Header add Access-Control-Allow-Methods "GET"
+	</IfModule>
 
 
-	virtualenv --python=/usr/bin/python3 --system-site-packages .venv
-	source .venv/bin/activate
-
-Use qgis-plugin-manager to install the plugin (replace PluginName below with your plugin::
-		
-	qgis-plugin-manager install PluginName
-
+Important - the above is permissive, allowing GET requests from all origins and headers. In production, you should update to targetted origins
 
 
 
