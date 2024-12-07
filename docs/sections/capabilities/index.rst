@@ -16,17 +16,17 @@ Overview
 
 You can view Project capabilities via Stores:
 
-  To view your GetCapability urls as well as ESPG and Bounding Box, click on the "info" link at right:
+To view your GetCapability urls as well as ESPG and Bounding Box, click on the "info" link at right:
 
-.. image:: select-files-gdal.png
+.. image:: show-gdal.png
 
 The Store GetCapability urls, ESPG, and Bounding Box are displayed in modal:
 
-.. image:: select-files-6.png
+.. image:: getCapabilities.png
 
 Clicking the link will take you to the document(s)
 
-.. image:: select-files-7.png
+.. image:: show-cap.png
 
   
 
