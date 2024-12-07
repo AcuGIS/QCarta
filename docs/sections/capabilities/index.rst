@@ -28,6 +28,26 @@ Clicking the link will take you to the document(s)
 
 .. image:: show-cap.png
 
+
+Layer WMS URLs
+====================
+
+
+An examples of a WFS layer for adding featurs to layers::
+
+
+
+
+
+.. image:: show-wms-info.png
+
+
+.. image:: show-wms.png
+
+.. image:: show-cap.png
+
+.. image:: show-png.png
+
   
 
 WFS URLs
@@ -48,23 +68,7 @@ As an example the WFS url for the demo States layer would be::
 
   
 
-* GeoTiff
-* shapefile
-* GeoPackage
-* GeoJson
-* etc....
 
-
-
-.. image:: select-files.png
-
-With files selected, chose if Store is Public and Access Groups (both can be changed later)
-
-.. image:: select-files-2.png
-
-Your new QGIS Store has now been created:
-
-.. image:: select-files-4.png
 
 
 
