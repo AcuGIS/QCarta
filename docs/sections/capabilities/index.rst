@@ -32,21 +32,26 @@ Clicking the link will take you to the document(s)
 Layer WMS URLs
 ====================
 
+Layer Urls can be viewed via Layers
 
-An examples of a WFS layer for adding featurs to layers::
-
-
-
+Click on the info link at right:
 
 
 .. image:: show-wms-info.png
 
+The information is displayed:
 
 .. image:: show-wms.png
 
-.. image:: show-cap.png
+To get the url for a WMS or WFS url, simply select it from the appropriate dropdown.
+
+For example, the WMS PNG url:
 
 .. image:: show-png.png
+
+You can now copy the full url from the browser as below:
+
+.. image:: show-wms-url.png
 
   
 
