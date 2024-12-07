@@ -30,6 +30,7 @@ Quail
     sections/capabilities/index
     sections/security/index
     sections/mapproxy/index
+    sections/viewer/index
     sections/sample/index
     sections/cors/index
     sections/plugins/index
