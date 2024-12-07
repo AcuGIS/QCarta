@@ -1,7 +1,7 @@
 Quail
 ==================================================
 
-.. image:: _static/quail-login.png
+.. image:: _static/quail-main.png
 
 
 .. include:: ../README.rst
