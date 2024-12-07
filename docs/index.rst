@@ -27,6 +27,7 @@ Quail
     sections/qgisstore/index
     sections/postgisstores/index   
     sections/layers/index
+    sections/capabilities/index
     sections/security/index
     sections/mapproxy/index
     sections/sample/index
