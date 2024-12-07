@@ -33,6 +33,7 @@ Quail
     sections/cors/index
     sections/plugins/index
     sections/structure/index
+    sections/branding/index
     
 .. toctree::
     :maxdepth: 3
