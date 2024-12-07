@@ -43,6 +43,10 @@ Login with your default user of admin@admin.com and password 1234
 
 .. image:: quail-login.png
 
+Note: If you see below when navigating to your domain, remove the default index.html page from /var/www/html
+
+.. image:: error-page.png
+
 
 Docker Install
 =======================
