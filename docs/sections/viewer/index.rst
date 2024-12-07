@@ -18,30 +18,37 @@ By default, each Layer you create generates a basic Leafletjs map which can be v
 
 The Map Viewer can be reach either via the MapViewer link in the menu or via the Layers page
 
-.. image:: viewer1.png
-
+.. image:: viewe3.png
 
 Map Viewer Page
 ====================
 
-.. image:: viewer2.png
+The Map Viewr page is what End Users see when they log into Quail.
 
-The information is displayed:
-
+.. image:: viewer1.png
 
 Layer Page
 ================
 
-.. image:: viewer3.png
+The Layer page allows you to view the Map via Map Viewer link as well as edit it.
 
-  
-
-
+.. image:: viewe2.png
 
 
+Custom Maps
+================
 
-Show Info
-===================
+You can also add Custom Maps to the Map Viewer via the Layers page.
+
+1. Create a new Layer using the Store you wish to use.
+
+2.  Click the Edit Preview button
+
+3.  Update with any additional layers or formatting.
+
+The default Demo layers include a custom Map, CustomDemo
+
+.. image:: viewer-custom.png
 
 
 
