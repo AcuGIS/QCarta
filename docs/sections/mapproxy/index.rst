@@ -82,7 +82,7 @@ To change Layer Preview or Custom Layers to use MapProxy in place of PHP Session
 to::
 
 
-        const wmsLayer = L.tileLayer.wms('/mproxy/service', {
+        const wmsLayer = L.tileLayer.wms('https://domain.com/mproxy/service', {
             layers: 'neighborhoods'
         }).addTo(map);
 
@@ -112,6 +112,16 @@ To edit the seed yaml file for the layer, click the edit icon as shown below:
 Make any edits and then click the submit button.
 
 .. image:: seed-edit-2.png
+
+
+Seed Versioning
+==================
+
+Each update to the yaml file for each layer creates a restorable backup.
+
+If you wish to restore a previous version, simply select it from the dropdown as show below
+
+.. image:: seed-editor.png
 
 
 Service File
