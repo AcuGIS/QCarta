@@ -156,23 +156,7 @@ show-layer-preview.png
 
 .. image:: show-layer-preview.png
 
-The top section includes required fields:
-
-.. image:: ../../_static/schedule-options-0.png   
-
-
-The bottom section includes optional fields for email reports
-
-.. image:: ../../_static/schedule-options-1.png
-
-
-Scheduling Options
-==================
-
-
-
-
-   
+The top section includes required fields: 
 
 
 
