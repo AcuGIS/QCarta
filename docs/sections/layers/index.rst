@@ -7,9 +7,13 @@ Layers
 Overview
 ==================
 
-Layers are created from Stores.
+Layers are layers from your QGIS project.
 
-The Layers refer to the layers in a QGIS project.
+Layers are created from Stores.  Stores contain all Layers.
+
+The Layer section allows you to select how these Layers are served.
+
+The Layer table is show below.
 
 .. image:: layer-1.png
 
@@ -44,23 +48,21 @@ Select the Layer(s) from the Store to include
 
 .. image:: create-layer-3.png
 
-Select options::
+The Select options are explained below
 
-   Public
-   Cache
-   MapProxy
-   Custom
+* **Public**. The Layer will be Public, with no authentication required.
+* **Cache**. Session Cache.  This is distinct from MapProxy Cache.
+* **MapProxy**. This will enable MapProxy for the Layer
+* **Custom**. This option is to signify that this Layer does not use the default map template for Preview   
+   
 
 Click the Create button.
-
-
 
 .. image:: create-layer-4.png
 
 Your Layer has now been created.
 
-Click on the Layer name to preview the Layer using Leafletjs
-
+No, click on the Layer name to preview the Layer you just created using Leafletjs
 
 .. image:: create-layer-5.png
 
