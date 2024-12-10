@@ -19,7 +19,6 @@ Quail
     :maxdepth: 3
     :caption: Administration
 
-    sections/dashboard/index
     sections/users/index
     sections/usergroups/index
     sections/keys/index
