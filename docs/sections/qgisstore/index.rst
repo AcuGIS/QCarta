@@ -37,7 +37,7 @@ On Stores > QGS, click the Add New button:
 
 Give your Store a name.  Below we are using 'myqgisstore'.
 
-.. image:: select-files-1.png
+.. image:: qgis-store-upload.png
 
 Select your QGIS project and any static sources you wish to upload.
 
@@ -45,7 +45,7 @@ Select your QGIS project and any static sources you wish to upload.
 
 With files selected, chose if Store is Public and Access Groups (both can be changed later)
 
-.. image:: select-files-2.png
+.. image:: qgis-store-modal.png
 
 Your new QGIS Store has now been created:
 
@@ -62,7 +62,7 @@ To view your GetCapability urls as well as ESPG and Bounding Box, click on the "
 
 The Store GetCapability urls, ESPG, and Bounding Box are displayed in modal:
 
-.. image:: select-files-6.png
+.. image:: quail-qgis-store-info.png
 
 Clicking the link will take you to the document(s)
 
