@@ -69,4 +69,24 @@ Clicking the link will take you to the document(s)
 .. image:: select-files-7.png
 
 
+Paths
+===================
+
+Be sure the path to your flat files mataches the path used on the server.
+
+If you files are in the same directory as your QGIS Project, you can upload them along with the QGIS Project using multiselect.
+
+If they are stored in a sub directory, zip the directory prior to upload.
+
+ESRI Geodatabase
+===================
+
+**ESRI Geodatabase** When using an ESRI Geodatabase for your project, upload a zipped copy of the *.gdb directory along with your QGIS Project.  On upload, the file will automatically be unzipped.
+
+**ESRI Shapefile** You must upload the support files (.prg, .dbf, etc...) along with the .shp file.
+
+**PostGIS** If you QGIS Project uses layers from a PostGIS data source, you must create a PostGIS Store for it (see next section, PostGIS Stores)
+
+
+
 
