@@ -15,6 +15,18 @@ Overview
 
 Report permissions are granted to User Groups.
 
+
+Pre-installed Groups
+==================
+
+On installation, two Groups are created.
+
+* Default (an Administrator)
+   * Members: Quail Admin   
+* CloentGroup1
+   * Members: Jane Doe
+   
+
 Add New Group
 ================
 
