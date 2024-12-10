@@ -93,16 +93,43 @@ To clear Session cache, click the Clear Cache button as shown below
 layer-clear-cache.png
 
 
+Show Layer Info
+==================
 
-
-
-layer-show-info.png
+To display information on a layer, click the Show Info button at right
 
 .. image:: layer-show-info.png
 
-layer-show-info-2.png
+The information is displayed below
 
 .. image:: layer-show-info-2.png
+
+* **L.tileLayer.wms URL**	This is the WMS tile layer
+
+* **BBox[min(x,y); max(x,y)]**	Bounding Box 
+
+* **WMS URL**.  This opens the Layer in the following WMS formats
+   * PNG
+   * PDF
+   * WebP
+   * JPEG
+   * PNG 1 Bit
+   * PNG 8 Bit
+   * PNG 16 Bit
+
+
+* **WFS URL**	This opens the Layer in the following formats
+   * GML2
+   * GML2.1.2
+   * GML3.1
+   * GML3.1.1
+   * GeoJson
+   * VND Geo+Json
+   * Geo+Json
+   * Geo JSON
+  
+
+* **MapProxy URL**
 
 layer-show-preview.png
 
