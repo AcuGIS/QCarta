@@ -3,12 +3,16 @@ Layers
 **********************
 
 .. contents:: Table of Contents
-Scheduling Reports
+
+Overview
 ==================
 
 Layers are created from Stores.
 
 The Layers refer to the layers in a QGIS project.
+
+Add Layer
+==================
 
 layer-1.png
 
