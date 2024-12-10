@@ -78,7 +78,7 @@ The Layer lists the Store from which it was created.
 It also lists which layers from the QGIS Project will be included in the Layer.
 
 
-Demo Layer Details
+Demo Layer Previews
 ================
 
 USA:
