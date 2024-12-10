@@ -29,9 +29,16 @@ The Map Viewr page is what End Users see when they log into Quail.
 
 .. image:: viewer1.png
 
-For example, if you log in as the demo user jane@doe.com with password 'quail', you will see below:
+For example, if you log in as the demo user:
 
+   * Email: jane@doe.com 
+   * Password: quail
 
+You will see below:
+
+.. image:: end-user-demo-viewer.png
+
+The user Jane Doe only has permissions on the Custom Demo and USA Data layers.
 
 Layer Page
 ================
