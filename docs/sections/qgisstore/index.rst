@@ -78,7 +78,7 @@ If you files are in the same directory as your QGIS Project, you can upload them
 
 If they are stored in a sub directory, zip the directory prior to upload.
 
-ESRI Geodatabase
+Special Cases
 ===================
 
 **ESRI Geodatabase** When using an ESRI Geodatabase for your project, upload a zipped copy of the *.gdb directory along with your QGIS Project.  On upload, the file will automatically be unzipped.
