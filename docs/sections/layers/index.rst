@@ -15,7 +15,7 @@ The Layers refer to the layers in a QGIS project.
 
 The fields are below
 
-* **Name**. The Layer name	
+* **Name**. The Layer name. Clicking the Layer name will open the Layer in a Leafletjs map preview.	
 * **Layers**. The Layers used fromt the QGIS Project.  You can select which Layers to include.
 * **Public**. Public access allows anyone to view the Layer	 (Yes/No)
 * **Cached**. Session Caching enabled (Yes/No)
@@ -99,12 +99,7 @@ To clear Session cache, click the Clear Cache button as shown below
 
 .. image:: layer-clear-cache.png
 
-
-
-
-.. image:: layer-1.png
-
-layer-clear-cache.png
+Note: This does not clear MapProxy cache.  Clearing MapProxy cache is done via the MapProxy page.
 
 
 Show Layer Info
