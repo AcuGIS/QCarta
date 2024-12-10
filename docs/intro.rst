@@ -50,7 +50,7 @@ Create Users and Groups. All Stores and Layers provide Group level permissions.
 
 Quail has a built in Map Portal with User and Group level access. Users can log directly into your Map Portal as see only those maps they have permissions for.
 
-.. image:: _static/quail-login.png
+.. image:: _static/quail-public-layers.png
 
 
 Authors
