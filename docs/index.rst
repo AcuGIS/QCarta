@@ -32,6 +32,7 @@ Quail
     sections/viewer/index
     sections/sample/index
     sections/cors/index
+    sections/urls/index
     sections/plugins/index
     sections/structure/index
     sections/branding/index
