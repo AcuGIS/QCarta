@@ -12,7 +12,7 @@ Creation of Stores is simplified by providing only two Store types: QGIS and Pos
 
 **QGIS Stores**
 
-These consists of your QGIS Project and any flat files required. Flat files are Raster files, Vector files, image files, etc ...
+These consists of your QGIS Project and any flat files required. Flat files are Raster files, Vector files, static files, etc ...
 
 If your QGIS Project uses a PostGIS source, you can create a PostGIS Store for it.
 
@@ -20,7 +20,7 @@ If your QGIS Project uses a PostGIS source, you can create a PostGIS Store for i
 
 These consist of any local or remote PostGIS connections.
 
-You can also create PostGIS databases from a variety of formats, such as geopackages, backups, etc...
+You can also create PostGIS databases from a variety of formats, such as geopackages, shapefiles, backups, etc...
 
 **Layers**
 
@@ -34,21 +34,27 @@ Quail also installs MapProxy, for caching. Quail Authentication is integrated wi
 
 Layers can also be seeded in advance.
 
-**Documentation**
+**OGC Web Services**
 
-View full Documentation
+You can publish WMS, WFS, and WMTS publically or via authentication.
 
-.. _`JasperReportsIntegration`: https://github.com/daust/JasperReportsIntegration 
+**Users and Groups**
+
+Create Users and Groups. All Stores and Layers provide Group level permissions.
+
+**Map Portal**
+
+Quail has a built in Map Portal with User and Group level access. Users can log directly into your Map Portal as see only those maps they have permissions for.
 
 
-.. image:: quail-layers.png
 
 
 Authors
 -------
+* `AcuGIS`_
 * `David Ghedini`_
 * `Kaloyan Petrov`_
-* `AcuGIS`_
+
 
 .. _`David Ghedini`: https://github.com/DavidGhedini
 .. _`Kaloyan Petrov`: https://github.com/kaloyan13
