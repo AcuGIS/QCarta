@@ -39,9 +39,9 @@ Optionally, run below to provision SSL using letsencrypt:
    certbot --apache --agree-tos --email hostmaster@yourdomain.com --no-eff-email -d yourdomain.com
 
 
-Login with your default user of admin@admin.com and password 1234
+Login at https://yourdomain.com/login.php with the default user of admin@admin.com and password quail
 
-.. image:: quail-login.png
+.. image:: _static/quail-login.png
 
 Note: If you see below when navigating to your domain, remove the default index.html page from /var/www/html
 
