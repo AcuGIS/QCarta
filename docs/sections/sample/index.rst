@@ -16,6 +16,10 @@ Overview
 
 Quail contains 5 Demo Stores and 5 Demo Layers
 
+These Demos show different Store and data source types.
+
+You can safely delete them at any time.
+
 Demo QGIS Stores
 =================
 
