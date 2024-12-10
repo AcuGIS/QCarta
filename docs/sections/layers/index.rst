@@ -11,6 +11,20 @@ Layers are created from Stores.
 
 The Layers refer to the layers in a QGIS project.
 
+.. image:: layer-1.png
+
+The fields are below
+
+* **Name**. The Layer name	
+* **Layers**. The Layers used fromt the QGIS Project.  You can select which Layers to include.
+* **Public**. Public access allows anyone to view the Layer	 (Yes/No)
+* **Cached**. Session Caching enabled (Yes/No)
+* **MapProxy**. This indicates if MapProxy is enabled (Yes/No)
+* **Customized**. This inidicates if Layer is a Custom Leaflet map
+* **Store**. The Store used for the Layer	
+* **Access Group**. The Group(s) with access to the Layer.
+* **Actions**.  Layer actions
+
 Add Layer
 ==================
 
