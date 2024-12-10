@@ -54,19 +54,47 @@ The Layer shows the two QGIS project layers we selected, Parks and Waterways
 
 .. image:: create-layer-6.png
 
+Edit Layer
+==================
+
+To edit a Layer, click the Edit button at right as shown below
+
+.. image:: layer-edit-1.png
+
+The Layer information is displayed. Make any changes you wish to make and click the Update button
+
+.. image:: show-layer-edit.png
 
 
-layer-1.png
+Edit Preview
+==================
+
+To edit the Leaflet Preview for a Layer, click the Edit Preview button
+
+.. image:: show-layer-preview.png
+
+Make any edits you wish to and then click Submit
+
+.. image:: layer-show-preview-edit.png
+
+
+Clear Cache
+==================
+
+To clear Session cache, click the Clear Cache button as shown below
+
+.. image:: layer-clear-cache.png
+
+
+
 
 .. image:: layer-1.png
 
 layer-clear-cache.png
 
-.. image:: layer-clear-cache.png
 
-layer-edit-1.png
 
-.. image:: layer-edit-1.png
+
 
 layer-show-info.png
 
