@@ -17,6 +17,18 @@ QeoServer grants permissions on Stores and Layers to Groups.
 
 You can begin by creatting Users and then Groups, or vice versa.
 
+Pre-installed Users
+==================
+
+On installation, two users are created.
+
+* Quail Admin (an Administrator)
+   * Email: admin@admin.com
+   * Password: quail
+* Jane Doe (an End User)
+   * Email: jane@doe.com
+   * Password: quail
+
 User Types
 ==================
 
