@@ -16,7 +16,9 @@ Overview
 
 By default, each Layer you create generates a basic Leafletjs map which can be viewed via the Map Viewer.
 
-The Map Viewer can be reach either via the MapViewer link in the menu or via the Layers page
+The Map Viewer can be reached either via the MapViewer link in the menu or via the Layers page
+
+It can also be viewed via the Layer Preview url directly if the Layer is Public.
 
 .. image:: viewe3.png
 
@@ -26,6 +28,10 @@ Map Viewer Page
 The Map Viewr page is what End Users see when they log into Quail.
 
 .. image:: viewer1.png
+
+For example, if you log in as the demo user jane@doe.com with password 'quail', you will see below:
+
+
 
 Layer Page
 ================
