@@ -27,10 +27,10 @@ Quail
     sections/postgisstores/index   
     sections/layers/index
     sections/capabilities/index
-    sections/security/index
     sections/mapproxy/index
     sections/viewer/index
     sections/sample/index
+    sections/security/index  
     sections/cors/index
     sections/urls/index
     sections/plugins/index
