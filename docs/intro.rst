@@ -38,6 +38,10 @@ Layers can also be seeded in advance.
 
 You can publish WMS, WFS, and WMTS publically or via authentication.
 
+**OpenLayers and Leaflet Preview**
+
+You can preview all stores and layers in OpenLayers and Leafletjs.
+
 **Users and Groups**
 
 Create Users and Groups. All Stores and Layers provide Group level permissions.
@@ -46,7 +50,7 @@ Create Users and Groups. All Stores and Layers provide Group level permissions.
 
 Quail has a built in Map Portal with User and Group level access. Users can log directly into your Map Portal as see only those maps they have permissions for.
 
-
+.. image:: _static/quail-login.png
 
 
 Authors
