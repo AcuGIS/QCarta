@@ -83,26 +83,46 @@ Demo Layer Details
 
 USA:
 
+The USA demo layer uses the **USA-PostGIS.**  PostGIS Store. 
+
 .. image:: usa.png
 
 BGS:
+
+The BGS uses the **BGS-GeoPackage** Store
 
 .. image:: bgs-grid.png
 
 
 Percipitation
 
+**NASA-GeoTIFF.** GeoTiff data source from NASA showing percipitation
+
 .. image:: percipitation.png
 
 Isotop
+
+**Gebco-WMS.** - WMS source obtained from GEBCO
 
 .. image:: isotopo.png
 
 Monarch Butterflies
 
+**Monarch-ESRI-Geodatabase.** ESRI Geodatabase data source for Monarch butterfly habitat
+
+
 .. image:: monarchs.png
 
 Custom Demo
+
+The USA demo layer uses the **USA-PostGIS.**  PostGIS Store. 
+
+.. image:: custom-demo.png
+
+
+Chicago
+
+**Chicago-ESRI-Shapefile.** - ESRI Shapefile data source obtained from the Chicago Data Portal
 
 .. image:: custom-demo.png
 
