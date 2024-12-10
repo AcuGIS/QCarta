@@ -272,13 +272,4 @@ You can edit this in any way you like to change the template used to create prev
 
 You can edit above in any way you wish to.
 
-.. image:: show-layer-preview.png
-
-Make any edits you wish to and then click Submit
-
-.. image:: layer-show-preview-edit.png
-
-
-
-
 
