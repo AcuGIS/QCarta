@@ -7,7 +7,7 @@
    :width: 1em
 
 **********************
-WMS, WFS, and WMTS
+OGC Web Services
 **********************
 
 .. contents:: Table of Contents
