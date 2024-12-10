@@ -49,6 +49,20 @@ This Store is created from a PostGIS database that is installed with Quail.
 
 It is used in the USA Layer demo.
 
+The sample database, states, contains the data for the PostGIS Store, usdata::
+
+     states=# \dt
+               List of relations
+     Schema  |      Name       | Type  |  Owner
+   ----------+-----------------+-------+----------
+    public   | spatial_ref_sys | table | qgapp
+    public   | states          | table | qgapp
+    topology | layer           | table | qgapp
+    topology | topology        | table | qgapp
+   (4 rows)
+
+
+
 
 Demo QGIS Layers
 ================
@@ -64,26 +78,40 @@ The Layer lists the Store from which it was created.
 It also lists which layers from the QGIS Project will be included in the Layer.
 
 
-Demo Layer
+Demo Layer Details
 ================
+
+USA:
+
+.. image:: usa.png
+
+BGS:
+
+.. image:: bgs-grid.png
+
+
+Percipitation
+
+.. image:: percipitation.png
+
+Isotop
+
+.. image:: isotopo.png
+
+Monarch Butterflies
+
+.. image:: monarchs.png
+
+Custom Demo
+
+.. image:: custom-demo.png
+
+US Data:
+.. image:: us-data.png
+
 
  
-States Database
-================
-
-The sample database, states, contains the data for the PostGIS Store, usdata::
-
-     states=# \dt
-               List of relations
-     Schema  |      Name       | Type  |  Owner
-   ----------+-----------------+-------+----------
-    public   | spatial_ref_sys | table | qgapp
-    public   | states          | table | qgapp
-    topology | layer           | table | qgapp
-    topology | topology        | table | qgapp
-   (4 rows)
-
-
+.. image:: viewer-main.png
 
 Sample Data Source
 ================
