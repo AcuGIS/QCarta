@@ -6,9 +6,11 @@ Layers
 Scheduling Reports
 ==================
 
-Click on Schedule on the left menu.
+Layers are created from Stores.
 
-Click the Add Schedule button
+The Layers refer to the layers in a QGIS project.
+
+
 
 .. image:: ../../_static/schedule-1.png
 
