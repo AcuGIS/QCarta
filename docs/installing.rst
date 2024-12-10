@@ -1,6 +1,16 @@
+.. This is a comment. Note how any initial comments are moved by
+   transforms to after the document title, subtitle, and docinfo.
+
+.. demo.rst from: http://docutils.sourceforge.net/docs/user/rst/demo.txt
+
+.. |EXAMPLE| image:: static/yi_jing_01_chien.jpg
+   :width: 1em
+
 ************
 Installation
 ************
+
+.. contents:: Table of Contents
 
 Installation is done via the install scripts located in the /installer directory.
 
@@ -10,7 +20,11 @@ System Requirements
 * 15 GB Disk
 * Tested on Ubuntu 24
 
-Running the Installer
+.. note::
+    Seeding and tile generation can be CPU intensive for larger data sets.  Plan accordingly.
+
+
+Installer (Recommended)
 =======================
 
 Download the Quail binary and unzip:
@@ -22,6 +36,8 @@ Download the Quail binary and unzip:
     
 
 Change to the /quail-server-1.11.0 directory and run the installers in sequence below:
+
+If you already have PostgreSQL with PostGIS enabled, skip the postgres.sh script.
 
 .. code-block:: console
  
@@ -39,7 +55,12 @@ Optionally, run below to provision SSL using letsencrypt:
    certbot --apache --agree-tos --email hostmaster@yourdomain.com --no-eff-email -d yourdomain.com
 
 
-Login at https://yourdomain.com/login.php with the default user of admin@admin.com and password quail
+Login at https://yourdomain.com/login.php
+
+Default credentials
+
+* Email:  admin@admin.com
+* Password: quail
 
 .. image:: _static/quail-login.png
 
@@ -67,7 +88,11 @@ To clean persistent data, you can remove volumes with this command:
 
 Navigate to http://yourdomain.com:8000
 
-You can log in using the admin@admin.com and password 1234.
+Default credentials
+
+* Email:  admin@admin.com
+* Password: quail
+
 
 
 
