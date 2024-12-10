@@ -82,18 +82,6 @@ The Layer information is displayed. Make any changes you wish to make and click 
 .. image:: show-layer-edit.png
 
 
-Edit Preview
-==================
-
-To edit the Leaflet Preview for a Layer, click the Edit Preview button
-
-.. image:: show-layer-preview.png
-
-Make any edits you wish to and then click Submit
-
-.. image:: layer-show-preview-edit.png
-
-
 Clear Cache
 ==================
 
@@ -140,25 +128,155 @@ The information is displayed below
    * Geo JSON
   
 
-* **MapProxy URL**
 
-layer-show-preview.png
 
-.. image:: layer-show-preview.png
 
-layer-show-preview-edit.png
+Edit Preview
+==================
 
-.. image:: layer-show-preview-edit.png
-
-show-layer-edit.png
-
-.. image:: show-layer-edit.png
-
-show-layer-preview.png
+To edit the Leaflet Preview for a Layer, click the Edit Preview button
 
 .. image:: show-layer-preview.png
 
-The top section includes required fields: 
+Make any edits you wish to and then click Submit
+
+.. image:: layer-show-preview-edit.png
+
+
+Layer Preview Template
+=====================
+
+The template used to create the Layer Preview map is wms_index.php
+
+It is located at::
+
+   /var/www/html/admin/snippets/wms_index.php
+
+You can edit this in any way you like to change the template used to create previews::
+
+      <?php require('../../admin/incl/index_prefix.php'); ?>
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+	   <base target="_top">
+	   <meta charset="utf-8">
+	   <meta name="viewport" content="width=device-width, initial-scale=1">
+	  	<title>WMS example - Leaflet</title>
+	      <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+	      <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+	      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+	      <script src="../../admin/dist/js/leaflet.browser.print.min.js"></script>
+	      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+	      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+
+
+	   <style>
+		   html, body {
+			height: 100%;
+			margin: 0;
+		   }
+		.leaflet-container {
+			height: 100%;
+			width: 100%;
+			max-width: 100%;
+			max-height: 100%;
+		}
+	   </style>
+
+	   </head>
+      <body>
+
+      <div id='map'></div>
+
+      <script type="text/javascript">
+
+	   const map = L.map('map', {
+		center: [0, 0],
+		zoom: 16
+	   });
+
+	   var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
+
+	   var carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>Carto</a>'
+      }).addTo(map);
+
+	   var esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.esri.com">ESRI</a>'
+      }).addTo(map);
+
+	   const wmsLayer = L.tileLayer.wms('proxy_qgis.php?', {
+		   layers: '<?=implode(',', QGIS_LAYERS)?>',
+		   transparent: 'true',
+  		   format: 'image/png'
+	   }).addTo(map);
+
+	   map.fitBounds(BOUNDING_BOX);
+
+	   var overlayMap = {
+	   "WMS Layer" :wmsLayer  
+	   };
+
+	   var baseMap = {
+	   "OpenStreetMap" :osm,
+	   "ESRI Satellite" :esri,
+	   "CartoLight" :carto,
+	   };
+	
+	   L.control.layers(baseMap, overlayMap,{collapsed:false}).addTo(map);
+
+      L.control.browserPrint({
+			title: 'Just print me!',
+			documentTitle: 'My Leaflet Map',
+			printLayer: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+					attribution: 'Map tiles by <a href="http://openstreetmap.com">OpenStreetMap</a>',
+					subdomains: 'abcd',
+					minZoom: 1,
+					maxZoom: 16,
+					ext: 'png'
+				}),
+		closePopupsOnPrint: false,
+		printModes: [
+            	L.BrowserPrint.Mode.Landscape(),
+            	"Portrait",
+            	L.BrowserPrint.Mode.Auto("B4",{title: "Auto"}),
+            	L.BrowserPrint.Mode.Custom("B5",{title:"Select area"})
+			],
+			manualMode: false
+		}).addTo(map);
+
+      var drawnItems = new L.FeatureGroup();
+      map.addLayer(drawnItems);
+
+      var drawControl = new L.Control.Draw({
+            edit: {
+                featureGroup: drawnItems
+            }
+        	});
+      map.addControl(drawControl);
+
+      map.on('draw:created', function (e) {
+            	var type = e.layerType,
+                	layer = e.layer;
+            	drawnItems.addLayer(layer);
+       });
+
+      </script>
+      </body>
+      </html>
+
+You can edit above in any way you wish to.
+
+.. image:: show-layer-preview.png
+
+Make any edits you wish to and then click Submit
+
+.. image:: layer-show-preview-edit.png
 
 
 
