@@ -14,6 +14,48 @@ The Layers refer to the layers in a QGIS project.
 Add Layer
 ==================
 
+To create a new Layer, click the Add New button at top right.
+
+.. image:: layer-add-new.png
+
+Give your Layer a name:
+
+.. image:: create-layer-1.png
+
+Select the Store from the dropdown
+
+.. image:: create-layer-2.png
+
+Select the Layer(s) from the Store to include
+
+.. image:: create-layer-3.png
+
+Select options::
+
+   Public
+   Cache
+   MapProxy
+   Custom
+
+Click the Create button.
+
+
+
+.. image:: create-layer-4.png
+
+Your Layer has now been created.
+
+Click on the Layer name to preview the Layer using Leafletjs
+
+
+.. image:: create-layer-5.png
+
+The Layer shows the two QGIS project layers we selected, Parks and Waterways
+
+.. image:: create-layer-6.png
+
+
+
 layer-1.png
 
 .. image:: layer-1.png
