@@ -31,6 +31,7 @@ Quail
     sections/viewer/index
     sections/sample/index
     sections/security/index  
+    sections/api/index 
     sections/cors/index
     sections/urls/index
     sections/plugins/index
