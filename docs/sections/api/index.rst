@@ -12,32 +12,37 @@ API
 
 .. contents:: Table of Contents
 
-Quail offers basic API for GET calls.
+Quail offers a basic REST API that supports GET HTTP Requests.
 
-The url /workspaces was added to allow compatibility for tools that query GeoServer.
+The request returns json.
+
+The /workspaces uri was added to allow compatibility for tools that query GeoServer.
 
 GET
 =======================
   
-Get Public Projects:
-
-.. code-block:: console
-
-  https://domain.com/rest/workspaces
-
-Get Query with Username and Password:
+Get Query using Username and Password:
 
 .. code-block:: console
 
   https://admin@admin.com:quail@domain.com/rest/workspaces
 
-Get Workspace:
+Get Query using Access Key:
 
 .. code-block:: console
 
     https://access_key:06e3c5ff-e84c-415c-bb7f-57f710c8307c@domain.com/rest/workspaces
 
-Get Layers:
+Get Query Without Authentication (Public):
+
+.. code-block:: console
+
+  https://domain.com/rest/workspaces
+
+Examples
+=========================
+
+Get Layers using Access Key:
 
 .. code-block:: console
 
@@ -54,72 +59,88 @@ Get Workspace by Type:
     Seeding and tile generation can be CPU intensive for larger data sets.  Plan accordingly.
 
 
-Installer (Recommended)
+Sample Output
+====================
+
+Below is sample json output for /workspaces
+
+.. code-block:: console
+
+   {
+     "success": true,
+     "workspaces": {
+       "workspace": [
+         {
+           "id": "7",
+           "name": "Monarch-ESRI-Geodatabase",
+           "type": "qgs",
+           "owner_id": "1",
+           "public": "t",
+           "wms_url": "https://quailserver.webgis1.com/stores/7/wms.php",
+           "wfs_url": "https://quailserver.webgis1.com/stores/7/wfs.php",
+           "wmts_url": "https://quailserver.webgis1.com/stores/7/wmts.php"
+         },
+         {
+           "id": "6",
+           "name": "Gebco-WMS",
+           "type": "qgs",
+           "owner_id": "1",
+           "public": "f",
+           "wms_url": "https://quailserver.webgis1.com/stores/6/wms.php",
+           "wfs_url": "https://quailserver.webgis1.com/stores/6/wfs.php",
+           "wmts_url": "https://quailserver.webgis1.com/stores/6/wmts.php"
+         },
+         {
+           "id": "5",
+           "name": "NASA-GeoTIFF",
+           "type": "qgs",
+           "owner_id": "1",
+           "public": "f",
+           "wms_url": "https://quailserver.webgis1.com/stores/5/wms.php",
+           "wfs_url": "https://quailserver.webgis1.com/stores/5/wfs.php",
+           "wmts_url": "https://quailserver.webgis1.com/stores/5/wmts.php"
+         },
+         {
+           "id": "4",
+           "name": "BGS-GeoPackage",
+           "type": "qgs",
+           "owner_id": "1",
+           "public": "t",
+           "wms_url": "https://quailserver.webgis1.com/stores/4/wms.php",
+           "wfs_url": "https://quailserver.webgis1.com/stores/4/wfs.php",
+           "wmts_url": "https://quailserver.webgis1.com/stores/4/wmts.php"
+         },
+         {
+           "id": "3",
+           "name": "Chicago-ESRI",
+           "type": "qgs",
+           "owner_id": "1",
+           "public": "f",
+           "wms_url": "https://quailserver.webgis1.com/stores/3/wms.php",
+           "wfs_url": "https://quailserver.webgis1.com/stores/3/wfs.php",
+           "wmts_url": "https://quailserver.webgis1.com/stores/3/wmts.php"
+        },
+         {
+           "id": "2",
+           "name": "USA-PostGIS",
+           "type": "qgs",
+           "owner_id": "1",
+           "public": "f",
+           "wms_url": "https://quailserver.webgis1.com/stores/2/wms.php",
+           "wfs_url": "https://quailserver.webgis1.com/stores/2/wfs.php",
+           "wmts_url": "https://quailserver.webgis1.com/stores/2/wmts.php"
+         }
+       ]
+     }
+   }
+
+
+REST API File
 =======================
 
-Download the Quail binary and unzip:
+If you wish to update the API, the code is located at::
 
-.. code-block:: console
-
-    wget https://github.com/AcuGIS/quail/quail-2.11.0.zip
-    unzip -q quail-server-1.11.0.zip
-    
-
-Change to the /quail-server-1.11.0 directory and run the installers in sequence below:
-
-If you already have PostgreSQL with PostGIS enabled, skip the postgres.sh script.
-
-.. code-block:: console
- 
-    cd quail-server-1.11.0
-    ./installer/postgres.sh
-    ./installer/app-install.sh [--no-mapproxy]
-
-
-Optionally, run below to provision SSL using letsencrypt:
-
-.. code-block:: console
-
-   apt-get -y install python3-certbot-apache
-
-   certbot --apache --agree-tos --email hostmaster@yourdomain.com --no-eff-email -d yourdomain.com
-
-
-Login at https://yourdomain.com/login.php
-
-Default credentials
-
-* Email:  admin@admin.com
-* Password: quail
-
-.. image:: _static/quail-login.png
-
-Note: If you see below when navigating to your domain, remove the default index.html page from /var/www/html
-
-.. image:: error-page.png
-
-
-Docker Install
-=======================
-
-To install using Docker:
-
-.. code-block:: console
-
-
-
-
-.. code-block:: console
-
-    docker volume rm quail_{cache_qgis,data_layers,data_qgis,data_mapproxy,data_stores,html_layers,html_stores,pg_data,www_cache}
-
-Navigate to http://yourdomain.com:8000
-
-Default credentials
-
-* Email:  admin@admin.com
-* Password: quail
-
+   /var/www/html/admin/action/rest.php
 
 
 
