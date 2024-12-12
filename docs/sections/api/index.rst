@@ -76,9 +76,9 @@ Below is sample json output for /workspaces
            "type": "qgs",
            "owner_id": "1",
            "public": "t",
-           "wms_url": "https://quailserver.webgis1.com/stores/7/wms.php",
-           "wfs_url": "https://quailserver.webgis1.com/stores/7/wfs.php",
-           "wmts_url": "https://quailserver.webgis1.com/stores/7/wmts.php"
+           "wms_url": "https://domain.com/stores/7/wms.php",
+           "wfs_url": "https://domain.com/stores/7/wfs.php",
+           "wmts_url": "https://domain.com/stores/7/wmts.php"
          },
          {
            "id": "6",
@@ -86,9 +86,9 @@ Below is sample json output for /workspaces
            "type": "qgs",
            "owner_id": "1",
            "public": "f",
-           "wms_url": "https://quailserver.webgis1.com/stores/6/wms.php",
-           "wfs_url": "https://quailserver.webgis1.com/stores/6/wfs.php",
-           "wmts_url": "https://quailserver.webgis1.com/stores/6/wmts.php"
+           "wms_url": "https://domain.com/stores/6/wms.php",
+           "wfs_url": "https://domain.com/stores/6/wfs.php",
+           "wmts_url": "https://domain.com/stores/6/wmts.php"
          },
          {
            "id": "5",
@@ -96,9 +96,9 @@ Below is sample json output for /workspaces
            "type": "qgs",
            "owner_id": "1",
            "public": "f",
-           "wms_url": "https://quailserver.webgis1.com/stores/5/wms.php",
-           "wfs_url": "https://quailserver.webgis1.com/stores/5/wfs.php",
-           "wmts_url": "https://quailserver.webgis1.com/stores/5/wmts.php"
+           "wms_url": "https://domain.com/stores/5/wms.php",
+           "wfs_url": "https://domain.com/stores/5/wfs.php",
+           "wmts_url": "https://domain.com/stores/5/wmts.php"
          },
          {
            "id": "4",
@@ -106,9 +106,9 @@ Below is sample json output for /workspaces
            "type": "qgs",
            "owner_id": "1",
            "public": "t",
-           "wms_url": "https://quailserver.webgis1.com/stores/4/wms.php",
-           "wfs_url": "https://quailserver.webgis1.com/stores/4/wfs.php",
-           "wmts_url": "https://quailserver.webgis1.com/stores/4/wmts.php"
+           "wms_url": "https://domain.com/stores/4/wms.php",
+           "wfs_url": "https://domain.com/stores/4/wfs.php",
+           "wmts_url": "https://domain.com/stores/4/wmts.php"
          },
          {
            "id": "3",
@@ -116,9 +116,9 @@ Below is sample json output for /workspaces
            "type": "qgs",
            "owner_id": "1",
            "public": "f",
-           "wms_url": "https://quailserver.webgis1.com/stores/3/wms.php",
-           "wfs_url": "https://quailserver.webgis1.com/stores/3/wfs.php",
-           "wmts_url": "https://quailserver.webgis1.com/stores/3/wmts.php"
+           "wms_url": "https://domain.com/stores/3/wms.php",
+           "wfs_url": "https://domain.com/stores/3/wfs.php",
+           "wmts_url": "https://domain.com/stores/3/wmts.php"
         },
          {
            "id": "2",
@@ -126,9 +126,9 @@ Below is sample json output for /workspaces
            "type": "qgs",
            "owner_id": "1",
            "public": "f",
-           "wms_url": "https://quailserver.webgis1.com/stores/2/wms.php",
-           "wfs_url": "https://quailserver.webgis1.com/stores/2/wfs.php",
-           "wmts_url": "https://quailserver.webgis1.com/stores/2/wmts.php"
+           "wms_url": "https://domain.com/stores/2/wms.php",
+           "wfs_url": "https://domain.com/stores/2/wfs.php",
+           "wmts_url": "https://domain.com/stores/2/wmts.php"
          }
        ]
      }
