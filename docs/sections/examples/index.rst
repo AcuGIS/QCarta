@@ -26,17 +26,15 @@ Using BetterWMS.js::
         margin: 0px;
         height: 100%;
         width: 100%;
-      	}     
-
+      	}  
 	.leaflet-clickable {
-  	cursor: crosshair !important;
+  	cursor: pointer !important;
 	}
-	/* Change cursor when over entire map */
 	.leaflet-container {
   	cursor: pointer !important;
 	}
-
     	</style>
+
   	</head>
   	 <body>
     	<div id="map"></div>
