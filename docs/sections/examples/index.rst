@@ -20,14 +20,7 @@ Using BetterWMS.js::
      	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.css">
     
     	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.js"></script></script>
-    	<style type="text/css">
-      	html, body, #map {
-        margin: 0px;
-        height: 100%;
-        width: 100%;
-      	}
-    	</style>
-
+    	
 	<style type="text/css">
       	html, body, #map {
         margin: 0px;
