@@ -89,13 +89,18 @@ USA:
 
 The USA demo layer uses the **USA-PostGIS.**  PostGIS Store. 
 
-.. image:: usa.png
+.. image:: usa-layer.png
+
+
+
+
+
 
 BGS:
 
 The BGS uses the **BGS-GeoPackage** Store
 
-.. image:: bgs-grid.png
+.. image:: bgs-layer.png
 
 
 Percipitation
@@ -115,7 +120,7 @@ Monarch Butterflies
 **Monarch-ESRI-Geodatabase.** ESRI Geodatabase data source for Monarch butterfly habitat
 
 
-.. image:: monarchs.png
+.. image:: monarch-layer.png
 
 Custom Demo
 
@@ -128,7 +133,9 @@ Chicago
 
 **Chicago-ESRI-Shapefile.** - ESRI Shapefile data source obtained from the Chicago Data Portal
 
-.. image:: custom-demo.png
+.. image:: chicago-layer.png
+
+
 
 US Data:
 .. image:: us-data.png
