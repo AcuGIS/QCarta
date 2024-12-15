@@ -26,6 +26,7 @@ Quail
     sections/qgisstore/index
     sections/postgisstores/index   
     sections/layers/index
+    sections/preview/index  
     sections/capabilities/index
     sections/mapproxy/index
     sections/viewer/index
@@ -35,7 +36,6 @@ Quail
     sections/api/index 
     sections/urls/index
     sections/plugins/index
-    sections/structure/index
     sections/branding/index
     
 .. toctree::
