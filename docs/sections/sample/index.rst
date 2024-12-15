@@ -89,9 +89,22 @@ USA:
 
 The USA demo layer uses the **USA-PostGIS.**  PostGIS Store. 
 
-.. image:: usa-layer.png
+.. image:: usa-demo.png
 
 
+
+QField:
+
+Simple Bees. This layer uses the QFieldProject Store.
+
+.. image:: qfield-demo.png
+
+
+Chicago
+
+**Chicago-ESRI-Shapefile.** - ESRI Shapefile data source obtained from the Chicago Data Portal
+
+.. image:: chicago-demo.png
 
 
 
@@ -100,7 +113,7 @@ BGS:
 
 The BGS uses the **BGS-GeoPackage** Store
 
-.. image:: bgs-layer.png
+.. image:: bgs-demo.png
 
 
 Percipitation
@@ -120,7 +133,7 @@ Monarch Butterflies
 **Monarch-ESRI-Geodatabase.** ESRI Geodatabase data source for Monarch butterfly habitat
 
 
-.. image:: monarch-layer.png
+.. image:: monarch-demo.png
 
 Custom Demo
 
@@ -129,11 +142,6 @@ The USA demo layer uses the **USA-PostGIS.**  PostGIS Store.
 .. image:: custom-demo.png
 
 
-Chicago
-
-**Chicago-ESRI-Shapefile.** - ESRI Shapefile data source obtained from the Chicago Data Portal
-
-.. image:: chicago-layer.png
 
 
 
