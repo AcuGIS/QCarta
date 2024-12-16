@@ -228,6 +228,7 @@ Header include files
 Javascript
 
 .. code-block:: javascript
+   :linenos:
 
 
 
@@ -264,6 +265,7 @@ Header include files
 Javacript
 
 .. code-block:: javascript
+   :linenos:
 
 
 	// Draw
