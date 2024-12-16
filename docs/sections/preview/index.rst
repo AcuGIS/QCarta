@@ -205,9 +205,14 @@ Get Layers using Access Key:
 
 Print
 
-
-
 .. image:: browser-print.png
+
+Include files
+
+.. code-block:: console
+
+	<script src="../../assets/dist/js/leaflet.browser.print.min.js"></script>
+
 
 .. code-block:: console
 
@@ -237,6 +242,12 @@ Draw
 
 .. image:: draw.png
 
+Include Files
+
+.. code-block:: console
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>	
+
 
 .. code-block:: console
 
@@ -263,6 +274,13 @@ Measure
 
 .. image:: measure.png
 
+Include Files
+
+.. code-block:: console
+
+	<script src="../../assets/dist/js/leaflet.measurecontrol.js"></script>
+	<link rel="stylesheet" href="../../assets/dist/css/leaflet.measurecontrol.css"/>
+
 .. code-block:: console
 
 	// Measure
@@ -286,6 +304,12 @@ Legend
 	};      
 	legend.addTo(map);
 
+Include Files
+
+.. code-block:: console
+
+	Directly from QGIS Server
+
 Layer Selector
 
 .. image:: layer-selection.png
@@ -308,9 +332,16 @@ Layer Selector
 
 	L.control.layers(baseMap, overlayMap,{collapsed:false}).addTo(map);
 
+Include files
+
+.. code-block:: console
+
+	None
+
 MiniMap
 
 .. image:: min-map.png
+
 
 .. code-block:: console
 
@@ -320,6 +351,15 @@ MiniMap
 		var osmAttrib='Map data ï¿½ OpenStreetMap contributors';
 		var osmmini = new L.TileLayer(osmUrl, {minZoom: 0, maxZoom: 13, attribution: osmAttrib });
 		var miniMap = new L.Control.MiniMap(osmmini, { toggleDisplay: true }).addTo(map);
+
+
+Include Files
+
+.. code-block:: console
+
+	<link rel="stylesheet" href="../../assets/dist/css/Control.MiniMap.css"/>
+	<script src="../../assets/dist/js/Control.MiniMap.js"></script>
+
 
 
 
