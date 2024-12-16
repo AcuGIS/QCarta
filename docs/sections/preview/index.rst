@@ -177,9 +177,11 @@ Get Query using Username and Password:
             	drawnItems.addLayer(layer);
         	});
 
-	// Minimap
+	// Measure
 
    	L.Control.measureControl().addTo(map);
+
+	// Minimap
 
 		var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 		var osmAttrib='Map data ï¿½ OpenStreetMap contributors';
@@ -203,28 +205,121 @@ Get Layers using Access Key:
 
 Print
 
+
+
 .. image:: browser-print.png
+
+.. code-block:: console
+
+
+
+	L.control.browserPrint({
+                      title: 'Just print me!',
+                      documentTitle: 'My Leaflet Map',
+                      printLayer: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                      attribution: 'Map tiles by <a href="http://openstreetmap.com">OpenStreetMap</a>',
+                                      subdomains: 'abcd',
+                                      minZoom: 1,
+                                      maxZoom: 16,
+                                      ext: 'png'
+                              }),
+              closePopupsOnPrint: false,
+              printModes: [
+              L.BrowserPrint.Mode.Landscape(),
+              "Portrait",
+              L.BrowserPrint.Mode.Auto("B4",{title: "Auto"}),
+              L.BrowserPrint.Mode.Custom("B5",{title:"Select area"})
+                      ],
+                      manualMode: false
+              }).addTo(map);
 
 Draw
 
 .. image:: draw.png
 
+
+.. code-block:: console
+
+
+	// Draw
+
+   	var drawnItems = new L.FeatureGroup();
+        	map.addLayer(drawnItems);
+
+        var drawControl = new L.Control.Draw({
+            edit: {
+                featureGroup: drawnItems
+            }
+        	});
+        	map.addControl(drawControl);
+
+        	map.on('draw:created', function (e) {
+            	var type = e.layerType,
+                	layer = e.layer;
+            	drawnItems.addLayer(layer);
+        	});
+
 Measure
 
 .. image:: measure.png
+
+.. code-block:: console
+
+	// Measure
+
+   	L.Control.measureControl().addTo(map);
 
 
 Legend
 
 .. image:: legend.png
 
+.. code-block:: console
+
+	// Legend
+
+	var legend = L.control({position: 'bottomleft'}); 
+	legend.onAdd = function (map) {        
+    	var div = L.DomUtil.create('div', 'info legend');
+    	div.innerHTML = '<img src="proxy_qgis.php?SERVICE=WMS&REQUEST=GetLegendGraphic&LAYERS=<?=urlencode(implode(',', QGIS_LAYERS))?>&FORMAT=image/png">';     
+    	return div;
+	};      
+	legend.addTo(map);
+
 Layer Selector
 
 .. image:: layer-selection.png
 
+.. code-block:: console
+
+	// Group overlays and basemaps
+
+	var overlayMap = {
+	"WMS Layer" :wmsLayer  
+	};
+
+	var baseMap = {
+	"OpenStreetMap" :osm,
+	"ESRI Satellite" :esri,
+	"CartoLight" :carto,
+	};
+
+	// Layer Selector
+
+	L.control.layers(baseMap, overlayMap,{collapsed:false}).addTo(map);
+
 MiniMap
 
 .. image:: min-map.png
+
+.. code-block:: console
+
+		// Minimap
+
+		var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+		var osmAttrib='Map data ï¿½ OpenStreetMap contributors';
+		var osmmini = new L.TileLayer(osmUrl, {minZoom: 0, maxZoom: 13, attribution: osmAttrib });
+		var miniMap = new L.Control.MiniMap(osmmini, { toggleDisplay: true }).addTo(map);
 
 
 
