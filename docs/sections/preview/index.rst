@@ -38,7 +38,7 @@ Authorization section
    ?>
 
 
-Body
+HTML and Javascript
 
 .. code-block:: javascript
 
