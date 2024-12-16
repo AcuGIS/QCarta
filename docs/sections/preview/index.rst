@@ -23,10 +23,9 @@ Template
   
 The template used to created Layer Previews is below
 
-**Authentication.** This section authenticates logged in user against database.
+**Authentication** This section authenticates logged in user against database.
 
-.. code-block:: php
-   :linenos:
+.. code-block:: php  
 
   <?php
 	require('../../admin/incl/index_prefix.php');
