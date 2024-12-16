@@ -352,7 +352,7 @@ Header include files
 
 **MiniMap**
 
-.. image:: min-map.png
+.. image:: mini-map.png
 
 Header include files
 
