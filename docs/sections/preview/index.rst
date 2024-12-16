@@ -41,6 +41,7 @@ Authorization section
 HTML and Javascript
 
 .. code-block:: javascript
+   :linenos:
 
    <!DOCTYPE html>
    <html lang="en">
@@ -293,6 +294,7 @@ Javacript
 Header include files
 
 .. code-block:: javascript
+   :linenos:
 
 	<script src="../../assets/dist/js/leaflet.measurecontrol.js"></script>
 	<link rel="stylesheet" href="../../assets/dist/css/leaflet.measurecontrol.css"/>
@@ -300,6 +302,7 @@ Header include files
 Javascript
 
 .. code-block:: javascript
+   :linenos:
 
 	// Measure
 
@@ -318,6 +321,7 @@ Header include files
 
 
 .. code-block:: javascript
+   :linenos:
 
 	// Legend
 
@@ -341,6 +345,7 @@ Header include files
 	Core Leafletjs
 
 .. code-block:: javascript
+   :linenos:
 
 	// Group overlays and basemaps
 
@@ -367,6 +372,7 @@ Header include files
 Header include files
 
 .. code-block:: javascript
+   :linenos:
 
 	<link rel="stylesheet" href="../../assets/dist/css/Control.MiniMap.css"/>
 	<script src="../../assets/dist/js/Control.MiniMap.js"></script>
@@ -375,6 +381,7 @@ Header include files
 Javacript
 
 .. code-block:: javascript
+   :linenos:
 
 		// Minimap
 
