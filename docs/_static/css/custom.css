@@ -3,7 +3,8 @@
 }
 
 .highlight {
-    background: whitesmoke;
+    background: white;
+    font-weight: bold;
 }
 
 /*.wy-side-nav-search {
