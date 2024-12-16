@@ -18,7 +18,7 @@ The request returns json.
 
 The /workspaces uri was added to allow compatibility for tools that query GeoServer.
 
-GET
+Template
 =======================
   
 Get Query using Username and Password:
@@ -179,24 +179,12 @@ Get Query using Username and Password:
 You can update to whatever
 
 
-Get Query using Access Key:
-
-.. code-block:: console
-
-    https://access_key:06e3c5ff-e84c-415c-bb7f-57f710c8307c@domain.com/rest/workspaces
-
-Get Query Without Authentication (Public):
-
-.. code-block:: console
-
-  https://domain.com/rest/workspaces
-
-Examples
+Elements
 =========================
 
 Get Layers using Access Key:
 
-.. code-block:: console
+.. image:: preview-elements.png
 
   https://access_key:06e3c5ff-e84c-415c-bb7f-57f710c8307c@domain.com/rest/layers
 
