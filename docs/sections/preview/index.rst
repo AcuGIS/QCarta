@@ -21,9 +21,11 @@ The /workspaces uri was added to allow compatibility for tools that query GeoSer
 Template
 =======================
   
-Get Query using Username and Password:
+The template used to created Layer Previews is below
 
-.. code-block:: console
+Authorization section
+
+.. code-block:: php
 
   <?php
 	require('../../admin/incl/index_prefix.php');
@@ -34,6 +36,9 @@ Get Query using Username and Password:
 		$wms_url .= '?access_key='.$auth->access_key;
 	}
    ?>
+
+.. code-block:: javascript
+
    <!DOCTYPE html>
    <html lang="en">
    <head>
@@ -282,14 +287,14 @@ Javacript
 
 Header include files
 
-.. code-block:: console
+.. code-block:: javascript
 
 	<script src="../../assets/dist/js/leaflet.measurecontrol.js"></script>
 	<link rel="stylesheet" href="../../assets/dist/css/leaflet.measurecontrol.css"/>
 
 Javascript
 
-.. code-block:: console
+.. code-block:: javascript
 
 	// Measure
 
@@ -302,12 +307,12 @@ Javascript
 
 Header include files
 
-.. code-block:: console
+.. code-block:: javascript
 
 	Directly from QGIS Server
 
 
-.. code-block:: console
+.. code-block:: javascript
 
 	// Legend
 
@@ -326,11 +331,11 @@ Header include files
 
 Header include files
 
-.. code-block:: console
+.. code-block:: javascript
 
 	Core Leafletjs
 
-.. code-block:: console
+.. code-block:: javascript
 
 	// Group overlays and basemaps
 
@@ -356,7 +361,7 @@ Header include files
 
 Header include files
 
-.. code-block:: console
+.. code-block:: javascript
 
 	<link rel="stylesheet" href="../../assets/dist/css/Control.MiniMap.css"/>
 	<script src="../../assets/dist/js/Control.MiniMap.js"></script>
@@ -364,7 +369,7 @@ Header include files
 
 Javacript
 
-.. code-block:: console
+.. code-block:: javascript
 
 		// Minimap
 
