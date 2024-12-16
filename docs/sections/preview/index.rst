@@ -213,13 +213,13 @@ They are also commented in the wms_preview.php file.
 
 Header include files
 
-.. code-block:: console
+.. code-block:: javascript
 
 	<script src="../../assets/dist/js/leaflet.browser.print.min.js"></script>
 
 Javascript
 
-.. code-block:: console
+.. code-block:: javascript
 
 
 
@@ -249,13 +249,13 @@ Javascript
 
 Header include files
 
-.. code-block:: console
+.. code-block:: javascript
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>	
 
 Javacript
 
-.. code-block:: console
+.. code-block:: javascript
 
 
 	// Draw
