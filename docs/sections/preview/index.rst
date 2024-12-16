@@ -84,6 +84,8 @@ Get Query using Username and Password:
 		zoom: 16
 	});
 
+	// Basemaps
+
 	var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -99,6 +101,7 @@ Get Query using Username and Password:
             attribution: '&copy; <a href="http://www.esri.com">ESRI</a>'
         }).addTo(map);
 
+	// WMS Layer
 
 	const wmsLayer = L.tileLayer.betterWms('<?=$wms_url?>', {
 		layers: 'WMS_LAYERS',
@@ -108,6 +111,7 @@ Get Query using Username and Password:
 
 	map.fitBounds(BOUNDING_BOX);
 
+	// Group overlays and basemaps
 
 	var overlayMap = {
 	"WMS Layer" :wmsLayer  
@@ -119,7 +123,11 @@ Get Query using Username and Password:
 	"CartoLight" :carto,
 	};
 
+	// Layer Selector
+
 	L.control.layers(baseMap, overlayMap,{collapsed:false}).addTo(map);
+
+	// Legend
 
 	var legend = L.control({position: 'bottomleft'}); 
 	legend.onAdd = function (map) {        
@@ -129,7 +137,9 @@ Get Query using Username and Password:
 	};      
 	legend.addTo(map);
 
-   L.control.browserPrint({
+	// Broswer Print	
+
+   	L.control.browserPrint({
 			title: 'Just print me!',
 			documentTitle: 'My Leaflet Map',
 			printLayer: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -149,7 +159,9 @@ Get Query using Username and Password:
 			manualMode: false
 		}).addTo(map);
 
-   var drawnItems = new L.FeatureGroup();
+	// Draw
+
+   	var drawnItems = new L.FeatureGroup();
         	map.addLayer(drawnItems);
 
         var drawControl = new L.Control.Draw({
@@ -165,16 +177,18 @@ Get Query using Username and Password:
             	drawnItems.addLayer(layer);
         	});
 
-   L.Control.measureControl().addTo(map);
+	// Minimap
+
+   	L.Control.measureControl().addTo(map);
 
 		var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 		var osmAttrib='Map data ï¿½ OpenStreetMap contributors';
 		var osmmini = new L.TileLayer(osmUrl, {minZoom: 0, maxZoom: 13, attribution: osmAttrib });
 		var miniMap = new L.Control.MiniMap(osmmini, { toggleDisplay: true }).addTo(map);
 
-   </script>
-   </body>
-   </html>
+   	</script>
+   	</body>
+   	</html>
 
 You can update to whatever
 
@@ -187,17 +201,30 @@ Get Layers using Access Key:
 .. image:: preview-elements.png
 
 
-
+Print
 
 .. image:: browser-print.png
 
+Draw
+
 .. image:: draw.png
 
-.. image:: layer-selection.png
+Measure
+
+.. image:: measure.png
+
+
+Legend
 
 .. image:: legend.png
 
-.. image:: measure.png
+Layer Selector
+
+.. image:: layer-selection.png
+
+MiniMap
+
+.. image:: min-map.png
 
 
 
