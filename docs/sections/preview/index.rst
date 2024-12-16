@@ -186,7 +186,20 @@ Get Layers using Access Key:
 
 .. image:: preview-elements.png
 
-  https://access_key:06e3c5ff-e84c-415c-bb7f-57f710c8307c@domain.com/rest/layers
+
+
+
+.. image:: browser-print.png
+
+.. image:: draw.png
+
+.. image:: layer-selection.png
+
+.. image:: legend.png
+
+.. image:: measure.png
+
+
 
 Get Workspace by Type:
 
