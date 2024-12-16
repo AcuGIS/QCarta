@@ -207,12 +207,13 @@ Print
 
 .. image:: browser-print.png
 
-Include files
+Header include files
 
 .. code-block:: console
 
 	<script src="../../assets/dist/js/leaflet.browser.print.min.js"></script>
 
+Javascript
 
 .. code-block:: console
 
@@ -242,12 +243,13 @@ Draw
 
 .. image:: draw.png
 
-Include Files
+Header include files
 
 .. code-block:: console
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>	
 
+Javacript
 
 .. code-block:: console
 
@@ -274,12 +276,14 @@ Measure
 
 .. image:: measure.png
 
-Include Files
+Header include files
 
 .. code-block:: console
 
 	<script src="../../assets/dist/js/leaflet.measurecontrol.js"></script>
 	<link rel="stylesheet" href="../../assets/dist/css/leaflet.measurecontrol.css"/>
+
+Javascript
 
 .. code-block:: console
 
@@ -291,6 +295,13 @@ Include Files
 Legend
 
 .. image:: legend.png
+
+Header include files
+
+.. code-block:: console
+
+	Directly from QGIS Server
+
 
 .. code-block:: console
 
@@ -304,15 +315,16 @@ Legend
 	};      
 	legend.addTo(map);
 
-Include Files
-
-.. code-block:: console
-
-	Directly from QGIS Server
 
 Layer Selector
 
 .. image:: layer-selection.png
+
+Header include files
+
+.. code-block:: console
+
+	Core Leafletjs
 
 .. code-block:: console
 
@@ -332,16 +344,21 @@ Layer Selector
 
 	L.control.layers(baseMap, overlayMap,{collapsed:false}).addTo(map);
 
-Include files
 
-.. code-block:: console
-
-	None
 
 MiniMap
 
 .. image:: min-map.png
 
+Header include files
+
+.. code-block:: console
+
+	<link rel="stylesheet" href="../../assets/dist/css/Control.MiniMap.css"/>
+	<script src="../../assets/dist/js/Control.MiniMap.js"></script>
+
+
+Javacript
 
 .. code-block:: console
 
@@ -353,25 +370,7 @@ MiniMap
 		var miniMap = new L.Control.MiniMap(osmmini, { toggleDisplay: true }).addTo(map);
 
 
-Include Files
 
-.. code-block:: console
-
-	<link rel="stylesheet" href="../../assets/dist/css/Control.MiniMap.css"/>
-	<script src="../../assets/dist/js/Control.MiniMap.js"></script>
-
-
-
-
-Get Workspace by Type:
-
-.. code-block:: console
-
-  https://domain.com/rest/workspaces/pg
-  https://domain.com/rest/workspaces/qgs
-
-.. note::
-    Seeding and tile generation can be CPU intensive for larger data sets.  Plan accordingly.
 
 
 Sample Output
