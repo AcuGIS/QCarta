@@ -12,7 +12,7 @@ API
 
 .. contents:: Table of Contents
 
-Quail offers a basic REST API that supports GET HTTP Requests.
+Quail offers a basic REST API that supports GET requests.
 
 The request returns json.
 
