@@ -198,7 +198,11 @@ You can update to whatever
 Elements
 =========================
 
-Get Layers using Access Key:
+Below are the elements added to the Layer Preview.
+
+You'll find the header include and javascript sections below.  
+
+They are also commented in the wms_preview.php file.
 
 .. image:: preview-elements.png
 
