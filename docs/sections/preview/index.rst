@@ -207,7 +207,7 @@ They are also commented in the wms_preview.php file.
 .. image:: preview-elements.png
 
 
-Print
+**BrowserPrint**
 
 .. image:: browser-print.png
 
@@ -243,7 +243,7 @@ Javascript
                       manualMode: false
               }).addTo(map);
 
-Draw
+**LeafletDraw**
 
 .. image:: draw.png
 
@@ -276,7 +276,7 @@ Javacript
             	drawnItems.addLayer(layer);
         	});
 
-Measure
+**Measure**
 
 .. image:: measure.png
 
@@ -296,7 +296,7 @@ Javascript
    	L.Control.measureControl().addTo(map);
 
 
-Legend
+**LegendService**
 
 .. image:: legend.png
 
@@ -320,7 +320,7 @@ Header include files
 	legend.addTo(map);
 
 
-Layer Selector
+**Layer Selector**
 
 .. image:: layer-selection.png
 
@@ -350,7 +350,7 @@ Header include files
 
 
 
-MiniMap
+**MiniMap**
 
 .. image:: min-map.png
 
@@ -374,91 +374,6 @@ Javacript
 		var miniMap = new L.Control.MiniMap(osmmini, { toggleDisplay: true }).addTo(map);
 
 
-
-
-
-Sample Output
-====================
-
-Below is sample json output for /workspaces
-
-.. code-block:: console
-
-   {
-     "success": true,
-     "workspaces": {
-       "workspace": [
-         {
-           "id": "7",
-           "name": "Monarch-ESRI-Geodatabase",
-           "type": "qgs",
-           "owner_id": "1",
-           "public": "t",
-           "wms_url": "https://domain.com/stores/7/wms.php",
-           "wfs_url": "https://domain.com/stores/7/wfs.php",
-           "wmts_url": "https://domain.com/stores/7/wmts.php"
-         },
-         {
-           "id": "6",
-           "name": "Gebco-WMS",
-           "type": "qgs",
-           "owner_id": "1",
-           "public": "f",
-           "wms_url": "https://domain.com/stores/6/wms.php",
-           "wfs_url": "https://domain.com/stores/6/wfs.php",
-           "wmts_url": "https://domain.com/stores/6/wmts.php"
-         },
-         {
-           "id": "5",
-           "name": "NASA-GeoTIFF",
-           "type": "qgs",
-           "owner_id": "1",
-           "public": "f",
-           "wms_url": "https://domain.com/stores/5/wms.php",
-           "wfs_url": "https://domain.com/stores/5/wfs.php",
-           "wmts_url": "https://domain.com/stores/5/wmts.php"
-         },
-         {
-           "id": "4",
-           "name": "BGS-GeoPackage",
-           "type": "qgs",
-           "owner_id": "1",
-           "public": "t",
-           "wms_url": "https://domain.com/stores/4/wms.php",
-           "wfs_url": "https://domain.com/stores/4/wfs.php",
-           "wmts_url": "https://domain.com/stores/4/wmts.php"
-         },
-         {
-           "id": "3",
-           "name": "Chicago-ESRI",
-           "type": "qgs",
-           "owner_id": "1",
-           "public": "f",
-           "wms_url": "https://domain.com/stores/3/wms.php",
-           "wfs_url": "https://domain.com/stores/3/wfs.php",
-           "wmts_url": "https://domain.com/stores/3/wmts.php"
-        },
-         {
-           "id": "2",
-           "name": "USA-PostGIS",
-           "type": "qgs",
-           "owner_id": "1",
-           "public": "f",
-           "wms_url": "https://domain.com/stores/2/wms.php",
-           "wfs_url": "https://domain.com/stores/2/wfs.php",
-           "wmts_url": "https://domain.com/stores/2/wmts.php"
-         }
-       ]
-     }
-   }
-
-
-REST API File
-=======================
-
-If you wish to update the API, the code is located at::
-
-   /var/www/html/admin/action/rest.php
 
 
 
