@@ -231,27 +231,25 @@ Javascript
 .. code-block:: javascript
    :linenos:
 
-
-
 	L.control.browserPrint({
-                      title: 'Just print me!',
-                      documentTitle: 'My Leaflet Map',
-                      printLayer: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                      attribution: 'Map tiles by <a href="http://openstreetmap.com">OpenStreetMap</a>',
-                                      subdomains: 'abcd',
-                                      minZoom: 1,
-                                      maxZoom: 16,
-                                      ext: 'png'
-                              }),
-              closePopupsOnPrint: false,
-              printModes: [
-              L.BrowserPrint.Mode.Landscape(),
-              "Portrait",
-              L.BrowserPrint.Mode.Auto("B4",{title: "Auto"}),
-              L.BrowserPrint.Mode.Custom("B5",{title:"Select area"})
+        title: 'Just print me!',
+        documentTitle: 'My Leaflet Map',
+        printLayer: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        	attribution: 'Map tiles by <a href="http://openstreetmap.com">OpenStreetMap</a>',
+                subdomains: 'abcd',
+                minZoom: 1,
+                maxZoom: 16,
+                ext: 'png'
+                }),
+              	closePopupsOnPrint: false,
+              	printModes: [
+              	L.BrowserPrint.Mode.Landscape(),
+              	"Portrait",
+              	L.BrowserPrint.Mode.Auto("B4",{title: "Auto"}),
+              	L.BrowserPrint.Mode.Custom("B5",{title:"Select area"})
                       ],
                       manualMode: false
-              }).addTo(map);
+              	}).addTo(map);
 
 **LeafletDraw**
 
@@ -267,7 +265,6 @@ Javacript
 
 .. code-block:: javascript
    :linenos:
-
 
 	// Draw
 
@@ -305,7 +302,6 @@ Javascript
    :linenos:
 
 	// Measure
-
    	L.Control.measureControl().addTo(map);
 
 
@@ -324,7 +320,6 @@ Header include files
    :linenos:
 
 	// Legend
-
 	var legend = L.control({position: 'bottomleft'}); 
 	legend.onAdd = function (map) {        
     	var div = L.DomUtil.create('div', 'info legend');
@@ -348,7 +343,6 @@ Header include files
    :linenos:
 
 	// Group overlays and basemaps
-
 	var overlayMap = {
 	"WMS Layer" :wmsLayer  
 	};
@@ -360,7 +354,6 @@ Header include files
 	};
 
 	// Layer Selector
-
 	L.control.layers(baseMap, overlayMap,{collapsed:false}).addTo(map);
 
 
@@ -384,7 +377,6 @@ Javacript
    :linenos:
 
 		// Minimap
-
 		var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 		var osmAttrib='Map data ï¿½ OpenStreetMap contributors';
 		var osmmini = new L.TileLayer(osmUrl, {minZoom: 0, maxZoom: 13, attribution: osmAttrib });
