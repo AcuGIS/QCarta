@@ -61,7 +61,7 @@ Upload your QGIS Project and any required data files.  If your QGIS Project uses
 
 You can now view Capabilities as well as OpenLayers previews
 
-.. image:: sections/qgisstore/first-store.png
+.. image:: sections/layers/first-store.png
 
 Create Layer(s)
 =========================
@@ -75,6 +75,8 @@ View Layers
 =======================
 
 You can now test/view your Layer(s) using the WMS/WFS/WMTS urls or via Layer Preview
+
+.. image:: sections/layers/first-layer.png
 
 
 
