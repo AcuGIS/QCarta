@@ -64,7 +64,7 @@ Go to Layers > Add New and select the Layer(s) to use from your Project.
 
 Note: If you see below when navigating to your domain, remove the default index.html page from /var/www/html
 
-.. image:: error-page.png
+.. image:: _images/qgis-store-modal.png
 
 
 
