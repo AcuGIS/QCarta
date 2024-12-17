@@ -50,14 +50,18 @@ Default credentials
 .. image:: _static/quail-login.png
 
 
-Upload Project
-=======================
+Upload QGIS Project
+==========================
 
 Once logged in, go to Stores > Add New
 
 Upload your QGIS Project and any required data files.  If your QGIS Project uses a PostGIS backend, create a PostGIS Data Store for it.
 
 .. image:: sections/qgisstore/qgis-store-modal.png
+
+You can now view Capabilities as well as OpenLayers previews
+
+.. image:: sections/qgisstore/first-store.png
 
 Create Layer(s)
 =========================
