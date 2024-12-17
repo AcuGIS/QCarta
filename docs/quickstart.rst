@@ -18,8 +18,12 @@ To get started quickly with Quail and see if it meets your needs, follow below.
 Install with Docker
 =======================
 
+Install with Docker
+
 .. warning::
-    Docker is not recommended for Production.
+    Docker is not recommended for Production hosting.
+
+    Using the script installers is recommended.
 
 Download the Quail binary and unzip:
 
