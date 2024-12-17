@@ -59,6 +59,10 @@ Upload your QGIS Project and any required data files.  If your QGIS Project uses
 
 .. image:: sections/qgisstore/qgis-store-modal.png
 
+Click the Info/showGdal link at right.
+
+.. image:: sections/qgisstore/select-files-gdal.png
+
 You can now view Capabilities as well as OpenLayers previews
 
 .. image:: sections/layers/first-store.png
@@ -71,12 +75,22 @@ Go to Layers > Add New and select the Layer(s) to use from your Project.
 .. image:: sections/layers/create-layer-4.png
 
 
-View Layers
+View Layer URLs and Preview
 =======================
 
-You can now test/view your Layer(s) using the WMS/WFS/WMTS urls or via Layer Preview
+Click the Show Info button at right:
+
+.. image:: sections/layers/layer-show-info.png
+
+You can now see and test your Layer urla
+
+.. image:: sections/layers/layer-show-info-2.png
+
+You can nwo also view your Leaflet Layer Preview by clicking on the Layer name
 
 .. image:: sections/layers/first-layer.png
+
+
 
 
 
