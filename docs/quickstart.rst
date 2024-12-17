@@ -47,6 +47,8 @@ Default credentials
 * Email:  admin@admin.com
 * Password: quail
 
+.. image:: _static/quail-login.png
+
 
 Upload Project
 =======================
@@ -55,16 +57,22 @@ Once logged in, go to Stores > Add New
 
 Upload your QGIS Project and any required data files.  If your QGIS Project uses a PostGIS backend, create a PostGIS Data Store for it.
 
+.. image:: sections/qgisstore/qgis-store-modal.png
+
 Create Layer(s)
 =========================
 
 Go to Layers > Add New and select the Layer(s) to use from your Project.
 
-.. image:: _static/quail-login.png
+.. image:: sections/layers/create-layer-4.png
 
-Note: If you see below when navigating to your domain, remove the default index.html page from /var/www/html
 
-.. image:: _images/qgis-store-modal.png
+View Layers
+=======================
+
+You can now test/view your Layer(s) using the WMS/WFS/WMTS urls or via Layer Preview
+
+
 
 
 
