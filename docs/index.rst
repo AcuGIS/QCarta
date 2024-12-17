@@ -12,6 +12,7 @@ Quail
 
    intro
    installing
+   quickstart
    
    
    
