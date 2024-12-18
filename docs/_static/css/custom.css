@@ -4,6 +4,10 @@ div.body {
 }
 
 
+.table-of-contents {
+    padding-left: 30px!important;
+}
+
 .wy-nav-content {
    max-width: 1350px;
 }
