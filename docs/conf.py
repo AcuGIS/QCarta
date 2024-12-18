@@ -40,15 +40,6 @@ epub_show_urls = 'footnote'
 formats: all
 
 
-html_sidebars = {
-        '**': [
-            'about.html',
-            'navigation.html',
-            'relations.html',
-            'searchbox.html',
-            'donate.html',
-        ]
-    }
 
 
 html_static_path = ['_static']
