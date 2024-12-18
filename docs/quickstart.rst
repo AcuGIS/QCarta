@@ -22,7 +22,7 @@ Install with Docker
 
 .. warning::
     Docker is not recommended for Production hosting.
-    Using the script installers is recommended. 
+    
 
 Download the Quail binary and unzip:
 
