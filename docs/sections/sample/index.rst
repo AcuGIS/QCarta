@@ -120,7 +120,7 @@ Paris1550
 
 **MapWarper-GeoTIFF.** GeoTiff data source from Map Warper
 
-.. image:: weather-service.png
+.. image:: paris-1550.png
 
 Isotop
 
