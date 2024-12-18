@@ -30,7 +30,7 @@ templates_path = ['_templates']
 
 # -- Options for HTML output
 
-html_theme = 'nature'
+html_theme = 'piccolo'
 
 
 # -- Options for EPUB output
