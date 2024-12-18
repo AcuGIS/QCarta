@@ -30,7 +30,8 @@ templates_path = ['_templates']
 
 # -- Options for HTML output
 
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'classic'
+
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
@@ -53,5 +54,4 @@ html_logo = "quail-logo-docs.png"
 html_theme_options = {
     'logo_only': True,
     'display_version': False,
-    'show_navbar_depth': 3,
 }
