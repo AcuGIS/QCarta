@@ -116,17 +116,17 @@ The BGS uses the **BGS-GeoPackage** Store
 .. image:: bgs-demo.png
 
 
-Percipitation
+Paris1550
 
-**NASA-GeoTIFF.** GeoTiff data source from NASA showing percipitation
+**MapWarper-GeoTIFF.** GeoTiff data source from Map Warper
 
-.. image:: percipitation.png
+.. image:: weather-service.png
 
 Isotop
 
-**Gebco-WMS.** - WMS source obtained from GEBCO
+**WeatherService-WMS.** - WMS source obtained from the National Weather Service
 
-.. image:: isotopo.png
+.. image:: weather-service.png
 
 Monarch Butterflies
 
