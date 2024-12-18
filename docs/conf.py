@@ -54,4 +54,5 @@ html_logo = "quail-logo-docs.png"
 html_theme_options = {
     'logo_only': True,
     'display_version': False,
+    'navigation_depth': 4,
 }
