@@ -74,11 +74,17 @@ Docker Install
 
 To install using Docker:
 
+Go to the Docker directory open the quail.conf file and set the SERVER_NAME to your machines hostname.
+
+Use your machines IP for DOCKER_IP below.
+
 .. code-block:: console
 
     cd quail
     ./installer/docker-install.sh
+    docker-compose build --build-arg DOCKER_IP=192.168.0.25 --build-arg DOCKER_PORT=8000
     docker-compose up
+
 
 To clean persistent data, you can remove volumes with this command:
 
