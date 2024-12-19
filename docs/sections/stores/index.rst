@@ -34,6 +34,9 @@ Examples of static data sources include:
 * GeoJson
 * etc....
 
+.. note:: 
+      If your QGIS Project uses PostGIS as a data source, create a PostGIS Store.
+
 
 PostGIS Store
 =====================
@@ -49,15 +52,5 @@ If you wish to convert a static data source to PostGIS, you can upload the follo
 * GeoPackage
 * PostGIS dump
 
-Edit Report
-===================
-To edit a report entry, click the Edit icon, as shown below:
-
-.. image:: _static/Edit-Report.png
-
-Details
-===================
-
-Details on Stores and Layers can be found in the next section of these Docs.
 
 
