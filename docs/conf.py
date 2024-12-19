@@ -55,7 +55,11 @@ pygments_style = "sphinx"
 html_logo = "quail-logo-docs.png"
 html_theme_options = {
     'logo_only': True,
-    'display_version': False,
-    "show_nav_level": 3,
-"navigation_depth": 3,
+    'display_version': False,   
+"maxdepth": -1,
+    "includehidden": True
 }
+
+
+
+
