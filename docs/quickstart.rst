@@ -34,11 +34,14 @@ Download the Quail binary and unzip:
 
 Change to the /quail-server-1.11.0 directory and run as below
 
+Use your machine IP for DOCKER_IP below
+
 .. code-block:: console
 
     cd quail
     ./installer/docker-install.sh
-    docker-compose up
+   docker-compose build --build-arg DOCKER_IP=192.168.0.25 --build-arg DOCKER_PORT=8000
+   docker-compose up
 
 To clean persistent data, you can remove volumes with this command:
 
