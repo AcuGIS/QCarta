@@ -62,7 +62,7 @@ Default credentials
 * Email:  admin@admin.com
 * Password: quail
 
-.. image:: _static/quail-login.png
+.. image:: _static/quail-login-page.png
 
 Note: If you see below when navigating to your domain, remove the default index.html page from /var/www/html
 
