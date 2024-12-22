@@ -1,12 +1,6 @@
 Quail
 ==================================================
 
-
-Quail is a lightweight Administration tool and layer server for QGIS Server.
-The workflow is similar to GeoServer. You create Stores from data sources. From Stores, you create Layers.
-Creation of Stores is simplified by providing only two Store types: QGIS and PostGIS
-
-
 .. image:: _static/quail-public-layers.png
 
 .. include:: ../README.rst
