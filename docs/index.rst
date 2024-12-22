@@ -1,7 +1,7 @@
 Quail
 ==================================================
 
-.. image:: quail-qgis-layer-server.png
+.. image:: _static/quail-public-layers.png
 
 
 .. include:: ../README.rst
