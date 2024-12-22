@@ -18,7 +18,7 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
     'sphinx_copybutton',
-    'python_docs_theme',
+    'pydata_sphinx_theme',
 ]
 
 intersphinx_mapping = {
