@@ -30,7 +30,7 @@ templates_path = ['_templates']
 
 # -- Options for HTML output
 
-html_theme = 'pydata_sphinx_theme'
+html_theme = 'pydata'
 
 
 # -- Options for EPUB output
