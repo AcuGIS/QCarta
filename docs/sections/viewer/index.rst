@@ -20,14 +20,15 @@ The Map Viewer can be reached either via the MapViewer link in the menu or via t
 
 It can also be viewed via the Layer Preview url directly if the Layer is Public.
 
-.. image:: viewe3.png
+.. image:: ../../sections/sample/usa-preview.png
 
 Map Viewer Page
 ====================
 
 The Map Viewr page is what End Users see when they log into Quail.
 
-.. image:: viewer1.png
+.. image:: quail-map-viewer.png
+
 
 For example, if you log in as the demo user:
 
