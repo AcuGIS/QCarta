@@ -10,7 +10,7 @@ The workflow is similar to GeoServer. You create Stores from data sources. From 
 
 Creation of Stores is simplified by providing only two Store types: QGIS and PostGIS
 
-.. image:: _static/quail-public-layers.png
+.. image:: quail-welcome.png
 
 
 .. include:: ../README.rst
