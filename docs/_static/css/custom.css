@@ -1,4 +1,4 @@
-div.body {
+/*div.body {
     min-width: 75%;
     max-width: 75%;
 }
@@ -6,7 +6,7 @@ div.body {
 nav.contents, aside.topic, div.topic {
     background-color: #eee;
     padding-left: 30px!important;
-}
+}*/
 
 .wy-nav-content {
    max-width: 1350px;
