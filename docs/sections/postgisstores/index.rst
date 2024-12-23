@@ -20,7 +20,7 @@ These can be existing local or remote PostGIS databases.
 
 You can also create new PostGIS databases from GeoPackages, ESRI Shapefiles, and PostgreSQL backups.
 
-Create Store from Connection
+Create From Connection
 ================
 
 To add a new Link, click the "Add New" button at top.
@@ -60,13 +60,26 @@ To create an empty PostGIS database,
 
 Click the Create Button
 
-Check the Database Only box
+.. image:: create-new-store.png
 
-Give your database a name.  Below, we're calling ours waterwaysdb
+Give your database a name and check the "Create Only" box.
 
-.. image:: 
+.. image:: create-db-only.png
 
-Create PostGIS Database
+Your database has been created and added as a PostGIS Store
+
+.. image:: db-connection-info.png
+
+To view the database connection information, click the Connection icon at right
+
+.. image:: pg-service-connection.png
+
+.. image:: show-connection.png
+
+
+
+
+Create From File(s)
 =====================
 
 You can create a PostGIS database from most common data sources, such as ESRI Shapefiles and GeoPackages, as well as from PostGIS backups.
@@ -97,9 +110,6 @@ Click the PostGIS tab to refresh.  Your PostGIS database has now been created.
 
 
 
-.. image:: create-db-only.png
-
-.. image:: create-new-store.png
 
 .. image:: create-store-from-geopackage.png
 
@@ -107,11 +117,6 @@ Click the PostGIS tab to refresh.  Your PostGIS database has now been created.
 
 .. image:: create-store-from-geopackage-3.png
 
-.. image:: db-connection-info.png
-
-.. image:: pg-service-connection.png
-
-.. image:: show-connection.png
 
 
 
