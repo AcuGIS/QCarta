@@ -51,44 +51,35 @@ Click Save.  Your Store has been created.
 Create From File(s)
 =====================
 
-You can create a PostGIS database from most common data sources, such as ESRI Shapefiles and GeoPackages, as well as from PostGIS backups.
+You can create a PostGIS database from most common data sources, such as ESRI Shapefiles and GeoPackages
 
-To create a PostGIS database, click the Import button at top right
+You can also create databases from PostGIS backups.
 
-.. image:: 7-import.png
+To create a PostGIS database from a file, click the Create button at top right
 
-Give your database a name and click the Choose Files button
+.. image:: create-new-store.png
+
+Give your database a name and click the Choose Files button.
+
 
 .. image:: create-store-from-geopackage-0.png
 
-Select the file(s) to upload
+Browse to the file(s) location
+
 
 .. image:: create-store-from-geopackage.png
 
-Browse to the location of the file you wish to import
-
-.. image:: 9-import.png
-
-Click Import
-
-.. image:: 10-import.png
-
-The import results are displayed at the bottom of the page.
-
-.. image:: 11-import.png
-
-Click the PostGIS tab to refresh.  Your PostGIS database has now been created.
-
-.. image:: 12-import.png
-
-
-
-
-
+Click the Impprt button
 
 .. image:: create-store-from-geopackage-2.png
 
+The import results are displayed at the bottom of the page.
+
 .. image:: create-store-from-geopackage-3.png
+
+
+.. note::
+   You may need to click the PostGIS tab to refresh before seeing your new database
 
 Create Empty Database
 =====================
