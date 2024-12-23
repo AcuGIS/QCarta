@@ -25,9 +25,7 @@ Create From Connection
 
 To add a new Link, click the "Add New" button at top.
 
-1-add-new.png
-
-.. image:: 1-add-new.png
+.. image:: add-new-postgis-store.png
 
 Populate the required fields for your PostgreSQL connection
 
@@ -48,6 +46,49 @@ Select the Group(s) that will have permission to the Store
 Click Save.  Your Store has been created.
 
 .. image:: 6-add-new.png
+
+
+Create From File(s)
+=====================
+
+You can create a PostGIS database from most common data sources, such as ESRI Shapefiles and GeoPackages, as well as from PostGIS backups.
+
+To create a PostGIS database, click the Import button at top right
+
+.. image:: 7-import.png
+
+Give your database a name and click the Choose Files button
+
+.. image:: create-store-from-geopackage-0.png
+
+Select the file(s) to upload
+
+.. image:: create-store-from-geopackage.png
+
+Browse to the location of the file you wish to import
+
+.. image:: 9-import.png
+
+Click Import
+
+.. image:: 10-import.png
+
+The import results are displayed at the bottom of the page.
+
+.. image:: 11-import.png
+
+Click the PostGIS tab to refresh.  Your PostGIS database has now been created.
+
+.. image:: 12-import.png
+
+
+
+
+
+
+.. image:: create-store-from-geopackage-2.png
+
+.. image:: create-store-from-geopackage-3.png
 
 Create Empty Database
 =====================
@@ -82,43 +123,7 @@ This information can be used in your pg_service.conf file and any other location
 
 
 
-Create From File(s)
-=====================
 
-You can create a PostGIS database from most common data sources, such as ESRI Shapefiles and GeoPackages, as well as from PostGIS backups.
-
-To create a PostGIS database, click the Import button at top right
-
-.. image:: 7-import.png
-
-Give your database a name and click the upload button
-
-.. image:: 8-import.png
-
-Browse to the location of the file you wish to import
-
-.. image:: 9-import.png
-
-Click Import
-
-.. image:: 10-import.png
-
-The import results are displayed at the bottom of the page.
-
-.. image:: 11-import.png
-
-Click the PostGIS tab to refresh.  Your PostGIS database has now been created.
-
-.. image:: 12-import.png
-
-
-
-
-.. image:: create-store-from-geopackage.png
-
-.. image:: create-store-from-geopackage-2.png
-
-.. image:: create-store-from-geopackage-3.png
 
 
 
