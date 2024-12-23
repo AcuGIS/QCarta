@@ -20,6 +20,9 @@ These can be existing local or remote PostGIS databases.
 
 You can also create new PostGIS databases from GeoPackages, ESRI Shapefiles, and PostgreSQL backups.
 
+You can also create new, empty PostGIS databases as well.
+
+
 Create From Connection
 ================
 
@@ -109,6 +112,15 @@ To view the database connection information, click the Connection icon at right
 This information can be used in your pg_service.conf file and any other location
 
 .. image:: pg-service-connection.png
+
+
+Layer Creation
+=====================
+
+If your QGIS Project uses a PostGIS backend, the PostGIS Store will be automatically detected when the QGIS Store is added.
+
+Once you have created a PostGIS Store, it can be used to create a PostGIS Layer.
+
 
 
 
