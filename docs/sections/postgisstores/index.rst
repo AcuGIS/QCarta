@@ -72,9 +72,12 @@ Your database has been created and added as a PostGIS Store
 
 To view the database connection information, click the Connection icon at right
 
+.. image:: show-connection.png
+
+This information can be used in your pg_service.conf file and any other location
+
 .. image:: pg-service-connection.png
 
-.. image:: show-connection.png
 
 
 
