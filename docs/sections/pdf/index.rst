@@ -23,52 +23,25 @@ To preview a PDF, simply use the WMS url with OUTPUTFORMAT=PDF as below
 
 .. image:: get-pdf.png
 
-In the right menu, click the Layers icon
+**In the right menu, click the Layers icon**
 
 .. image:: pdf-layers-icon.png
 
-From here, you can toggle layer visibility
+**From here, you can toggle layer visibility**
 
 .. image:: pdf-layers.png
 
-Click the Tree icon
+**Click the Tree icon**
 
 .. image:: tree-icon.png
 
-The Tree Model displays feature information
+**The Tree Model displays feature information**
 
 .. image:: tree-hightlight-1.png
 
-Expand the nodes to view
+**Expand the nodes to view**
 
 .. image:: tree-hightlight-2.png
-
-
-
-https://quail-docker.webgis1.com/mproxy/service?service=WMS&version=1.1.0&request=GetMap&layers=bgsgrid&bbox=-8.476567%2C49.796537%2C2.873641%2C60.911296&width=638&styles&height=768&srs=EPSG%3A4326&FORMAT=image%2Fpng
-
-Private Layer (Using Access Key::
-
-  	   https://domain.com/mproxy/service?access_key=78091b92-5bcd-4306-92ad-8dce26d50a68&service=WMS&version=1.1.0&request=GetMap&layers=bgsgrid&bbox=-8.476567%2C49.796537%2C2.873641%2C60.911296&width=638&styles&height=768&srs=EPSG%3A4326&FORMAT=image%2Fpng
-
-
-PNG using no Cache or Session Cache::
-
-  https://yourdomain.com/layers/3/proxy_qgis.php?service=WMS&version=1.1.0&request=GetMap&layers=waterways%2Cparks&bbox=-87.938902%2C41.619499%2C-86.206663%2C43.21631&width=833&height=768&srs=EPSG%3A4326&FORMAT=image%2Fpng
-
-
-WFS
-================
-
-GeoJson::
-
-  https://yourdomain.com/layers/2/proxy_qgis.php?service=WFS&version=1.1.0&request=GetFeature&typeName=states&maxFeatures=500&OUTPUTFORMAT=application/geojson
-
-
-
-
-
-
 
 
 
