@@ -21,9 +21,18 @@ Below is a Quick Refernce for common URL formats.
 WMS
 ================
 
-PNG using MapProxy::
+Below, we'll use the BGSGrid demo layer for examples.
 
-  	https://yourdomain.com:443/mproxy/service=WMS&version=1.1.0&request=GetMap&layers=waterways%2Cparks&bbox=-87.938902%2C41.619499%2C-86.206663%2C43.21631&width=833&height=768&srs=EPSG%3A4326&FORMAT=image%2Fpng
+PNG using MapProxy
+
+Public Layer::
+
+      https://quail-docker.webgis1.com/mproxy/service?service=WMS&version=1.1.0&request=GetMap&layers=bgsgrid&bbox=-8.476567%2C49.796537%2C2.873641%2C60.911296&width=638&styles&height=768&srs=EPSG%3A4326&FORMAT=image%2Fpng
+
+Private Layer (Using Access Key::
+
+  	   https://domain.com/mproxy/service?access_key=78091b92-5bcd-4306-92ad-8dce26d50a68&service=WMS&version=1.1.0&request=GetMap&layers=bgsgrid&bbox=-8.476567%2C49.796537%2C2.873641%2C60.911296&width=638&styles&height=768&srs=EPSG%3A4326&FORMAT=image%2Fpng
+
 
 PNG using no Cache or Session Cache::
 
