@@ -21,7 +21,7 @@ Install with Docker
 Install with Docker
 
 .. warning::
-Docker is not recommended for Production hosting.
+   Docker is not recommended for Production hosting.
     
 
 Download the Quail binary and unzip:
