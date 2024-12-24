@@ -16,12 +16,11 @@ Overview
 
 You can obtain URLs from GetCapabilities as well as Store and Layer info function.
 
-Below is a Quick Refernce for common URL formats.
+Below, we'll use the BGSGrid demo layer for examples of common URLS.
+
 
 WMS
 ================
-
-Below, we'll use the BGSGrid demo layer for examples.
 
 PNG using MapProxy
 
