@@ -50,7 +50,7 @@ Highlight Tree 2
 
 
 
-      https://quail-docker.webgis1.com/mproxy/service?service=WMS&version=1.1.0&request=GetMap&layers=bgsgrid&bbox=-8.476567%2C49.796537%2C2.873641%2C60.911296&width=638&styles&height=768&srs=EPSG%3A4326&FORMAT=image%2Fpng
+https://quail-docker.webgis1.com/mproxy/service?service=WMS&version=1.1.0&request=GetMap&layers=bgsgrid&bbox=-8.476567%2C49.796537%2C2.873641%2C60.911296&width=638&styles&height=768&srs=EPSG%3A4326&FORMAT=image%2Fpng
 
 Private Layer (Using Access Key::
 
