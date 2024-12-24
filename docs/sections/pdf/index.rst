@@ -21,30 +21,25 @@ Preview
 
 To preview a PDF, simply use the WMS url with OUTPUTFORMAT=PDF as below
 
-Table of Contents
-
-
-get pdf
-
 .. image:: get-pdf.png
 
-pdf layers icon
+In the right menu, click the Layers icon
 
 .. image:: pdf-layers-icon.png
 
-pdf layers
+From here, you can toggle layer visibility
 
 .. image:: pdf-layers.png
 
-Tree icon
+Click the Tree icon
 
 .. image:: tree-icon.png
 
-Highlight Tree 1
+The Tree Model displays feature information
 
 .. image:: tree-hightlight-1.png
 
-Highlight Tree 2
+Expand the nodes to view
 
 .. image:: tree-hightlight-2.png
 
