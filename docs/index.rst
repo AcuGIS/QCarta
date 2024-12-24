@@ -1,6 +1,16 @@
 Quail
 ==================================================
 
+
+
+Quail is a QGIS Server Layer Server and Administration UI.
+
+You can easily publish your QGIS Projects to create OGC Web Services
+
+You can also create OGC Web Services directly from many Geospatial formats, such as GeoTIFFs, PostGIS, Shape Files, and GeoPackages.
+
+Layers are served via integrated MapProxy and can be either Public or Authenticated.
+
 .. image:: _static/quail-public-layers.png
 
 .. include:: ../README.rst
