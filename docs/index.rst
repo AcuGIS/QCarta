@@ -43,13 +43,13 @@ Quail also contains a basic Map Portal that automatically creates Leaflet Maps y
     sections/layers/index
     sections/preview/index  
     sections/capabilities/index
+    sections/urls/index  
     sections/mapproxy/index
     sections/viewer/index
     sections/sample/index
     sections/security/index 
     sections/cors/index
-    sections/api/index 
-    sections/urls/index
+    sections/api/index    
     sections/plugins/index
     sections/branding/index
     
