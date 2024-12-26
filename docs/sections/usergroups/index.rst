@@ -23,7 +23,7 @@ On installation, two Groups are created.
 
 * Default (an Administrator)
    * Members: Quail Admin   
-* CloentGroup1
+* ClientGroup1
    * Members: Jane Doe
    
 
