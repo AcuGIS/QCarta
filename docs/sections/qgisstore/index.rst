@@ -14,18 +14,12 @@ QGIS Stores
 Overview
 ==================
 
-A QGIS Store consists of your QGIS Project file, along with any static files if using a static data source.
+A QGIS Store consists of your QGIS Project file, along with any Raster, Vector, and static files.
+
+If your QGIS Project uses a PostGIS data source, you can create a PostGIS Store.
 
 Create a QGIS Store
 ================
-
-Examples of static data sources include:
-
-* GeoTiff
-* shapefile
-* GeoPackage
-* GeoJson
-* etc....
 
 Below, we'll create a QGIS Store that uses ESRI shapefile as the data source.
 
