@@ -16,24 +16,25 @@ Overview
 
 Quail divides Stores into two types:
 
-* File Store
+* QGIS Store
 * PostGIS Store
 
 These Stores can be used to support virtually all GIS data formats.
 
-File Store
+QGIS Store
 ================
 
 A File Store can be created from any of the following:
 
  - A QGIS Project File and any associated Raster, Vector, and static files.
  - Spatial Data File Only.  Supported types are TIFF, GeoTIFF, Shapefile, or GeoJSON
- - A PostGIS Store
+ - A QGIS Store
 
 Examples of static data sources include:
 
 * GeoTiff
-* shapefile
+* GeoDatabase
+* Shapefile
 * GeoPackage
 * GeoJson
 * etc....
@@ -45,16 +46,18 @@ Examples of static data sources include:
 PostGIS Store
 =====================
 
-A PostGIS Store is used when your QGIS Project is used when
+A PostGIS Store is used when
 
 1. Your QGIS Project uses data from a PostGIS Layer
 2. You wish to convert your static data to PostGIS
 
 If you wish to convert a static data source to PostGIS, you can upload the following
 
-* Esri Shapefile
 * GeoPackage
+* Esri Shapefile
 * PostGIS dump
+
+Other formats can be loaded using ogr2ogr
 
 
 
