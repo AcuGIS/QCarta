@@ -72,6 +72,9 @@ Note: If you see below when navigating to your domain, remove the default index.
 Docker Install
 =======================
 
+.. warning::
+   Docker is not recommended for Production hosting.
+
 To install using Docker:
 
 Go to the Docker directory open the quail.conf file and set the SERVER_NAME to your machines hostname.
