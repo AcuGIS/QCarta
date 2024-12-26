@@ -6,15 +6,23 @@ Overview
 
 Quail is a lightweight Administration tool and layer server for QGIS Server.
 
+   - Create OGC Web Services from your QGIS Projects
+   - Create OGC Web Services directly from many Geospatial formats
+   - Create OGC Web Services from PostGIS
+   - Intergrated MapProxy for Layer Caching
+   - Group Level permissions for Stores and Layers
+
+Quail also contains a basic Map Portal that automatically creates Leaflet Maps you can share and customize with Group Level permissions
+
 The workflow is similar to GeoServer. You create Stores from data sources. From Stores, you create Layers.
 
 Creation of Stores is simplified by providing only two Store types: QGIS and PostGIS
 
 **QGIS Stores**
 
-These consists of your QGIS Project and any flat files required. Flat files are Raster files, Vector files, static files, etc ...
+These consists of your QGIS Project and any Raster, Vector, and static files.
 
-If your QGIS Project uses a PostGIS source, you can create a PostGIS Store for it.
+If your QGIS Project uses a PostGIS data source, you can create a PostGIS Store for it.
 
 **PostGIS Stores**
 
@@ -26,7 +34,7 @@ You can also create PostGIS databases from a variety of formats, such as geopack
 
 Layers are created from QGIS and PostGIS Stores.
 
-You can create any number of Layers from any given Store.
+Layers provide OGC Web Services that are served via MapProxy
 
 **MapProxy**
 
@@ -73,6 +81,9 @@ Components
 * PHP
 * SimpleWebrowser
 * WFSExtension
+* OpenLayers
+* Leafletjs
+* Bootstrap 5
 
 Open Source
 -----------
