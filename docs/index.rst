@@ -7,9 +7,9 @@ Quail is a QGIS Server Administration UI and Layer Server.
 
    - Create OGC Web Services from your QGIS Projects
    - Create OGC Web Services directly from many Geospatial formats
+   - Create OGC Web Services from PostGIS
    - Intergrated MapProxy for Caching
    - Group Level permissions for Stores and Layers
-
 
 Quail also contains a basic Map Portal that automatically creates Leaflet Maps you can share and customize with Group Level permissions
 
