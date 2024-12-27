@@ -28,27 +28,27 @@ Create From Connection
 
 To add a new Link, click the "Add New" button at top.
 
-.. image:: add-new-postgis-store.png
+.. image:: ../postgisstores/../postgisstores/add-new-postgis-store.png
 
 Populate the required fields for your PostgreSQL connection
 
-.. image:: 2-add-new.png
+.. image:: ../postgisstores/2-add-new.png
 
 Under Database, click the "Load Database Names" icon
 
-.. image:: 3-add-new.png
+.. image:: ../postgisstores/3-add-new.png
 
 The list of available databases will appear.  Select the database you wish to connect to.
 
-.. image:: 4-add-new.png
+.. image:: ../postgisstores/4-add-new.png
 
 Select the Group(s) that will have permission to the Store
 
-.. image:: 5-add-new.png
+.. image:: ../postgisstores/5-add-new.png
 
 Click Save.  Your Store has been created.
 
-.. image:: 6-add-new.png
+.. image:: ../postgisstores/6-add-new.png
 
 
 Create From File(s)
@@ -60,25 +60,25 @@ You can also create databases from PostGIS backups.
 
 To create a PostGIS database from a file, click the Create button at top right
 
-.. image:: create-new-store.png
+.. image:: ../postgisstores/create-new-store.png
 
 Give your database a name and click the Choose Files button.
 
 
-.. image:: create-store-from-geopackage-0.png
+.. image:: ../postgisstores/create-store-from-geopackage-0.png
 
 Browse to the file(s) location
 
 
-.. image:: create-store-from-geopackage.png
+.. image:: ../postgisstores/create-store-from-geopackage.png
 
 Click the Impprt button
 
-.. image:: create-store-from-geopackage-2.png
+.. image:: ../postgisstores/create-store-from-geopackage-2.png
 
 The import results are displayed at the bottom of the page.
 
-.. image:: create-store-from-geopackage-3.png
+.. image:: ../postgisstores/create-store-from-geopackage-3.png
 
 
 .. note::
@@ -95,23 +95,23 @@ To create an empty PostGIS database,
 
 Click the Create Button
 
-.. image:: create-new-store.png
+.. image:: ../postgisstores/create-new-store.png
 
 Give your database a name and check the "Create Only" box.
 
-.. image:: create-db-only.png
+.. image:: ../postgisstores/create-db-only.png
 
 Your database has been created and added as a PostGIS Store
 
-.. image:: db-connection-info.png
+.. image:: ../postgisstores/db-connection-info.png
 
 To view the database connection information, click the Connection icon at right
 
-.. image:: show-connection.png
+.. image:: ../postgisstores/show-connection.png
 
 This information can be used in your pg_service.conf file and any other location
 
-.. image:: pg-service-connection.png
+.. image:: ../postgisstores/pg-service-connection.png
 
 
 Layer Creation
@@ -124,71 +124,71 @@ Once you have created a PostGIS Store, it can be used to create a PostGIS Layer.
 
 create-postgis-completed.png
 
-.. image:: create-postgis-completed.png
+.. image:: ../postgisstores/create-postgis-completed.png
 
 create-postgis-completed-qgs-confirm.png
 
-.. image:: create-postgis-completed-qgs-confirm.png
+.. image:: ../postgisstores/create-postgis-completed-qgs-confirm.png
 
 create-postgis-database.png
 
-.. image:: create-postgis-database.png
+.. image:: ../postgisstores/create-postgis-database.png
 
 create-postgis-database-completed.png
 
-.. image:: create-postgis-database-completed.png
+.. image:: ../postgisstores/create-postgis-database-completed.png
 
 create-postgis-import.png
 
-.. image:: create-postgis-import.png
+.. image:: ../postgisstores/create-postgis-import.png
 
 create-postgis-upload.png
 
-.. image:: create-postgis-upload.png
+.. image:: ../postgisstores/create-postgis-upload.png
 
 create-postgis-upload-qgs-option.png
 
-.. image:: create-postgis-upload-qgs-option.png
+.. image:: ../postgisstores/create-postgis-upload-qgs-option.png
 
 create-postgis-upload-selected.png
 
-.. image:: create-postgis-upload-selected.png
+.. image:: ../postgisstores/create-postgis-upload-selected.png
 
 postgis-backup.png
 
-.. image:: postgis-backup.png
+.. image:: ../postgisstores/postgis-backup.png
 
 postgis-backup-name.png
 
-.. image:: postgis-backup-name.png
+.. image:: ../postgisstores/postgis-backup-name.png
 
 postgis-clone.png
 
-.. image:: postgis-clone.png
+.. image:: ../postgisstores/postgis-clone.png
 
 postgis-clone-clone.png
 
-.. image:: postgis-clone-clone.png
+.. image:: ../postgisstores/postgis-clone-clone.png
 
 postgis-clone-verified.png
 
-.. image:: postgis-clone-verified.png
+.. image:: ../postgisstores/postgis-clone-verified.png
 
 postgis-restore.png
 
-.. image:: postgis-restore.png
+.. image:: ../postgisstores/postgis-restore.png
 
 postgis-restore-select.png
 
-.. image:: postgis-restore-select.png
+.. image:: ../postgisstores/postgis-restore-select.png
 
 postgis-show-connection.png
 
-.. image:: postgis-show-connection.png
+.. image:: ../postgisstores/postgis-show-connection.png
 
 postgis-show-connection-show.png
 
-.. image:: postgis-show-connection-show.png
+.. image:: ../postgisstores/postgis-show-connection-show.png
 
 
 
