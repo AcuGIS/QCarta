@@ -122,9 +122,73 @@ If your QGIS Project uses a PostGIS backend, the PostGIS Store will be automatic
 Once you have created a PostGIS Store, it can be used to create a PostGIS Layer.
 
 
+create-postgis-completed.png
 
+.. image:: create-postgis-completed.png
 
+create-postgis-completed-qgs-confirm.png
 
+.. image:: create-postgis-completed-qgs-confirm.png
+
+create-postgis-database.png
+
+.. image:: create-postgis-database.png
+
+create-postgis-database-completed.png
+
+.. image:: create-postgis-database-completed.png
+
+create-postgis-import.png
+
+.. image:: create-postgis-import.png
+
+create-postgis-upload.png
+
+.. image:: create-postgis-upload.png
+
+create-postgis-upload-qgs-option.png
+
+.. image:: create-postgis-upload-qgs-option.png
+
+create-postgis-upload-selected.png
+
+.. image:: create-postgis-upload-selected.png
+
+postgis-backup.png
+
+.. image:: postgis-backup.png
+
+postgis-backup-name.png
+
+.. image:: postgis-backup-name.png
+
+postgis-clone.png
+
+.. image:: postgis-clone.png
+
+postgis-clone-clone.png
+
+.. image:: postgis-clone-clone.png
+
+postgis-clone-verified.png
+
+.. image:: postgis-clone-verified.png
+
+postgis-restore.png
+
+.. image:: postgis-restore.png
+
+postgis-restore-select.png
+
+.. image:: postgis-restore-select.png
+
+postgis-show-connection.png
+
+.. image:: postgis-show-connection.png
+
+postgis-show-connection-show.png
+
+.. image:: postgis-show-connection-show.png
 
 
 
