@@ -27,11 +27,9 @@ System Requirements
 ECW Support
 ========================
 
-.. note::
+For ECW Support, use the Quail ECW Support installer prior to installation
 
-   For ECW Support, use the Quail ECW Support installer prior to installation
-
-   https://github.com/AcuGIS/quail-ecw-support
+https://github.com/AcuGIS/quail-ecw-support
 
 
 Installer (Recommended)
