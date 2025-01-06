@@ -24,6 +24,16 @@ System Requirements
     Seeding and tile generation can be CPU intensive for larger data sets.  Plan accordingly.
 
 
+ECW Support
+========================
+
+.. note::
+
+   For ECW Support, use the Quail ECW Support installer prior to installation
+
+   https://github.com/AcuGIS/quail-ecw-support
+
+
 Installer (Recommended)
 =======================
 
