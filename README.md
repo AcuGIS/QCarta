@@ -2,18 +2,18 @@
 
 [![Documentation Status](https://readthedocs.org/projects/quailserver/badge/?version=latest)](https://quail.docs.acugis.com/en/latest/?badge=latest)
 
-## Transform your qgis2web maps into secure, dyanmic maps.  
+## QGIS Server Adminstration and Layer Server 
 
-QuartzMap allows you to transform your qgis2web maps into secure, dynamic maps.  
+Publish your QGIS Projects as OGC Web Services.  
 
-QuartzMap now also includes support for R apps as well.
+Group level permissions and integration MapProxy caching.
 
 ![QuartzMap](QuartzMap-Main.png)
    
 ## Requirements
 
 - Ubuntu 24
-- 2 GB RAM (4 GB RAM if installing Demo Data)
+- 2 GB RAM
 - 15 GB Disk
 
 ## Install
