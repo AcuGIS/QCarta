@@ -1,0 +1,15 @@
+[Unit]
+Description=Mapproxy Seed
+
+[Service]
+WorkingDirectory=DATA_DIR/mapproxy
+User=www-data
+ExecStart=/usr/bin/mapproxy-seed -c 2 --cleanup=ALL --seed=ALL -f mapproxy.yaml -s DATA_DIR/layers/%i/seed.yaml --progress-file DATA_DIR/layers/%i/mapproxy_seed_progress --continue
+ExecStop=/bin/kill -s SIGTERM $MAINPID
+
+
+StandardOutput=truncate:DATA_DIR/layers/%i/seed.log
+StandardError=truncate:DATA_DIR/layers/%i/seed.log
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,37 @@
+services:
+  demo:
+  tms:
+    use_grid_names: true
+    # origin for /tiles service
+    origin: 'nw'
+  kml:
+      use_grid_names: true
+  wmts:
+  wms:
+    md:
+      title: MapProxy WMS Proxy
+      abstract: This is a minimal MapProxy example.
+
+layers:
+
+caches:
+  osm_cache:
+    grids: [webmercator]
+    request_format: image/png
+    format: image/png
+    sources: []
+
+
+sources:
+
+grids:
+    webmercator:
+        base: GLOBAL_WEBMERCATOR
+
+globals:
+  image:
+    formats:
+      imgformat:
+        format: image/png
+        mode: P
+        transparent: true

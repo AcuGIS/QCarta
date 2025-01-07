@@ -1,0 +1,27 @@
+ul {
+  list-style-type: none;
+}
+		
+ul li{
+ font-size:14px;
+}
+		
+li {
+  margin: 10px 0;
+}
+		
+.quail-link a {text-decoration: none}
+		
+ol, ul {
+  padding-left: 0rem!important;
+}
+		
+.px-3 {
+  padding-right: 1rem !important;
+  padding-left: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+#content a {
+  color: #444;
+  text-decoration: none;
+}	

@@ -1,0 +1,1639 @@
+<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
+<qgis version="3.34.3-Prizren" projectname="" saveUser="david" saveUserFull="David Ghedini" saveDateTime="2024-12-04T10:37:44">
+  <homePath path=""/>
+  <title>Monarch Habitats</title>
+  <transaction mode="Disabled"/>
+  <projectFlags set=""/>
+  <projectCrs>
+    <spatialrefsys nativeFormat="Wkt">
+      <wkt>GEOGCRS["NAD83",DATUM["North American Datum 1983",ELLIPSOID["GRS 1980",6378137,298.257222101,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic latitude (Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic longitude (Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["Geodesy."],AREA["North America - onshore and offshore: Canada - Alberta; British Columbia; Manitoba; New Brunswick; Newfoundland and Labrador; Northwest Territories; Nova Scotia; Nunavut; Ontario; Prince Edward Island; Quebec; Saskatchewan; Yukon. Puerto Rico. United States (USA) - Alabama; Alaska; Arizona; Arkansas; California; Colorado; Connecticut; Delaware; Florida; Georgia; Hawaii; Idaho; Illinois; Indiana; Iowa; Kansas; Kentucky; Louisiana; Maine; Maryland; Massachusetts; Michigan; Minnesota; Mississippi; Missouri; Montana; Nebraska; Nevada; New Hampshire; New Jersey; New Mexico; New York; North Carolina; North Dakota; Ohio; Oklahoma; Oregon; Pennsylvania; Rhode Island; South Carolina; South Dakota; Tennessee; Texas; Utah; Vermont; Virginia; Washington; West Virginia; Wisconsin; Wyoming. US Virgin Islands. British Virgin Islands."],BBOX[14.92,167.65,86.45,-40.73]],ID["EPSG",4269]]</wkt>
+      <proj4>+proj=longlat +datum=NAD83 +no_defs</proj4>
+      <srsid>3401</srsid>
+      <srid>4269</srid>
+      <authid>EPSG:4269</authid>
+      <description>NAD83</description>
+      <projectionacronym>longlat</projectionacronym>
+      <ellipsoidacronym>EPSG:7019</ellipsoidacronym>
+      <geographicflag>true</geographicflag>
+    </spatialrefsys>
+  </projectCrs>
+  <elevation-shading-renderer combined-method="0" light-azimuth="315" edl-is-active="1" edl-distance="0.5" edl-distance-unit="0" hillshading-is-active="0" edl-strength="1000" hillshading-is-multidirectional="0" light-altitude="45" is-active="0" hillshading-z-factor="1"/>
+  <layer-tree-group>
+    <customproperties>
+      <Option/>
+    </customproperties>
+    <layer-tree-layer legend_split_behavior="0" checked="Qt::Checked" providerKey="ogr" id="Activity_MBHR_PL_7ed8c0f4_7e9d_4c86_8868_3340b8e1d893" expanded="1" source="./S_USA.Activity_MBHR_PL.gdb|layername=Activity_MBHR_PL" patch_size="-1,-1" name="S_USA.Activity_MBHR_PL — Activity_MBHR_PL" legend_exp="">
+      <customproperties>
+        <Option/>
+      </customproperties>
+    </layer-tree-layer>
+    <custom-order enabled="0">
+      <item>Activity_MBHR_PL_7ed8c0f4_7e9d_4c86_8868_3340b8e1d893</item>
+    </custom-order>
+  </layer-tree-group>
+  <snapping-settings enabled="0" tolerance="12" minScale="0" self-snapping="0" mode="2" scaleDependencyMode="0" maxScale="0" unit="1" intersection-snapping="0" type="1">
+    <individual-layer-settings>
+      <layer-setting enabled="0" tolerance="12" minScale="0" units="1" maxScale="0" id="Activity_MBHR_PL_7ed8c0f4_7e9d_4c86_8868_3340b8e1d893" type="1"/>
+    </individual-layer-settings>
+  </snapping-settings>
+  <relations/>
+  <polymorphicRelations/>
+  <mapcanvas annotationsVisible="1" name="theMapCanvas">
+    <units>degrees</units>
+    <extent>
+      <xmin>-95.0654720132783666</xmin>
+      <ymin>34.23288768152126949</ymin>
+      <xmax>-93.95176240706899762</xmax>
+      <ymax>34.81652643075721443</ymax>
+    </extent>
+    <rotation>0</rotation>
+    <destinationsrs>
+      <spatialrefsys nativeFormat="Wkt">
+        <wkt>GEOGCRS["NAD83",DATUM["North American Datum 1983",ELLIPSOID["GRS 1980",6378137,298.257222101,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic latitude (Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic longitude (Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["Geodesy."],AREA["North America - onshore and offshore: Canada - Alberta; British Columbia; Manitoba; New Brunswick; Newfoundland and Labrador; Northwest Territories; Nova Scotia; Nunavut; Ontario; Prince Edward Island; Quebec; Saskatchewan; Yukon. Puerto Rico. United States (USA) - Alabama; Alaska; Arizona; Arkansas; California; Colorado; Connecticut; Delaware; Florida; Georgia; Hawaii; Idaho; Illinois; Indiana; Iowa; Kansas; Kentucky; Louisiana; Maine; Maryland; Massachusetts; Michigan; Minnesota; Mississippi; Missouri; Montana; Nebraska; Nevada; New Hampshire; New Jersey; New Mexico; New York; North Carolina; North Dakota; Ohio; Oklahoma; Oregon; Pennsylvania; Rhode Island; South Carolina; South Dakota; Tennessee; Texas; Utah; Vermont; Virginia; Washington; West Virginia; Wisconsin; Wyoming. US Virgin Islands. British Virgin Islands."],BBOX[14.92,167.65,86.45,-40.73]],ID["EPSG",4269]]</wkt>
+        <proj4>+proj=longlat +datum=NAD83 +no_defs</proj4>
+        <srsid>3401</srsid>
+        <srid>4269</srid>
+        <authid>EPSG:4269</authid>
+        <description>NAD83</description>
+        <projectionacronym>longlat</projectionacronym>
+        <ellipsoidacronym>EPSG:7019</ellipsoidacronym>
+        <geographicflag>true</geographicflag>
+      </spatialrefsys>
+    </destinationsrs>
+    <rendermaptile>0</rendermaptile>
+    <expressionContextScope/>
+  </mapcanvas>
+  <StateDataPlotly>
+    <Option type="Map">
+      <Option value="AdnQywADAAD/////////+AAAB4AAAAQQAAAAAAAAAB8AAAUlAAADQQAAAAACAAAAB4AAAAAAAAAAFwAAB38AAAQP" name="geometry" type="QString"/>
+      <Option value="AAAA/wAAA+f9AAAABAAAAAAAAAHvAAADVvwCAAAAD/wAAACHAAAArgAAAHgA////+gAAAAIBAAAAA/sAAAAMAEwAZQBnAGUAbgBkAQAAAAD/////AAAAAAAAAAD7AAAAFABMAGEAeQBlAHIATwByAGQAZQByAAAAAAD/////AAAAigD////7AAAADgBCAHIAbwB3AHMAZQByAQAAAAD/////AAAARgD////7AAAAEABPAHYAZQByAHYAaQBlAHcAAAAB1wAAAMQAAAATAP////sAAAAiAEMAbwBvAHIAZABpAG4AYQB0AGUAQwBhAHAAdAB1AHIAZQAAAAF+AAAAoAAAAAAAAAAA+wAAAAgAVQBuAGQAbwAAAAHkAAAA3AAAAAAAAAAA+wAAABAAQgByAG8AdwBzAGUAcgAyAAAAAhMAAACtAAAAfAD////7AAAAHABHAFAAUwBJAG4AZgBvAHIAbQBhAHQAaQBvAG4AAAABuwAAAQUAAABdAP////sAAAAoAGQAdwBPAHAAZQBuAGwAYQB5AGUAcgBzAE8AdgBlAHIAdgBpAGUAdwAAAAFkAAABNwAAAAAAAAAA+wAAABwAdQBuAGQAbwAvAHIAZQBkAG8AIABkAG8AYwBrAAAAAAD/////AAAA7wD////7AAAALgBBAGQAdgBhAG4AYwBlAGQARABpAGcAaQB0AGkAegBpAG4AZwBUAG8AbwBsAHMAAAAAAP////8AAADYAP////sAAAA0AFMAdABhAHQAaQBzAHQAYQBsAFMAdQBtAG0AYQByAHkARABvAGMAawBXAGkAZABnAGUAdAAAAAAA/////wAAAAAAAAAA+wAAACYAQgBvAG8AawBtAGEAcgBrAHMARABvAGMAawBXAGkAZABnAGUAdAAAAAAA/////wAAAHgA////+wAAAAwATABhAHkAZQByAHMBAAABOwAAAqIAAAB4AP////sAAAA4AFMAdABhAHQAaQBzAHQAaQBjAGEAbABTAHUAbQBtAGEAcgB5AEQAbwBjAGsAVwBpAGQAZwBlAHQAAAAAAP////8AAAC9AP////sAAAAYAFYAZQByAHQAZQB4AEUAZABpAHQAbwByAAAAAAD/////AAAAXQD////7AAAAHgBRAGcAaQBzAEMAbABvAHUAZABQAGwAdQBnAGkAbgAAAAAA/////wAAAZgA////AAAAAQAAAtkAAANW/AIAAAAO+wAAAB4AUwBlAHgAdABhAG4AdABlAFQAbwBvAGwAYgBvAHgAAAAAZwAAAjQAAAAAAAAAAPwAAACHAAADVgAAAAAA////+v////8BAAAAAvsAAAAYAEwAYQB5AGUAcgBTAHQAeQBsAGkAbgBnAgAABS0AAACgAAACUwAAA1T7AAAAIgBQAHIAbwBjAGUAcwBzAGkAbgBnAFQAbwBvAGwAYgBvAHgAAAAAAP////8AAABkAP////sAAAAQAEQAZQB2AFQAbwBvAGwAcwAAAAAA/////wAAAF0A////+wAAABoAUgBlAHMAdQBsAHQAcwBWAGkAZQB3AGUAcgAAAAAA/////wAAAR0A////+wAAABQARABvAGMAawBXAGkAZABnAGUAdAAAAACHAAADVgAAAJEA////+wAAACYASQBkAGUAbgB0AGkAZgB5AFIAZQBzAHUAbAB0AHMARABvAGMAawAAAACHAAADVgAAALsA////+wAAACIAUQBtAHMAUwBlAHIAdgBpAGMAZQBUAG8AbwBsAGIAbwB4AAAAAIcAAANWAAAAuwD////7AAAANABEAGEAdABhAFAAbABvAHQAbAB5AC0ARABhAHQAYQBQAGwAbwB0AGwAeQAtAEQAbwBjAGsCAAADdQAAAPUAAAKNAAADQ/sAAAAUAEQAbwBjAGsAVwBpAGQAZwBlAHQAAAADHwAAAL4AAAAAAAAAAPsAAAAUAEQAbwBjAGsAVwBpAGQAZwBlAHQAAAADHgAAAL8AAAAAAAAAAPsAAAAwAFMAdAByAGkAcABDAGgAYQByAHQARABvAGMAawBXAGkAZABnAGUAdABCAGEAcwBlAAAAAAD/////AAAAuAD////7AAAAFABEAG8AYwBrAFcAaQBkAGcAZQB0AQAAAIcAAANWAAAAAAAAAAD7AAAAIAB0AGgAZQBUAGkAbABlAFMAYwBhAGwAZQBEAG8AYwBrAAAAAAD/////AAAAeQD////7/////wAAAAAA/////wAAAswA////AAAAAgAABq8AAAEf/AEAAAAB+wAAACYAVABlAG0AcABvAHIAYQBsACAAQwBvAG4AdAByAG8AbABsAGUAcgAAAAAA/////wAAAk4A////AAAAAwAABYsAAAFU/AEAAAAE+wAAABQATQBlAHMAcwBhAGcAZQBMAG8AZwAAAAH1AAAFiwAAAH8A////+wAAACYAVQBzAGUAcgBJAG4AcAB1AHQARABvAGMAawBXAGkAZABnAGUAdAIAAAAAAAAAAAAAAMgAAABk+wAAABoAUAB5AHQAaABvAG4AQwBvAG4AcwBvAGwAZQEAAAFPAAAFrwAAAAAAAAAA+wAAADIAUwBlAG4AdABpAG4AZQBsAEgAdQBiAEQAbwBjAGsAVwBpAGQAZwBlAHQAQgBhAHMAZQEAAAE0AAAD5wAAAAAAAAAAAAAFiwAAA1YAAAABAAAAAgAAAAEAAAAC/AAAAA0AAAAAAAAAAQAAABoAbQBMAGEAeQBlAHIAVABvAG8AbABCAGEAcgIAAADC/////wAAAAAAAAAAAAAAAQAAAAAAAAACAAAAAAAAAAIAAAAAAAAAAgAAAAQAAAAYAG0ARgBpAGwAZQBUAG8AbwBsAEIAYQByAQAAAAD/////AAAAAAAAAAAAAAAcAG0ATQBhAHAATgBhAHYAVABvAG8AbABCAGEAcgEAAADW/////wAAAAAAAAAAAAAAIgBtAFMAZQBsAGUAYwB0AGkAbwBuAFQAbwBvAGwAQgBhAHIBAAAC9v////8AAAAAAAAAAAAAACQAbQBBAHQAdAByAGkAYgB1AHQAZQBzAFQAbwBvAGwAQgBhAHIBAAADuv////8AAAAAAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAACAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAACAAAACAAAADIAbQBEAGEAdABhAFMAbwB1AHIAYwBlAE0AYQBuAGEAZwBlAHIAVABvAG8AbABCAGEAcgEAAAAA/////wAAAAAAAAAAAAAAIABtAEQAaQBnAGkAdABpAHoAZQBUAG8AbwBsAEIAYQByAQAAAPf/////AAAAAAAAAAAAAAAaAG0ATABhAGIAZQBsAFQAbwBvAGwAQgBhAHIBAAACzP////8AAAAAAAAAAAAAACAAbQBEAGEAdABhAGIAYQBzAGUAVABvAG8AbABCAGEAcgAAAAJv/////wAAAAAAAAAAAAAAFgBtAFcAZQBiAFQAbwBvAGwAQgBhAHIBAAAEE/////8AAAAAAAAAAAAAABwAbQBQAGwAdQBnAGkAbgBUAG8AbwBsAEIAYQByAQAABQr/////AAAAAAAAAAAAAAAYAG0ASABlAGwAcABUAG8AbwBsAEIAYQByAQAABnD/////AAAAAAAAAAAAAAAcAG0AVgBlAGMAdABvAHIAVABvAG8AbABCAGEAcgEAAAahAAACKQAAAAAAAAAAAAAAAgAAAAMAAAAwAG0AQQBkAHYAYQBuAGMAZQBkAEQAaQBnAGkAdABpAHoAZQBUAG8AbwBsAEIAYQByAAAAAAD/////AAAAAAAAAAAAAAAcAG0AUgBhAHMAdABlAHIAVABvAG8AbABCAGEAcgAAAAAAAAACsAAAAAAAAAAAAAAAIABtAFMAbgBhAHAAcABpAG4AZwBUAG8AbwBsAEIAYQByAAAAAAD/////AAAAAAAAAAAAAAACAAAADgAAACoAbQBTAGgAYQBwAGUARABpAGcAaQB0AGkAegBlAFQAbwBvAGwAQgBhAHIAAAAAAP////8AAAAAAAAAAAAAABgAbQBNAGUAcwBoAFQAbwBvAGwAQgBhAHIAAAAAuP////8AAAAAAAAAAAAAACYAbQBBAG4AbgBvAHQAYQB0AGkAbwBuAHMAVABvAG8AbABCAGEAcgAAAAC4/////wAAAAAAAAAAAAAAFgBtAEcAcABzAFQAbwBvAGwAQgBhAHIAAAAAAP////8CTQhhACeB1wAAABQAUwBMAEQANAByAGEAcwB0AGUAcgEAAAAA/////wAAAAAAAAAAAAAAIgBNAGUAcgBnAGkAbgBNAGEAcABzAFQAbwBvAGwAYgBhAHIBAAAAMf////8AAAAAAAAAAAAAACQAUQBGAGkAZQBsAGQAUwB5AG4AYwAgAFQAbwBvAGwAYgBhAHIBAAAAxf////8AAAAAAAAAAP////8BAAABgf////8AAAAAAAAAAAAAABwAUwByAHQAbQBEAG8AdwBuAGwAbwBhAGQAZQByAQAAAbL/////AAAAAAAAAAAAAAAcAEQAYQB0AGEAVgBpAHMAVABvAG8AbABiAGEAcgEAAAHD/////wAAAAAAAAAAAAAAFABTAHQAcgBpAHAAYwBoAGEAcgB0AQAAAfT/////AAAAAAAAAAAAAAAqAEIAYQB0AGMAaABWAGUAYwB0AG8AcgBMAGEAeQBlAHIAUwBhAHYAZQByAQAAAiX/////AAAAAAAAAAAAAAAUAFEAdQBpAGMAawBQAHIAaQBuAHQBAAACVv////8AAAAAAAAAAAAAABAAUQB1AGkAYwBrAE8AUwBNAQAAAof/////AAAAAAAAAAA=" name="state" type="QString"/>
+    </Option>
+  </StateDataPlotly>
+  <DataPlotly>
+    <Option type="Map">
+      <Option name="dynamic_properties" type="Map">
+        <Option value="" name="name" type="QString"/>
+        <Option name="properties"/>
+        <Option value="collection" name="type" type="QString"/>
+      </Option>
+      <Option name="plot_layout" type="Map">
+        <Option value="precip" name="additional_info_expression" type="QString"/>
+        <Option value="group" name="bar_mode" type="QString"/>
+        <Option value="0" name="bargaps" type="double"/>
+        <Option value="false" name="bins_check" type="bool"/>
+        <Option value="#000000" name="font_title_color" type="QString"/>
+        <Option value="Arial" name="font_title_family" type="QString"/>
+        <Option value="10" name="font_title_size" type="int"/>
+        <Option value="#000000" name="font_xlabel_color" type="QString"/>
+        <Option value="Arial" name="font_xlabel_family" type="QString"/>
+        <Option value="10" name="font_xlabel_size" type="int"/>
+        <Option value="#000000" name="font_xticks_color" type="QString"/>
+        <Option value="Arial" name="font_xticks_family" type="QString"/>
+        <Option value="10" name="font_xticks_size" type="int"/>
+        <Option value="#000000" name="font_ylabel_color" type="QString"/>
+        <Option value="Arial" name="font_ylabel_family" type="QString"/>
+        <Option value="10" name="font_ylabel_size" type="int"/>
+        <Option value="#000000" name="font_yticks_color" type="QString"/>
+        <Option value="Arial" name="font_yticks_family" type="QString"/>
+        <Option value="10" name="font_yticks_size" type="int"/>
+        <Option value="#bdbfc0" name="gridcolor" type="QString"/>
+        <Option value="true" name="legend" type="bool"/>
+        <Option value="v" name="legend_orientation" type="QString"/>
+        <Option name="legend_title" type="invalid"/>
+        <Option name="polar" type="Map">
+          <Option name="angularaxis" type="Map">
+            <Option value="clockwise" name="direction" type="QString"/>
+          </Option>
+        </Option>
+        <Option name="range_slider" type="Map">
+          <Option value="1" name="borderwidth" type="int"/>
+          <Option value="false" name="visible" type="bool"/>
+        </Option>
+        <Option value="" name="title" type="QString"/>
+        <Option name="x_inv" type="invalid"/>
+        <Option name="x_max" type="invalid"/>
+        <Option name="x_min" type="invalid"/>
+        <Option value="" name="x_title" type="QString"/>
+        <Option value="linear" name="x_type" type="QString"/>
+        <Option name="xaxis" type="invalid"/>
+        <Option name="y_inv" type="invalid"/>
+        <Option name="y_max" type="invalid"/>
+        <Option name="y_min" type="invalid"/>
+        <Option value="" name="y_title" type="QString"/>
+        <Option value="linear" name="y_type" type="QString"/>
+        <Option value="" name="z_title" type="QString"/>
+      </Option>
+      <Option name="plot_properties" type="Map">
+        <Option name="additional_hover_text" type="invalid"/>
+        <Option value="10" name="bins" type="int"/>
+        <Option value="v" name="box_orientation" type="QString"/>
+        <Option value="false" name="box_outliers" type="bool"/>
+        <Option value="false" name="box_stat" type="bool"/>
+        <Option value="Greys" name="color_scale" type="QString"/>
+        <Option value="false" name="color_scale_data_defined_in_check" type="bool"/>
+        <Option value="false" name="color_scale_data_defined_in_invert_check" type="bool"/>
+        <Option value="fill" name="cont_type" type="QString"/>
+        <Option value="Fill" name="contour_type_combo" type="QString"/>
+        <Option value="false" name="cumulative" type="bool"/>
+        <Option name="custom" type="List">
+          <Option value="precip" type="QString"/>
+        </Option>
+        <Option value="auto" name="hover_label_position" type="QString"/>
+        <Option name="hover_label_text" type="invalid"/>
+        <Option value="all" name="hover_text" type="QString"/>
+        <Option value="#8ebad9" name="in_color" type="QString"/>
+        <Option value="false" name="invert_color_scale" type="bool"/>
+        <Option value="increasing" name="invert_hist" type="QString"/>
+        <Option value="false" name="layout_filter_by_atlas" type="bool"/>
+        <Option value="false" name="layout_filter_by_map" type="bool"/>
+        <Option value="Solid Line" name="line_combo" type="QString"/>
+        <Option value="solid" name="line_dash" type="QString"/>
+        <Option value="markers" name="marker" type="QString"/>
+        <Option value="10" name="marker_size" type="double"/>
+        <Option value="0" name="marker_symbol" type="int"/>
+        <Option value="Points" name="marker_type_combo" type="QString"/>
+        <Option value="1" name="marker_width" type="double"/>
+        <Option value="" name="name" type="QString"/>
+        <Option value="" name="normalization" type="QString"/>
+        <Option value="1" name="opacity" type="double"/>
+        <Option value="#1f77b4" name="out_color" type="QString"/>
+        <Option value="0" name="pie_hole" type="double"/>
+        <Option value="" name="point_combo" type="QString"/>
+        <Option value="false" name="selected_features_only" type="bool"/>
+        <Option value="false" name="show_colorscale_legend" type="bool"/>
+        <Option value="true" name="show_lines" type="bool"/>
+        <Option value="true" name="show_lines_check" type="bool"/>
+        <Option value="true" name="show_mean_line" type="bool"/>
+        <Option value="true" name="violin_box" type="bool"/>
+        <Option value="both" name="violin_side" type="QString"/>
+        <Option value="false" name="visible_features_only" type="bool"/>
+        <Option value="precip" name="x_name" type="QString"/>
+        <Option value="precip" name="y_name" type="QString"/>
+        <Option value="precip" name="z_name" type="QString"/>
+      </Option>
+      <Option value="scatter" name="plot_type" type="QString"/>
+      <Option value="Activity_MBHR_PL_7ed8c0f4_7e9d_4c86_8868_3340b8e1d893" name="source_layer_id" type="QString"/>
+    </Option>
+  </DataPlotly>
+  <projectModels/>
+  <legend updateDrawingOrder="true">
+    <legendlayer open="true" checked="Qt::Checked" drawingOrder="-1" showFeatureCount="0" name="S_USA.Activity_MBHR_PL — Activity_MBHR_PL">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile isInOverview="0" visible="1" layerid="Activity_MBHR_PL_7ed8c0f4_7e9d_4c86_8868_3340b8e1d893"/>
+      </filegroup>
+    </legendlayer>
+  </legend>
+  <mapViewDocks/>
+  <mapcanvas annotationsVisible="1" name="mAreaCanvas">
+    <units>degrees</units>
+    <extent>
+      <xmin>-88.25915491440152039</xmin>
+      <ymin>41.48214158011924724</ymin>
+      <xmax>-86.937219521972807</xmax>
+      <ymax>42.27698205602010262</ymax>
+    </extent>
+    <rotation>0</rotation>
+    <destinationsrs>
+      <spatialrefsys nativeFormat="Wkt">
+        <wkt>GEOGCRS["WGS 84 (CRS84)",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic longitude (Lon)",east,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic latitude (Lat)",north,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["Not known."],AREA["World."],BBOX[-90,-180,90,180]],ID["OGC","CRS84"]]</wkt>
+        <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+        <srsid>63159</srsid>
+        <srid>520003159</srid>
+        <authid>OGC:CRS84</authid>
+        <description>WGS 84 (CRS84)</description>
+        <projectionacronym>longlat</projectionacronym>
+        <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+        <geographicflag>true</geographicflag>
+      </spatialrefsys>
+    </destinationsrs>
+    <rendermaptile>0</rendermaptile>
+    <expressionContextScope/>
+  </mapcanvas>
+  <main-annotation-layer minScale="1e+08" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" maxScale="0" autoRefreshMode="Disabled" autoRefreshTime="0" refreshOnNotifyEnabled="0" legendPlaceholderImage="" type="annotation" styleCategories="AllStyleCategories">
+    <id>Annotations_791cb4de_1f5b_460a_b5eb_1ac7ec307b63</id>
+    <datasource></datasource>
+    <keywordList>
+      <value></value>
+    </keywordList>
+    <layername>Annotations</layername>
+    <srs>
+      <spatialrefsys nativeFormat="Wkt">
+        <wkt>GEOGCRS["NAD83",DATUM["North American Datum 1983",ELLIPSOID["GRS 1980",6378137,298.257222101,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic latitude (Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic longitude (Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["Geodesy."],AREA["North America - onshore and offshore: Canada - Alberta; British Columbia; Manitoba; New Brunswick; Newfoundland and Labrador; Northwest Territories; Nova Scotia; Nunavut; Ontario; Prince Edward Island; Quebec; Saskatchewan; Yukon. Puerto Rico. United States (USA) - Alabama; Alaska; Arizona; Arkansas; California; Colorado; Connecticut; Delaware; Florida; Georgia; Hawaii; Idaho; Illinois; Indiana; Iowa; Kansas; Kentucky; Louisiana; Maine; Maryland; Massachusetts; Michigan; Minnesota; Mississippi; Missouri; Montana; Nebraska; Nevada; New Hampshire; New Jersey; New Mexico; New York; North Carolina; North Dakota; Ohio; Oklahoma; Oregon; Pennsylvania; Rhode Island; South Carolina; South Dakota; Tennessee; Texas; Utah; Vermont; Virginia; Washington; West Virginia; Wisconsin; Wyoming. US Virgin Islands. British Virgin Islands."],BBOX[14.92,167.65,86.45,-40.73]],ID["EPSG",4269]]</wkt>
+        <proj4>+proj=longlat +datum=NAD83 +no_defs</proj4>
+        <srsid>3401</srsid>
+        <srid>4269</srid>
+        <authid>EPSG:4269</authid>
+        <description>NAD83</description>
+        <projectionacronym>longlat</projectionacronym>
+        <ellipsoidacronym>EPSG:7019</ellipsoidacronym>
+        <geographicflag>true</geographicflag>
+      </spatialrefsys>
+    </srs>
+    <resourceMetadata>
+      <identifier></identifier>
+      <parentidentifier></parentidentifier>
+      <language></language>
+      <type></type>
+      <title></title>
+      <abstract></abstract>
+      <links/>
+      <dates/>
+      <fees></fees>
+      <encoding></encoding>
+      <crs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt></wkt>
+          <proj4></proj4>
+          <srsid>0</srsid>
+          <srid>0</srid>
+          <authid></authid>
+          <description></description>
+          <projectionacronym></projectionacronym>
+          <ellipsoidacronym></ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </crs>
+      <extent/>
+    </resourceMetadata>
+    <items/>
+    <flags>
+      <Identifiable>1</Identifiable>
+      <Removable>1</Removable>
+      <Searchable>1</Searchable>
+      <Private>0</Private>
+    </flags>
+    <customproperties>
+      <Option/>
+    </customproperties>
+    <layerOpacity>1</layerOpacity>
+    <blendMode>0</blendMode>
+    <paintEffect/>
+  </main-annotation-layer>
+  <projectlayers>
+    <maplayer simplifyDrawingHints="1" refreshOnNotifyMessage="" simplifyLocal="1" refreshOnNotifyEnabled="0" readOnly="0" symbologyReferenceScale="-1" minScale="100000000" maxScale="0" geometry="Polygon" simplifyDrawingTol="1" autoRefreshMode="Disabled" simplifyMaxScale="1" labelsEnabled="0" wkbType="MultiPolygon" type="vector" styleCategories="AllStyleCategories" hasScaleBasedVisibilityFlag="0" simplifyAlgorithm="0" autoRefreshTime="0" legendPlaceholderImage="">
+      <extent>
+        <xmin>-112.31215808199993944</xmin>
+        <ymin>30.48212800000004563</ymin>
+        <xmax>-78.37053198799998199</xmax>
+        <ymax>48.26921369100006132</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>-112.31215808199993944</xmin>
+        <ymin>30.48212800000004563</ymin>
+        <xmax>-78.37053198800005305</xmax>
+        <ymax>48.26921369100008974</ymax>
+      </wgs84extent>
+      <id>Activity_MBHR_PL_7ed8c0f4_7e9d_4c86_8868_3340b8e1d893</id>
+      <datasource>./S_USA.Activity_MBHR_PL.gdb|layername=Activity_MBHR_PL</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>S_USA.Activity_MBHR_PL — Activity_MBHR_PL</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>GEOGCRS["NAD83",DATUM["North American Datum 1983",ELLIPSOID["GRS 1980",6378137,298.257222101,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic latitude (Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic longitude (Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["Geodesy."],AREA["North America - onshore and offshore: Canada - Alberta; British Columbia; Manitoba; New Brunswick; Newfoundland and Labrador; Northwest Territories; Nova Scotia; Nunavut; Ontario; Prince Edward Island; Quebec; Saskatchewan; Yukon. Puerto Rico. United States (USA) - Alabama; Alaska; Arizona; Arkansas; California; Colorado; Connecticut; Delaware; Florida; Georgia; Hawaii; Idaho; Illinois; Indiana; Iowa; Kansas; Kentucky; Louisiana; Maine; Maryland; Massachusetts; Michigan; Minnesota; Mississippi; Missouri; Montana; Nebraska; Nevada; New Hampshire; New Jersey; New Mexico; New York; North Carolina; North Dakota; Ohio; Oklahoma; Oregon; Pennsylvania; Rhode Island; South Carolina; South Dakota; Tennessee; Texas; Utah; Vermont; Virginia; Washington; West Virginia; Wisconsin; Wyoming. US Virgin Islands. British Virgin Islands."],BBOX[14.92,167.65,86.45,-40.73]],ID["EPSG",4269]]</wkt>
+          <proj4>+proj=longlat +datum=NAD83 +no_defs</proj4>
+          <srsid>3401</srsid>
+          <srid>4269</srid>
+          <authid>EPSG:4269</authid>
+          <description>NAD83</description>
+          <projectionacronym>longlat</projectionacronym>
+          <ellipsoidacronym>EPSG:7019</ellipsoidacronym>
+          <geographicflag>true</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier>Activity_MBHR_PL</identifier>
+        <parentidentifier></parentidentifier>
+        <language>ENG</language>
+        <type>dataset</type>
+        <title>Activity_MBHR_PL</title>
+        <abstract>Activities meeting the Monarch Butterfly Habitat Restoration initiative are a subset of activities that benefit native plants, and in doing so, benefit pollinators. Activities such as thinning, prescribed fire and other methods of fuel removal, treating invasive species and acres of native plantings can benefit Monarchs. Activities are self-reported by Forest Service Units and are reported when completed. This layer does not contain all activities that benefit Monarchs because this is a relatively new requirement for the program. The quality and comprehensiveness of this data will increase over time.
+
+This feature class represents Monarch Butterfly Habitat Restoration (MBHR) activities as polygons. Activities are summarized for the number of acres treated (completed) annually that maintain and restore native plants in Monarch butterfly habitat. Activities include thinning, prescribed fire, and other methods of fuel removal, treating invasive species and acres of native plantings. This layer does not contain all activities that benefit Monarchs. The FACTS database is the corporate tool for tracking fire/fuels, silviculture, invasive species, and native plants work activities. Other NRM applications such as TESP are used to manage the species level surveys and occurrences.
+
+Activities meeting the Monarch Butterfly Habitat Restoration initiative are a subset of activities that benefit native plants, and in doing so, benefit pollinators. Activities such as thinning, prescribed fire and other methods of fuel removal, treating invasive species and acres of native plantings can benefit Monarchs. Activities are self-reported by Forest Service Units and are reported when completed. This layer does not contain all activities that benefit Monarchs because this is a relatively new requirement for the program. The quality and comprehensiveness of this data will increase over time.
+
+This feature class represents Monarch Butterfly Habitat Restoration (MBHR) activities as polygons. Activities are summarized for the number of acres treated (completed) annually that maintain and restore native plants in Monarch butterfly habitat. Activities include thinning, prescribed fire, and other methods of fuel removal, treating invasive species and acres of native plantings. This layer does not contain all activities that benefit Monarchs. The FACTS database is the corporate tool for tracking fire/fuels, silviculture, invasive species, and native plants work activities. Other NRM applications such as TESP are used to manage the species level surveys and occurrences.</abstract>
+        <keywords vocabulary="Search keys">
+          <keyword>U.S. Forest Service</keyword>
+          <keyword>Monarch Butterfly Habitat Restoration</keyword>
+          <keyword>MBHR</keyword>
+          <keyword>environment</keyword>
+        </keywords>
+        <keywords vocabulary="gmd:topicCategory">
+          <keyword>U.S. Forest Service</keyword>
+          <keyword>environment</keyword>
+        </keywords>
+        <contact>
+          <contactAddress>
+            <type>physical</type>
+            <address></address>
+            <city>Washington</city>
+            <administrativearea>DC</administrativearea>
+            <postalcode>20250</postalcode>
+            <country></country>
+          </contactAddress>
+          <name>USFS Chief Information Office, Enterprise Data Warehouse</name>
+          <organization>USFS Chief Information Office, Enterprise Data Warehouse</organization>
+          <position></position>
+          <voice>Please send an e-mail to the address below.</voice>
+          <fax></fax>
+          <email>data@fs.fed.us</email>
+          <role>Point of contact</role>
+        </contact>
+        <links/>
+        <dates>
+          <date value="2022-09-05T04:00:58" type="Published"/>
+        </dates>
+        <fees></fees>
+        <constraints type="Limitations of use">The USDA Forest Service makes no warranty, expressed or implied, including the warranties of merchantability and fitness for a particular purpose, nor assumes any legal liability or responsibility for the accuracy, reliability, completeness or utility of these geospatial data, or for the improper or incorrect use of these geospatial data. These geospatial data and related maps or graphics are not legal documents and are not intended to be used as such. The data and maps may not be used to determine title, ownership, legal descriptions or boundaries, legal jurisdiction, or restrictions that may be in place on either public or private land. Natural hazards may or may not be depicted on the data and maps, and users should exercise due caution. The data are dynamic and may change over time. The user is responsible to verify the limitations of the geospatial data and to use the data accordingly.</constraints>
+        <constraints type="Access">None</constraints>
+        <rights>The USDA Forest Service makes no warranty, expressed or implied, including the warranties of merchantability and fitness for a particular purpose, nor assumes any legal liability or responsibility for the accuracy, reliability, completeness or utility of these geospatial data, or for the improper or incorrect use of these geospatial data. These geospatial data and related maps or graphics are not legal documents and are not intended to be used as such. The data and maps may not be used to determine title, ownership, legal descriptions or boundaries, legal jurisdiction, or restrictions that may be in place on either public or private land. Natural hazards may or may not be depicted on the data and maps, and users should exercise due caution. The data are dynamic and may change over time. The user is responsible to verify the limitations of the geospatial data and to use the data accordingly.</rights>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys nativeFormat="Wkt">
+            <wkt>GEOGCRS["NAD83",DATUM["North American Datum 1983",ELLIPSOID["GRS 1980",6378137,298.257222101,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic latitude (Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic longitude (Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["Geodesy."],AREA["North America - onshore and offshore: Canada - Alberta; British Columbia; Manitoba; New Brunswick; Newfoundland and Labrador; Northwest Territories; Nova Scotia; Nunavut; Ontario; Prince Edward Island; Quebec; Saskatchewan; Yukon. Puerto Rico. United States (USA) - Alabama; Alaska; Arizona; Arkansas; California; Colorado; Connecticut; Delaware; Florida; Georgia; Hawaii; Idaho; Illinois; Indiana; Iowa; Kansas; Kentucky; Louisiana; Maine; Maryland; Massachusetts; Michigan; Minnesota; Mississippi; Missouri; Montana; Nebraska; Nevada; New Hampshire; New Jersey; New Mexico; New York; North Carolina; North Dakota; Ohio; Oklahoma; Oregon; Pennsylvania; Rhode Island; South Carolina; South Dakota; Tennessee; Texas; Utah; Vermont; Virginia; Washington; West Virginia; Wisconsin; Wyoming. US Virgin Islands. British Virgin Islands."],BBOX[14.92,167.65,86.45,-40.73]],ID["EPSG",4269]]</wkt>
+            <proj4>+proj=longlat +datum=NAD83 +no_defs</proj4>
+            <srsid>3401</srsid>
+            <srid>4269</srid>
+            <authid>EPSG:4269</authid>
+            <description>NAD83</description>
+            <projectionacronym>longlat</projectionacronym>
+            <ellipsoidacronym>EPSG:7019</ellipsoidacronym>
+            <geographicflag>true</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent>
+          <spatial minx="-112.3121579999999966" miny="30.48212799999999945" maxx="-78.3705319999999972" maxz="0" crs="EPSG:4269" dimensions="2" minz="0" maxy="48.26921399999999807"/>
+          <temporal>
+            <period>
+              <start>2022-09-05T01:00:58Z</start>
+              <end></end>
+            </period>
+          </temporal>
+          <temporal>
+            <period>
+              <start></start>
+              <end></end>
+            </period>
+          </temporal>
+        </extent>
+      </resourceMetadata>
+      <provider encoding="UTF-8">ogr</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <metadataUrls/>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+      <temporal startExpression="" enabled="0" durationUnit="min" durationField="" mode="0" endField="" fixedDuration="0" accumulate="0" limitMode="0" startField="" endExpression="">
+        <fixedRange>
+          <start></start>
+          <end></end>
+        </fixedRange>
+      </temporal>
+      <elevation extrusionEnabled="0" zscale="1" showMarkerSymbolInSurfacePlots="0" binding="Centroid" respectLayerSymbol="1" extrusion="0" zoffset="0" clamping="Terrain" type="IndividualFeatures" symbology="Line">
+        <data-defined-properties>
+          <Option type="Map">
+            <Option value="" name="name" type="QString"/>
+            <Option name="properties"/>
+            <Option value="collection" name="type" type="QString"/>
+          </Option>
+        </data-defined-properties>
+        <profileLineSymbol>
+          <symbol frame_rate="10" is_animated="0" clip_to_extent="1" name="" force_rhr="0" type="line" alpha="1">
+            <data_defined_properties>
+              <Option type="Map">
+                <Option value="" name="name" type="QString"/>
+                <Option name="properties"/>
+                <Option value="collection" name="type" type="QString"/>
+              </Option>
+            </data_defined_properties>
+            <layer enabled="1" class="SimpleLine" pass="0" locked="0" id="{1ac84c9c-e671-4610-97a5-3e107288ac53}">
+              <Option type="Map">
+                <Option value="0" name="align_dash_pattern" type="QString"/>
+                <Option value="square" name="capstyle" type="QString"/>
+                <Option value="5;2" name="customdash" type="QString"/>
+                <Option value="3x:0,0,0,0,0,0" name="customdash_map_unit_scale" type="QString"/>
+                <Option value="MM" name="customdash_unit" type="QString"/>
+                <Option value="0" name="dash_pattern_offset" type="QString"/>
+                <Option value="3x:0,0,0,0,0,0" name="dash_pattern_offset_map_unit_scale" type="QString"/>
+                <Option value="MM" name="dash_pattern_offset_unit" type="QString"/>
+                <Option value="0" name="draw_inside_polygon" type="QString"/>
+                <Option value="bevel" name="joinstyle" type="QString"/>
+                <Option value="232,113,141,255" name="line_color" type="QString"/>
+                <Option value="solid" name="line_style" type="QString"/>
+                <Option value="0.6" name="line_width" type="QString"/>
+                <Option value="MM" name="line_width_unit" type="QString"/>
+                <Option value="0" name="offset" type="QString"/>
+                <Option value="3x:0,0,0,0,0,0" name="offset_map_unit_scale" type="QString"/>
+                <Option value="MM" name="offset_unit" type="QString"/>
+                <Option value="0" name="ring_filter" type="QString"/>
+                <Option value="0" name="trim_distance_end" type="QString"/>
+                <Option value="3x:0,0,0,0,0,0" name="trim_distance_end_map_unit_scale" type="QString"/>
+                <Option value="MM" name="trim_distance_end_unit" type="QString"/>
+                <Option value="0" name="trim_distance_start" type="QString"/>
+                <Option value="3x:0,0,0,0,0,0" name="trim_distance_start_map_unit_scale" type="QString"/>
+                <Option value="MM" name="trim_distance_start_unit" type="QString"/>
+                <Option value="0" name="tweak_dash_pattern_on_corners" type="QString"/>
+                <Option value="0" name="use_custom_dash" type="QString"/>
+                <Option value="3x:0,0,0,0,0,0" name="width_map_unit_scale" type="QString"/>
+              </Option>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option value="" name="name" type="QString"/>
+                  <Option name="properties"/>
+                  <Option value="collection" name="type" type="QString"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </profileLineSymbol>
+        <profileFillSymbol>
+          <symbol frame_rate="10" is_animated="0" clip_to_extent="1" name="" force_rhr="0" type="fill" alpha="1">
+            <data_defined_properties>
+              <Option type="Map">
+                <Option value="" name="name" type="QString"/>
+                <Option name="properties"/>
+                <Option value="collection" name="type" type="QString"/>
+              </Option>
+            </data_defined_properties>
+            <layer enabled="1" class="SimpleFill" pass="0" locked="0" id="{5f8e3ccb-5935-423d-88f1-d51c98a6c5d4}">
+              <Option type="Map">
+                <Option value="3x:0,0,0,0,0,0" name="border_width_map_unit_scale" type="QString"/>
+                <Option value="232,113,141,255" name="color" type="QString"/>
+                <Option value="bevel" name="joinstyle" type="QString"/>
+                <Option value="0,0" name="offset" type="QString"/>
+                <Option value="3x:0,0,0,0,0,0" name="offset_map_unit_scale" type="QString"/>
+                <Option value="MM" name="offset_unit" type="QString"/>
+                <Option value="166,81,101,255" name="outline_color" type="QString"/>
+                <Option value="solid" name="outline_style" type="QString"/>
+                <Option value="0.2" name="outline_width" type="QString"/>
+                <Option value="MM" name="outline_width_unit" type="QString"/>
+                <Option value="solid" name="style" type="QString"/>
+              </Option>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option value="" name="name" type="QString"/>
+                  <Option name="properties"/>
+                  <Option value="collection" name="type" type="QString"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </profileFillSymbol>
+        <profileMarkerSymbol>
+          <symbol frame_rate="10" is_animated="0" clip_to_extent="1" name="" force_rhr="0" type="marker" alpha="1">
+            <data_defined_properties>
+              <Option type="Map">
+                <Option value="" name="name" type="QString"/>
+                <Option name="properties"/>
+                <Option value="collection" name="type" type="QString"/>
+              </Option>
+            </data_defined_properties>
+            <layer enabled="1" class="SimpleMarker" pass="0" locked="0" id="{c6971b49-8528-4779-9b98-4e61442b2592}">
+              <Option type="Map">
+                <Option value="0" name="angle" type="QString"/>
+                <Option value="square" name="cap_style" type="QString"/>
+                <Option value="232,113,141,255" name="color" type="QString"/>
+                <Option value="1" name="horizontal_anchor_point" type="QString"/>
+                <Option value="bevel" name="joinstyle" type="QString"/>
+                <Option value="diamond" name="name" type="QString"/>
+                <Option value="0,0" name="offset" type="QString"/>
+                <Option value="3x:0,0,0,0,0,0" name="offset_map_unit_scale" type="QString"/>
+                <Option value="MM" name="offset_unit" type="QString"/>
+                <Option value="166,81,101,255" name="outline_color" type="QString"/>
+                <Option value="solid" name="outline_style" type="QString"/>
+                <Option value="0.2" name="outline_width" type="QString"/>
+                <Option value="3x:0,0,0,0,0,0" name="outline_width_map_unit_scale" type="QString"/>
+                <Option value="MM" name="outline_width_unit" type="QString"/>
+                <Option value="diameter" name="scale_method" type="QString"/>
+                <Option value="3" name="size" type="QString"/>
+                <Option value="3x:0,0,0,0,0,0" name="size_map_unit_scale" type="QString"/>
+                <Option value="MM" name="size_unit" type="QString"/>
+                <Option value="1" name="vertical_anchor_point" type="QString"/>
+              </Option>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option value="" name="name" type="QString"/>
+                  <Option name="properties"/>
+                  <Option value="collection" name="type" type="QString"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </profileMarkerSymbol>
+      </elevation>
+      <renderer-v2 forceraster="0" referencescale="-1" enableorderby="0" symbollevels="0" type="singleSymbol">
+        <symbols>
+          <symbol frame_rate="10" is_animated="0" clip_to_extent="1" name="0" force_rhr="0" type="fill" alpha="1">
+            <data_defined_properties>
+              <Option type="Map">
+                <Option value="" name="name" type="QString"/>
+                <Option name="properties"/>
+                <Option value="collection" name="type" type="QString"/>
+              </Option>
+            </data_defined_properties>
+            <layer enabled="1" class="SimpleFill" pass="0" locked="0" id="{4773cf93-d1aa-42b6-a776-56ffc452e6a6}">
+              <Option type="Map">
+                <Option value="3x:0,0,0,0,0,0" name="border_width_map_unit_scale" type="QString"/>
+                <Option value="255,158,23,255" name="color" type="QString"/>
+                <Option value="bevel" name="joinstyle" type="QString"/>
+                <Option value="0,0" name="offset" type="QString"/>
+                <Option value="3x:0,0,0,0,0,0" name="offset_map_unit_scale" type="QString"/>
+                <Option value="MM" name="offset_unit" type="QString"/>
+                <Option value="35,35,35,255" name="outline_color" type="QString"/>
+                <Option value="solid" name="outline_style" type="QString"/>
+                <Option value="0.26" name="outline_width" type="QString"/>
+                <Option value="MM" name="outline_width_unit" type="QString"/>
+                <Option value="solid" name="style" type="QString"/>
+              </Option>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option value="" name="name" type="QString"/>
+                  <Option name="properties"/>
+                  <Option value="collection" name="type" type="QString"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <selection mode="Default">
+        <selectionColor invalid="1"/>
+      </selection>
+      <customproperties>
+        <Option type="Map">
+          <Option value="no_action" name="QFieldSync/action" type="QString"/>
+          <Option value="{}" name="QFieldSync/attachment_naming" type="QString"/>
+          <Option value="offline" name="QFieldSync/cloud_action" type="QString"/>
+          <Option value="" name="QFieldSync/geometry_locked_expression" type="QString"/>
+          <Option value="{}" name="QFieldSync/photo_naming" type="QString"/>
+          <Option value="{}" name="QFieldSync/relationship_maximum_visible" type="QString"/>
+          <Option value="30" name="QFieldSync/tracking_distance_requirement_minimum_meters" type="int"/>
+          <Option value="false" name="QFieldSync/tracking_erroneous_distance_safeguard_maximum_meters" type="bool"/>
+          <Option value="0" name="QFieldSync/tracking_measurement_type" type="int"/>
+          <Option value="30" name="QFieldSync/tracking_time_requirement_interval_seconds" type="int"/>
+        </Option>
+      </customproperties>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <geometryOptions removeDuplicateNodes="0" geometryPrecision="0">
+        <activeChecks type="StringList">
+          <Option value="" type="QString"/>
+        </activeChecks>
+        <checkConfiguration/>
+      </geometryOptions>
+      <legend showLabelLegend="0" type="default-vector"/>
+      <referencedLayers/>
+      <fieldConfiguration>
+        <field configurationFlags="NoFlag" name="OBJECTID">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="ACTIVITY_CODE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="ACTIVITY_NAME">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="TREATMENT_TYPE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="FUND_CODES">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="NBR_UNITS_PLANNED">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="NBR_UNITS_ACCOMPLISHED">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="UOM">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="DATE_PLANNED">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="DATE_ACCOMPLISHED">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="DATE_COMPLETED">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="FY_PLANNED">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="FY_ACCOMPLISHED">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="FY_COMPLETED">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="ACTIVITY_UNIT_ORG">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="REGION_CODE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="ADMIN_FOREST_CODE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="DISTRICT_CODE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="HOME_ORG">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="ADMIN_FOREST_NAME">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="ADMIN_DISTRICT_NAME">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="PROCLAIMED_FOREST_CODE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="OWNERSHIP_CODE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="OWNERSHIP_DESC">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="ALPCOUNTY">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="STATE_ABBR">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="WATERSHED_CODE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="SLOPE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="ELEVATION">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="ASPECT">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="METHOD_CODE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="METHOD_DESC">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="EQUIPMENT_CODE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="EQUIPMENT_DESC">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="COST_PER_UOM">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="NEPA_PROJECT_ID">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="NEPA_DOC_NAME">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="IMPLEMENTATION_PROJECT_NAMES">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="IMPLEMENTATION_PROJECT_NUMBERS">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="IMPLEMENTATION_PROJECT_TYPES">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="WORK_AGENT_CODES">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="SUBUNIT_SIZE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="SUBUNIT_UOM">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="GIS_ACRES">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="ACTIVITY_UNIT_CN">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="SUBUNIT_CN">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="FACTS_ID">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="SUID">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="SUBUNIT">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="SUBUNIT_NAME">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="ACTIVITY_CN">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="NEPA_PROJECT_CN">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="STAGE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="STAGE_DESC">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="REV_DATE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="DATA_SOURCE_CODE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="DATA_SOURCE_DESC">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="UK">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="ACCURACY">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="SHAPE_Length">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field configurationFlags="NoFlag" name="SHAPE_Area">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias index="0" field="OBJECTID" name=""/>
+        <alias index="1" field="ACTIVITY_CODE" name=""/>
+        <alias index="2" field="ACTIVITY_NAME" name=""/>
+        <alias index="3" field="TREATMENT_TYPE" name=""/>
+        <alias index="4" field="FUND_CODES" name=""/>
+        <alias index="5" field="NBR_UNITS_PLANNED" name=""/>
+        <alias index="6" field="NBR_UNITS_ACCOMPLISHED" name=""/>
+        <alias index="7" field="UOM" name=""/>
+        <alias index="8" field="DATE_PLANNED" name=""/>
+        <alias index="9" field="DATE_ACCOMPLISHED" name=""/>
+        <alias index="10" field="DATE_COMPLETED" name=""/>
+        <alias index="11" field="FY_PLANNED" name=""/>
+        <alias index="12" field="FY_ACCOMPLISHED" name=""/>
+        <alias index="13" field="FY_COMPLETED" name=""/>
+        <alias index="14" field="ACTIVITY_UNIT_ORG" name=""/>
+        <alias index="15" field="REGION_CODE" name=""/>
+        <alias index="16" field="ADMIN_FOREST_CODE" name=""/>
+        <alias index="17" field="DISTRICT_CODE" name=""/>
+        <alias index="18" field="HOME_ORG" name=""/>
+        <alias index="19" field="ADMIN_FOREST_NAME" name=""/>
+        <alias index="20" field="ADMIN_DISTRICT_NAME" name=""/>
+        <alias index="21" field="PROCLAIMED_FOREST_CODE" name=""/>
+        <alias index="22" field="OWNERSHIP_CODE" name=""/>
+        <alias index="23" field="OWNERSHIP_DESC" name=""/>
+        <alias index="24" field="ALPCOUNTY" name=""/>
+        <alias index="25" field="STATE_ABBR" name=""/>
+        <alias index="26" field="WATERSHED_CODE" name=""/>
+        <alias index="27" field="SLOPE" name=""/>
+        <alias index="28" field="ELEVATION" name=""/>
+        <alias index="29" field="ASPECT" name=""/>
+        <alias index="30" field="METHOD_CODE" name=""/>
+        <alias index="31" field="METHOD_DESC" name=""/>
+        <alias index="32" field="EQUIPMENT_CODE" name=""/>
+        <alias index="33" field="EQUIPMENT_DESC" name=""/>
+        <alias index="34" field="COST_PER_UOM" name=""/>
+        <alias index="35" field="NEPA_PROJECT_ID" name=""/>
+        <alias index="36" field="NEPA_DOC_NAME" name=""/>
+        <alias index="37" field="IMPLEMENTATION_PROJECT_NAMES" name=""/>
+        <alias index="38" field="IMPLEMENTATION_PROJECT_NUMBERS" name=""/>
+        <alias index="39" field="IMPLEMENTATION_PROJECT_TYPES" name=""/>
+        <alias index="40" field="WORK_AGENT_CODES" name=""/>
+        <alias index="41" field="SUBUNIT_SIZE" name=""/>
+        <alias index="42" field="SUBUNIT_UOM" name=""/>
+        <alias index="43" field="GIS_ACRES" name=""/>
+        <alias index="44" field="ACTIVITY_UNIT_CN" name=""/>
+        <alias index="45" field="SUBUNIT_CN" name=""/>
+        <alias index="46" field="FACTS_ID" name=""/>
+        <alias index="47" field="SUID" name=""/>
+        <alias index="48" field="SUBUNIT" name=""/>
+        <alias index="49" field="SUBUNIT_NAME" name=""/>
+        <alias index="50" field="ACTIVITY_CN" name=""/>
+        <alias index="51" field="NEPA_PROJECT_CN" name=""/>
+        <alias index="52" field="STAGE" name=""/>
+        <alias index="53" field="STAGE_DESC" name=""/>
+        <alias index="54" field="REV_DATE" name=""/>
+        <alias index="55" field="DATA_SOURCE_CODE" name=""/>
+        <alias index="56" field="DATA_SOURCE_DESC" name=""/>
+        <alias index="57" field="UK" name=""/>
+        <alias index="58" field="ACCURACY" name=""/>
+        <alias index="59" field="SHAPE_Length" name=""/>
+        <alias index="60" field="SHAPE_Area" name=""/>
+      </aliases>
+      <splitPolicies>
+        <policy field="OBJECTID" policy="Duplicate"/>
+        <policy field="ACTIVITY_CODE" policy="Duplicate"/>
+        <policy field="ACTIVITY_NAME" policy="Duplicate"/>
+        <policy field="TREATMENT_TYPE" policy="Duplicate"/>
+        <policy field="FUND_CODES" policy="Duplicate"/>
+        <policy field="NBR_UNITS_PLANNED" policy="Duplicate"/>
+        <policy field="NBR_UNITS_ACCOMPLISHED" policy="Duplicate"/>
+        <policy field="UOM" policy="Duplicate"/>
+        <policy field="DATE_PLANNED" policy="Duplicate"/>
+        <policy field="DATE_ACCOMPLISHED" policy="Duplicate"/>
+        <policy field="DATE_COMPLETED" policy="Duplicate"/>
+        <policy field="FY_PLANNED" policy="Duplicate"/>
+        <policy field="FY_ACCOMPLISHED" policy="Duplicate"/>
+        <policy field="FY_COMPLETED" policy="Duplicate"/>
+        <policy field="ACTIVITY_UNIT_ORG" policy="Duplicate"/>
+        <policy field="REGION_CODE" policy="Duplicate"/>
+        <policy field="ADMIN_FOREST_CODE" policy="Duplicate"/>
+        <policy field="DISTRICT_CODE" policy="Duplicate"/>
+        <policy field="HOME_ORG" policy="Duplicate"/>
+        <policy field="ADMIN_FOREST_NAME" policy="Duplicate"/>
+        <policy field="ADMIN_DISTRICT_NAME" policy="Duplicate"/>
+        <policy field="PROCLAIMED_FOREST_CODE" policy="Duplicate"/>
+        <policy field="OWNERSHIP_CODE" policy="Duplicate"/>
+        <policy field="OWNERSHIP_DESC" policy="Duplicate"/>
+        <policy field="ALPCOUNTY" policy="Duplicate"/>
+        <policy field="STATE_ABBR" policy="Duplicate"/>
+        <policy field="WATERSHED_CODE" policy="Duplicate"/>
+        <policy field="SLOPE" policy="Duplicate"/>
+        <policy field="ELEVATION" policy="Duplicate"/>
+        <policy field="ASPECT" policy="Duplicate"/>
+        <policy field="METHOD_CODE" policy="Duplicate"/>
+        <policy field="METHOD_DESC" policy="Duplicate"/>
+        <policy field="EQUIPMENT_CODE" policy="Duplicate"/>
+        <policy field="EQUIPMENT_DESC" policy="Duplicate"/>
+        <policy field="COST_PER_UOM" policy="Duplicate"/>
+        <policy field="NEPA_PROJECT_ID" policy="Duplicate"/>
+        <policy field="NEPA_DOC_NAME" policy="Duplicate"/>
+        <policy field="IMPLEMENTATION_PROJECT_NAMES" policy="Duplicate"/>
+        <policy field="IMPLEMENTATION_PROJECT_NUMBERS" policy="Duplicate"/>
+        <policy field="IMPLEMENTATION_PROJECT_TYPES" policy="Duplicate"/>
+        <policy field="WORK_AGENT_CODES" policy="Duplicate"/>
+        <policy field="SUBUNIT_SIZE" policy="Duplicate"/>
+        <policy field="SUBUNIT_UOM" policy="Duplicate"/>
+        <policy field="GIS_ACRES" policy="Duplicate"/>
+        <policy field="ACTIVITY_UNIT_CN" policy="Duplicate"/>
+        <policy field="SUBUNIT_CN" policy="Duplicate"/>
+        <policy field="FACTS_ID" policy="Duplicate"/>
+        <policy field="SUID" policy="Duplicate"/>
+        <policy field="SUBUNIT" policy="Duplicate"/>
+        <policy field="SUBUNIT_NAME" policy="Duplicate"/>
+        <policy field="ACTIVITY_CN" policy="Duplicate"/>
+        <policy field="NEPA_PROJECT_CN" policy="Duplicate"/>
+        <policy field="STAGE" policy="Duplicate"/>
+        <policy field="STAGE_DESC" policy="Duplicate"/>
+        <policy field="REV_DATE" policy="Duplicate"/>
+        <policy field="DATA_SOURCE_CODE" policy="Duplicate"/>
+        <policy field="DATA_SOURCE_DESC" policy="Duplicate"/>
+        <policy field="UK" policy="Duplicate"/>
+        <policy field="ACCURACY" policy="Duplicate"/>
+        <policy field="SHAPE_Length" policy="Duplicate"/>
+        <policy field="SHAPE_Area" policy="Duplicate"/>
+      </splitPolicies>
+      <defaults>
+        <default expression="" field="OBJECTID" applyOnUpdate="0"/>
+        <default expression="" field="ACTIVITY_CODE" applyOnUpdate="0"/>
+        <default expression="" field="ACTIVITY_NAME" applyOnUpdate="0"/>
+        <default expression="" field="TREATMENT_TYPE" applyOnUpdate="0"/>
+        <default expression="" field="FUND_CODES" applyOnUpdate="0"/>
+        <default expression="" field="NBR_UNITS_PLANNED" applyOnUpdate="0"/>
+        <default expression="" field="NBR_UNITS_ACCOMPLISHED" applyOnUpdate="0"/>
+        <default expression="" field="UOM" applyOnUpdate="0"/>
+        <default expression="" field="DATE_PLANNED" applyOnUpdate="0"/>
+        <default expression="" field="DATE_ACCOMPLISHED" applyOnUpdate="0"/>
+        <default expression="" field="DATE_COMPLETED" applyOnUpdate="0"/>
+        <default expression="" field="FY_PLANNED" applyOnUpdate="0"/>
+        <default expression="" field="FY_ACCOMPLISHED" applyOnUpdate="0"/>
+        <default expression="" field="FY_COMPLETED" applyOnUpdate="0"/>
+        <default expression="" field="ACTIVITY_UNIT_ORG" applyOnUpdate="0"/>
+        <default expression="" field="REGION_CODE" applyOnUpdate="0"/>
+        <default expression="" field="ADMIN_FOREST_CODE" applyOnUpdate="0"/>
+        <default expression="" field="DISTRICT_CODE" applyOnUpdate="0"/>
+        <default expression="" field="HOME_ORG" applyOnUpdate="0"/>
+        <default expression="" field="ADMIN_FOREST_NAME" applyOnUpdate="0"/>
+        <default expression="" field="ADMIN_DISTRICT_NAME" applyOnUpdate="0"/>
+        <default expression="" field="PROCLAIMED_FOREST_CODE" applyOnUpdate="0"/>
+        <default expression="" field="OWNERSHIP_CODE" applyOnUpdate="0"/>
+        <default expression="" field="OWNERSHIP_DESC" applyOnUpdate="0"/>
+        <default expression="" field="ALPCOUNTY" applyOnUpdate="0"/>
+        <default expression="" field="STATE_ABBR" applyOnUpdate="0"/>
+        <default expression="" field="WATERSHED_CODE" applyOnUpdate="0"/>
+        <default expression="" field="SLOPE" applyOnUpdate="0"/>
+        <default expression="" field="ELEVATION" applyOnUpdate="0"/>
+        <default expression="" field="ASPECT" applyOnUpdate="0"/>
+        <default expression="" field="METHOD_CODE" applyOnUpdate="0"/>
+        <default expression="" field="METHOD_DESC" applyOnUpdate="0"/>
+        <default expression="" field="EQUIPMENT_CODE" applyOnUpdate="0"/>
+        <default expression="" field="EQUIPMENT_DESC" applyOnUpdate="0"/>
+        <default expression="" field="COST_PER_UOM" applyOnUpdate="0"/>
+        <default expression="" field="NEPA_PROJECT_ID" applyOnUpdate="0"/>
+        <default expression="" field="NEPA_DOC_NAME" applyOnUpdate="0"/>
+        <default expression="" field="IMPLEMENTATION_PROJECT_NAMES" applyOnUpdate="0"/>
+        <default expression="" field="IMPLEMENTATION_PROJECT_NUMBERS" applyOnUpdate="0"/>
+        <default expression="" field="IMPLEMENTATION_PROJECT_TYPES" applyOnUpdate="0"/>
+        <default expression="" field="WORK_AGENT_CODES" applyOnUpdate="0"/>
+        <default expression="" field="SUBUNIT_SIZE" applyOnUpdate="0"/>
+        <default expression="" field="SUBUNIT_UOM" applyOnUpdate="0"/>
+        <default expression="" field="GIS_ACRES" applyOnUpdate="0"/>
+        <default expression="" field="ACTIVITY_UNIT_CN" applyOnUpdate="0"/>
+        <default expression="" field="SUBUNIT_CN" applyOnUpdate="0"/>
+        <default expression="" field="FACTS_ID" applyOnUpdate="0"/>
+        <default expression="" field="SUID" applyOnUpdate="0"/>
+        <default expression="" field="SUBUNIT" applyOnUpdate="0"/>
+        <default expression="" field="SUBUNIT_NAME" applyOnUpdate="0"/>
+        <default expression="" field="ACTIVITY_CN" applyOnUpdate="0"/>
+        <default expression="" field="NEPA_PROJECT_CN" applyOnUpdate="0"/>
+        <default expression="" field="STAGE" applyOnUpdate="0"/>
+        <default expression="" field="STAGE_DESC" applyOnUpdate="0"/>
+        <default expression="" field="REV_DATE" applyOnUpdate="0"/>
+        <default expression="" field="DATA_SOURCE_CODE" applyOnUpdate="0"/>
+        <default expression="" field="DATA_SOURCE_DESC" applyOnUpdate="0"/>
+        <default expression="" field="UK" applyOnUpdate="0"/>
+        <default expression="" field="ACCURACY" applyOnUpdate="0"/>
+        <default expression="" field="SHAPE_Length" applyOnUpdate="0"/>
+        <default expression="" field="SHAPE_Area" applyOnUpdate="0"/>
+      </defaults>
+      <constraints>
+        <constraint notnull_strength="1" exp_strength="0" unique_strength="1" field="OBJECTID" constraints="3"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="ACTIVITY_CODE" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="ACTIVITY_NAME" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="TREATMENT_TYPE" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="FUND_CODES" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="NBR_UNITS_PLANNED" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="NBR_UNITS_ACCOMPLISHED" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="UOM" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="DATE_PLANNED" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="DATE_ACCOMPLISHED" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="DATE_COMPLETED" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="FY_PLANNED" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="FY_ACCOMPLISHED" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="FY_COMPLETED" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="ACTIVITY_UNIT_ORG" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="REGION_CODE" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="ADMIN_FOREST_CODE" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="DISTRICT_CODE" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="HOME_ORG" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="ADMIN_FOREST_NAME" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="ADMIN_DISTRICT_NAME" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="PROCLAIMED_FOREST_CODE" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="OWNERSHIP_CODE" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="OWNERSHIP_DESC" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="ALPCOUNTY" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="STATE_ABBR" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="WATERSHED_CODE" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="SLOPE" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="ELEVATION" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="ASPECT" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="METHOD_CODE" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="METHOD_DESC" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="EQUIPMENT_CODE" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="EQUIPMENT_DESC" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="COST_PER_UOM" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="NEPA_PROJECT_ID" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="NEPA_DOC_NAME" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="IMPLEMENTATION_PROJECT_NAMES" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="IMPLEMENTATION_PROJECT_NUMBERS" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="IMPLEMENTATION_PROJECT_TYPES" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="WORK_AGENT_CODES" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="SUBUNIT_SIZE" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="SUBUNIT_UOM" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="GIS_ACRES" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="ACTIVITY_UNIT_CN" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="SUBUNIT_CN" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="FACTS_ID" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="SUID" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="SUBUNIT" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="SUBUNIT_NAME" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="ACTIVITY_CN" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="NEPA_PROJECT_CN" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="STAGE" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="STAGE_DESC" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="REV_DATE" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="DATA_SOURCE_CODE" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="DATA_SOURCE_DESC" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="UK" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="ACCURACY" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="SHAPE_Length" constraints="0"/>
+        <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="SHAPE_Area" constraints="0"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint exp="" desc="" field="OBJECTID"/>
+        <constraint exp="" desc="" field="ACTIVITY_CODE"/>
+        <constraint exp="" desc="" field="ACTIVITY_NAME"/>
+        <constraint exp="" desc="" field="TREATMENT_TYPE"/>
+        <constraint exp="" desc="" field="FUND_CODES"/>
+        <constraint exp="" desc="" field="NBR_UNITS_PLANNED"/>
+        <constraint exp="" desc="" field="NBR_UNITS_ACCOMPLISHED"/>
+        <constraint exp="" desc="" field="UOM"/>
+        <constraint exp="" desc="" field="DATE_PLANNED"/>
+        <constraint exp="" desc="" field="DATE_ACCOMPLISHED"/>
+        <constraint exp="" desc="" field="DATE_COMPLETED"/>
+        <constraint exp="" desc="" field="FY_PLANNED"/>
+        <constraint exp="" desc="" field="FY_ACCOMPLISHED"/>
+        <constraint exp="" desc="" field="FY_COMPLETED"/>
+        <constraint exp="" desc="" field="ACTIVITY_UNIT_ORG"/>
+        <constraint exp="" desc="" field="REGION_CODE"/>
+        <constraint exp="" desc="" field="ADMIN_FOREST_CODE"/>
+        <constraint exp="" desc="" field="DISTRICT_CODE"/>
+        <constraint exp="" desc="" field="HOME_ORG"/>
+        <constraint exp="" desc="" field="ADMIN_FOREST_NAME"/>
+        <constraint exp="" desc="" field="ADMIN_DISTRICT_NAME"/>
+        <constraint exp="" desc="" field="PROCLAIMED_FOREST_CODE"/>
+        <constraint exp="" desc="" field="OWNERSHIP_CODE"/>
+        <constraint exp="" desc="" field="OWNERSHIP_DESC"/>
+        <constraint exp="" desc="" field="ALPCOUNTY"/>
+        <constraint exp="" desc="" field="STATE_ABBR"/>
+        <constraint exp="" desc="" field="WATERSHED_CODE"/>
+        <constraint exp="" desc="" field="SLOPE"/>
+        <constraint exp="" desc="" field="ELEVATION"/>
+        <constraint exp="" desc="" field="ASPECT"/>
+        <constraint exp="" desc="" field="METHOD_CODE"/>
+        <constraint exp="" desc="" field="METHOD_DESC"/>
+        <constraint exp="" desc="" field="EQUIPMENT_CODE"/>
+        <constraint exp="" desc="" field="EQUIPMENT_DESC"/>
+        <constraint exp="" desc="" field="COST_PER_UOM"/>
+        <constraint exp="" desc="" field="NEPA_PROJECT_ID"/>
+        <constraint exp="" desc="" field="NEPA_DOC_NAME"/>
+        <constraint exp="" desc="" field="IMPLEMENTATION_PROJECT_NAMES"/>
+        <constraint exp="" desc="" field="IMPLEMENTATION_PROJECT_NUMBERS"/>
+        <constraint exp="" desc="" field="IMPLEMENTATION_PROJECT_TYPES"/>
+        <constraint exp="" desc="" field="WORK_AGENT_CODES"/>
+        <constraint exp="" desc="" field="SUBUNIT_SIZE"/>
+        <constraint exp="" desc="" field="SUBUNIT_UOM"/>
+        <constraint exp="" desc="" field="GIS_ACRES"/>
+        <constraint exp="" desc="" field="ACTIVITY_UNIT_CN"/>
+        <constraint exp="" desc="" field="SUBUNIT_CN"/>
+        <constraint exp="" desc="" field="FACTS_ID"/>
+        <constraint exp="" desc="" field="SUID"/>
+        <constraint exp="" desc="" field="SUBUNIT"/>
+        <constraint exp="" desc="" field="SUBUNIT_NAME"/>
+        <constraint exp="" desc="" field="ACTIVITY_CN"/>
+        <constraint exp="" desc="" field="NEPA_PROJECT_CN"/>
+        <constraint exp="" desc="" field="STAGE"/>
+        <constraint exp="" desc="" field="STAGE_DESC"/>
+        <constraint exp="" desc="" field="REV_DATE"/>
+        <constraint exp="" desc="" field="DATA_SOURCE_CODE"/>
+        <constraint exp="" desc="" field="DATA_SOURCE_DESC"/>
+        <constraint exp="" desc="" field="UK"/>
+        <constraint exp="" desc="" field="ACCURACY"/>
+        <constraint exp="" desc="" field="SHAPE_Length"/>
+        <constraint exp="" desc="" field="SHAPE_Area"/>
+      </constraintExpressions>
+      <expressionfields/>
+      <attributeactions>
+        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
+      </attributeactions>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
+        <columns/>
+      </attributetableconfig>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <storedexpressions/>
+      <editform tolerant="1"></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <reuseLastValue/>
+      <dataDefinedFieldProperties/>
+      <widgets/>
+      <previewExpression></previewExpression>
+      <mapTip enabled="1"></mapTip>
+    </maplayer>
+  </projectlayers>
+  <layerorder>
+    <layer id="Activity_MBHR_PL_7ed8c0f4_7e9d_4c86_8868_3340b8e1d893"/>
+  </layerorder>
+  <properties>
+    <Digitizing>
+      <AvoidIntersectionsMode type="int">0</AvoidIntersectionsMode>
+    </Digitizing>
+    <Gui>
+      <CanvasColorBluePart type="int">255</CanvasColorBluePart>
+      <CanvasColorGreenPart type="int">255</CanvasColorGreenPart>
+      <CanvasColorRedPart type="int">255</CanvasColorRedPart>
+      <SelectionColorAlphaPart type="int">255</SelectionColorAlphaPart>
+      <SelectionColorBluePart type="int">0</SelectionColorBluePart>
+      <SelectionColorGreenPart type="int">255</SelectionColorGreenPart>
+      <SelectionColorRedPart type="int">255</SelectionColorRedPart>
+    </Gui>
+    <Legend>
+      <filterByMap type="bool">false</filterByMap>
+    </Legend>
+    <Macros>
+      <pythonCode type="QString"></pythonCode>
+    </Macros>
+    <Measure>
+      <Ellipsoid type="QString">EPSG:7019</Ellipsoid>
+    </Measure>
+    <Measurement>
+      <AreaUnits type="QString">m2</AreaUnits>
+      <DistanceUnits type="QString">meters</DistanceUnits>
+    </Measurement>
+    <Mergin>
+      <PhotoQuality type="int">0</PhotoQuality>
+      <PositionTracking>
+        <Enabled type="int">0</Enabled>
+        <UpdateFrequency type="int">1</UpdateFrequency>
+      </PositionTracking>
+      <Snapping type="int">0</Snapping>
+    </Mergin>
+    <PAL>
+      <CandidatesLinePerCM type="double">5</CandidatesLinePerCM>
+      <CandidatesPolygonPerCM type="double">2.5</CandidatesPolygonPerCM>
+      <DrawLabelMetrics type="bool">false</DrawLabelMetrics>
+      <DrawRectOnly type="bool">false</DrawRectOnly>
+      <DrawUnplaced type="bool">false</DrawUnplaced>
+      <PlacementEngineVersion type="int">1</PlacementEngineVersion>
+      <SearchMethod type="int">0</SearchMethod>
+      <ShowingAllLabels type="bool">false</ShowingAllLabels>
+      <ShowingCandidates type="bool">false</ShowingCandidates>
+      <ShowingPartialsLabels type="bool">true</ShowingPartialsLabels>
+      <TextFormat type="int">0</TextFormat>
+      <UnplacedColor type="QString">255,0,0,255</UnplacedColor>
+    </PAL>
+    <Paths>
+      <Absolute type="bool">false</Absolute>
+    </Paths>
+    <PositionPrecision>
+      <Automatic type="bool">true</Automatic>
+      <DecimalPlaces type="int">2</DecimalPlaces>
+    </PositionPrecision>
+    <QFieldSync>
+      <attachmentDirs type="QStringList">
+        <value>DCIM</value>
+      </attachmentDirs>
+    </QFieldSync>
+    <RenderMapTile type="bool">false</RenderMapTile>
+    <SpatialRefSys>
+      <ProjectionsEnabled type="int">1</ProjectionsEnabled>
+    </SpatialRefSys>
+    <WCSLayers type="QStringList"/>
+    <WCSUrl type="QString"></WCSUrl>
+    <WFSLayers type="QStringList">
+      <value>Activity_MBHR_PL_7ed8c0f4_7e9d_4c86_8868_3340b8e1d893</value>
+    </WFSLayers>
+    <WFSLayersPrecision>
+      <Activity_MBHR_PL_7ed720c3_eab9_4680_8a62_1f18f32f27b6 type="int">8</Activity_MBHR_PL_7ed720c3_eab9_4680_8a62_1f18f32f27b6>
+      <Activity_MBHR_PL_7ed8c0f4_7e9d_4c86_8868_3340b8e1d893 type="int">8</Activity_MBHR_PL_7ed8c0f4_7e9d_4c86_8868_3340b8e1d893>
+      <S_USA_Activity_MBHR_PL_gdb_a00000009_gdbtable_c0ebb393_d599_40b1_8161_6a60342db917 type="int">8</S_USA_Activity_MBHR_PL_gdb_a00000009_gdbtable_c0ebb393_d599_40b1_8161_6a60342db917>
+    </WFSLayersPrecision>
+    <WFSTLayers>
+      <Delete type="QStringList"/>
+      <Insert type="QStringList"/>
+      <Update type="QStringList"/>
+    </WFSTLayers>
+    <WFSUrl type="QString"></WFSUrl>
+    <WMSAccessConstraints type="QString">None</WMSAccessConstraints>
+    <WMSAddLayerGroupsLegendGraphic type="bool">false</WMSAddLayerGroupsLegendGraphic>
+    <WMSAddWktGeometry type="bool">false</WMSAddWktGeometry>
+    <WMSContactMail type="QString"></WMSContactMail>
+    <WMSContactOrganization type="QString"></WMSContactOrganization>
+    <WMSContactPerson type="QString"></WMSContactPerson>
+    <WMSContactPhone type="QString"></WMSContactPhone>
+    <WMSContactPosition type="QString"></WMSContactPosition>
+    <WMSDefaultMapUnitsPerMm type="double">1</WMSDefaultMapUnitsPerMm>
+    <WMSExtent type="QStringList">
+      <value>-95.42937289399999656</value>
+      <value>33.88650507999999917</value>
+      <value>-93.20195368100000621</value>
+      <value>35.22578607399999839</value>
+    </WMSExtent>
+    <WMSFeatureInfoUseAttributeFormSettings type="bool">false</WMSFeatureInfoUseAttributeFormSettings>
+    <WMSFees type="QString">conditions unknown</WMSFees>
+    <WMSImageQuality type="int">90</WMSImageQuality>
+    <WMSKeywordList type="QStringList">
+      <value></value>
+    </WMSKeywordList>
+    <WMSMaxAtlasFeatures type="int">1</WMSMaxAtlasFeatures>
+    <WMSOnlineResource type="QString"></WMSOnlineResource>
+    <WMSPrecision type="QString">8</WMSPrecision>
+    <WMSRootName type="QString"></WMSRootName>
+    <WMSSegmentizeFeatureInfoGeometry type="bool">false</WMSSegmentizeFeatureInfoGeometry>
+    <WMSServiceAbstract type="QString"></WMSServiceAbstract>
+    <WMSServiceCapabilities type="bool">true</WMSServiceCapabilities>
+    <WMSServiceTitle type="QString"></WMSServiceTitle>
+    <WMSTileBuffer type="int">0</WMSTileBuffer>
+    <WMSUrl type="QString"></WMSUrl>
+    <WMSUseLayerIDs type="bool">false</WMSUseLayerIDs>
+    <WMTSGrids>
+      <CRS type="QStringList"/>
+      <Config type="QStringList"/>
+    </WMTSGrids>
+    <WMTSJpegLayers>
+      <Group type="QStringList"/>
+      <Layer type="QStringList">
+        <value>Activity_MBHR_PL_7ed8c0f4_7e9d_4c86_8868_3340b8e1d893</value>
+      </Layer>
+      <Project type="bool">true</Project>
+    </WMTSJpegLayers>
+    <WMTSLayers>
+      <Group type="QStringList"/>
+      <Layer type="QStringList">
+        <value>Activity_MBHR_PL_7ed8c0f4_7e9d_4c86_8868_3340b8e1d893</value>
+      </Layer>
+      <Project type="bool">true</Project>
+    </WMTSLayers>
+    <WMTSMinScale type="int">5000</WMTSMinScale>
+    <WMTSPngLayers>
+      <Group type="QStringList"/>
+      <Layer type="QStringList">
+        <value>Activity_MBHR_PL_7ed8c0f4_7e9d_4c86_8868_3340b8e1d893</value>
+      </Layer>
+      <Project type="bool">true</Project>
+    </WMTSPngLayers>
+    <WMTSUrl type="QString"></WMTSUrl>
+    <qfieldsync>
+      <areaOfInterest type="QString"></areaOfInterest>
+      <areaOfInterestCrs type="QString"></areaOfInterestCrs>
+      <baseMapMupp type="double">10</baseMapMupp>
+      <baseMapTheme type="QString"></baseMapTheme>
+      <baseMapTileSize type="int">1024</baseMapTileSize>
+      <baseMapType type="QString">singleLayer</baseMapType>
+      <createBaseMap type="int">0</createBaseMap>
+      <digitizingLogsLayer type="QString"></digitizingLogsLayer>
+      <forceAutoPush type="int">0</forceAutoPush>
+      <forceAutoPushIntervalMins type="int">30</forceAutoPushIntervalMins>
+      <layerActionPreference type="QString">online</layerActionPreference>
+      <maximumImageWidthHeight type="int">0</maximumImageWidthHeight>
+      <offlineCopyOnlyAoi type="int">0</offlineCopyOnlyAoi>
+    </qfieldsync>
+  </properties>
+  <dataDefinedServerProperties>
+    <Option type="Map">
+      <Option value="" name="name" type="QString"/>
+      <Option name="properties"/>
+      <Option value="collection" name="type" type="QString"/>
+    </Option>
+  </dataDefinedServerProperties>
+  <visibility-presets/>
+  <transformContext/>
+  <projectMetadata>
+    <identifier></identifier>
+    <parentidentifier></parentidentifier>
+    <language></language>
+    <type></type>
+    <title></title>
+    <abstract></abstract>
+    <contact>
+      <name></name>
+      <organization></organization>
+      <position></position>
+      <voice></voice>
+      <fax></fax>
+      <email></email>
+      <role></role>
+    </contact>
+    <links/>
+    <dates>
+      <date value="2024-12-04T10:06:11" type="Created"/>
+    </dates>
+    <author>David Ghedini</author>
+    <creation>2024-12-04T10:06:11</creation>
+  </projectMetadata>
+  <Annotations/>
+  <Layouts/>
+  <mapViewDocks3D/>
+  <Bookmarks/>
+  <Sensors/>
+  <ProjectViewSettings UseProjectScales="0" rotation="0">
+    <Scales/>
+    <DefaultViewExtent xmax="-93.95176240706899762" xmin="-95.0654720132783666" ymin="34.18988680755406762" ymax="34.8595273047244163">
+      <spatialrefsys nativeFormat="Wkt">
+        <wkt>GEOGCRS["NAD83",DATUM["North American Datum 1983",ELLIPSOID["GRS 1980",6378137,298.257222101,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic latitude (Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic longitude (Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["Geodesy."],AREA["North America - onshore and offshore: Canada - Alberta; British Columbia; Manitoba; New Brunswick; Newfoundland and Labrador; Northwest Territories; Nova Scotia; Nunavut; Ontario; Prince Edward Island; Quebec; Saskatchewan; Yukon. Puerto Rico. United States (USA) - Alabama; Alaska; Arizona; Arkansas; California; Colorado; Connecticut; Delaware; Florida; Georgia; Hawaii; Idaho; Illinois; Indiana; Iowa; Kansas; Kentucky; Louisiana; Maine; Maryland; Massachusetts; Michigan; Minnesota; Mississippi; Missouri; Montana; Nebraska; Nevada; New Hampshire; New Jersey; New Mexico; New York; North Carolina; North Dakota; Ohio; Oklahoma; Oregon; Pennsylvania; Rhode Island; South Carolina; South Dakota; Tennessee; Texas; Utah; Vermont; Virginia; Washington; West Virginia; Wisconsin; Wyoming. US Virgin Islands. British Virgin Islands."],BBOX[14.92,167.65,86.45,-40.73]],ID["EPSG",4269]]</wkt>
+        <proj4>+proj=longlat +datum=NAD83 +no_defs</proj4>
+        <srsid>3401</srsid>
+        <srid>4269</srid>
+        <authid>EPSG:4269</authid>
+        <description>NAD83</description>
+        <projectionacronym>longlat</projectionacronym>
+        <ellipsoidacronym>EPSG:7019</ellipsoidacronym>
+        <geographicflag>true</geographicflag>
+      </spatialrefsys>
+    </DefaultViewExtent>
+  </ProjectViewSettings>
+  <ProjectStyleSettings projectStyleId="attachment:///zfIoov_styles.db" DefaultSymbolOpacity="1" RandomizeDefaultSymbolColor="1">
+    <databases/>
+  </ProjectStyleSettings>
+  <ProjectTimeSettings frameRate="1" timeStep="1" timeStepUnit="h" cumulativeTemporalRange="0"/>
+  <ElevationProperties>
+    <terrainProvider type="flat">
+      <TerrainProvider offset="0" scale="1"/>
+    </terrainProvider>
+  </ElevationProperties>
+  <ProjectDisplaySettings CoordinateAxisOrder="Default" CoordinateType="MapCrs">
+    <BearingFormat id="bearing">
+      <Option type="Map">
+        <Option name="decimal_separator" type="invalid"/>
+        <Option value="6" name="decimals" type="int"/>
+        <Option value="0" name="direction_format" type="int"/>
+        <Option value="0" name="rounding_type" type="int"/>
+        <Option value="false" name="show_plus" type="bool"/>
+        <Option value="true" name="show_thousand_separator" type="bool"/>
+        <Option value="false" name="show_trailing_zeros" type="bool"/>
+        <Option name="thousand_separator" type="invalid"/>
+      </Option>
+    </BearingFormat>
+    <GeographicCoordinateFormat id="geographiccoordinate">
+      <Option type="Map">
+        <Option value="DecimalDegrees" name="angle_format" type="QString"/>
+        <Option name="decimal_separator" type="invalid"/>
+        <Option value="6" name="decimals" type="int"/>
+        <Option value="0" name="rounding_type" type="int"/>
+        <Option value="false" name="show_leading_degree_zeros" type="bool"/>
+        <Option value="false" name="show_leading_zeros" type="bool"/>
+        <Option value="false" name="show_plus" type="bool"/>
+        <Option value="false" name="show_suffix" type="bool"/>
+        <Option value="true" name="show_thousand_separator" type="bool"/>
+        <Option value="false" name="show_trailing_zeros" type="bool"/>
+        <Option name="thousand_separator" type="invalid"/>
+      </Option>
+    </GeographicCoordinateFormat>
+    <CoordinateCustomCrs>
+      <spatialrefsys nativeFormat="Wkt">
+        <wkt>GEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic latitude (Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic longitude (Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["Horizontal component of 3D system."],AREA["World."],BBOX[-90,-180,90,180]],ID["EPSG",4326]]</wkt>
+        <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+        <srsid>3452</srsid>
+        <srid>4326</srid>
+        <authid>EPSG:4326</authid>
+        <description>WGS 84</description>
+        <projectionacronym>longlat</projectionacronym>
+        <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+        <geographicflag>true</geographicflag>
+      </spatialrefsys>
+    </CoordinateCustomCrs>
+  </ProjectDisplaySettings>
+  <ProjectGpsSettings autoCommitFeatures="0" autoAddTrackVertices="0" destinationLayerProvider="ogr" destinationLayerName="S_USA.Activity_MBHR_PL — Activity_MBHR_PL" destinationLayer="Activity_MBHR_PL_7ed8c0f4_7e9d_4c86_8868_3340b8e1d893" destinationLayerSource="C:\Users\david\Desktop\geodb\S_USA.Activity_MBHR_PL.gdb|layername=Activity_MBHR_PL" destinationFollowsActiveLayer="1">
+    <timeStampFields/>
+  </ProjectGpsSettings>
+</qgis>

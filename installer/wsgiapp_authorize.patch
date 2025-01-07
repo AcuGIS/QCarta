@@ -1,0 +1,82 @@
+--- wsgiapp.py.orig	2024-11-27 18:39:11.852627148 +0000
++++ wsgiapp.py	2024-11-28 12:42:44.879594860 +0000
+@@ -22,6 +22,8 @@ import os
+ import re
+ import threading
+ import time
++import urllib.parse
++import psycopg2
+ 
+ try:
+     # time.strptime is thread-safe, but not the first call.
+@@ -39,6 +41,20 @@ from mapproxy.config.loader import load_
+ log = logging.getLogger('mapproxy.config')
+ log_wsgiapp = logging.getLogger('mapproxy.wsgiapp')
+ 
++def get_lay_id(cur, lay_name):
++    cur.execute("SELECT id FROM layer WHERE name='%s'" % (lay_name))
++    row = cur.fetchone()
++    return row[0]
++
++def check_is_public(cur, lay_id):
++    cur.execute("SELECT public FROM qgs_layer WHERE id=%s" % (lay_id))
++    row = cur.fetchone()
++    return row[0]
++
++def check_layer_key(cur, acc_key, ip, lay_id):
++    cur.execute("SELECT check_layer_key('%s', '%s', %s)" % (acc_key, ip, lay_id))
++    row = cur.fetchone()
++    return (row[0] == 1)
+ 
+ def make_wsgi_app(services_conf=None, debug=False, ignore_config_warnings=True, reloader=False):
+     """
+@@ -121,11 +137,15 @@ class MapProxyApp(object):
+         for service in services:
+             for name in service.names:
+                 self.handlers[name] = service
++        #self.skip_auth = os.getenv('SKIP_AUTH').split(',')
++        self.name2id = {}
+ 
+     def __call__(self, environ, start_response):
+         resp = None
+         req = Request(environ)
+ 
++        environ['mapproxy.authorize'] = self.authorize1
++
+         if self.cors_origin:
+             orig_start_response = start_response
+             def start_response(status, headers, exc_info=None):
+@@ -161,3 +181,33 @@ class MapProxyApp(object):
+         if 'demo' in self.handlers:
+             html += '<p>See all configured layers and services at: <a href="%s/demo/">demo</a>' % (script_url, )
+         return Response(html, mimetype='text/html')
++    
++    def authorize1(self, service, layers=[], environ=None, **kw):
++
++        #if environ['HTTP_X_FORWARDED_HOST'] in self.skip_auth:
++        #    return {'authorized': 'full'}
++
++        qs = urllib.parse.parse_qs(environ['QUERY_STRING'])
++        ip=environ['HTTP_X_FORWARDED_FOR']
++
++        if 'access_key' in qs:
++            acc_key=qs['access_key'][0]
++        else:
++            acc_key=None
++
++        conn = psycopg2.connect(service='qgapp')
++        cursor = conn.cursor()
++
++        allow = 'full'
++
++        for l in qs['layers']:
++            if not l in self.name2id:
++                self.name2id[l] = lay_id = get_lay_id(cursor, l)
++            else:
++                lay_id = self.name2id[l]
++            
++            if not check_is_public(cursor, lay_id) and (acc_key == None or check_layer_key(cursor, acc_key, ip, lay_id) == False):
++                allow = 'none'
++                break
++        conn.close()
++        return {'authorized': allow}

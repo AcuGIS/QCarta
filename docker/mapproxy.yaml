@@ -1,0 +1,187 @@
+---
+services:
+  demo: ~
+  tms:
+    use_grid_names: true
+    origin: nw
+  kml:
+    use_grid_names: true
+  wmts: ~
+  wms:
+    md:
+      title: MapProxy WMS Proxy
+      abstract: This is a minimal MapProxy example.
+layers:
+- name: neighborhoods
+  title: Layer neighborhoods
+  sources:
+  - neighborhoods_cache
+- name: usa
+  title: Layer usa
+  sources:
+  - usa_cache
+- name: geotiff
+  title: Layer 20
+  sources:
+  - geotiff_cache
+- name: monarchs
+  title: Layer monarchs
+  sources:
+  - monarchs_cache
+- name: bgsgrid
+  title: Layer bgsgrid
+  sources:
+  - bgsgrid_cache
+- name: qfieldSimpleBee
+  title: Layer qfieldSimpleBee
+  sources:
+  - qfieldsimplebee_cache
+- name: CustomDemo
+  title: Layer CustomDemo
+  sources:
+  - CustomDemo_cache
+- name: nws
+  title: Layer nws
+  sources:
+  - nws_cache
+- name: paris1550
+  title: Layer paris1550
+  sources:
+  - paris1550_cache
+caches:
+  neighborhoods_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - neighborhoods
+  usa_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - usa
+  geotiff_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - geotiff
+  customdemo_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - CustomDemo
+  monarchs_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - monarchs
+  bgsgrid_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - bgsgrid
+  qfieldsimplebee_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - qfieldSimpleBee
+  CustomDemo_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - CustomDemo
+  paris1550_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - paris1550
+  nws_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - nws
+sources:
+  neighborhoods:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F3%2Fchicago.qgs
+      layers: neighborhoods,parks,waterways
+      transparent: true
+  usa:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F2%2Fusdemo.qgs
+      layers: states
+      transparent: true
+  geotiff:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F4%2Fusgeotiff.qgs
+      layers: topp-states
+      transparent: true
+  CustomDemo:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F2%2Fusdemo.qgs
+      layers: states
+      transparent: true
+  monarchs:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F7%2Fmonarch-habitats.qgs
+      layers: "S_USA.Activity_MBHR_PL \u2014 Activity_MBHR_PL"
+      transparent: true
+  bgsgrid:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F4%2Fbgsgrid.qgs
+      layers: GB_Hex_5km_GS_RunningSand_v8,GB_Hex_5km_GS_SolubleRocks_v8
+      transparent: true
+  qfieldSimpleBee:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F8%2Fbees.qgs
+      layers: Map swissTLM (gray),Tracks,Fields,Apiary
+      transparent: true
+  paris1550:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F5%2Fparis.qgs
+      layers: "35854"
+      transparent: true
+  nws:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F6%2Fweather-service.qgs
+      layers: NDFD Forecast hawaii.apparentt,NDFD Forecast hawaii.apparentt.points
+      transparent: true
+grids:
+  webmercator:
+    base: GLOBAL_WEBMERCATOR
+globals:
+  image:
+    formats:
+      imgformat:
+        format: image/png
+        mode: P
+        transparent: true
+...
