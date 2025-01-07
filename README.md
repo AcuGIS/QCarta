@@ -8,7 +8,7 @@ Publish your QGIS Projects as OGC Web Services.
 
 Group level permissions and integration MapProxy caching.
 
-![QuartzMap](QuartzMap-Main.png)
+![QuartzMap](docs/_static/quail-github.png)
    
 ## Requirements
 
