@@ -24,11 +24,11 @@ Be sure to set the hostname prior to installation if you plan to provision SSL u
 hostnamectl set-hostname <yourhostname>
 ```
 
-Download quail-2.1.0.zip
+### Installer
 
 ```bash
-$ unzip -q quail-2.1.0.zip
-$ cd quail-2.1.0
+$ git clone https://github.com/AcuGIS/quail.git
+$ cd quail
 $ ./installer/postgres.sh
 $ ./installer/app-install.sh
 ```
@@ -39,8 +39,24 @@ Optionally, provision and SSL certificate using:
  certbot --apache --agree-tos --email hostmaster@${HNAME} --no-eff-email -d ${HNAME}
 ```
 
-Once installation completes, go to https://<yourdomain.com>/admin/setup.php to complete installation
- 
+Default credentials
+
+   - Email: admin@admin.com
+   - Password: quail
+
+### Docker (Not for Production Use)
+
+```bash
+git clone https://github.com/AcuGIS/quail.git
+cd quail
+./installer/docker-install.sh
+
+docker-compose build --build-arg DOCKER_IP=192.168.0.25 --build-arg DOCKER_PORT=8000
+docker-compose up
+```
+
+URL: http://yourdomain.com:8000
+
 ## Documentation
 
 Quail Docs [Documentation](https://quail.docs.acugis.com).
