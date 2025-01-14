@@ -128,7 +128,7 @@
 			$sdirs = array();
 			
 			foreach($_POST['source'] as $name){
-				if($_POST['src_url']){
+				if(isset($_POST['src_url'])){
 					$tmp_name = DATA_DIR.'/upload/'.$name;
 				}else{
 					$tmp_name = DATA_DIR.'/upload/'.$_SESSION[SESS_USR_KEY]->id.'_'.$name;
