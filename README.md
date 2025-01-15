@@ -13,8 +13,8 @@ Group level permissions and integration MapProxy caching.
 ## Requirements
 
 - Ubuntu 24
-- 2 GB RAM
-- 15 GB Disk
+- 1 GB RAM
+- 5 GB Disk
 
 ## Install
 
