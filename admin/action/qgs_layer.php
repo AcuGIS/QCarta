@@ -180,7 +180,7 @@
 		return true;
 	}
 	
-	function update_layer($id, $post){
+	function update_layer($id, $post, $oldrow){
 		$html_dir = WWW_DIR.'/layers/'.$id;
 		$data_dir = DATA_DIR.'/layers/'.$id;
 
@@ -209,7 +209,10 @@
 			update_template('../snippets/wms_index.php', $html_dir.'/index.php', $vars);
 		}
 
-		mapproxy_Class::mapproxy_delete_source($post['name']);
+		if($oldrow->proxyfied){
+			mapproxy_Class::mapproxy_delete_source($oldrow->name);
+		}
+
 		if($post['proxyfied']){
 			mapproxy_Class::mapproxy_add_source($post['name'], $qgs_file, $post['layers']);
 		}
@@ -325,8 +328,13 @@
 					$_POST['layers'] = implode(',', $_POST['layers']);
 
 				  if($id >= 0) { // update
+
+						$result = $obj->getById($id);
+						$oldrow = pg_fetch_object($result);
+						pg_free_result($result);
+
             $newId = $obj->update($_POST) ? $id : 0;
-						update_layer($newId, $_POST);
+						update_layer($newId, $_POST, $oldrow);
           } else { // insert
             $newId = $obj->create($_POST);
 						if($newId){
