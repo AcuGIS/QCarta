@@ -198,7 +198,7 @@ function qgs_ordered_layers($xml){
 							
 							if($newId > 0){
 								$result = ['success' => true, 'message' => 'Store successfully created!', 'id' => $newId];
-							}else{
+							}else if(isset($_POST['source'])){
 								// clear upload files on failure
 								foreach($_POST['source'] as $source){
 									$upload_file = DATA_DIR.'/upload/'.$_SESSION[SESS_USR_KEY]->id.'_'.$source;
