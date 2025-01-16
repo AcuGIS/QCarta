@@ -221,7 +221,7 @@
 		return true;
 	}
 
-	function delete_layer($id, $name){
+	function delete_layer($id, $row){
 		
 		$html_dir  = WWW_DIR.'/layers/'.$id;
 		$data_dir  = DATA_DIR.'/layers/'.$id;
@@ -237,12 +237,15 @@
 		if(is_file(WWW_DIR.'/assets/layers/'.$id.'.png')){
 			unlink(WWW_DIR.'/assets/layers/'.$id.'.png');
 		}
-
-		if(mapproxy_Class::mapproxy_delete_source($name)){
-			shell_exec('sudo /usr/local/bin/mapproxy_ctl.sh restart');
-		}
 		
-		shell_exec('mapproxy_seed_ctl.sh disable '.$id);
+		if(row->proxyfied){
+    		if(mapproxy_Class::mapproxy_delete_source($row->name)){
+    			shell_exec('sudo /usr/local/bin/mapproxy_ctl.sh restart');
+    		}
+            mproxy_cache_clear($row);
+    		
+    		shell_exec('mapproxy_seed_ctl.sh disable '.$id);
+		}
 
 		rrmdir($data_dir);
 	}
@@ -362,7 +365,7 @@
 					if($obj->drop_access($id) && $obj->delete($id)){
 	        	$result = ['success' => true, 'message' => 'Layer successfully deleted!'];
 	
-						delete_layer($id, $row->name);
+						delete_layer($id, $row);
 					}					
 				}else{
 					$result = ['success' => true, 'message' => 'Failed to delete layer!'];
