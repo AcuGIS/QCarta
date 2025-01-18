@@ -36,6 +36,7 @@ $ ./installer/app-install.sh
 Optionally, provision and SSL certificate using:
 
 ```bash
+ apt-get -y install python3-certbot-apache
  certbot --apache --agree-tos --email hostmaster@${HNAME} --no-eff-email -d ${HNAME}
 ```
 
