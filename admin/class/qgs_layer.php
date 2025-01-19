@@ -12,12 +12,13 @@
 						return 0;
 					}
 					
-            $sql = "INSERT INTO PUBLIC." .$this->table_ext.'_'.$this->table_name." (id,public,cached,proxyfied,customized,layers) VALUES('".
+            $sql = "INSERT INTO PUBLIC." .$this->table_ext.'_'.$this->table_name." (id,public,cached,proxyfied,customized,exposed,layers) VALUES('".
 							$row_id."','".
 							$this->cleanData($data['public'])."','".
 							$this->cleanData($data['cached'])."','".
 							$this->cleanData($data['proxyfied'])."','".
 							$this->cleanData($data['customized'])."','".
+							$this->cleanData($data['exposed'])."','".
 							$this->cleanData($data['layers'])."') RETURNING id";
              
 							$result = pg_query($this->dbconn, $sql);
@@ -38,6 +39,7 @@
 					"', cached='".$this->cleanData($data['cached']).
 					"', proxyfied='".$this->cleanData($data['proxyfied']).
 					"', customized='".$this->cleanData($data['customized']).
+					"', exposed='".$this->cleanData($data['exposed']).
 					"', layers='".$this->cleanData($data['layers']).
 					"' where id = '".intval($data['id'])."'";
 					

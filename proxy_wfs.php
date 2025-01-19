@@ -17,6 +17,10 @@ if(!empty($_GET['layers'])){
 	exit(0);
 }
 
+# if layer name contains a dot, its an exposed layer (neighbourhoods.ways)
+if(str_contains( $l, '.')){
+    $l = explode('.', $l)[0];   # use only app layer name
+}
 $row = $database->get('public.layer', 'name=\''.$l.'\'');
 if(!$row){
 	http_response_code(404); // Not Found

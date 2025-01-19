@@ -12,10 +12,6 @@ services:
       title: MapProxy WMS Proxy
       abstract: This is a minimal MapProxy example.
 layers:
-- name: neighborhoods
-  title: Layer neighborhoods
-  sources:
-  - neighborhoods_cache
 - name: usa
   title: Layer usa
   sources:
@@ -28,14 +24,6 @@ layers:
   title: Layer monarchs
   sources:
   - monarchs_cache
-- name: bgsgrid
-  title: Layer bgsgrid
-  sources:
-  - bgsgrid_cache
-- name: qfieldSimpleBee
-  title: Layer qfieldSimpleBee
-  sources:
-  - qfieldsimplebee_cache
 - name: CustomDemo
   title: Layer CustomDemo
   sources:
@@ -44,18 +32,43 @@ layers:
   title: Layer nws
   sources:
   - nws_cache
+- name: bgsgrid.GB_Hex_5km_GS_SolubleRocks_v8
+  title: Layer bgsgrid.GB_Hex_5km_GS_SolubleRocks_v8
+  sources:
+  - bgsgrid.GB_Hex_5km_GS_SolubleRocks_v8_cache
+- name: bgsgrid.GB_Hex_5km_GS_RunningSand_v8
+  title: Layer bgsgrid.GB_Hex_5km_GS_RunningSand_v8
+  sources:
+  - bgsgrid.GB_Hex_5km_GS_RunningSand_v8_cache
+- name: neighborhoods.neighborhoods
+  title: Layer neighborhoods.neighborhoods
+  sources:
+  - neighborhoods.neighborhoods_cache
+- name: neighborhoods.parks
+  title: Layer neighborhoods.parks
+  sources:
+  - neighborhoods.parks_cache
+- name: neighborhoods.waterways
+  title: Layer neighborhoods.waterways
+  sources:
+  - neighborhoods.waterways_cache
+- name: qfieldSimpleBee.Fields
+  title: Layer qfieldSimpleBee.Fields
+  sources:
+  - qfieldSimpleBee.Fields_cache
+- name: qfieldSimpleBee.Apiary
+  title: Layer qfieldSimpleBee.Apiary
+  sources:
+  - qfieldSimpleBee.Apiary_cache
+- name: qfieldSimpleBee.Tracks
+  title: Layer qfieldSimpleBee.Tracks
+  sources:
+  - qfieldSimpleBee.Tracks_cache
 - name: paris1550
   title: Layer paris1550
   sources:
   - paris1550_cache
 caches:
-  neighborhoods_cache:
-    grids:
-    - webmercator
-    request_format: image/png
-    format: image/png
-    sources:
-    - neighborhoods
   usa_cache:
     grids:
     - webmercator
@@ -84,13 +97,6 @@ caches:
     format: image/png
     sources:
     - monarchs
-  bgsgrid_cache:
-    grids:
-    - webmercator
-    request_format: image/png
-    format: image/png
-    sources:
-    - bgsgrid
   qfieldsimplebee_cache:
     grids:
     - webmercator
@@ -105,13 +111,6 @@ caches:
     format: image/png
     sources:
     - CustomDemo
-  paris1550_cache:
-    grids:
-    - webmercator
-    request_format: image/png
-    format: image/png
-    sources:
-    - paris1550
   nws_cache:
     grids:
     - webmercator
@@ -119,13 +118,70 @@ caches:
     format: image/png
     sources:
     - nws
+  bgsgrid.GB_Hex_5km_GS_SolubleRocks_v8_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - bgsgrid.GB_Hex_5km_GS_SolubleRocks_v8
+  bgsgrid.GB_Hex_5km_GS_RunningSand_v8_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - bgsgrid.GB_Hex_5km_GS_RunningSand_v8
+  neighborhoods.neighborhoods_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - neighborhoods.neighborhoods
+  neighborhoods.parks_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - neighborhoods.parks
+  neighborhoods.waterways_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - neighborhoods.waterways
+  qfieldSimpleBee.Fields_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - qfieldSimpleBee.Fields
+  qfieldSimpleBee.Apiary_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - qfieldSimpleBee.Apiary
+  qfieldSimpleBee.Tracks_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - qfieldSimpleBee.Tracks
+  paris1550_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - paris1550
 sources:
-  neighborhoods:
-    type: wms
-    req:
-      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F3%2Fchicago.qgs
-      layers: neighborhoods,parks,waterways
-      transparent: true
   usa:
     type: wms
     req:
@@ -150,29 +206,65 @@ sources:
       url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F7%2Fmonarch-habitats.qgs
       layers: "S_USA.Activity_MBHR_PL \u2014 Activity_MBHR_PL"
       transparent: true
-  bgsgrid:
-    type: wms
-    req:
-      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F4%2Fbgsgrid.qgs
-      layers: GB_Hex_5km_GS_RunningSand_v8,GB_Hex_5km_GS_SolubleRocks_v8
-      transparent: true
-  qfieldSimpleBee:
-    type: wms
-    req:
-      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F8%2Fbees.qgs
-      layers: Map swissTLM (gray),Tracks,Fields,Apiary
-      transparent: true
-  paris1550:
-    type: wms
-    req:
-      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F5%2Fparis.qgs
-      layers: "35854"
-      transparent: true
   nws:
     type: wms
     req:
       url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F6%2Fweather-service.qgs
       layers: NDFD Forecast hawaii.apparentt,NDFD Forecast hawaii.apparentt.points
+      transparent: true
+  bgsgrid.GB_Hex_5km_GS_SolubleRocks_v8:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F4%2Fbgsgrid.qgs
+      layers: GB_Hex_5km_GS_SolubleRocks_v8
+      transparent: true
+  bgsgrid.GB_Hex_5km_GS_RunningSand_v8:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F4%2Fbgsgrid.qgs
+      layers: GB_Hex_5km_GS_RunningSand_v8
+      transparent: true
+  neighborhoods.neighborhoods:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F3%2Fchicago.qgs
+      layers: neighborhoods
+      transparent: true
+  neighborhoods.parks:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F3%2Fchicago.qgs
+      layers: parks
+      transparent: true
+  neighborhoods.waterways:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F3%2Fchicago.qgs
+      layers: waterways
+      transparent: true
+  qfieldSimpleBee.Fields:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F8%2Fbees.qgs
+      layers: Fields
+      transparent: true
+  qfieldSimpleBee.Apiary:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F8%2Fbees.qgs
+      layers: Apiary
+      transparent: true
+  qfieldSimpleBee.Tracks:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F8%2Fbees.qgs
+      layers: Tracks
+      transparent: true
+  paris1550:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F5%2Fparis.qgs
+      layers: paris
       transparent: true
 grids:
   webmercator:

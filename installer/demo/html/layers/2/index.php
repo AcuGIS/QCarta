@@ -15,7 +15,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<title>WMS example - Leaflet</title>
+	<title>Custom Layer Demo</title>
 	
 	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
 	<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
@@ -24,14 +24,12 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
 
 	<link rel="stylesheet" href="../../assets/dist/css/Control.MiniMap.css"/>
-	<link rel="stylesheet" href="../../assets/dist/css/leaflet.measurecontrol.css"/>
       <link rel="stylesheet" href="../../assets/dist/css/L.Control.Opacity.css"/>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<script src="../../assets/dist/js/L.BetterWMS.js"></script>
 	<script src="../../assets/dist/js/Control.MiniMap.js"></script>
-	<script src="../../assets/dist/js/leaflet.measurecontrol.js"></script>
       <script src="../../assets/dist/js/L.Control.Opacity.js"></script>
 
 <style type="text/css">
@@ -45,6 +43,12 @@ html, body, #map {
 }
 .leaflet-container {
 	cursor: pointer !important;
+}
+
+  .leaflet-popup-content {
+    max-width: 600px;
+    height: 300px;
+    overflow-y: scroll;
 }
 </style>
 </head>
@@ -61,17 +65,17 @@ html, body, #map {
 
 	var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
 	var carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>Carto</a>'
+            attribution: '© <a href="https://carto.com/attributions">CARTO</a>Carto</a>'
         }).addTo(map);
 
 	var esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png', {
             maxZoom: 19,
-            attribution: '&copy; <a href="http://www.esri.com">ESRI</a>'
+            attribution: '© <a href="http://www.esri.com">ESRI</a>'
         }).addTo(map);
 
 
@@ -151,10 +155,9 @@ var drawnItems = new L.FeatureGroup();
             	drawnItems.addLayer(layer);
         	});
 
-					L.Control.measureControl().addTo(map);
 
 					var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-					var osmAttrib='Map data &copy; OpenStreetMap contributors';
+					var osmAttrib='Map data © OpenStreetMap contributors';
 
 					var osmMini = new L.TileLayer(osmUrl, {minZoom: 0, maxZoom: 13, attribution: osmAttrib });
 					var miniMap = new L.Control.MiniMap(osmMini, { toggleDisplay: true }).addTo(map);

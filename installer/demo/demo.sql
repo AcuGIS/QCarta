@@ -32,13 +32,13 @@ VALUES
 	(1, 2), (8, 2);
 INSERT INTO  public.pg_layer (id, public, tbl, geom) VALUES (1,	'f',	'states',	'geom');
 INSERT INTO  public.qgs_layer
-	(id, public, cached, proxyfied, customized, layers)
+	(id, public, cached, proxyfied, customized, exposed, layers)
 VALUES
- 	(2,	'f',	't',	't',	'f',	'states'),
-	(3, false, true, true, false, 'waterways,neighborhoods,parks'),
-	(4, true, true, true, false, 'GB_Hex_5km_GS_RunningSand_v8,GB_Hex_5km_GS_SolubleRocks_v8'),
-	(5, false, true, true, false, '35854'),
-	(6, false, true, true, true, 'NDFD Forecast hawaii.apparentt,NDFD Forecast hawaii.apparentt.points'),
-	(7, true, true, true, false, 'S_USA.Activity_MBHR_PL — Activity_MBHR_PL'),
-	(8, false, true, true, false, 'states'),
-	(9, true, false, true, false, 'Map swissTLM (gray),Tracks,Fields,Apiary');
+ 	(2,	false, true, true, false, false, 'states'),
+	(3, false, true, true, false, true,  'neighborhoods,parks,waterways'),
+	(4, true,  true, true, false, true,  'GB_Hex_5km_GS_RunningSand_v8,GB_Hex_5km_GS_SolubleRocks_v8'),
+	(5, false, true, true, false, false, 'paris'),
+	(6, false, true, true, true,  false, 'NDFD Forecast hawaii.apparentt,NDFD Forecast hawaii.apparentt.points'),
+	(7, true,  true, true, false, false, 'S_USA.Activity_MBHR_PL — Activity_MBHR_PL'),
+	(8, false, true, true, false, false, 'states'),
+	(9, true,  false,true, false, true,  'Fields,Apiary,Tracks');

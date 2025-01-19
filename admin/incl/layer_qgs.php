@@ -9,6 +9,7 @@
 					<th data-name="public">Public</th>
 					<th data-name="cached">Cached</th>
 					<th data-name="proxyfied">MapProxy</th>
+					<th data-name="exposed">Exposed</th>
 					<th data-name="customized">Customized</th>
 					<th data-name="store_id">Store</th>
 					<th data-name="group_id" data-type="select">Access Group</th>
@@ -28,6 +29,7 @@
 					<td><?=$row->public=='t' ? 'yes' : 'no'?></td>
 					<td><?=$row->cached=='t' ? 'yes' : 'no'?></td>
 					<td><?=$row->proxyfied=='t' ? 'yes' : 'no'?></td>
+					<td><?=$row->exposed=='t' ? 'yes' : 'no'?></td>
 					<td><?=$row->customized=='t' ? 'yes' : 'no'?></td>
 					<td data-value="<?=$row->store_id?>"><?=$stores[$row->store_id]?></td>
 					<td data-value="<?=implode(',', array_keys($row_grps))?>">
@@ -160,6 +162,11 @@
 						<?php } ?>
 						<input type="checkbox" name="customized" id="customized" value="t"/>
 						<label for="customized" class="form-label">Customized</label>
+					</div>
+					
+					<div class="form-group">
+						<input type="checkbox" name="exposed" id="exposed" value="t"/ disabled>
+						<label for="exposed" class="form-label">Separate Layers</label>
 					</div>
 
 					<div class="form-group">

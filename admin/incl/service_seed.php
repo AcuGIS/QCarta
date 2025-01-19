@@ -49,7 +49,7 @@
     <div class="col-4"><p>&nbsp;</p>
 
 			<div class="alert alert-success">
-			   <strong>Note:</strong> Create Layers from PostGIS Stores. <a href="https://quail.docs.acugis.com/en/latest/sections/mapproxy/index.html#seed-layer" target="_blank"> Documentation</a>
+			   <strong>Note:</strong> Seed Layers. <a href="https://quail.docs.acugis.com/en/latest/sections/mapproxy/index.html#seed-layer" target="_blank"> Documentation</a>
 			</div>
 		</div>
 

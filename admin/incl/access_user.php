@@ -30,7 +30,7 @@
 							<a class="edit" title="Edit" data-toggle="tooltip"><i class="text-warning bi bi-pencil-square"></i></a>
 							<a class="delete" title="Delete" data-toggle="tooltip"><i class="text-danger bi bi-x-square"></i></a>
 						</td>
-					</tr> <?php } ?> 
+					</tr> <?php } ?>
 				</tbody>
 			</table>           
 		</div>

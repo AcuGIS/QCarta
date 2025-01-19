@@ -24,14 +24,12 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
 
 	<link rel="stylesheet" href="../../assets/dist/css/Control.MiniMap.css"/>
-	<link rel="stylesheet" href="../../assets/dist/css/leaflet.measurecontrol.css"/>
 	<link rel="stylesheet" href="../../assets/dist/css/L.Control.Opacity.css"/>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<script src="../../assets/dist/js/L.BetterWMS.js"></script>
 	<script src="../../assets/dist/js/Control.MiniMap.js"></script>
-	<script src="../../assets/dist/js/leaflet.measurecontrol.js"></script>
 	<script src="../../assets/dist/js/L.Control.Opacity.js"></script>
 
 
@@ -50,7 +48,7 @@ html, body, #map {
 
   .leaflet-popup-content {
     max-width: 600px;
-    height: 400px;
+    height: 300px;
     overflow-y: scroll;
 }
 </style>
@@ -85,19 +83,24 @@ html, body, #map {
 
       // WMS Layer
 
-	const wmsLayer = L.tileLayer.betterWms('<?=$wms_url?>', {
-		layers: 'WMS_LAYERS',
+			<?php $layers = explode(',', 'WMS_LAYERS'); $li = 0;
+			 foreach($layers as $lay){ ?>
+	const wms<?=$li?> = L.tileLayer.betterWms('<?=$wms_url?>', {
+		layers: '<?=$lay?>',
 		transparent: 'true',
   	format: 'image/png',
 		maxZoom:25
 	}).addTo(map);
+	<?php $li = $li + 1; } ?>
 
 	map.fitBounds(BOUNDING_BOX);
 
 	// Group overlays and basemaps
 
 	var overlayMap = {
-	'<?=implode(',', QGIS_LAYERS)?>' :wmsLayer
+		<?php $li=0; $del = ''; foreach($layers as $lay){ ?>
+			<?=$del?>'<?=$lay?>' : wms<?=$li?>
+		<?php $del = ','; $li = $li + 1; } ?>
 	};
 
 	var baseMap = {
@@ -166,9 +169,6 @@ html, body, #map {
             	drawnItems.addLayer(layer);
         	});
 
-	// Measure
-
-	L.Control.measureControl().addTo(map);
 
 	// Minimap
 	var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';

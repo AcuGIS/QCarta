@@ -15,7 +15,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<title>WMS example - Leaflet</title>
+	<title>National Weather Service</title>
 	
 	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
 	<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
@@ -24,14 +24,12 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
 
 	<link rel="stylesheet" href="../../assets/dist/css/Control.MiniMap.css"/>
-	<link rel="stylesheet" href="../../assets/dist/css/leaflet.measurecontrol.css"/>
       	<link rel="stylesheet" href="../../assets/dist/css/L.Control.Opacity.css"/>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<script src="../../assets/dist/js/L.BetterWMS.js"></script>
 	<script src="../../assets/dist/js/Control.MiniMap.js"></script>
-	<script src="../../assets/dist/js/leaflet.measurecontrol.js"></script>
       	<script src="../../assets/dist/js/L.Control.Opacity.js"></script>
 
 <style type="text/css">
@@ -160,9 +158,6 @@ html, body, #map {
             	drawnItems.addLayer(layer);
         	});
 
-	// Measure
-
-	L.Control.measureControl().addTo(map);
 
 	// Minimap
 	var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
