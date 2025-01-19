@@ -151,7 +151,18 @@
 		
 		$bbox = layers_get_bbox($qgs_file, $post['layers']);
 		$wms_url = ($post['proxyfied'] == 't') ? '/mproxy/service' : 'proxy_qgis.php';
-		$wms_layers = ($post['proxyfied'] == 't') ? $post['name'] : $post['layers'];
+		
+		$mproxy_layer_names = array();
+		if(($post['proxyfied'] == 't') && ($post['exposed'] == 't')){
+			$lays = explode(',', $post['layers']);
+			foreach($lays as $l){
+				array_push($mproxy_layer_names, $post['name'].'.'.$l);
+			}
+		}else{
+			array_push($mproxy_layer_names, $post['name']);
+		}
+		
+		$wms_layers = ($post['proxyfied'] == 't') ? implode(',', $mproxy_layer_names) : $post['layers'];
 		
 		$vars = ['BOUNDING_BOX' => '[['.$bbox["miny"].','.$bbox["minx"].'],['.$bbox['maxy'].','.$bbox['maxx'].']]',
 			'WMS_URL' => $wms_url, 'SECRET_KEY' => $_SESSION[SESS_USR_KEY]->secret_key, 'WMS_LAYERS' => $wms_layers
@@ -167,7 +178,14 @@
 		}
 		
 		if($post['proxyfied'] == 't'){
-			mapproxy_Class::mapproxy_add_source($post['name'], $qgs_file, $post['layers']);
+			if($post['exposed'] == 't'){
+				$lays = explode(',', $post['layers']);
+				foreach($lays as $l){
+					mapproxy_Class::mapproxy_add_source($post['name'].'.'.$l, $qgs_file, $l);
+				}
+			}else{
+				mapproxy_Class::mapproxy_add_source($post['name'], $qgs_file, $post['layers']);
+			}
 		}
 		
 		layer_save_thumbnail($qgs_file, $post, $bbox);
@@ -198,10 +216,20 @@
 
 		update_env($html_dir.'/env.php', $vars);
 		
+		$mproxy_layer_names = array();
+		if($post['exposed'] == 't'){
+			$lays = explode(',', $post['layers']);
+			foreach($lays as $l){
+				array_push($mproxy_layer_names, $post['name'].'.'.$l);
+			}
+		}else{
+			array_push($mproxy_layer_names, $post['name']);
+		}
+		
 		if($post['customized'] != 't'){	// if user hasn't updated index file
 			$bbox = layers_get_bbox($qgs_file, $post['layers']);
-			$wms_url = ($post['proxyfied'] == 't') ? '/mproxy/service' : 'proxy_qgis.php';
-			$wms_layers = ($post['proxyfied'] == 't') ? $post['name'] : $post['layers'];
+			$wms_url = ($post['proxyfied'] == 't') ? '/mproxy/service' : 'proxy_qgis.php';			
+			$wms_layers = ($post['proxyfied'] == 't') ? implode(',', $mproxy_layer_names) : $post['layers'];
 
 			$vars = ['BOUNDING_BOX' => '[['.$bbox["miny"].','.$bbox["minx"].'],['.$bbox['maxy'].','.$bbox['maxx'].']]',
 				'WMS_URL' => $wms_url, 'SECRET_KEY' => $_SESSION[SESS_USR_KEY]->secret_key, 'WMS_LAYERS' => $wms_layers
@@ -209,12 +237,24 @@
 			update_template('../snippets/wms_index.php', $html_dir.'/index.php', $vars);
 		}
 
-		if($oldrow->proxyfied){
+		if($oldrow->exposed == 't'){
+			$lays = explode(',', $oldrow->layers);
+			foreach($lays as $l){
+				mapproxy_Class::mapproxy_delete_source($oldrow->name.'.'.$l);
+			}
+		}else{
 			mapproxy_Class::mapproxy_delete_source($oldrow->name);
 		}
-
-		if($post['proxyfied']){
-			mapproxy_Class::mapproxy_add_source($post['name'], $qgs_file, $post['layers']);
+		
+		if($post['proxyfied'] == 't'){
+			if($post['exposed'] == 't'){
+				$lays = explode(',', $post['layers']);
+				foreach($lays as $l){
+					mapproxy_Class::mapproxy_add_source($post['name'].'.'.$l, $qgs_file, $l);
+				}
+			}else{
+				mapproxy_Class::mapproxy_add_source($post['name'], $qgs_file, $post['layers']);
+			}
 		}
 		shell_exec('sudo /usr/local/bin/mapproxy_ctl.sh restart');
 		
@@ -238,13 +278,20 @@
 			unlink(WWW_DIR.'/assets/layers/'.$id.'.png');
 		}
 		
-		if(row->proxyfied){
-    		if(mapproxy_Class::mapproxy_delete_source($row->name)){
-    			shell_exec('sudo /usr/local/bin/mapproxy_ctl.sh restart');
-    		}
-            mproxy_cache_clear($row);
-    		
-    		shell_exec('mapproxy_seed_ctl.sh disable '.$id);
+		if($row->proxyfied == 't'){
+			if($row->exposed == 't'){
+				$lays = explode(',', $row->layers);
+				foreach($lays as $l){
+					mapproxy_Class::mapproxy_delete_source($row->name.'.'.$l);
+					mproxy_cache_clear($row->name.'.'.$l);
+				}
+			}else{
+				mapproxy_Class::mapproxy_delete_source($row->name);
+				mproxy_cache_clear($row->name);
+			}
+			shell_exec('sudo /usr/local/bin/mapproxy_ctl.sh restart');
+			
+			shell_exec('mapproxy_seed_ctl.sh disable '.$id);
 		}
 
 		rrmdir($data_dir);
@@ -293,11 +340,11 @@
 		return $dir_size;
 	}
 
-	function mproxy_cache_clear($row){
+	function mproxy_cache_clear($name){
 		$dir_size = 0;
 
 		$cache_data = DATA_DIR.'/mapproxy/cache_data';
-		$cache_dir_prefix = $row->name.'_cache_';
+		$cache_dir_prefix = $name.'_cache_';
 		$entries = scandir($cache_data);
 		foreach($entries as $e){
 			if(is_dir($cache_data.'/'.$e) && str_starts_with($e, $cache_dir_prefix)){
@@ -327,6 +374,7 @@
 					if(empty($_POST['cached'])){		$_POST['cached'] = 'false';	}
 					if(empty($_POST['proxyfied'])){	$_POST['proxyfied'] = 'false';	}
 					if(empty($_POST['customized'])){	$_POST['customized'] = 'false';	}
+					if(empty($_POST['exposed']))	 {	$_POST['exposed'] = 'false';	}
 
 					$_POST['layers'] = implode(',', $_POST['layers']);
 
@@ -406,7 +454,7 @@
 					$row = pg_fetch_object($result);
 					pg_free_result($result);
 					
-					$dir_size = ($row->proxyfied == 't') ? mproxy_cache_clear($row) : proxy_cache_clear($id);
+					$dir_size = ($row->proxyfied == 't') ? mproxy_cache_clear($row->name) : proxy_cache_clear($id);
 					if($dir_size == 0){
 						$result = ['success' => false, 'message' => 'Error: No cache!'];
 					}else{

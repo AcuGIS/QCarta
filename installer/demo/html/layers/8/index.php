@@ -21,14 +21,12 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
 
 	<link rel="stylesheet" href="../../assets/dist/css/Control.MiniMap.css"/>
-	<link rel="stylesheet" href="../../assets/dist/css/leaflet.measurecontrol.css"/>
       	<link rel="stylesheet" href="../../assets/dist/css/L.Control.Opacity.css"/>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<script src="../../assets/dist/js/L.BetterWMS.js"></script>
 	<script src="../../assets/dist/js/Control.MiniMap.js"></script>
-	<script src="../../assets/dist/js/leaflet.measurecontrol.js"></script>
       	<script src="../../assets/dist/js/L.Control.Opacity.js"></script>
 
 <style type="text/css">
@@ -174,10 +172,9 @@ var baseMap = {
             	drawnItems.addLayer(layer);
         	});
 
-					L.Control.measureControl().addTo(map);
 
 					var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-					var osmAttrib='Map data &copy; OpenStreetMap contributors';
+					var osmAttrib='Map data © OpenStreetMap contributors';
 
 					var osmMini = new L.TileLayer(osmUrl, {minZoom: 0, maxZoom: 13, attribution: osmAttrib });
 					var miniMap = new L.Control.MiniMap(osmMini, { toggleDisplay: true }).addTo(map);

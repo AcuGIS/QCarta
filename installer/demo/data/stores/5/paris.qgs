@@ -1,5 +1,5 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis version="3.34.3-Prizren" saveUserFull="David Ghedini" projectname="" saveUser="david" saveDateTime="2025-01-07T00:10:15">
+<qgis projectname="" version="3.34.3-Prizren" saveDateTime="2025-01-17T00:01:49" saveUser="david" saveUserFull="David Ghedini">
   <homePath path=""/>
   <title></title>
   <transaction mode="Disabled"/>
@@ -17,21 +17,21 @@
       <geographicflag>true</geographicflag>
     </spatialrefsys>
   </projectCrs>
-  <elevation-shading-renderer light-altitude="45" hillshading-is-active="0" hillshading-is-multidirectional="0" is-active="0" edl-is-active="1" edl-strength="1000" edl-distance="0.5" light-azimuth="315" combined-method="0" hillshading-z-factor="1" edl-distance-unit="0"/>
+  <elevation-shading-renderer hillshading-is-active="0" light-azimuth="315" edl-distance-unit="0" is-active="0" edl-distance="0.5" hillshading-is-multidirectional="0" hillshading-z-factor="1" combined-method="0" edl-is-active="1" light-altitude="45" edl-strength="1000"/>
   <layer-tree-group>
     <customproperties>
       <Option/>
     </customproperties>
-    <layer-tree-layer legend_exp="" providerKey="gdal" id="35854_17203f6c_3904_4d15_9599_4f5a833d1326" patch_size="-1,-1" legend_split_behavior="0" source="./35854.tif" name="35854" checked="Qt::Checked" expanded="1">
+    <layer-tree-layer id="paris_eada534e_aca0_4f22_89fb_1c0aa1b7124d" checked="Qt::Checked" source="./paris.tif" patch_size="-1,-1" providerKey="gdal" name="paris" expanded="1" legend_exp="" legend_split_behavior="0">
       <customproperties>
         <Option/>
       </customproperties>
     </layer-tree-layer>
     <custom-order enabled="0">
-      <item>35854_17203f6c_3904_4d15_9599_4f5a833d1326</item>
+      <item>paris_eada534e_aca0_4f22_89fb_1c0aa1b7124d</item>
     </custom-order>
   </layer-tree-group>
-  <snapping-settings unit="1" mode="2" type="1" maxScale="0" intersection-snapping="0" enabled="0" tolerance="12" scaleDependencyMode="0" self-snapping="0" minScale="0">
+  <snapping-settings type="1" enabled="0" intersection-snapping="0" minScale="0" mode="2" self-snapping="0" tolerance="12" scaleDependencyMode="0" unit="1" maxScale="0">
     <individual-layer-settings/>
   </snapping-settings>
   <relations/>
@@ -64,7 +64,7 @@
   <StateDataPlotly>
     <Option type="Map">
       <Option type="QString" name="geometry" value="AdnQywADAAD/////////+AAAB4AAAAQQAAAA2wAAAGEAAAZQAAAEHwAAAAACAAAAB4AAAAAAAAAAFwAAB38AAAQP"/>
-      <Option type="QString" name="state" value="AAAA/wAAA+f9AAAABAAAAAAAAAHvAAADVvwCAAAAD/wAAACHAAAArgAAAHgA////+gAAAAIBAAAAA/sAAAAMAEwAZQBnAGUAbgBkAQAAAAD/////AAAAAAAAAAD7AAAAFABMAGEAeQBlAHIATwByAGQAZQByAAAAAAD/////AAAAigD////7AAAADgBCAHIAbwB3AHMAZQByAQAAAAD/////AAAARgD////7AAAAEABPAHYAZQByAHYAaQBlAHcAAAAB1wAAAMQAAAATAP////sAAAAiAEMAbwBvAHIAZABpAG4AYQB0AGUAQwBhAHAAdAB1AHIAZQAAAAF+AAAAoAAAAAAAAAAA+wAAAAgAVQBuAGQAbwAAAAHkAAAA3AAAAAAAAAAA+wAAABAAQgByAG8AdwBzAGUAcgAyAAAAAhMAAACtAAAAfAD////7AAAAHABHAFAAUwBJAG4AZgBvAHIAbQBhAHQAaQBvAG4AAAABuwAAAQUAAABdAP////sAAAAoAGQAdwBPAHAAZQBuAGwAYQB5AGUAcgBzAE8AdgBlAHIAdgBpAGUAdwAAAAFkAAABNwAAAAAAAAAA+wAAABwAdQBuAGQAbwAvAHIAZQBkAG8AIABkAG8AYwBrAAAAAAD/////AAAA7wD////7AAAALgBBAGQAdgBhAG4AYwBlAGQARABpAGcAaQB0AGkAegBpAG4AZwBUAG8AbwBsAHMAAAAAAP////8AAADYAP////sAAAA0AFMAdABhAHQAaQBzAHQAYQBsAFMAdQBtAG0AYQByAHkARABvAGMAawBXAGkAZABnAGUAdAAAAAAA/////wAAAAAAAAAA+wAAACYAQgBvAG8AawBtAGEAcgBrAHMARABvAGMAawBXAGkAZABnAGUAdAAAAAAA/////wAAAHgA////+wAAAAwATABhAHkAZQByAHMBAAABOwAAAqIAAAB4AP////sAAAA4AFMAdABhAHQAaQBzAHQAaQBjAGEAbABTAHUAbQBtAGEAcgB5AEQAbwBjAGsAVwBpAGQAZwBlAHQAAAAAAP////8AAAC9AP////sAAAAYAFYAZQByAHQAZQB4AEUAZABpAHQAbwByAAAAAAD/////AAAAXQD////7AAAAHgBRAGcAaQBzAEMAbABvAHUAZABQAGwAdQBnAGkAbgAAAAAA/////wAAAZgA////AAAAAQAAAtkAAANW/AIAAAAP+wAAAB4AUwBlAHgAdABhAG4AdABlAFQAbwBvAGwAYgBvAHgAAAAAZwAAAjQAAAAAAAAAAPwAAACHAAADVgAAAAAA////+v////8BAAAAAvsAAAAYAEwAYQB5AGUAcgBTAHQAeQBsAGkAbgBnAgAABS0AAACgAAACUwAAA1T7AAAAIgBQAHIAbwBjAGUAcwBzAGkAbgBnAFQAbwBvAGwAYgBvAHgAAAAAAP////8AAABkAP////sAAAAQAEQAZQB2AFQAbwBvAGwAcwAAAAAA/////wAAAF0A////+wAAABoAUgBlAHMAdQBsAHQAcwBWAGkAZQB3AGUAcgAAAAAA/////wAAAR0A////+wAAABQARABvAGMAawBXAGkAZABnAGUAdAAAAACHAAADVgAAAJEA////+wAAACYASQBkAGUAbgB0AGkAZgB5AFIAZQBzAHUAbAB0AHMARABvAGMAawAAAACHAAADVgAAAAAAAAAA+wAAACIAUQBtAHMAUwBlAHIAdgBpAGMAZQBUAG8AbwBsAGIAbwB4AAAAAIcAAANWAAAAuwD////7AAAANABEAGEAdABhAFAAbABvAHQAbAB5AC0ARABhAHQAYQBQAGwAbwB0AGwAeQAtAEQAbwBjAGsCAAADdQAAAPUAAAKNAAADQ/sAAAAUAEQAbwBjAGsAVwBpAGQAZwBlAHQAAAADHwAAAL4AAAAAAAAAAPsAAAAUAEQAbwBjAGsAVwBpAGQAZwBlAHQAAAADHgAAAL8AAAAAAAAAAPsAAAAwAFMAdAByAGkAcABDAGgAYQByAHQARABvAGMAawBXAGkAZABnAGUAdABCAGEAcwBlAAAAAAD/////AAAAuAD////7AAAAFABEAG8AYwBrAFcAaQBkAGcAZQB0AQAAAIcAAANWAAAAAAAAAAD7AAAAIAB0AGgAZQBUAGkAbABlAFMAYwBhAGwAZQBEAG8AYwBrAAAAAAD/////AAAAeQD////7/////wAAAAAA/////wAAAswA////+wAAACQATwBzAG0ASQBuAGYAbwBSAGUAcwB1AGwAdABzAEQAbwBjAGsAAAAAAP////8AAAFHAP///wAAAAIAAAavAAABH/wBAAAAAfsAAAAmAFQAZQBtAHAAbwByAGEAbAAgAEMAbwBu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"/>
+      <Option type="QString" name="state" value="AAAA/wAAA+f9AAAABAAAAAAAAAHvAAADVvwCAAAAD/wAAACHAAAArgAAAHgA////+gAAAAIBAAAAA/sAAAAMAEwAZQBnAGUAbgBkAQAAAAD/////AAAAAAAAAAD7AAAAFABMAGEAeQBlAHIATwByAGQAZQByAAAAAAD/////AAAAigD////7AAAADgBCAHIAbwB3AHMAZQByAQAAAAD/////AAAARgD////7AAAAEABPAHYAZQByAHYAaQBlAHcAAAAB1wAAAMQAAAATAP////sAAAAiAEMAbwBvAHIAZABpAG4AYQB0AGUAQwBhAHAAdAB1AHIAZQAAAAF+AAAAoAAAAAAAAAAA+wAAAAgAVQBuAGQAbwAAAAHkAAAA3AAAAAAAAAAA+wAAABAAQgByAG8AdwBzAGUAcgAyAAAAAhMAAACtAAAAfAD////7AAAAHABHAFAAUwBJAG4AZgBvAHIAbQBhAHQAaQBvAG4AAAABuwAAAQUAAABdAP////sAAAAoAGQAdwBPAHAAZQBuAGwAYQB5AGUAcgBzAE8AdgBlAHIAdgBpAGUAdwAAAAFkAAABNwAAAAAAAAAA+wAAABwAdQBuAGQAbwAvAHIAZQBkAG8AIABkAG8AYwBrAAAAAAD/////AAAA7wD////7AAAALgBBAGQAdgBhAG4AYwBlAGQARABpAGcAaQB0AGkAegBpAG4AZwBUAG8AbwBsAHMAAAAAAP////8AAADYAP////sAAAA0AFMAdABhAHQAaQBzAHQAYQBsAFMAdQBtAG0AYQByAHkARABvAGMAawBXAGkAZABnAGUAdAAAAAAA/////wAAAAAAAAAA+wAAACYAQgBvAG8AawBtAGEAcgBrAHMARABvAGMAawBXAGkAZABnAGUAdAAAAAAA/////wAAAHgA////+wAAAAwATABhAHkAZQByAHMBAAABOwAAAqIAAAB4AP////sAAAA4AFMAdABhAHQAaQBzAHQAaQBjAGEAbABTAHUAbQBtAGEAcgB5AEQAbwBjAGsAVwBpAGQAZwBlAHQAAAAAAP////8AAAC9AP////sAAAAYAFYAZQByAHQAZQB4AEUAZABpAHQAbwByAAAAAAD/////AAAAXQD////7AAAAHgBRAGcAaQBzAEMAbABvAHUAZABQAGwAdQBnAGkAbgAAAAAA/////wAAAZgA////AAAAAQAAAtkAAANW/AIAAAAP+wAAAB4AUwBlAHgAdABhAG4AdABlAFQAbwBvAGwAYgBvAHgAAAAAZwAAAjQAAAAAAAAAAPwAAACHAAADVgAAAAAA////+v////8BAAAAAvsAAAAYAEwAYQB5AGUAcgBTAHQAeQBsAGkAbgBnAgAABS0AAACgAAACUwAAA1T7AAAAIgBQAHIAbwBjAGUAcwBzAGkAbgBnAFQAbwBvAGwAYgBvAHgAAAAAAP////8AAABkAP////sAAAAQAEQAZQB2AFQAbwBvAGwAcwAAAAAA/////wAAAF0A////+wAAABoAUgBlAHMAdQBsAHQAcwBWAGkAZQB3AGUAcgAAAAAA/////wAAAR0A////+wAAABQARABvAGMAawBXAGkAZABnAGUAdAAAAACHAAADVgAAAJEA////+wAAACYASQBkAGUAbgB0AGkAZgB5AFIAZQBzAHUAbAB0AHMARABvAGMAawAAAACHAAADVgAAAAAAAAAA+wAAACIAUQBtAHMAUwBlAHIAdgBpAGMAZQBUAG8AbwBsAGIAbwB4AAAAAIcAAANWAAAAuwD////7AAAANABEAGEAdABhAFAAbABvAHQAbAB5AC0ARABhAHQAYQBQAGwAbwB0AGwAeQAtAEQAbwBjAGsCAAADdQAAAPUAAAKNAAADQ/sAAAAUAEQAbwBjAGsAVwBpAGQAZwBlAHQAAAADHwAAAL4AAAAAAAAAAPsAAAAUAEQAbwBjAGsAVwBpAGQAZwBlAHQAAAADHgAAAL8AAAAAAAAAAPsAAAAwAFMAdAByAGkAcABDAGgAYQByAHQARABvAGMAawBXAGkAZABnAGUAdABCAGEAcwBlAAAAAAD/////AAAAuAD////7AAAAFABEAG8AYwBrAFcAaQBkAGcAZQB0AQAAAIcAAANWAAAAAAAAAAD7AAAAIAB0AGgAZQBUAGkAbABlAFMAYwBhAGwAZQBEAG8AYwBrAAAAAAD/////AAAAeQD////7AAAAJABPAHMAbQBJAG4AZgBvAFIAZQBzAHUAbAB0AHMARABvAGMAawAAAAAA/////wAAAUcA////+/////8AAAAAAP////8AAALMAP///wAAAAIAAAavAAABH/wBAAAAAfsAAAAmAFQAZQBtAHAAbwByAGEAbAAgAEMAbwBu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"/>
     </Option>
   </StateDataPlotly>
   <DataPlotly>
@@ -175,14 +175,39 @@
   </DataPlotly>
   <projectModels/>
   <legend updateDrawingOrder="true">
-    <legendlayer showFeatureCount="0" open="true" name="35854" drawingOrder="-1" checked="Qt::Checked">
+    <legendlayer checked="Qt::Checked" name="paris" showFeatureCount="0" drawingOrder="-1" open="true">
       <filegroup hidden="false" open="true">
-        <legendlayerfile layerid="35854_17203f6c_3904_4d15_9599_4f5a833d1326" isInOverview="0" visible="1"/>
+        <legendlayerfile isInOverview="0" visible="1" layerid="paris_eada534e_aca0_4f22_89fb_1c0aa1b7124d"/>
       </filegroup>
     </legendlayer>
   </legend>
   <mapViewDocks/>
-  <main-annotation-layer type="annotation" maxScale="0" refreshOnNotifyMessage="" refreshOnNotifyEnabled="0" autoRefreshMode="Disabled" legendPlaceholderImage="" autoRefreshTime="0" styleCategories="AllStyleCategories" hasScaleBasedVisibilityFlag="0" minScale="1e+08">
+  <mapcanvas annotationsVisible="1" name="mAreaCanvas">
+    <units>degrees</units>
+    <extent>
+      <xmin>179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368</xmin>
+      <ymin>179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368</ymin>
+      <xmax>-179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368</xmax>
+      <ymax>-179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368</ymax>
+    </extent>
+    <rotation>0</rotation>
+    <destinationsrs>
+      <spatialrefsys nativeFormat="Wkt">
+        <wkt>GEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic latitude (Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic longitude (Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["Horizontal component of 3D system."],AREA["World."],BBOX[-90,-180,90,180]],ID["EPSG",4326]]</wkt>
+        <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+        <srsid>3452</srsid>
+        <srid>4326</srid>
+        <authid>EPSG:4326</authid>
+        <description>WGS 84</description>
+        <projectionacronym>longlat</projectionacronym>
+        <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+        <geographicflag>true</geographicflag>
+      </spatialrefsys>
+    </destinationsrs>
+    <rendermaptile>0</rendermaptile>
+    <expressionContextScope/>
+  </mapcanvas>
+  <main-annotation-layer type="annotation" minScale="1e+08" autoRefreshMode="Disabled" refreshOnNotifyMessage="" legendPlaceholderImage="" styleCategories="AllStyleCategories" autoRefreshTime="0" refreshOnNotifyEnabled="0" hasScaleBasedVisibilityFlag="0" maxScale="0">
     <id>Annotations_791cb4de_1f5b_460a_b5eb_1ac7ec307b63</id>
     <datasource></datasource>
     <keywordList>
@@ -243,7 +268,7 @@
     <paintEffect/>
   </main-annotation-layer>
   <projectlayers>
-    <maplayer type="raster" maxScale="0" refreshOnNotifyMessage="" refreshOnNotifyEnabled="0" autoRefreshMode="Disabled" legendPlaceholderImage="" autoRefreshTime="0" styleCategories="AllStyleCategories" hasScaleBasedVisibilityFlag="0" minScale="1e+08">
+    <maplayer type="raster" minScale="1e+08" autoRefreshMode="Disabled" refreshOnNotifyMessage="" legendPlaceholderImage="" styleCategories="AllStyleCategories" autoRefreshTime="0" refreshOnNotifyEnabled="0" hasScaleBasedVisibilityFlag="0" maxScale="0">
       <extent>
         <xmin>2.31533995232422019</xmin>
         <ymin>48.82749179711889553</ymin>
@@ -256,15 +281,15 @@
         <xmax>2.39903808330150792</xmax>
         <ymax>48.88469843247482771</ymax>
       </wgs84extent>
-      <id>35854_17203f6c_3904_4d15_9599_4f5a833d1326</id>
-      <datasource>./35854.tif</datasource>
+      <id>paris_eada534e_aca0_4f22_89fb_1c0aa1b7124d</id>
+      <datasource>./paris.tif</datasource>
       <keywordList>
         <value></value>
       </keywordList>
-      <layername>35854</layername>
+      <layername>paris</layername>
       <srs>
         <spatialrefsys nativeFormat="Wkt">
-          <wkt>GEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic latitude (Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic longitude (Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["Horizontal component of 3D system."],AREA["World."],BBOX[-90,-180,90,180]],ID["EPSG",4326]]</wkt>
+          <wkt></wkt>
           <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
           <srsid>3452</srsid>
           <srid>4326</srid>
@@ -288,7 +313,7 @@
         <encoding></encoding>
         <crs>
           <spatialrefsys nativeFormat="Wkt">
-            <wkt>GEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic latitude (Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic longitude (Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["Horizontal component of 3D system."],AREA["World."],BBOX[-90,-180,90,180]],ID["EPSG",4326]]</wkt>
+            <wkt></wkt>
             <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
             <srsid>3452</srsid>
             <srid>4326</srid>
@@ -318,13 +343,13 @@
         <Searchable>0</Searchable>
         <Private>0</Private>
       </flags>
-      <temporal mode="0" fetchMode="0" enabled="0">
+      <temporal fetchMode="0" enabled="0" mode="0">
         <fixedRange>
           <start></start>
           <end></end>
         </fixedRange>
       </temporal>
-      <elevation symbology="Line" enabled="0" zoffset="0" band="1" zscale="1">
+      <elevation enabled="0" band="1" symbology="Line" zscale="1" zoffset="0">
         <data-defined-properties>
           <Option type="Map">
             <Option type="QString" name="name" value=""/>
@@ -333,7 +358,7 @@
           </Option>
         </data-defined-properties>
         <profileLineSymbol>
-          <symbol force_rhr="0" type="line" alpha="1" clip_to_extent="1" is_animated="0" frame_rate="10" name="">
+          <symbol type="line" frame_rate="10" force_rhr="0" name="" is_animated="0" alpha="1" clip_to_extent="1">
             <data_defined_properties>
               <Option type="Map">
                 <Option type="QString" name="name" value=""/>
@@ -341,7 +366,7 @@
                 <Option type="QString" name="type" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleLine" pass="0" id="{324a43ce-c5ac-476a-9091-3e0302e73871}" enabled="1" locked="0">
+            <layer class="SimpleLine" pass="0" id="{29e644d6-d9b0-45fd-b0e0-2113db39b217}" enabled="1" locked="0">
               <Option type="Map">
                 <Option type="QString" name="align_dash_pattern" value="0"/>
                 <Option type="QString" name="capstyle" value="square"/>
@@ -353,7 +378,7 @@
                 <Option type="QString" name="dash_pattern_offset_unit" value="MM"/>
                 <Option type="QString" name="draw_inside_polygon" value="0"/>
                 <Option type="QString" name="joinstyle" value="bevel"/>
-                <Option type="QString" name="line_color" value="164,113,88,255"/>
+                <Option type="QString" name="line_color" value="232,113,141,255"/>
                 <Option type="QString" name="line_style" value="solid"/>
                 <Option type="QString" name="line_width" value="0.6"/>
                 <Option type="QString" name="line_width_unit" value="MM"/>
@@ -382,7 +407,7 @@
           </symbol>
         </profileLineSymbol>
         <profileFillSymbol>
-          <symbol force_rhr="0" type="fill" alpha="1" clip_to_extent="1" is_animated="0" frame_rate="10" name="">
+          <symbol type="fill" frame_rate="10" force_rhr="0" name="" is_animated="0" alpha="1" clip_to_extent="1">
             <data_defined_properties>
               <Option type="Map">
                 <Option type="QString" name="name" value=""/>
@@ -390,10 +415,10 @@
                 <Option type="QString" name="type" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" pass="0" id="{d8ad0378-a9eb-4beb-af92-ec5f0f92ff49}" enabled="1" locked="0">
+            <layer class="SimpleFill" pass="0" id="{59d41e22-b427-4306-9f7e-8c8fd0f2daa7}" enabled="1" locked="0">
               <Option type="Map">
                 <Option type="QString" name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
-                <Option type="QString" name="color" value="164,113,88,255"/>
+                <Option type="QString" name="color" value="232,113,141,255"/>
                 <Option type="QString" name="joinstyle" value="bevel"/>
                 <Option type="QString" name="offset" value="0,0"/>
                 <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
@@ -427,6 +452,7 @@
           <Option type="bool" name="QFieldSync/tracking_erroneous_distance_safeguard_maximum_meters" value="false"/>
           <Option type="int" name="QFieldSync/tracking_measurement_type" value="0"/>
           <Option type="int" name="QFieldSync/tracking_time_requirement_interval_seconds" value="30"/>
+          <Option type="int" name="QFieldSync/value_map_button_interface_threshold" value="0"/>
           <Option type="QString" name="identify/format" value="Value"/>
         </Option>
       </customproperties>
@@ -440,9 +466,9 @@
       </pipe-data-defined-properties>
       <pipe>
         <provider>
-          <resampling zoomedInResamplingMethod="nearestNeighbour" zoomedOutResamplingMethod="nearestNeighbour" enabled="false" maxOversampling="2"/>
+          <resampling enabled="false" zoomedInResamplingMethod="nearestNeighbour" zoomedOutResamplingMethod="nearestNeighbour" maxOversampling="2"/>
         </provider>
-        <rasterrenderer type="multibandcolor" redBand="1" greenBand="2" nodataColor="" blueBand="3" alphaBand="4" opacity="1">
+        <rasterrenderer type="multibandcolor" alphaBand="4" nodataColor="" greenBand="2" opacity="1" redBand="1" blueBand="3">
           <rasterTransparency/>
           <minMaxOrigin>
             <limits>MinMax</limits>
@@ -468,8 +494,8 @@
             <algorithm>NoEnhancement</algorithm>
           </blueContrastEnhancement>
         </rasterrenderer>
-        <brightnesscontrast gamma="1" brightness="0" contrast="0"/>
-        <huesaturation colorizeStrength="100" grayscaleMode="0" colorizeRed="255" colorizeGreen="128" colorizeOn="0" invertColors="0" colorizeBlue="128" saturation="0"/>
+        <brightnesscontrast contrast="0" brightness="0" gamma="1"/>
+        <huesaturation saturation="0" colorizeRed="255" colorizeStrength="100" invertColors="0" grayscaleMode="0" colorizeGreen="128" colorizeBlue="128" colorizeOn="0"/>
         <rasterresampler maxOversampling="2"/>
         <resamplingStage>resamplingFilter</resamplingStage>
       </pipe>
@@ -477,7 +503,7 @@
     </maplayer>
   </projectlayers>
   <layerorder>
-    <layer id="35854_17203f6c_3904_4d15_9599_4f5a833d1326"/>
+    <layer id="paris_eada534e_aca0_4f22_89fb_1c0aa1b7124d"/>
   </layerorder>
   <properties>
     <Digitizing>
@@ -544,13 +570,10 @@
       <ProjectionsEnabled type="int">1</ProjectionsEnabled>
     </SpatialRefSys>
     <WCSLayers type="QStringList">
-      <value>35854_17203f6c_3904_4d15_9599_4f5a833d1326</value>
+      <value>paris_eada534e_aca0_4f22_89fb_1c0aa1b7124d</value>
     </WCSLayers>
     <WCSUrl type="QString"></WCSUrl>
     <WFSLayers type="QStringList"/>
-    <WFSLayersPrecision>
-      <Tours_portes_v2_Project_c0ce9e60_5fdf_4a0e_aa1c_a2d5c2db7f12 type="int">8</Tours_portes_v2_Project_c0ce9e60_5fdf_4a0e_aa1c_a2d5c2db7f12>
-    </WFSLayersPrecision>
     <WFSTLayers>
       <Delete type="QStringList"/>
       <Insert type="QStringList"/>
@@ -561,16 +584,16 @@
     <WMSAddLayerGroupsLegendGraphic type="bool">false</WMSAddLayerGroupsLegendGraphic>
     <WMSAddWktGeometry type="bool">false</WMSAddWktGeometry>
     <WMSContactMail type="QString"></WMSContactMail>
-    <WMSContactOrganization type="QString">paris</WMSContactOrganization>
+    <WMSContactOrganization type="QString"></WMSContactOrganization>
     <WMSContactPerson type="QString"></WMSContactPerson>
     <WMSContactPhone type="QString"></WMSContactPhone>
     <WMSContactPosition type="QString"></WMSContactPosition>
     <WMSDefaultMapUnitsPerMm type="double">1</WMSDefaultMapUnitsPerMm>
     <WMSExtent type="QStringList">
-      <value>2.3056879389999998</value>
-      <value>48.82613213199999791</value>
-      <value>2.40558804700000017</value>
-      <value>48.88619909900000238</value>
+      <value>2.30723896400000017</value>
+      <value>48.82606163100000174</value>
+      <value>2.4071390720000001</value>
+      <value>48.8861285979999991</value>
     </WMSExtent>
     <WMSFeatureInfoUseAttributeFormSettings type="bool">false</WMSFeatureInfoUseAttributeFormSettings>
     <WMSFees type="QString">conditions unknown</WMSFees>
@@ -581,11 +604,11 @@
     <WMSMaxAtlasFeatures type="int">1</WMSMaxAtlasFeatures>
     <WMSOnlineResource type="QString"></WMSOnlineResource>
     <WMSPrecision type="QString">8</WMSPrecision>
-    <WMSRootName type="QString">paris</WMSRootName>
+    <WMSRootName type="QString">parismap</WMSRootName>
     <WMSSegmentizeFeatureInfoGeometry type="bool">false</WMSSegmentizeFeatureInfoGeometry>
     <WMSServiceAbstract type="QString"></WMSServiceAbstract>
     <WMSServiceCapabilities type="bool">true</WMSServiceCapabilities>
-    <WMSServiceTitle type="QString">paris</WMSServiceTitle>
+    <WMSServiceTitle type="QString">Paris GeoTIFF Map</WMSServiceTitle>
     <WMSTileBuffer type="int">0</WMSTileBuffer>
     <WMSUrl type="QString"></WMSUrl>
     <WMSUseLayerIDs type="bool">false</WMSUseLayerIDs>
@@ -596,14 +619,14 @@
     <WMTSJpegLayers>
       <Group type="QStringList"/>
       <Layer type="QStringList">
-        <value>35854_17203f6c_3904_4d15_9599_4f5a833d1326</value>
+        <value>paris_eada534e_aca0_4f22_89fb_1c0aa1b7124d</value>
       </Layer>
       <Project type="bool">true</Project>
     </WMTSJpegLayers>
     <WMTSLayers>
       <Group type="QStringList"/>
       <Layer type="QStringList">
-        <value>35854_17203f6c_3904_4d15_9599_4f5a833d1326</value>
+        <value>paris_eada534e_aca0_4f22_89fb_1c0aa1b7124d</value>
       </Layer>
       <Project type="bool">true</Project>
     </WMTSLayers>
@@ -611,7 +634,7 @@
     <WMTSPngLayers>
       <Group type="QStringList"/>
       <Layer type="QStringList">
-        <value>35854_17203f6c_3904_4d15_9599_4f5a833d1326</value>
+        <value>paris_eada534e_aca0_4f22_89fb_1c0aa1b7124d</value>
       </Layer>
       <Project type="bool">true</Project>
     </WMTSPngLayers>
@@ -627,7 +650,12 @@
       <digitizingLogsLayer type="QString"></digitizingLogsLayer>
       <forceAutoPush type="int">0</forceAutoPush>
       <forceAutoPushIntervalMins type="int">30</forceAutoPushIntervalMins>
+      <geofencingBehavior type="int">1</geofencingBehavior>
+      <geofencingIsActive type="int">0</geofencingIsActive>
+      <geofencingLayer type="QString"></geofencingLayer>
+      <geofencingShouldPreventDigitizing type="int">0</geofencingShouldPreventDigitizing>
       <layerActionPreference type="QString">online</layerActionPreference>
+      <mapThemesActiveLayers type="QString">{}</mapThemesActiveLayers>
       <maximumImageWidthHeight type="int">0</maximumImageWidthHeight>
       <offlineCopyOnlyAoi type="int">0</offlineCopyOnlyAoi>
     </qfieldsync>
@@ -659,18 +687,18 @@
     </contact>
     <links/>
     <dates>
-      <date type="Created" value="2024-12-18T00:43:50"/>
+      <date type="Created" value="2025-01-16T23:58:53"/>
     </dates>
     <author>David Ghedini</author>
-    <creation>2024-12-18T00:43:50</creation>
+    <creation>2025-01-16T23:58:53</creation>
   </projectMetadata>
   <Annotations/>
   <Layouts>
-    <Layout printResolution="300" units="mm" name="paris" worldFileMap="{ab3c30f3-051f-470c-a086-631d4bd89ba8}">
-      <Snapper snapToItems="1" snapToGrid="0" snapToGuides="1" tolerance="5"/>
-      <Grid resolution="10" resUnits="mm" offsetUnits="mm" offsetX="0" offsetY="0"/>
+    <Layout worldFileMap="{2b0826b7-96a4-466b-b128-e0a9060620cc}" name="parislayout" printResolution="300" units="mm">
+      <Snapper snapToGrid="0" tolerance="5" snapToItems="1" snapToGuides="1"/>
+      <Grid offsetUnits="mm" offsetX="0" resUnits="mm" resolution="10" offsetY="0"/>
       <PageCollection>
-        <symbol force_rhr="0" type="fill" alpha="1" clip_to_extent="1" is_animated="0" frame_rate="10" name="">
+        <symbol type="fill" frame_rate="10" force_rhr="0" name="" is_animated="0" alpha="1" clip_to_extent="1">
           <data_defined_properties>
             <Option type="Map">
               <Option type="QString" name="name" value=""/>
@@ -678,7 +706,7 @@
               <Option type="QString" name="type" value="collection"/>
             </Option>
           </data_defined_properties>
-          <layer class="SimpleFill" pass="0" id="{070c006b-3120-40c6-8e15-aa53dc4a24dd}" enabled="1" locked="0">
+          <layer class="SimpleFill" pass="0" id="{8118b427-2cb8-475f-8d14-605d2304ffb4}" enabled="1" locked="0">
             <Option type="Map">
               <Option type="QString" name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
               <Option type="QString" name="color" value="255,255,255,255"/>
@@ -701,9 +729,9 @@
             </data_defined_properties>
           </layer>
         </symbol>
-        <LayoutItem templateUuid="{a87c1e7f-cfe3-471a-9c7f-c191a5656be8}" blendMode="0" id="" opacity="1" positionOnPage="0,0,mm" positionLock="false" zValue="0" referencePoint="0" excludeFromExports="0" visibility="1" type="65638" groupUuid="" itemRotation="0" frame="false" frameJoinStyle="miter" uuid="{a87c1e7f-cfe3-471a-9c7f-c191a5656be8}" outlineWidthM="0.3,mm" position="0,0,mm" size="297,210,mm" background="true">
-          <FrameColor green="0" blue="0" alpha="255" red="0"/>
-          <BackgroundColor green="255" blue="255" alpha="255" red="255"/>
+        <LayoutItem frameJoinStyle="miter" zValue="0" frame="false" templateUuid="{c7f9261e-9213-4e8c-b9c1-cd84f8bd489a}" positionOnPage="0,0,mm" groupUuid="" referencePoint="0" visibility="1" positionLock="false" excludeFromExports="0" opacity="1" id="" background="true" position="0,0,mm" size="297,210,mm" itemRotation="0" outlineWidthM="0.3,mm" uuid="{c7f9261e-9213-4e8c-b9c1-cd84f8bd489a}" blendMode="0" type="65638">
+          <FrameColor red="0" green="0" blue="0" alpha="255"/>
+          <BackgroundColor red="255" green="255" blue="255" alpha="255"/>
           <LayoutObject>
             <dataDefinedProperties>
               <Option type="Map">
@@ -716,7 +744,7 @@
               <Option/>
             </customproperties>
           </LayoutObject>
-          <symbol force_rhr="0" type="fill" alpha="1" clip_to_extent="1" is_animated="0" frame_rate="10" name="">
+          <symbol type="fill" frame_rate="10" force_rhr="0" name="" is_animated="0" alpha="1" clip_to_extent="1">
             <data_defined_properties>
               <Option type="Map">
                 <Option type="QString" name="name" value=""/>
@@ -724,7 +752,7 @@
                 <Option type="QString" name="type" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" pass="0" id="{7d5d1b22-4a85-4f10-868f-e56cf930a383}" enabled="1" locked="0">
+            <layer class="SimpleFill" pass="0" id="{c07d6c06-3f71-4960-8296-bfa60dadd605}" enabled="1" locked="0">
               <Option type="Map">
                 <Option type="QString" name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
                 <Option type="QString" name="color" value="255,255,255,255"/>
@@ -750,9 +778,9 @@
         </LayoutItem>
         <GuideCollection visible="1"/>
       </PageCollection>
-      <LayoutItem followPreset="false" templateUuid="{ab3c30f3-051f-470c-a086-631d4bd89ba8}" blendMode="0" id="Map 1" opacity="1" positionOnPage="54.732,57.6994,mm" positionLock="false" zValue="1" referencePoint="0" excludeFromExports="0" visibility="1" type="65639" mapFlags="0" mapRotation="0" groupUuid="" itemRotation="0" frame="false" frameJoinStyle="miter" followPresetName="" isTemporal="0" keepLayerSet="false" drawCanvasItems="true" uuid="{ab3c30f3-051f-470c-a086-631d4bd89ba8}" outlineWidthM="0.3,mm" position="54.732,57.6994,mm" size="174.747,103.859,mm" labelMargin="0,mm" background="true">
-        <FrameColor green="0" blue="0" alpha="255" red="0"/>
-        <BackgroundColor green="255" blue="255" alpha="255" red="255"/>
+      <LayoutItem frameJoinStyle="miter" mapFlags="0" zValue="1" frame="false" drawCanvasItems="true" templateUuid="{2b0826b7-96a4-466b-b128-e0a9060620cc}" positionOnPage="52.7538,51.7646,mm" groupUuid="" referencePoint="0" visibility="1" positionLock="false" keepLayerSet="false" excludeFromExports="0" opacity="1" id="Map 1" background="true" position="52.7538,51.7646,mm" followPreset="false" size="130.895,110.124,mm" followPresetName="" labelMargin="0,mm" itemRotation="0" outlineWidthM="0.3,mm" mapRotation="0" uuid="{2b0826b7-96a4-466b-b128-e0a9060620cc}" blendMode="0" type="65639" isTemporal="0">
+        <FrameColor red="0" green="0" blue="0" alpha="255"/>
+        <BackgroundColor red="255" green="255" blue="255" alpha="255"/>
         <LayoutObject>
           <dataDefinedProperties>
             <Option type="Map">
@@ -765,14 +793,14 @@
             <Option/>
           </customproperties>
         </LayoutObject>
-        <Extent ymax="48.88612859835872371" xmin="2.30665648991512207" xmax="2.40772154571060604" ymin="48.82606163123499243"/>
+        <Extent xmin="2.30723896357910396" ymin="48.81407164347676542" ymax="48.89811858611695072" xmax="2.40713907204662414"/>
         <LayerSet/>
-        <AtlasMap atlasDriven="0" margin="0.10000000000000001" scalingMode="2"/>
+        <AtlasMap margin="0.10000000000000001" scalingMode="2" atlasDriven="0"/>
         <labelBlockingItems/>
-        <atlasClippingSettings forceLabelsInside="0" enabled="0" restrictLayers="0" clippingType="1">
+        <atlasClippingSettings enabled="0" restrictLayers="0" forceLabelsInside="0" clippingType="1">
           <layersToClip/>
         </atlasClippingSettings>
-        <itemClippingSettings forceLabelsInside="0" enabled="0" clippingType="1" clipSource=""/>
+        <itemClippingSettings enabled="0" clipSource="" forceLabelsInside="0" clippingType="1"/>
       </LayoutItem>
       <customproperties>
         <Option type="Map">
@@ -780,15 +808,15 @@
           <Option type="bool" name="singleFile" value="true"/>
         </Option>
       </customproperties>
-      <Atlas hideCoverage="0" sortFeatures="0" pageNameExpression="&quot;TL_NOMS&quot;" filterFeatures="0" filenamePattern="'output_'||@atlas_featurenumber" enabled="0" coverageLayer=""/>
+      <Atlas filenamePattern="'output_'||@atlas_featurenumber" enabled="0" pageNameExpression="" hideCoverage="0" filterFeatures="0" coverageLayer="" sortFeatures="0"/>
     </Layout>
   </Layouts>
   <mapViewDocks3D/>
   <Bookmarks/>
   <Sensors/>
-  <ProjectViewSettings UseProjectScales="0" rotation="0">
+  <ProjectViewSettings rotation="0" UseProjectScales="0">
     <Scales/>
-    <DefaultViewExtent ymax="48.88612859835872371" xmin="2.30723896357910396" xmax="2.40713907204662414" ymin="48.82606163123499243">
+    <DefaultViewExtent xmin="2.30723896357910396" ymin="48.82606163123499243" ymax="48.88612859835872371" xmax="2.40713907204662414">
       <spatialrefsys nativeFormat="Wkt">
         <wkt>GEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic latitude (Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic longitude (Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["Horizontal component of 3D system."],AREA["World."],BBOX[-90,-180,90,180]],ID["EPSG",4326]]</wkt>
         <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
@@ -802,13 +830,13 @@
       </spatialrefsys>
     </DefaultViewExtent>
   </ProjectViewSettings>
-  <ProjectStyleSettings RandomizeDefaultSymbolColor="1" DefaultSymbolOpacity="1" projectStyleId="attachment:///Npggyh_styles.db">
+  <ProjectStyleSettings projectStyleId="attachment:///WYMYux_styles.db" DefaultSymbolOpacity="1" RandomizeDefaultSymbolColor="1">
     <databases/>
   </ProjectStyleSettings>
-  <ProjectTimeSettings cumulativeTemporalRange="0" timeStep="1" timeStepUnit="h" frameRate="1"/>
+  <ProjectTimeSettings timeStep="1" frameRate="1" timeStepUnit="h" cumulativeTemporalRange="0"/>
   <ElevationProperties>
     <terrainProvider type="flat">
-      <TerrainProvider offset="0" scale="1"/>
+      <TerrainProvider scale="1" offset="0"/>
     </terrainProvider>
   </ElevationProperties>
   <ProjectDisplaySettings CoordinateType="MapCrs" CoordinateAxisOrder="Default">
@@ -853,7 +881,7 @@
       </spatialrefsys>
     </CoordinateCustomCrs>
   </ProjectDisplaySettings>
-  <ProjectGpsSettings autoCommitFeatures="0" destinationFollowsActiveLayer="1" autoAddTrackVertices="0" destinationLayer="">
+  <ProjectGpsSettings autoAddTrackVertices="0" destinationLayer="" destinationFollowsActiveLayer="1" autoCommitFeatures="0">
     <timeStampFields/>
   </ProjectGpsSettings>
 </qgis>

@@ -52,9 +52,13 @@ $('#layer_form').submit(false);
 		$('#public').prop('checked', (tds[2].textContent == 'yes'));
 		$('#cached').prop('checked', (tds[3].textContent == 'yes'));
 		$('#proxyfied').prop('checked', (tds[4].textContent == 'yes'));
-		$('#customized').prop('checked', (tds[5].textContent == 'yes'));
-		$('#store_id').val(tds[6].getAttribute('data-value')).trigger('change');
-		$('#group_id').val(tds[7].getAttribute('data-value').split(','));
+
+		$('#exposed').prop('disabled', !$('#proxyfied').prop('checked'));
+		
+		$('#exposed').prop('checked', (tds[5].textContent == 'yes'));
+		$('#customized').prop('checked', (tds[6].textContent == 'yes'));
+		$('#store_id').val(tds[7].getAttribute('data-value')).trigger('change');
+		$('#group_id').val(tds[8].getAttribute('data-value').split(','));
 		edit_row = {'layers': tds[1].innerHTML.split('<br>')};
 	});
 	
@@ -179,7 +183,17 @@ $('#layer_form').submit(false);
 			fail: function(){	alert('Error: POST failure');	}
 		});
 	});
-
+	
+	$(document).on("change", '#proxyfied', function() {
+		let obj = $(this);
+		if(obj.prop('checked')){
+			$('#exposed').prop('disabled', false);
+		}else{
+			$('#exposed').prop('disabled', true);
+			$('#exposed').prop('checked', false);
+		}
+	});
+	
 	$(document).on("click", "#btn_create", function() {
 			var obj = $(this);
 			var input = $('#layer_form').find('input[type="text"], input[type="checkbox"], select');
@@ -228,6 +242,7 @@ $('#layer_form').submit(false);
 								const is_public = data.get('public') == 't' ? 'yes' : 'no';
 								const is_cached = data.get('cached') == 't' ? 'yes' : 'no';
 								const is_proxyfied = data.get('proxyfied') == 't' ? 'yes' : 'no';
+								const is_exposed = data.get('exposed') == 't' ? 'yes' : 'no';
 								const is_customized = data.get('customized') == 't' ? 'yes' : 'no';
 								
 								const tds = [
@@ -236,6 +251,7 @@ $('#layer_form').submit(false);
 									is_public,
 									is_cached,
 									is_proxyfied,
+									is_exposed,
 									is_customized,
 									data.get('store_id'),
 									data.getAll('group_id[]').join(','),

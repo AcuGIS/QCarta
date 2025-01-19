@@ -15,7 +15,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<title>WMS example - Leaflet</title>
+	<title><?=urlencode(implode(',', QGIS_LAYERS))?></title>
 	
 	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
 	<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
@@ -24,15 +24,14 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
 
 	<link rel="stylesheet" href="../../assets/dist/css/Control.MiniMap.css"/>
-	<link rel="stylesheet" href="../../assets/dist/css/leaflet.measurecontrol.css"/>
-      	<link rel="stylesheet" href="../../assets/dist/css/L.Control.Opacity.css"/>
+	<link rel="stylesheet" href="../../assets/dist/css/L.Control.Opacity.css"/>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<script src="../../assets/dist/js/L.BetterWMS.js"></script>
 	<script src="../../assets/dist/js/Control.MiniMap.js"></script>
-	<script src="../../assets/dist/js/leaflet.measurecontrol.js"></script>
-      	<script src="../../assets/dist/js/L.Control.Opacity.js"></script>
+	<script src="../../assets/dist/js/L.Control.Opacity.js"></script>
+
 
 <style type="text/css">
 html, body, #map {
@@ -45,6 +44,12 @@ html, body, #map {
 }
 .leaflet-container {
 	cursor: pointer !important;
+}
+
+  .leaflet-popup-content {
+    max-width: 600px;
+    height: 300px;
+    overflow-y: scroll;
 }
 </style>
 </head>
@@ -78,19 +83,24 @@ html, body, #map {
 
       // WMS Layer
 
-	const wmsLayer = L.tileLayer.betterWms('<?=$wms_url?>', {
-		layers: 'paris1550',
+			<?php $layers = explode(',', 'paris1550'); $li = 0;
+			 foreach($layers as $lay){ ?>
+	const wms<?=$li?> = L.tileLayer.betterWms('<?=$wms_url?>', {
+		layers: '<?=$lay?>',
 		transparent: 'true',
-		format: 'image/png',
+  	format: 'image/png',
 		maxZoom:25
 	}).addTo(map);
+	<?php $li = $li + 1; } ?>
 
-	map.fitBounds([[48.826061,2.307238],[48.886129,2.40714]]);
+	map.fitBounds([[48.827491,2.315339],[48.884699,2.399039]]);
 
 	// Group overlays and basemaps
 
 	var overlayMap = {
-	'paris1550' :wmsLayer
+		<?php $li=0; $del = ''; foreach($layers as $lay){ ?>
+			<?=$del?>'<?=$lay?>' : wms<?=$li?>
+		<?php $del = ','; $li = $li + 1; } ?>
 	};
 
 	var baseMap = {
@@ -109,7 +119,6 @@ html, body, #map {
 	})
     	.addTo(map);
 
-
 	// Legend
 
 	var legend = L.control({position: 'bottomleft'}); 
@@ -123,7 +132,7 @@ html, body, #map {
 	// Broswer Print
 
 	L.control.browserPrint({
-			title: 'Just print me!',
+			title: '<?=implode(',', QGIS_LAYERS)?>',
 			documentTitle: 'My Leaflet Map',
 			printLayer: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 					attribution: 'Map tiles by <a href="http://openstreetmap.com">OpenStreetMap</a>',
@@ -160,9 +169,6 @@ html, body, #map {
             	drawnItems.addLayer(layer);
         	});
 
-	// Measure
-
-	L.Control.measureControl().addTo(map);
 
 	// Minimap
 	var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';

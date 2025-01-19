@@ -81,6 +81,7 @@ CREATE TABLE public.qgs_layer (
 	cached BOOLEAN DEFAULT False,
 	proxyfied BOOLEAN DEFAULT False,
 	customized BOOLEAN DEFAULT False,
+	exposed BOOLEAN DEFAULT False,
 	layers character varying(250) NOT NULL
 );
 
