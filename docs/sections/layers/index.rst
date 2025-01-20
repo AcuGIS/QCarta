@@ -46,7 +46,7 @@ Select the Store from the dropdown
 
 Select the Layer(s) from the Store to include
 
-.. image:: create-layer-3.png
+.. image:: seplayer.png
 
 The Select options are explained below
 
@@ -54,6 +54,7 @@ The Select options are explained below
 * **Cache**. Session Cache.  This is distinct from MapProxy Cache.
 * **MapProxy**. This will enable MapProxy for the Layer
 * **Custom**. This option is to signify that this Layer does not use the default map template for Preview   
+* **Seperate Layers**. This option will cause enable a layer control for each Layers in Layer Preview
    
 
 Click the Create button.
