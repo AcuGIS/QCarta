@@ -27,10 +27,10 @@ hostnamectl set-hostname <yourhostname>
 ### Installer
 
 ```bash
-$ git clone https://github.com/AcuGIS/quail.git
-$ cd quail
-$ ./installer/postgres.sh
-$ ./installer/app-install.sh
+   git clone https://github.com/AcuGIS/quail.git
+   cd quail
+   ./installer/postgres.sh
+   ./installer/app-install.sh
 ```
 
 Optionally, provision and SSL certificate using:
