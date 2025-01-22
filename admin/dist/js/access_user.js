@@ -142,14 +142,16 @@ $(document).on("click", ".edit", function() {
 									data.get('name'),
 									data.get('email'),
 									data.get('*******'),
-									data.getAll('group_id[]').join(','),
+									$('#group_id').find(':selected').toArray().map(item => item.text).join(','),
 									data.get('accesslevel'),
 									data.get('secret_key'),
 									`<a class="edit" title="Edit" data-toggle="tooltip"><i class="text-warning bi bi-pencil-square"></i></a>
 									<a class="delete" title="Delete" data-toggle="tooltip"><i class="text-danger bi bi-x-square"></i></a>`
 								];
 								sortTable.row.add(tds).draw();
-								$("table tbody tr:last-child").attr('data-id', response.id);
+								let dtrow = sortTable.rows(sortTable.rows().count()-1).nodes().to$();
+								dtrow.attr('data-id', response.id);
+								dtrow.find('td:eq(4)').attr('data-value', $('#group_id').val().join(','));
 							}
 						}else{
 							alert("Create failed:" + response.message);

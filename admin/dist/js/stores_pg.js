@@ -443,13 +443,13 @@ $(document).on("click", ".import-modal", function() {
 								location.reload();
 							}else{								
 								let tds = [
-									response.name,
-									response.group_id.join(','),
-									response.host,
-									response.port,
-									response.schema,
-									response.dbname,
-									response.username,
+									data.get('name'),
+									$('#group_id').find(':selected').toArray().map(item => item.text).join(','),
+									data.get('host'),
+									data.get('port'),
+									data.get('schema'),
+									data.get('dbname'),
+									data.get('username'),
 									'******',
 									`<a class="conn_info" title="Show Connection" data-toggle="tooltip"><i class="text-info bi bi-info-circle"></i></a>
 									<a class="pwd_vis" title="Show Password" data-toggle="tooltip"><i class="text-secondary bi bi-eye"></i></a>
@@ -458,7 +458,9 @@ $(document).on("click", ".import-modal", function() {
 								];
 
 								sortTable.row.add(tds).draw();
-								$("table tbody tr:last-child").attr('data-id', response.id);
+								let dtrow = sortTable.rows(sortTable.rows().count()-1).nodes().to$();
+								dtrow.attr('data-id', response.id);
+								dtrow.find('td:eq(1))').attr('data-value', $('#group_id').val().join(','));
 							}
 						}
 					});

@@ -25,14 +25,16 @@ function btn_upload_post(data){
 						data.get('name'),
 						{ "display": data.get('upload_size'), "@data-order": data.get('upload_size') },
 						is_public,
-						data.getAll('group_id[]').join(','),
+						$('#group_id').find(':selected').toArray().map(item => item.text).join(','),
 						`<a class="info" title="Show Connection" data-toggle="tooltip"><i class="text-info bi bi-info-circle"></i></a>
 						 <a class="edit" title="Edit" data-toggle="tooltip"><i class="text-warning bi bi-pencil-square"></i></a>
 						 <a class="delete" title="Delete" data-toggle="tooltip"><i class="text-danger bi bi-x-square"></i></a>`
 					];
 
 					sortTable.row.add(tds).draw();
-					$("table tbody tr:last-child").attr('data-id', response.id);
+					let dtrow = sortTable.rows(sortTable.rows().count()-1).nodes().to$();
+					dtrow.attr('data-id', response.id);
+					dtrow.find('td:eq(3)').attr('data-value', $('#group_id').val().join(','));
 				}
 			}else{
 				alert("Upload failed." + response.message);

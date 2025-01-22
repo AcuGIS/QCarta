@@ -244,7 +244,7 @@ $('#layer_form').submit(false);
 								const is_proxyfied = data.get('proxyfied') == 't' ? 'yes' : 'no';
 								const is_exposed = data.get('exposed') == 't' ? 'yes' : 'no';
 								const is_customized = data.get('customized') == 't' ? 'yes' : 'no';
-								
+							
 								const tds = [
 									{ "display": name_a, "@data-order": data.get('name') },
 									data.getAll('layers[]').join(','),
@@ -253,15 +253,19 @@ $('#layer_form').submit(false);
 									is_proxyfied,
 									is_exposed,
 									is_customized,
-									data.get('store_id'),
-									data.getAll('group_id[]').join(','),
+									$('#store_id').find(':selected').text(), 
+									$('#group_id').find(':selected').toArray().map(item => item.text).join(','),
 									`<a class="info" title="Show Connection" data-toggle="tooltip"><i class="text-info bi bi-info-circle"></i></a>
 									<a class="edit" title="Edit" data-toggle="tooltip"><i class="text-warning bi bi-pencil-square"></i></a>
 									<a class="delete" title="Delete" data-toggle="tooltip"><i class="text-danger bi bi-x-square"></i></a>`
 								];
 
 								sortTable.row.add(tds).draw();
-								$("table tbody tr:last-child").attr('data-id', response.id);
+								let dtrow = sortTable.rows(sortTable.rows().count()-1).nodes().to$();
+								dtrow.attr('data-id', response.id);
+								dtrow.find('td:eq(0)').attr('data-order', $('#name').val());
+								dtrow.find('td:eq(7)').attr('data-value', $('#store_id').val());
+								dtrow.find('td:eq(8)').attr('data-value', $('#group_id').val().join(','));
 							}
 						}else{
 							alert("Create failed:" + response.message);
@@ -270,4 +274,4 @@ $('#layer_form').submit(false);
 				});
 			}
 	});
-});	
+});
