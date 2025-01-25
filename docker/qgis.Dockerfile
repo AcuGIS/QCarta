@@ -1,7 +1,5 @@
 FROM ubuntu:24.04
 
-ARG DOCKER_IP="192.168.0.25"
-ARG DOCKER_PORT="8000"
 
 ADD https://download.qgis.org/downloads/qgis-archive-keyring.gpg /etc/apt/keyrings/qgis-archive-keyring.gpg
 COPY docker/qgis.sources /etc/apt/sources.list.d/qgis.sources
@@ -28,7 +26,7 @@ RUN unzip -d /var/www/data/qgis/plugins/ /tmp/master.zip && \
 	mv /var/www/data/qgis/plugins/qgis-server-simple-browser-master /var/www/data/qgis/plugins/simple-browser && \
 	rm -rf /tmp/master.zip
 ADD installer/serversimplebrowser.py /tmp/serversimplebrowser.py
-RUN sed "s/BASE_URL = 'localhost'/BASE_URL = '${DOCKER_IP}:${DOCKER_PORT}'/" < /tmp/serversimplebrowser.py > /var/www/data/qgis/plugins/simple-browser/serversimplebrowser.py && \
+RUN sed "s/BASE_URL = 'localhost'/BASE_URL = os.getenv('DOCKER_IP')+':'+os.getenv('DOCKER_PORT')/" < /tmp/serversimplebrowser.py > /var/www/data/qgis/plugins/simple-browser/serversimplebrowser.py && \
 	rm -rf /tmp/serversimplebrowser.py
 ADD installer/map_template.html /var/www/data/qgis/plugins/simple-browser/assets/map_template.html
 

@@ -1,8 +1,4 @@
 FROM ubuntu:24.04
-
-ARG DOCKER_IP="192.168.0.25"
-ARG DOCKER_PORT="8000"
-
 ENV DEBIAN_FRONTEND=noninteractive
 
 ENV LANG=C
@@ -48,10 +44,7 @@ RUN sed -i.save 's/localhost/db/' /var/www/html/admin/dist/js/stores_pg.js && \
 		sed -i.save 's/localhost/web/' /var/www/html/admin/class/mapproxy.php
 
 RUN a2enmod headers proxy_http proxy_fcgi rewrite
-COPY docker/quail.conf /etc/apache2/sites-available/000-default.conf		
-RUN sed -i.save "s/HTTP_HOST \".*\"/HTTP_HOST \"${DOCKER_IP}:${DOCKER_PORT}\"/" /etc/apache2/sites-available/000-default.conf && \
-		sed -i.save "s/SERVER_PORT \".*\"/SERVER_PORT \"${DOCKER_PORT}\"/" /etc/apache2/sites-available/000-default.conf	&& \
-		rm -f /etc/apache2/sites-available/000-default.conf.save
+COPY docker/quail.conf /etc/apache2/sites-available/000-default.conf
 
 COPY installer/demo/data /var/www/data
 COPY installer/demo/html /var/www/html

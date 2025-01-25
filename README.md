@@ -49,11 +49,16 @@ Default credentials
 
 ```bash
 git clone https://github.com/AcuGIS/quail.git
-cd quail
-./installer/docker-install.sh
+$ cd qgis_app
 
-docker-compose build --build-arg DOCKER_IP=192.168.0.25 --build-arg DOCKER_PORT=8000
-docker-compose up
+To build images run next 2 commands. Otherwise skip to next step.
+
+$ ./installer/docker-install.sh
+$ docker-compose build
+
+Before calling up set docker/public.env with values used on your machine!
+
+$ docker-compose up
 ```
 
 URL: http://yourdomain.com:8000
