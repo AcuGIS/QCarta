@@ -51,6 +51,7 @@ Default credentials
 git clone https://github.com/AcuGIS/quail.git
 $ cd quail
 $ ./installer/docker-install.sh
+$ docker-compose pull
 
 Before calling up set docker/public.env with values used on your machine!
 $ docker-compose up
