@@ -49,16 +49,14 @@ Default credentials
 
 ```bash
 git clone https://github.com/AcuGIS/quail.git
-$ cd qgis_app
-
-To build images run next 2 commands. Otherwise skip to next step.
-
+$ cd quail
 $ ./installer/docker-install.sh
-$ docker-compose build
 
 Before calling up set docker/public.env with values used on your machine!
-
 $ docker-compose up
+
+If you want to build from source, run next command.
+$ docker-compose build
 ```
 
 URL: http://yourdomain.com:8000
