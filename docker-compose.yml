@@ -8,6 +8,7 @@ services:
       dockerfile: docker/qgis.Dockerfile
     volumes:
       - data_qgis:/var/www/data/qgis
+      - ./docker/pg_service.conf:/var/www/data/qgis/pg_service.conf
       - data_stores:/var/www/data/stores:ro
       - cache_qgis:/var/www/cache/qgis
     env_file:
@@ -45,6 +46,7 @@ services:
       - data_layers:/var/www/data/layers
       - data_stores:/var/www/data/stores
       - data_qgis:/var/www/data/qgis
+      - ./docker/pg_service.conf:/var/www/data/qgis/pg_service.conf
       - data_mapproxy:/var/www/data/mapproxy
       - html_layers:/var/www/html/layers
       - html_stores:/var/www/html/stores
@@ -62,6 +64,7 @@ services:
       dockerfile: docker/mapproxy.Dockerfile
     volumes:
       - data_mapproxy:/var/www/data/mapproxy
+      - ./docker/pg_service.conf:/var/www/data/qgis/pg_service.conf:ro
       - data_qgis:/var/www/data/qgis:ro
       
 volumes:
