@@ -30,7 +30,7 @@ RUN sed "s/BASE_URL = 'localhost'/BASE_URL = os.getenv('DOCKER_IP')+':'+os.geten
 	rm -rf /tmp/serversimplebrowser.py
 ADD installer/map_template.html /var/www/data/qgis/plugins/simple-browser/assets/map_template.html
 
-COPY --chown=www-data:www-data docker/pg_service.conf /var/www/data/qgis/pg_service.conf
+#COPY --chown=www-data:www-data docker/pg_service.conf /var/www/data/qgis/pg_service.conf
 COPY --chown=www-data:www-data docker/start-qgis.sh /usr/local/bin/start-qgis.sh
 
 # Temp fix for https://github.com/qgis/QGIS/issues/59613

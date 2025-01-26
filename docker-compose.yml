@@ -2,14 +2,14 @@ version: "3.7"
 
 services:
   qgis-server:
-    image: acugis/quail_qgis-server:25012025
+    image: acugis/quail_qgis-server:26012025
     build:
       context: .
       dockerfile: docker/qgis.Dockerfile
     volumes:
       - data_qgis:/var/www/data/qgis
       - ./docker/pg_service.conf:/var/www/data/qgis/pg_service.conf
-      - data_stores:/var/www/data/stores:ro
+      - data_stores:/var/www/data/stores
       - cache_qgis:/var/www/cache/qgis
     env_file:
       - docker/public.env
@@ -35,8 +35,9 @@ services:
       timeout: 50s
       retries: 10
   web:
-    image: acugis/quail_web:25012025
+    image: acugis/quail_web:26012025
     env_file:
+      - docker/public.env
       - docker/.env
     build:
       context: .
@@ -58,14 +59,15 @@ services:
       - qgis-server
       - mapproxy
   mapproxy:
-    image: acugis/quail_mapproxy:25012025
+    image: acugis/quail_mapproxy:26012025
     build:
       context: .
       dockerfile: docker/mapproxy.Dockerfile
     volumes:
       - data_mapproxy:/var/www/data/mapproxy
-      - ./docker/pg_service.conf:/var/www/data/qgis/pg_service.conf:ro
-      - data_qgis:/var/www/data/qgis:ro
+      - data_qgis:/var/www/data/qgis
+      - ./docker/pg_service.conf:/var/www/data/qgis/pg_service.conf
+      
       
 volumes:
   data_qgis:
