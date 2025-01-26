@@ -85,18 +85,24 @@ Docker Install
 
 To install using Docker:
 
-Go to the Docker directory open the quail.conf file and set the SERVER_NAME to your machines hostname.
+.. code-block:: console
 
-Use your machines IP for DOCKER_IP below.
+    git clone https://github.com/AcuGIS/quail.git
+    cd quail
+    installer/docker-install.sh
+    docker-compose pull
+
+Next, go to docker/public.env and set the SERVER_NAME and IP to your machines hostname and IP.
 
 .. code-block:: console
 
-    cd quail
-    ./installer/docker-install.sh
-    docker-compose build --build-arg DOCKER_IP=192.168.0.25 --build-arg DOCKER_PORT=8000
     docker-compose up
 
+If you want to build from source, run next command.
 
+.. code-block:: console
+   docker-compose build
+   
 To clean persistent data, you can remove volumes with this command:
 
 .. code-block:: console
