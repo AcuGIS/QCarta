@@ -17,7 +17,7 @@ Installation is done via the install scripts located in the /installer directory
 System Requirements
 =======================
 * 2 GB RAM
-* 15 GB Disk
+* 5 GB Disk
 * Tested on Ubuntu 24
 
 .. note::
@@ -35,21 +35,19 @@ https://github.com/AcuGIS/quail-ecw-support
 Installer (Recommended)
 =======================
 
-Download the Quail binary and unzip:
+Clone the repository:
 
 .. code-block:: console
 
-    wget https://github.com/AcuGIS/quail/quail-2.11.0.zip
-    unzip -q quail-server-1.11.0.zip
-    
-
-Change to the /quail-server-1.11.0 directory and run the installers in sequence below:
+    git clone https://github.com/AcuGIS/quail.git
+   
+Change to the /quail directory and run the installers in sequence below:
 
 If you already have PostgreSQL with PostGIS enabled, skip the postgres.sh script.
 
 .. code-block:: console
  
-    cd quail-server-1.11.0
+    cd quail
     ./installer/postgres.sh
     ./installer/app-install.sh [--no-mapproxy]
 
