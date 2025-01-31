@@ -37,12 +37,6 @@ COPY --chown=www-data:www-data admin /var/www/html/admin
 COPY --chown=www-data:www-data assets /var/www/html/assets
 COPY --chown=www-data:www-data installer/usdemo.qgs /var/www/data/stores/usdemo.qgs
 
-# update db/qgis-server hostname
-RUN sed -i.save 's/localhost/db/' /var/www/html/admin/dist/js/stores_pg.js && \
-		sed -i.save 's/localhost/db/' /var/www/html/admin/action/pglink.php  && \
-		sed -i.save 's/localhost/db/' /var/www/html/admin/action/import.php && \
-		sed -i.save 's/localhost/web/' /var/www/html/admin/class/mapproxy.php
-
 RUN a2enmod headers proxy_http proxy_fcgi rewrite
 COPY docker/quail.conf /etc/apache2/sites-available/000-default.conf
 
@@ -53,9 +47,11 @@ RUN chmod +x /tmp/make_cache_dirs.sh && \
 	/tmp/make_cache_dirs.sh && rm -rf /tmp/make_cache_dirs.sh && \
 	chown -R www-data:www-data /var/www/
 
-RUN find /var/www/html/layers/ -type f -name index.php -exec sed -i.save "s|'\.\$_SERVER\['HTTP_HOST'\]\.'|localhost|" {} \;
-RUN sed -i.save "s|'\.\$_SERVER\['HTTP_HOST'\]\.'|localhost|" /var/www/html/admin/snippets/wms_index.php && \
-	rm -f /var/www/html/index.html /var/www/html/admin/snippets/wms_index.php.save
+# update db/qgis-server hostname
+COPY docker/update_hostnames.sh /tmp/update_hostnames.sh
+RUN chmod +x /tmp/update_hostnames.sh && \
+    /tmp/update_hostnames.sh && \
+    rm -f /tmp/update_hostnames.sh
 
 VOLUME /var/www/html/layers
 VOLUME /var/www/html/stores
