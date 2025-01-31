@@ -63,4 +63,61 @@ function format2headers($format, $layer_id){
 	}
 }
 
+function layer_get_capabilities($qgs_file){
+	$xml_data = file_get_contents('http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map='.urlencode($qgs_file).'&SERVICE=WMS&REQUEST=GetCapabilities');
+	$xml = simplexml_load_string($xml_data);
+	return $xml;
+}
+
+function layer_get_bounding_box($xml, $layer_name){
+
+	foreach($xml->Capability->Layer->Layer as $l){
+		if($l->Name == $layer_name){
+			foreach($l->BoundingBox as $bb){
+				if($bb['SRS'] == 'EPSG:4326'){
+					return $bb;
+				}
+			}
+		}
+	}
+	return null;
+}
+
+// merge two bounding boxes to form one
+function merge_bbox($a, $b){
+	if($a == null){
+		return $b;
+	}
+	
+	if($a['minx'] > $b['minx']){ // min left
+		$a['minx'] = $b['minx'];
+	}
+	
+	if($a['maxx'] < $b['maxx']){ // max right
+		$a['maxx'] = $b['maxx'];
+	}
+	
+	if($a['miny'] > $b['miny']){ // min bottom
+		$a['miny'] = $b['miny'];
+	}
+	
+	if($a['maxy'] < $b['maxy']){	// max top
+		$a['maxy'] = $b['maxy'];
+	}
+	
+	return $a;
+}
+
+function layers_get_bbox($qgs_file, $layers){
+	$xml = layer_get_capabilities($qgs_file);
+	
+	$bbox = null;
+	$layers = explode(',', $layers);
+	foreach($layers as $l){
+		$b = layer_get_bounding_box($xml, $l);
+		$bbox = merge_bbox($bbox, $b);
+	}
+	return $bbox;
+}
+
 ?>

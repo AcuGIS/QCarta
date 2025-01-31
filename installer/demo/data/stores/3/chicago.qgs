@@ -1,7 +1,7 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
 <qgis projectname="" saveDateTime="2025-01-04T19:04:45" saveUserFull="David Ghedini" version="3.34.3-Prizren" saveUser="david">
   <homePath path=""/>
-  <title></title>
+  <title>Chicago Neighborhoods</title>
   <transaction mode="Disabled"/>
   <projectFlags set=""/>
   <projectCrs>
@@ -2078,15 +2078,15 @@ def my_form_open(dialog, layer, feature):
     <parentidentifier></parentidentifier>
     <language></language>
     <type></type>
-    <title></title>
-    <abstract></abstract>
+    <title>Chicago Neighborhoods</title>
+    <abstract>This layer contains Chicago Neighborhoods, Parks, and Waterways.  Data is from the Chicago Data Portal.</abstract>
     <contact>
-      <name></name>
+      <name>Cited Inc.</name>
       <organization></organization>
       <position></position>
       <voice></voice>
       <fax></fax>
-      <email></email>
+      <email>hello@citedcorp.com</email>
       <role></role>
     </contact>
     <links/>
