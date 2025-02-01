@@ -88,7 +88,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
   
   showGetFeatureInfo: function (err, latlng, content) {
     if (err) { console.log(err); return; } // do nothing if there's an error
-    
+
     // Otherwise show the content in a popup, or something.
     L.popup({ maxWidth: 800})
       .setLatLng(latlng)
