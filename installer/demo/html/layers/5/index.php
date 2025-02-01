@@ -227,7 +227,7 @@ html, body, #map {
 						</div>-->
 						
 						<div class="sidepanel-tab-content" data-tab-content="tab-5">
-							<h4 style="color:#666!important">Neighborhoods</h4>
+							<h4 style="color:#666!important"><?=$qgs_title?></h4>
                             <div id="custom-map-controls"></div>
 							<p></p>
                           

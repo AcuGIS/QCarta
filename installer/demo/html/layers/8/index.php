@@ -265,7 +265,7 @@ position: 'topright'
 
       // WMS Layer
 
-			<?php $layers = explode(',', 'WMS_LAYERS'); $li = 0;
+			<?php $layers = explode(',', 'CustomDemo'); $li = 0;
 			 foreach($layers as $lay){ ?>
 	const wms<?=$li?> = L.tileLayer.betterWms('<?=$wms_url?>', {
 		layers: '<?=$lay?>',
@@ -275,7 +275,7 @@ position: 'topright'
 	}).addTo(map);
 	<?php $li = $li + 1; } ?>
 
-	map.fitBounds(BOUNDING_BOX);
+	map.fitBounds([[24.955967,-124.731423],[49.371735,-66.969849]]);
 
 	// Group overlays and basemaps
 
