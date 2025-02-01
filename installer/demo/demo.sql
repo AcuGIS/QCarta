@@ -40,5 +40,5 @@ VALUES
 	(5, false, true, true, false, false, 'paris'),
 	(6, false, true, true, true,  false, 'NDFD Forecast hawaii.apparentt,NDFD Forecast hawaii.apparentt.points'),
 	(7, true,  true, true, false, false, 'S_USA.Activity_MBHR_PL — Activity_MBHR_PL'),
-	(8, false, true, true, false, false, 'states'),
+	(8, false, true, true, true,  false, 'states'),
 	(9, true,  false,true, false, true,  'Fields,Apiary,Tracks');

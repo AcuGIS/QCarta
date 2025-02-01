@@ -236,6 +236,12 @@ html, body, #map {
 
 <script type="text/javascript">
 
+var myStyle = {
+    "color": "#ffffff",
+    "weight": 0,
+    "fillOpacity": 0.0
+};
+
 	const map = L.map('map', {
 		center: [0, 0],
 		zoom: 16,
@@ -263,26 +269,46 @@ position: 'topright'
             attribution: '© <a href="http://www.esri.com">ESRI</a>'
         }).addTo(map);
 
-      // WMS Layer
+	//wfs layer
+var url = '<?=$proto?>://<?=$_SERVER['HTTP_HOST']?>/layers/2/proxy_qgis.php?service=WFS&version=1.1.0&request=GetFeature&typeName=states&maxFeatures=500&OUTPUTFORMAT=application/geo%20json&access_key=<?=$auth->access_key?>';
 
-			<?php $layers = explode(',', 'CustomDemo'); $li = 0;
-			 foreach($layers as $lay){ ?>
-	const wms<?=$li?> = L.tileLayer.betterWms('<?=$wms_url?>', {
-		layers: '<?=$lay?>',
-		transparent: 'true',
-  	format: 'image/png',
-		maxZoom:25
-	}).addTo(map);
-	<?php $li = $li + 1; } ?>
+			
+//Loop through JSON file for features information -->
+function forEachFeature(feature, layer) {
+    
+// Print all feature information
+ var mypopupContent = '<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\}"]/g,'')+'</pre>';
+    
+// above Bind to popup content
+layer.bindPopup(mypopupContent);
+            
+			}
+		
+// Null var that will hold layer
+var myLayer = L.geoJson(null, {onEachFeature: forEachFeature, style: myStyle});
 
-	map.fitBounds([[24.955967,-124.731423],[49.371735,-66.969849]]);
+// Add mylayer above to map
+$.getJSON(url, function(data) {
+myLayer.addData(data);
+});
+myLayer.addTo(map);
+
+
+
+//wms layer via MapProxy
+  var wms = L.tileLayer.wms("<?=$proto?>://<?=$_SERVER['HTTP_HOST']?>/mproxy/service?access_key=<?=$auth->access_key?>", {
+    layers: 'usa',
+    transparent: 'true',
+			format: 'image/png',
+			maxZoom:25
+  });
+  wms.addTo(map);
 
 	// Group overlays and basemaps
 
 	var overlayMap = {
-		<?php $li=0; $del = ''; foreach($layers as $lay){ ?>
-			<?=$del?>'<?=$lay?>' : wms<?=$li?>
-		<?php $del = ','; $li = $li + 1; } ?>
+      "WMS Layer" :wms,
+      "PostGIS Data Layer" :myLayer  
 	};
 
 	var baseMap = {
@@ -354,7 +380,7 @@ position: 'topright'
     map.on(L.Draw.Event.CREATED, function (event) {
         featureGroup.addLayer(event.layer);
     });
-    
+    map.fitBounds([[24.955967,-124.731423],[49.371735,-66.969849]]);
               
               
               
