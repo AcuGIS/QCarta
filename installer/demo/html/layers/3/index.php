@@ -43,13 +43,13 @@
 	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 	<script src="../../assets/dist/js/leaflet.browser.print.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
 
 	<link rel="stylesheet" href="../../assets/dist/css/L.Control.Opacity.css"/>
       <link rel="stylesheet" href="../../assets/dist/css/leaflet-sidepanel.css" />
 <script src="../../assets/dist/js/leaflet-sidepanel.min.js"></script>
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<script src="../../assets/dist/js/L.BetterWMS.js"></script>
 	<script src="../../assets/dist/js/L.Control.Opacity.js"></script>
