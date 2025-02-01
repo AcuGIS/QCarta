@@ -365,6 +365,8 @@ position: 'topright'
         featureGroup.addLayer(event.layer);
     });
     
+    map.on(L.Draw.Event.DRAWSTART, function (event) { map.off('click'); });
+    map.on(L.Draw.Event.DRAWSTOP, function (event) {  map.on('click');  });
               
               
               

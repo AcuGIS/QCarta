@@ -380,6 +380,10 @@ myLayer.addTo(map);
     map.on(L.Draw.Event.CREATED, function (event) {
         featureGroup.addLayer(event.layer);
     });
+    
+    map.on(L.Draw.Event.DRAWSTART, function (event) { map.off('click'); });
+    map.on(L.Draw.Event.DRAWSTOP, function (event) {  map.on('click');  });
+    
     map.fitBounds([[24.955967,-124.731423],[49.371735,-66.969849]]);
               
               
