@@ -183,8 +183,8 @@ position: 'topright'
 	}).addTo(map);
 	<?php $li = $li + 1; } ?>
 
-	map.fitBounds([[33.805,-95.475],[35.04,-93.247]]);
-   
+	map.fitBounds([[34.197,-95.1124],[34.8143,-93.9987]]);
+          
 
 	// Group overlays and basemaps
 

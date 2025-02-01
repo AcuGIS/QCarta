@@ -1,5 +1,5 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis version="3.34.3-Prizren" saveDateTime="2025-01-30T16:22:29" saveUser="david" projectname="Monarch Habitats" saveUserFull="David Ghedini">
+<qgis version="3.34.3-Prizren" saveDateTime="2025-01-30T16:23:13" saveUser="david" projectname="Monarch Habitats" saveUserFull="David Ghedini">
   <homePath path=""/>
   <title>Monarch Habitats</title>
   <transaction mode="Disabled"/>
@@ -41,10 +41,10 @@
   <mapcanvas name="theMapCanvas" annotationsVisible="1">
     <units>degrees</units>
     <extent>
-      <xmin>-95.13555874471796869</xmin>
-      <ymin>34.22686026045825258</ymin>
-      <xmax>-94.02184913850859971</xmax>
-      <ymax>34.81049900969418331</ymax>
+      <xmin>-95.43916598284531005</xmin>
+      <ymin>33.89518790708847717</ymin>
+      <xmax>-93.21174677042657208</xmax>
+      <ymax>35.06246540556033864</ymax>
     </extent>
     <rotation>0</rotation>
     <destinationsrs>
@@ -1691,7 +1691,7 @@ This feature class represents Monarch Butterfly Habitat Restoration (MBHR) activ
   <Sensors/>
   <ProjectViewSettings rotation="0" UseProjectScales="0">
     <Scales/>
-    <DefaultViewExtent xmax="-94.02184913850859971" xmin="-95.13555874471796869" ymax="34.82735907049924151" ymin="34.21000019965319439">
+    <DefaultViewExtent xmax="-93.21174677042657208" xmin="-95.43916598284531005" ymax="35.09618552717046214" ymin="33.86146778547835368">
       <spatialrefsys nativeFormat="Wkt">
         <wkt>GEOGCRS["NAD83",DATUM["North American Datum 1983",ELLIPSOID["GRS 1980",6378137,298.257222101,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic latitude (Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic longitude (Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["Geodesy."],AREA["North America - onshore and offshore: Canada - Alberta; British Columbia; Manitoba; New Brunswick; Newfoundland and Labrador; Northwest Territories; Nova Scotia; Nunavut; Ontario; Prince Edward Island; Quebec; Saskatchewan; Yukon. Puerto Rico. United States (USA) - Alabama; Alaska; Arizona; Arkansas; California; Colorado; Connecticut; Delaware; Florida; Georgia; Hawaii; Idaho; Illinois; Indiana; Iowa; Kansas; Kentucky; Louisiana; Maine; Maryland; Massachusetts; Michigan; Minnesota; Mississippi; Missouri; Montana; Nebraska; Nevada; New Hampshire; New Jersey; New Mexico; New York; North Carolina; North Dakota; Ohio; Oklahoma; Oregon; Pennsylvania; Rhode Island; South Carolina; South Dakota; Tennessee; Texas; Utah; Vermont; Virginia; Washington; West Virginia; Wisconsin; Wyoming. US Virgin Islands. British Virgin Islands."],BBOX[14.92,167.65,86.45,-40.73]],ID["EPSG",4269]]</wkt>
         <proj4>+proj=longlat +datum=NAD83 +no_defs</proj4>
