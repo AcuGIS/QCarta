@@ -84,7 +84,9 @@ html, body, #map {
 .leaflet-touch .leaflet-bar.leaflet-draw-toolbar a.leaflet-draw-draw-marker {
 	background-image: url('../../assets/images/qicons/tmarker.png');
 }
-
+.leaflet-touch .leaflet-bar.leaflet-draw-toolbar a.leaflet-draw-draw-circlemarker {
+    background-image: url('../../assets/images/qicons/tcirclemarker.png');
+}
 
 .leaflet-touch .leaflet-bar.leaflet-draw-toolbar a.leaflet-draw-edit-edit {
 	background-image: url('../../assets/images/qicons/tedit.png');
