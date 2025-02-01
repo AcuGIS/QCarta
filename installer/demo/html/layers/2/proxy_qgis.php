@@ -14,6 +14,13 @@
 			http_response_code(400);	// Bad Request
 			die(400);
 		}
+	}else if($_GET['request'] == 'GetFeatureInfo'){
+			if(!empty($_GET['info_format'])){
+				$format = urldecode($_GET['info_format']);
+			}else{
+				http_response_code(400);	// Bad Request
+				die(400);
+			}
 	}else{
 		if(!empty($_GET['layers'])){
 			$layers = urldecode($_GET['layers']);
