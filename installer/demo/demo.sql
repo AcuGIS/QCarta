@@ -39,6 +39,6 @@ VALUES
 	(4, true,  true, true, false, true,  'GB_Hex_5km_GS_RunningSand_v8,GB_Hex_5km_GS_SolubleRocks_v8'),
 	(5, false, true, true, false, false, 'paris'),
 	(6, false, true, true, true,  false, 'NDFD Forecast hawaii.apparentt,NDFD Forecast hawaii.apparentt.points'),
-	(7, true,  true, true, false, false, 'S_USA.Activity_MBHR_PL — Activity_MBHR_PL'),
+	(7, true,  true, true, true, false, 'S_USA.Activity_MBHR_PL — Activity_MBHR_PL'),
 	(8, false, true, true, true,  false, 'states'),
 	(9, true,  false,true, false, true,  'Fields,Apiary,Tracks');
