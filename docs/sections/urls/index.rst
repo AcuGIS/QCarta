@@ -19,6 +19,18 @@ You can obtain URLs from GetCapabilities as well as Store and Layer info functio
 Below, we'll use the BGSGrid demo layer for examples of common URLS.
 
 
+GetCapabilities
+================
+
+GetCapabilities urls have the following form for Public Stores::
+
+   https://doamin.com/stores/4/wms.php?REQUEST=GetCapabilities
+
+For Private Layers, append an access_key to the url::
+
+   https://doamin.com/stores/4/wms.php?REQUEST=GetCapabilities?access_key=<accessKey>
+
+
 WMS
 ================
 
