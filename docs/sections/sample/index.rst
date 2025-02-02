@@ -89,47 +89,46 @@ USA:
 
 The USA demo layer uses the **USA-PostGIS.**  PostGIS Store. 
 
-.. image:: usa-preview.png
+.. image:: usa-layer-preview.png
 
 
 QField:
 
 Simple Bees. This layer uses the QFieldProject Store.
 
-.. image:: qfield-bee-demo.png
-
+.. image:: quailmap-2.png
 
 Chicago
 
 **Chicago-ESRI-Shapefile.** - ESRI Shapefile data source obtained from the Chicago Data Portal
 
-.. image:: neighborhoods-preview.png
+.. image:: chicago-preview.png
 
 BGS:
 
 The BGS uses the **BGS-GeoPackage** Store
 
-.. image:: bgs-preview.png
+.. image:: dgs-preview.png
 
 
 Paris1550
 
 **MapWarper-GeoTIFF.** GeoTiff data source from Map Warper
 
-.. image:: paris-1550-preview.png
+.. image:: paris-preview.png
 
 Isotop
 
 **WeatherService-WMS.** - WMS source obtained from the National Weather Service
 
-.. image:: nws-preview.png
+.. image:: news-preview.png
 
 Monarch Butterflies
 
 **Monarch-ESRI-Geodatabase.** ESRI Geodatabase data source for Monarch butterfly habitat
 
 
-.. image:: monatchs-preview.png
+.. image:: monarch-preview.png
 
 Custom Demo
 
