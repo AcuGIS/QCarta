@@ -63,7 +63,6 @@ Quail also contains a basic Map Portal that automatically creates Leaflet Maps y
     :caption: Resources
 
     resources/css
-    resources/security
     resources/support
     resources/commercial
     resources/license
