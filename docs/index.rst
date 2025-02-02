@@ -51,12 +51,6 @@ Quail also contains a basic Map Portal that automatically creates Leaflet Maps y
     sections/plugins/index
     sections/branding/index
     
-.. toctree::
-    :maxdepth: 3
-    :caption: End User
-
-    endusers/index
- 
 
 .. toctree::
     :maxdepth: 2
