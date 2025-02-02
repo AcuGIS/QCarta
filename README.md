@@ -8,7 +8,7 @@ Publish your QGIS Projects as OGC Web Services.
 
 Group level permissions and integration MapProxy caching.
 
-![QuartzMap](docs/_static/quail-github.png)
+![Quail](docs/_static/quail-github.png)
    
 ## Requirements
 
@@ -62,9 +62,16 @@ $ docker-compose build
 
 URL: http://yourdomain.com:8000
 
+## Layer Portal
+
+Quail also includes a Layer Portal with Group Level Permissions
+
+![QuailMap](docs/sections/sample/bee-preview-quail.png)
+
 ## Documentation
 
 Quail Docs [Documentation](https://quail.docs.acugis.com).
+
 
 
 ## License
