@@ -30,7 +30,7 @@
 	   $content = preg_replace('/MAP=[a-z0-9%\.]*(&amp;)?/i', '', $content);
 	   $acc_key = isset($_GET['access_key']) ? 'access_key='.$_GET['access_key'].'&amp;' : '';
 	   $out_proto = empty($_SERVER['HTTPS']) ? 'http' : 'https';
-       echo str_replace('http://localhost/cgi-bin/qgis_mapserv.fcgi?', $out_proto.'://'.$_SERVER['HTTP_HOST'].'/stores/'.LAYER_ID.'/'.strtolower('SERVICE_NAME').'.php?'.$acc_key, $content);
+       echo str_replace('http://localhost/cgi-bin/qgis_mapserv.fcgi?', $out_proto.'://'.$_SERVER['HTTP_HOST'].'/stores/'.LAYER_ID.'/'.strtolower('WMS').'.php?'.$acc_key, $content);
 	}else{
 	   readfile($url);
 	}
