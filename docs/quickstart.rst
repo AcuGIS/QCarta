@@ -24,26 +24,20 @@ Install with Docker
    Docker is not recommended for Production hosting.
     
 
-Download the Quail binary and unzip:
+.. code-block:: console
+
+   git clone https://github.com/AcuGIS/quail.git
+   cd quail
+   installer/docker-install.sh
+   docker-compose pull
+
+Before calling up set docker/public.env with the IP or hostname used on your device
 
 .. code-block:: console
 
-    wget https://github.com/AcuGIS/quail/quail-2.11.0.zip
-    unzip -q quail-server-1.11.0.zip
-    
-
-Change to the /quail-server-1.11.0 directory and run as below
-
-Use your machine IP for DOCKER_IP below
-
-.. code-block:: console
-
-    cd quail
-    ./installer/docker-install.sh
-   docker-compose build --build-arg DOCKER_IP=192.168.0.25 --build-arg DOCKER_PORT=8000
    docker-compose up
 
-To clean persistent data, you can remove volumes with this command:
+Note: To clean persistent data, you can remove volumes with this command:
 
 .. code-block:: console
 
