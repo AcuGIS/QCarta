@@ -25,7 +25,7 @@ The Map Viewer can be reached either via the MapViewer link in the menu or via t
 
 It can also be viewed via the Layer Preview url directly if the Layer is Public.
 
-.. image:: ../../sections/sample/usa-preview.png
+.. image:: bee-preview-quail.png
 
 Map Viewer Page
 ====================
