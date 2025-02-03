@@ -15,9 +15,8 @@
 	   http_response_code(400);	// Bad Request
 	   die(400);
 	}
-	
-	//TODO: what if access_key ?
-	$user_id = (IS_PUBLIC) ? SUPER_ADMIN_ID : $_SESSION[SESS_USR_KEY]->id;
+
+	$user_id = (IS_PUBLIC || !empty($_GET['access_key'])) ? SUPER_ADMIN_ID : $_SESSION[SESS_USR_KEY]->id;
 
 	$database = new Database(DB_HOST, DB_NAME, DB_USER, DB_PASS, DB_PORT, DB_SCMA);
 	$obj = new qgs_layer_Class($database->getConn(), $user_id);
@@ -51,12 +50,9 @@
 	       $layer_uri .= 'access_key='.$_GET['access_key'].'&amp;';
 		}
 	}
-	
-    //$content = str_replace('http://localhost/cgi-bin/qgis_mapserv.fcgi?"', $out_proto.'://'.$_SERVER['HTTP_HOST'].$layer_uri.'"', $content);
+
     $content = str_replace('http://localhost/cgi-bin/qgis_mapserv.fcgi?',  $out_proto.'://'.$_SERVER['HTTP_HOST'].$layer_uri, $content);
 
-    //file_put_contents('/tmp/content.xml', $content);
-    
     # remove layers not enabled in app
     $xml = simplexml_load_string($content);
     foreach($xml->Capability->Layer->Layer as $l){
