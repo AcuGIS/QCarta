@@ -35,7 +35,7 @@ services:
       timeout: 50s
       retries: 10
   web:
-    image: acugis/quail_web:02022025
+    image: acugis/quail_web:03022025
     env_file:
       - docker/public.env
       - docker/.env
@@ -59,7 +59,7 @@ services:
       - qgis-server
       - mapproxy
   mapproxy:
-    image: acugis/quail_mapproxy:26012025
+    image: acugis/quail_mapproxy:03022025
     build:
       context: .
       dockerfile: docker/mapproxy.Dockerfile
