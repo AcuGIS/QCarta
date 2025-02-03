@@ -46,7 +46,7 @@
          if self.cors_origin:
              orig_start_response = start_response
              def start_response(status, headers, exc_info=None):
-@@ -161,3 +181,34 @@ class MapProxyApp(object):
+@@ -161,3 +181,44 @@ class MapProxyApp(object):
          if 'demo' in self.handlers:
              html += '<p>See all configured layers and services at: <a href="%s/demo/">demo</a>' % (script_url, )
          return Response(html, mimetype='text/html')
@@ -68,6 +68,16 @@
 +        cursor = conn.cursor()
 +
 +        allow = 'full'
++
++        if not 'layers' in qs:
++            if 'LAYERS' in qs:
++                qs['layers'] = qs['LAYERS']
++            elif 'layer' in qs:
++                qs['layers'] = qs['layer']
++            elif 'LAYER' in qs:
++                qs['layers'] = qs['LAYER']
++            else:
++                return {'authorized': 'none'}
 +
 +        for l in qs['layers']:
 +            if not l in self.name2id:
