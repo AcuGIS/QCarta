@@ -88,7 +88,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
   
   showGetFeatureInfo: function (err, latlng, content) {
     if (err) { console.log(err); return; } // do nothing if there's an error
-    if(!content.includes("class='layer-title'")){
+    if(!content.includes("class='layer-title'") && !content.includes("<TR><TH>")){
       return;
     }   
 	
