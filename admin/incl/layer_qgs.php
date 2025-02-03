@@ -108,6 +108,7 @@
 					<?php if(WITH_MAPPROXY) { ?>
 					<tr><td>MapProxy URL</td><td id="td_mapproxy_url"></td></tr>
 					<?php } ?>
+					<tr><td>GetCapabilities URL</td><td><a target="_blank" href="#" id="td_capabilities_url"></a></td></tr>
 				</table>
 			</div>
 			<div class="modal-footer">

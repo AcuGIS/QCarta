@@ -111,6 +111,10 @@ $('#layer_form').submit(false);
 						$('#td_qgis_bbox').html(response.bbox);
  						$('#tr_wms_url').attr('data-wms-query', response.wms_query);
             $('#tr_wfs_url').attr('data-wfs-query', response.wfs_query);
+            
+            $('#td_capabilities_url').attr('href', response.capabilities_query);
+            $('#td_capabilities_url').text(response.capabilities_query);
+            
  						$('#sel_wms_url').val('');
  						$('#info_modal').modal('show');
  					}else{

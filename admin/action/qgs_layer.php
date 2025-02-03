@@ -92,6 +92,7 @@
 		update_env($html_dir.'/env.php', $vars);
 
 		copy('../snippets/proxy_qgis.php', $html_dir.'/proxy_qgis.php');
+		copy('../snippets/layer_wms.php', $html_dir.'/layer_wms.php');
 		
 		$bbox = layers_get_bbox($qgs_file, $post['layers']);
 		$wms_url = ($post['proxyfied'] == 't') ? '/mproxy/service' : 'proxy_qgis.php';
@@ -382,7 +383,8 @@
 					$bbox = layers_get_bbox($qgs_file, $row->layers);
 
 					$result = ['success' => true, 'qgis_url' => $qgis_url, 'wms_query' => $wms_query, 'wfs_query' => $wfs_query,
-						'bbox' => $bbox["miny"].','.$bbox["minx"].','.$bbox['maxy'].','.$bbox['maxx']
+						'bbox' => $bbox["miny"].','.$bbox["minx"].','.$bbox['maxy'].','.$bbox['maxx'],
+						'capabilities_query' => $base_url.'/wms.php?REQUEST=GetCapabilities'
 					];
 					
 					if($row->proxyfied == 't'){
