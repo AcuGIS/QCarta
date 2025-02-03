@@ -6,13 +6,6 @@ Contributing
 ========================
 We welcome all contributors.  
 
-While any code contributions are welcome, areas that could use improvement are:
-
-    * Providing feedback
-    * Email Formating
-    * iReport Library Updates
-
-
 Issues
 ========================
 If you've found a bug, let us know.
