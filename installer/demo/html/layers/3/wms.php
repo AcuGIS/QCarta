@@ -28,7 +28,7 @@
 	header("Content-Type: text/xml");
 	
 	$content = file_get_contents('http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map='.QGIS_FILENAME_ENCODED.'&SERVICE=WMS&REQUEST=GetCapabilities');
-	$content = preg_replace('/MAP=[a-z0-9%\.]*(&amp;)?/i', '', $content);
+	$content = preg_replace('/MAP=[^&"]*(&amp;)?/i', '', $content);
 	
 
 	$out_proto = empty($_SERVER['HTTPS']) ? 'http' : 'https';

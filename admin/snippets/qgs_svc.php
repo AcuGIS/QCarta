@@ -27,7 +27,7 @@
 	$url = 'http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map='.QGIS_FILENAME_ENCODED.'&SERVICE=SERVICE_NAME&'.$_SERVER['QUERY_STRING'];
 	if($_GET['request'] == 'GetCapabilities') {
 	   $content = file_get_contents($url);
-	   $content = preg_replace('/MAP=[a-z0-9%\.]*(&amp;)?/i', '', $content);
+	   $content = preg_replace('/MAP=[^&"]*(&amp;)?/i', '', $content);
 	   $acc_key = isset($_GET['access_key']) ? 'access_key='.$_GET['access_key'].'&amp;' : '';
 	   $out_proto = empty($_SERVER['HTTPS']) ? 'http' : 'https';
        echo str_replace('http://localhost/cgi-bin/qgis_mapserv.fcgi?', $out_proto.'://'.$_SERVER['HTTP_HOST'].'/stores/'.LAYER_ID.'/'.strtolower('SERVICE_NAME').'.php?'.$acc_key, $content);
