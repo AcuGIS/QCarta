@@ -1,7 +1,7 @@
 # https://mapproxy.github.io/mapproxy/latest/seed.html
 seeds:
   myseed1:
-    caches: [bgsgrid_cache]
+    caches: [bgsgrid.GB_Hex_5km_GS_SolubleRocks_v8_cache, bgsgrid.GB_Hex_5km_GS_RunningSand_v8_cache]
     # grids: []
     # coverages: []
     levels:
@@ -11,7 +11,7 @@ seeds:
 
 cleanups:
   myclean1:
-    caches: [bgsgrid_cache]
+    caches: [bgsgrid.GB_Hex_5km_GS_SolubleRocks_v8_cache, bgsgrid.GB_Hex_5km_GS_RunningSand_v8_cache]
     remove_before:
       days: 14
     levels:

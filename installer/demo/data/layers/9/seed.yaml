@@ -1,7 +1,7 @@
 # https://mapproxy.github.io/mapproxy/latest/seed.html
 seeds:
   myseed1:
-    caches: [neighborhoods.neighborhoods_cache, neighborhoods.parks_cache, neighborhoods.waterways_cache]
+    caches: [qfieldSimpleBee.Fields_cache, qfieldSimpleBee.Apiary_cache, qfieldSimpleBee.Tracks_cache]
     # grids: []
     # coverages: []
     levels:
@@ -11,7 +11,7 @@ seeds:
 
 cleanups:
   myclean1:
-    caches: [neighborhoods.neighborhoods_cache, neighborhoods.parks_cache, neighborhoods.waterways_cache]
+    caches: [qfieldSimpleBee.Fields_cache, qfieldSimpleBee.Apiary_cache, qfieldSimpleBee.Tracks_cache]
     remove_before:
       days: 14
     levels:

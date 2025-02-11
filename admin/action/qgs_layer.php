@@ -131,14 +131,10 @@
 			}else{
 				mapproxy_Class::mapproxy_add_source($post['name'], $qgs_file, $post['layers']);
 			}
+		 mapproxy_Class::mapproxy_add_seed($mproxy_layer_names, $id);
 		}
-		
+
 		layer_save_thumbnail($qgs_file, $post, $bbox);
-		
-		shell_exec('mapproxy_seed_ctl.sh enable '.$id);
-		$seed_yaml = file_get_contents('../snippets/seed.yaml');
-		$seed_yaml = str_replace('[osm_cache]', '['.$post['name'].'_cache]', $seed_yaml);
-		file_put_contents(DATA_DIR.'/layers/'.$id.'/seed.yaml', $seed_yaml);
 
 		return true;
 	}
@@ -200,6 +196,10 @@
 			}else{
 				mapproxy_Class::mapproxy_add_source($post['name'], $qgs_file, $post['layers']);
 			}
+			
+			mapproxy_Class::mapproxy_add_seed($mproxy_layer_names, $id);
+		}else{
+		  shell_exec('mapproxy_seed_ctl.sh disable '.$id);
 		}
 		shell_exec('sudo /usr/local/bin/mapproxy_ctl.sh restart');
 		

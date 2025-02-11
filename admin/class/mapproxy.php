@@ -82,6 +82,20 @@ class mapproxy_Class
 		return $rv;
 	}
 	
+	public static function mapproxy_add_seed($names, $id){
+        $cache_names = array();
+    	foreach($names as $name){
+    	    array_push($cache_names, $name.'_cache');
+    	}
+    	$seed_label = implode(',', $cache_names);
+
+    	$seed_yaml = file_get_contents('../snippets/seed.yaml');
+    	$seed_yaml = str_replace('[osm_cache]', '['.$seed_label.']', $seed_yaml);
+    	file_put_contents(DATA_DIR.'/layers/'.$id.'/seed.yaml', $seed_yaml);
+        
+        shell_exec('mapproxy_seed_ctl.sh enable '.$id);
+	}
+	
 	public static function mapproxy_seed_progress($prog_file){
 		if(is_file($prog_file)){
 			$log = file_get_contents($prog_file);
