@@ -355,7 +355,7 @@
 					$row = pg_fetch_object($result);
 					pg_free_result($result);
 					
-					if($obj->drop_access($id) && $obj->delete($id)){
+					if($obj->delete($id)){
 	        	$result = ['success' => true, 'message' => 'Layer successfully deleted!'];
 	
 						delete_layer($id, $row);

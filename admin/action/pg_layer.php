@@ -104,7 +104,7 @@
 					}
       
 			}else if($action == 'delete') {
-				if($obj->drop_access($id) && $obj->delete($id)){
+				if($obj->delete($id)){
         	$result = ['success' => true, 'message' => 'Layer successfully deleted!'];
 
 					delete_layer($id);

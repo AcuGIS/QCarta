@@ -76,6 +76,8 @@
        function delete($id){
 				 $sql = '';
 
+				 $this->drop_access($id);
+
 				 if($this->table_ext){
 					 $sql .= 'delete from public.'.$this->table_ext.'_'.$this->table_name.' where id='.$id.';';
 				 }
