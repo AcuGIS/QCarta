@@ -82,7 +82,7 @@ CREATE TABLE public.qgs_layer (
 	proxyfied BOOLEAN DEFAULT False,
 	customized BOOLEAN DEFAULT False,
 	exposed BOOLEAN DEFAULT False,
-	layers character varying(250) NOT NULL
+	layers TEXT NOT NULL
 );
 
 CREATE TABLE public.access_key ( id SERIAL PRIMARY KEY,
