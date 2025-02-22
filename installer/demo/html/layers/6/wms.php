@@ -37,10 +37,8 @@
 	$layer_uri = '/layers/'.$row->id.'/proxy_qgis.php?';
 	if($row->proxyfied == 't'){
 	    $layer_uri = '/mproxy/service?';
-		foreach(QGIS_LAYERS as $l){
-		  $l_name = ($row->exposed == 't') ? $row->name.'.'.$l : $row->name;
-		  //NOTE: mapproxy needs LAYERS, not LAYER
-		  $content = str_replace('LAYER='.$l, 'LAYERS='.$l_name, $content);
+	    if($row->proxyfied == 't'){
+			$content = str_replace('LAYER=', 'LAYERS='.$row->name.'.', $content);
 		}
 		if(isset($_GET['access_key'])){
             $layer_uri .= 'access_key='.$_GET['access_key'].'&amp;';
@@ -54,14 +52,23 @@
     $content = str_replace('http://localhost/cgi-bin/qgis_mapserv.fcgi?',  $out_proto.'://'.$_SERVER['HTTP_HOST'].$layer_uri, $content);
 
     # remove layers not enabled in app
-    $xml = simplexml_load_string($content);
+    $rm_layers = [];
+    
+    $xml = simplexml_load_file('cap.xml');
     foreach($xml->Capability->Layer->Layer as $l){
         if(!str_contains($row->layers, (string)$l->Name)){
-            $dom = dom_import_simplexml($l);
-            $dom->parentNode->removeChild($dom);
+            array_push($rm_layers, $l);
         }else if($row->proxyfied == 't'){
-            $l->Name = ($row->exposed == 't') ? $row->name.'.'.(string)$l->Name : $row->name;
+            if($row->exposed == 't') {
+                $l->Name = $row->name.'.'.(string)$l->Name;
+            }
         }
     }
+
+    foreach($rm_layers as $l){
+        $dom = dom_import_simplexml($l);
+        $dom->parentNode->removeChild($dom);
+    }
+    
     echo $xml->asXML();
 ?>
