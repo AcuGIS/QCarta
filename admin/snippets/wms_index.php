@@ -2,10 +2,10 @@
 	require('../../admin/incl/index_prefix.php');
 	require('../../admin/incl/qgis.php');
 
-	$wms_url = '/mproxy/service';
+	$wms_url = 'WMS_URL';
 	$proto = empty($_SERVER['HTTPS']) ? 'http' : 'https';
 	if(str_starts_with($wms_url, '/mproxy/')){
-		$content = file_get_contents($proto.'://'.$_SERVER['HTTP_HOST'].'/admin/action/authorize.php?secret_key=3b0f29cf-6c76-49c8-981c-c67cd1bbdf13&ip='.$_SERVER['REMOTE_ADDR']);
+		$content = file_get_contents($proto.'://'.$_SERVER['HTTP_HOST'].'/admin/action/authorize.php?secret_key=SECRET_KEY&ip='.$_SERVER['REMOTE_ADDR']);
 		$auth = json_decode($content);
 		$wms_url .= '?access_key='.$auth->access_key;
 	}
