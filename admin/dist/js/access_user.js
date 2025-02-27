@@ -54,6 +54,7 @@ $(document).on("click", ".edit", function() {
 	$('#group_id').val(tds[4].getAttribute('data-value').split(','));
 	$('#accesslevel').val(tds[5].textContent);
 	$('#secret_key').val(tds[6].textContent);
+	$('#preview_type').val(tds[7].textContent);
 });
 
 	// Delete row on delete button click
@@ -145,6 +146,7 @@ $(document).on("click", ".edit", function() {
 									$('#group_id').find(':selected').toArray().map(item => item.text).join(','),
 									data.get('accesslevel'),
 									data.get('secret_key'),
+									data.get('preview_type'),
 									`<a class="edit" title="Edit" data-toggle="tooltip"><i class="text-warning bi bi-pencil-square"></i></a>
 									<a class="delete" title="Delete" data-toggle="tooltip"><i class="text-danger bi bi-x-square"></i></a>`
 								];

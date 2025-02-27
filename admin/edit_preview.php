@@ -25,6 +25,7 @@
 		http_response_code(405);	//not allowed
 		die(405);
 	}
+	$preview = ($_SESSION[SESS_USR_KEY]->preview_type == 'openlayers') ? 'ol_' : '';
 ?>
 
 <!DOCTYPE html>
@@ -83,7 +84,7 @@
 			<form method="post" action="action/edit_preview.php">
 				<input type="hidden" name="action" value="save"/>
 				<input type="hidden" name="id" id="id" value="<?=$id?>"/>
-				<textarea name="preview_html" id="preview_html" rows="60" cols="150"><?php readfile('../layers/'.$_GET['id'].'/index.php'); ?></textarea>
+				<textarea name="preview_html" id="preview_html" rows="60" cols="150"><?php readfile('../layers/'.$_GET['id'].'/'.$preview.'index.php'); ?></textarea>
 				<input type="submit" name="submit" class="btn btn-primary" value="Submit">
 			</form>
 			</div>

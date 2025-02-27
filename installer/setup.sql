@@ -1,5 +1,6 @@
 CREATE TYPE public.userlevel AS ENUM ('Admin', 'User', 'Devel');
 CREATE TYPE public.store_type AS ENUM ('pg', 'qgs');
+CREATE TYPE public.preview_type AS ENUM ('leaflet', 'openlayers');
 
 CREATE TABLE public.user (	id SERIAL PRIMARY KEY,
   name character varying(250),
@@ -9,6 +10,7 @@ CREATE TABLE public.user (	id SERIAL PRIMARY KEY,
 	pg_password character varying(250),
   accesslevel public.userlevel,
 	secret_key uuid DEFAULT gen_random_uuid(),
+	preview_type public.preview_type DEFAULT 'leaflet',
 	owner_id integer NOT NULL	REFERENCES public.user(id),
 	UNIQUE(email)
 );

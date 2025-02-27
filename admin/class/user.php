@@ -34,13 +34,14 @@
 						 }
 						
              $sql = "INSERT INTO PUBLIC." .$this->table_name."
-             (name,email,password,ftp_user,pg_password,accesslevel,owner_id) "."VALUES('".
+             (name,email,password,ftp_user,pg_password,accesslevel,preview_type,owner_id) "."VALUES('".
              $this->cleanData($data['name'])."','".
              $this->cleanData($data['email'])."','".
              									$data['password']."','".
 						 $this->cleanData($data['ftp_user'])."','".
 						 $this->cleanData($data['pg_password'])."','".
-             $this->cleanData($data['accesslevel'])."',".
+             $this->cleanData($data['accesslevel'])."','".
+             $this->cleanData($data['preview_type'])."',".
 						 $this->owner_id.") RETURNING id";
 						 
 						 $result = pg_query($this->dbconn, $sql);
@@ -125,8 +126,8 @@
 						$hashpassword = password_hash($data['password'], PASSWORD_DEFAULT);
           	$sql .= ", password='".$hashpassword."'";
 					}
-
-          $sql .= ", accesslevel='".$this->cleanData($data['accesslevel']).
+		  $sql .= ", preview_type='".$this->cleanData($data['preview_type']);
+          $sql .= "', accesslevel='".$this->cleanData($data['accesslevel']).
 								 	"' where id = '".$id."'";
 					
 					$result = pg_query($this->dbconn, $sql);

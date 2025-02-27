@@ -1,5 +1,5 @@
 <?php
-    session_start(['read_and_close' => true]);
+    session_start();
 		require('../incl/const.php');
     require('../class/database.php');
 		require('../class/table.php');
@@ -43,6 +43,7 @@
             }
 						
 						if($newId > 0){
+						    $_SESSION[SESS_USR_KEY]->preview_type = $_POST['preview_type'];
 							$result = ['success' => true, 'message' => 'User successfully created!', 'id' => $newId];
 						}else{
 							$result = ['success' => false, 'message' => 'Failed to save user!'];

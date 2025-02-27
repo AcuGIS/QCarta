@@ -92,19 +92,21 @@ if($_SESSION[SESS_USR_KEY]->accesslevel == 'Admin'){
       
 			<!-- Layers -->
 			<div class="row row-cols-1 row-cols-md-4 g-4">
-				<?php while($row = pg_fetch_object($layers)) {
+			<?php
+				$preview = ($_SESSION[SESS_USR_KEY]->preview_type == 'openlayers') ? 'ol_' : '';
+				while($row = pg_fetch_object($layers)) {
 					
 					$image = file_exists("assets/layers/".$row->id.".png") ? "assets/layers/".$row->id.".png" : "assets/layers/default.png"; ?>
 					<div class="col">
 						<div class="card">
 							<div class="card-body">
 								<h5 class="card-title" style="font-size: 15px; font-weight: 800;">
-									<a class="card-link" href="layers/<?=$row->id?>/index.php" target="_blank" style="text-decoration:none; color: #6c757d!important; font-size: 1.25rem; font-weight: 300;"><?=$row->name?></a>
+								<a class="card-link" href="layers/<?=$row->id?>/<?=$preview?>index.php" target="_blank" style="text-decoration:none; color: #6c757d!important; font-size: 1.25rem; font-weight: 300;"><?=$row->name?></a>
 									<?php if(is_file('qwc2/'.$row->id.'/.on_portal')) { ?>
 									<a class="card-link" href="qwc2/<?=$row->id?>/index.php" target="_blank"><img src="assets/images/qwc-logo.svg" alt="QWC Preview" width="32" height="32"></a>
 									<?php } ?>
 								</h5>
-								<a class="card-link" href="layers/<?=$row->id?>/index.php" target="_blank" style="text-decoration:none; color: #6c757d!important; font-size: 1.25rem; font-weight: 300;">
+								<a class="card-link" href="layers/<?=$row->id?>/<?=$preview?>index.php" target="_blank" style="text-decoration:none; color: #6c757d!important; font-size: 1.25rem; font-weight: 300;">
 									<img class="card-img-bottom" src="<?=$image?>" style="height: 150px; width: 100%" alt="thumbnail">
 								</a>
 							</div>

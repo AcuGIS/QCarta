@@ -9,6 +9,7 @@
 						<th data-name="group_id" data-type="select">Access Group</th>
 						<th data-name="accesslevel" data-type="select">Access Level</th>
 						<th data-editable='false' data-name="secret_key">Secret Key</th>
+						<th data-name="preview_type">Layer Preview</th>
 						<th data-editable='false' data-action='true'>Actions</th>
 					</tr>
 				</thead>
@@ -26,6 +27,7 @@
 						</td>
 						<td data-value="<?=$user['accesslevel']?>"><?=$user['accesslevel']?></td>
 						<td><?=$user['secret_key']?></td>
+						<td><?=$user['preview_type']?></td>
 						<td>
 							<a class="edit" title="Edit" data-toggle="tooltip"><i class="text-warning bi bi-pencil-square"></i></a>
 							<a class="delete" title="Delete" data-toggle="tooltip"><i class="text-danger bi bi-x-square"></i></a>
@@ -99,6 +101,15 @@
 									<?php $sel = ''; } ?>
 								</select>
 								<label for="group_id">Access Groups:</label>
+							</div>
+							
+							<div class="form-group">
+								<select name="preview_type" id="preview_type">
+									<?php foreach(PREVIEW_TYPES as $k => $v) { ?>
+										<option value="<?=$k?>"><?=$v?></option>
+									<?php } ?>
+								</select>
+								<label for="preview_type" class="form-label">Layer Previews</label>
 							</div>
 							
 						</form>

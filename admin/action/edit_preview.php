@@ -25,7 +25,8 @@
 			http_response_code(405);	//not allowed
 			die(405);
 		}else if($action == 'save') {
-			file_put_contents('../../layers/'.$id.'/index.php', $_POST['preview_html']);
+		    $preview = ($_SESSION[SESS_USR_KEY]->preview_type == 'openlayers') ? 'ol_' : '';
+			file_put_contents('../../layers/'.$id.'/'.$preview.'index.php', $_POST['preview_html']);
 			header('Location: ../layers.php');
 		}
   }

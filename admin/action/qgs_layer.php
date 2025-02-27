@@ -113,6 +113,7 @@
 			'WMS_URL' => $wms_url, 'SECRET_KEY' => $_SESSION[SESS_USR_KEY]->secret_key, 'WMS_LAYERS' => $wms_layers
 		];
 		update_template('../snippets/wms_index.php', $html_dir.'/index.php', $vars);
+		update_template('../snippets/ol_index.php', $html_dir.'/ol_index.php', $vars);
 		
 		// create cachee dir tree
 		mkdir(CACHE_DIR.'/layers/'.$id);
@@ -176,6 +177,7 @@
 				'WMS_URL' => $wms_url, 'SECRET_KEY' => $_SESSION[SESS_USR_KEY]->secret_key, 'WMS_LAYERS' => $wms_layers
 			];
 			update_template('../snippets/wms_index.php', $html_dir.'/index.php', $vars);
+			update_template('../snippets/ol_index.php', $html_dir.'/ol_index.php', $vars);
 		}
 
 		if($oldrow->exposed == 't'){
