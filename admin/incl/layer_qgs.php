@@ -7,9 +7,6 @@
 					<th data-name="name">Name</th>
 					<th data-name="layers">Layers</th>
 					<th data-name="public">Public</th>
-					<th data-name="cached">Cached</th>
-					<th data-name="proxyfied">MapProxy</th>
-					<th data-name="exposed">Exposed</th>
 					<th data-name="customized">Customized</th>
 					<th data-name="store_id">Store</th>
 					<th data-name="group_id" data-type="select">Access Group</th>
@@ -20,16 +17,17 @@
 			<tbody> <?php while($row = pg_fetch_object($rows)) {
 				$row_grps = $grp_obj->getByKV('layer', $row->id);
 				?>
-				<tr data-id="<?=$row->id?>" align="left">
+				<tr data-id="<?=$row->id?>"
+				    data-cached="<?=$row->cached=='t' ? 'yes' : 'no'?>"
+					data-proxyfied="<?=$row->proxyfied=='t' ? 'yes' : 'no'?>"
+					data-exposed="<?=$row->exposed=='t' ? 'yes' : 'no'?>"
+					align="left">
 					<!--<td><?=$row->id?></td>-->
 					<td data-order="<?=$row->name?>">
 						<a href="../layers/<?=$row->id?>/index.php" target="_blank" style="background-color: #C8D5E3!important;"><?=$row->name?></a>
 					</td>
 					<td><?=str_replace(',', '<br>', $row->layers)?></td>
 					<td><?=$row->public=='t' ? 'yes' : 'no'?></td>
-					<td><?=$row->cached=='t' ? 'yes' : 'no'?></td>
-					<td><?=$row->proxyfied=='t' ? 'yes' : 'no'?></td>
-					<td><?=$row->exposed=='t' ? 'yes' : 'no'?></td>
 					<td><?=$row->customized=='t' ? 'yes' : 'no'?></td>
 					<td data-value="<?=$row->store_id?>"><?=$stores[$row->store_id]?></td>
 					<td data-value="<?=implode(',', array_keys($row_grps))?>">

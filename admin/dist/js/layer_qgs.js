@@ -50,15 +50,15 @@ $('#layer_form').submit(false);
 		$('#id').val(tr.attr('data-id'));
 		$('#name').val(tds[0].getAttribute('data-order'));
 		$('#public').prop('checked', (tds[2].textContent == 'yes'));
-		$('#cached').prop('checked', (tds[3].textContent == 'yes'));
-		$('#proxyfied').prop('checked', (tds[4].textContent == 'yes'));
+		$('#cached').prop('checked', (tr.attr('data-cached') == 'yes'));
+		$('#proxyfied').prop('checked', (tr.attr('data-proxyfied') == 'yes'));
 
 		$('#exposed').prop('disabled', !$('#proxyfied').prop('checked'));
 		
-		$('#exposed').prop('checked', (tds[5].textContent == 'yes'));
-		$('#customized').prop('checked', (tds[6].textContent == 'yes'));
-		$('#store_id').val(tds[7].getAttribute('data-value')).trigger('change');
-		$('#group_id').val(tds[8].getAttribute('data-value').split(','));
+		$('#exposed').prop('checked', (tr.attr('data-exposed') == 'yes'));
+		$('#customized').prop('checked', (tds[3].textContent == 'yes'));
+		$('#store_id').val(tds[4].getAttribute('data-value')).trigger('change');
+		$('#group_id').val(tds[5].getAttribute('data-value').split(','));
 		edit_row = {'layers': tds[1].innerHTML.split('<br>')};
 	});
 	
@@ -253,9 +253,6 @@ $('#layer_form').submit(false);
 									{ "display": name_a, "@data-order": data.get('name') },
 									data.getAll('layers[]').join(','),
 									is_public,
-									is_cached,
-									is_proxyfied,
-									is_exposed,
 									is_customized,
 									$('#store_id').find(':selected').text(), 
 									$('#group_id').find(':selected').toArray().map(item => item.text).join(','),
@@ -267,9 +264,12 @@ $('#layer_form').submit(false);
 								sortTable.row.add(tds).draw();
 								let dtrow = sortTable.rows(sortTable.rows().count()-1).nodes().to$();
 								dtrow.attr('data-id', response.id);
+								dtrow.attr('data-cached', is_cached);
+								dtrow.attr('data-proxyfied', is_proxyfied);
+								dtrow.attr('data-exposed', is_exposed);
 								dtrow.find('td:eq(0)').attr('data-order', $('#name').val());
-								dtrow.find('td:eq(7)').attr('data-value', $('#store_id').val());
-								dtrow.find('td:eq(8)').attr('data-value', $('#group_id').val().join(','));
+								dtrow.find('td:eq(4)').attr('data-value', $('#store_id').val());
+								dtrow.find('td:eq(5)').attr('data-value', $('#group_id').val().join(','));
 							}
 						}else{
 							alert("Create failed:" + response.message);
