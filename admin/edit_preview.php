@@ -69,7 +69,7 @@
 		
 		<div id="content">
 		
-				<h1>Edit Previe</h1>
+				<h1>Edit Preview</h1>
 			<div style="width: 99%">
 			
 				<div class="page-breadcrumb" style="padding-left:30px; padding-right: 30px; padding-top:0px; padding-bottom: 0px">
