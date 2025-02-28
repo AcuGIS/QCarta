@@ -94,13 +94,15 @@
 							</div>
 							
 							<div class="form-group">
-								<select name="group_id[]" id="group_id" multiple required>
-									<?php $sel = 'selected';
-									foreach($groups as $k => $v){ ?>
-										<option value="<?=$k?>" <?=$sel?>><?=$v?></option>
-									<?php $sel = ''; } ?>
-								</select>
-								<label for="group_id">Access Groups:</label>
+							    <div class="input-group">
+    								<select name="group_id[]" id="group_id" multiple required>
+    									<?php $sel = 'selected';
+    									foreach($groups as $k => $v){ ?>
+    										<option value="<?=$k?>" <?=$sel?>><?=$v?></option>
+    									<?php $sel = ''; } ?>
+    								</select>
+    								<span class="input-group-text"><i class="bi bi-shield-lock">Access Groups</i></span>
+								</div>
 							</div>
 							
 							<div class="form-group">
