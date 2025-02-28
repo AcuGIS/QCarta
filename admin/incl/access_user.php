@@ -86,11 +86,13 @@
 							</div>
 							
 							<div class="form-group">
-								<select name="accesslevel" id="accesslevel" required>
-									<option value="User">User</option>
-										<option value="Admin">Admin</option>
-								</select>
-								<label for="accesslevel">Access Level:</label>
+							    <div class="input-group">
+    								<select name="accesslevel" id="accesslevel" required>
+    									<option value="User">User</option>
+    										<option value="Admin">Admin</option>
+    								</select>
+                                    <span class="input-group-text"><i>Access Level</i></span>
+								</div>
 							</div>
 							
 							<div class="form-group">
@@ -106,12 +108,14 @@
 							</div>
 							
 							<div class="form-group">
-								<select name="preview_type" id="preview_type">
-									<?php foreach(PREVIEW_TYPES as $k => $v) { ?>
-										<option value="<?=$k?>"><?=$v?></option>
-									<?php } ?>
-								</select>
-								<label for="preview_type" class="form-label">Layer Previews</label>
+							    <div class="input-group">
+    								<select name="preview_type" id="preview_type">
+    									<?php foreach(PREVIEW_TYPES as $k => $v) { ?>
+    										<option value="<?=$k?>"><?=$v?></option>
+    									<?php } ?>
+    								</select>
+    								<span class="input-group-text"><i class="bi bi-easel">Layer Previews</i></span>
+								</div>
 							</div>
 							
 						</form>
