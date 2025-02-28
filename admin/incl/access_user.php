@@ -65,22 +65,22 @@
 							<input type="hidden" name="id" id="id" value="0"/>
 							
 							<div class="form-group">
-								<label for="name">Name:</label>
+								<label for="name">Name</label>
 								<input type="text" class="form-control" id="name" placeholder="Enter name" name="name" required>
 							</div>
 							
 							<div class="form-group">
-								<label for="email">Email:</label>
+								<label for="email">Email</label>
 								<input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
 							</div>
 							
 							<div class="form-group">
-								<label for="pwd">Password:</label>
+								<label for="pwd">Password</label>
 								<input type="password" class="form-control" id="password" placeholder="Enter password" name="password" required>
 							</div>
 							
 							<div class="form-group">
-								<label for="pwd">Secret Key:</label>
+								<label for="pwd">Secret Key</label>
 								<a class="secret_reset" title="Reset Secret Key" data-toggle="tooltip"><i class="text-warning bi bi-exclamation-triangle"></i></a>
 								<input type="text" class="form-control" id="secret_key" placeholder="Secret key" name="secret_key" disabled>
 							</div>
