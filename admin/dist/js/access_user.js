@@ -50,11 +50,11 @@ $(document).on("click", ".edit", function() {
 	$('#id').val(tds[0].textContent);
 	$('#name').val(tds[1].textContent);
 	$('#email').val(tds[2].textContent);
-	$('#password').val(tds[3].textContent);
-	$('#group_id').val(tds[4].getAttribute('data-value').split(','));
-	$('#accesslevel').val(tds[5].textContent);
-	$('#secret_key').val(tds[6].textContent);
-	$('#preview_type').val(tds[7].textContent);
+	$('#password').val(tr.attr('data-password'));
+	$('#group_id').val(tds[3].getAttribute('data-value').split(','));
+	$('#accesslevel').val(tds[4].textContent);
+	$('#secret_key').val(tds[5].textContent);
+	$('#preview_type').val(tds[6].textContent);
 });
 
 	// Delete row on delete button click
@@ -132,20 +132,17 @@ $(document).on("click", ".edit", function() {
 							$('#btn_create').toggle();
 							$('#addnew_modal').modal('hide');
 							
-							if(data.get('id') > 0){	// if edit
-								location.reload();
-							}else if(sortTable.rows().count() == 0){ // if no rows in table, there are no data-order tags!
+							if(sortTable.rows().count() == 0){ // if no rows in table, there are no data-order tags!
 								location.reload();
 							}else{
 
 								let tds = [
-									data.get(response.id),
+									response.id,
 									data.get('name'),
 									data.get('email'),
-									data.get('*******'),
 									$('#group_id').find(':selected').toArray().map(item => item.text).join(','),
 									data.get('accesslevel'),
-									data.get('secret_key'),
+									response.secret_key,
 									data.get('preview_type'),
 									`<a class="edit" title="Edit" data-toggle="tooltip"><i class="text-warning bi bi-pencil-square"></i></a>
 									<a class="delete" title="Delete" data-toggle="tooltip"><i class="text-danger bi bi-x-square"></i></a>`
@@ -153,6 +150,7 @@ $(document).on("click", ".edit", function() {
 								sortTable.row.add(tds).draw();
 								let dtrow = sortTable.rows(sortTable.rows().count()-1).nodes().to$();
 								dtrow.attr('data-id', response.id);
+								dtrow.attr('data-password', response.password);
 								dtrow.find('td:eq(4)').attr('data-value', $('#group_id').val().join(','));
 							}
 						}else{

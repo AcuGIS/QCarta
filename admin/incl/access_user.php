@@ -5,7 +5,6 @@
 						<th data-name="id" data-editable='false'>ID</th>
 						<th data-name="name">Name</th>
 						<th data-name="email">Email</th>
-						<th data-name="password">Password</th>
 						<th data-name="group_id" data-type="select">Access Group</th>
 						<th data-name="accesslevel" data-type="select">Access Level</th>
 						<th data-editable='false' data-name="secret_key">Secret Key</th>
@@ -17,11 +16,12 @@
 				<tbody> <?php while($user = pg_fetch_assoc($rows)) {
 					$row_grps = $grp_obj->getByKV('user', $user['id']);
 					?>
-					<tr data-id="<?=$user['id']?>" align="left">
+					<tr data-id="<?=$user['id']?>"
+					    data-password="<?=$user['password']?>"
+					    align="left">
 						<td><?=$user['id']?> </td>
 						<td><?=$user['name']?></td>
 						<td><?=$user['email']?></td>
-						<td><?=$user['password']?></td>
 						<td data-value="<?=implode(',', array_keys($row_grps))?>">
 							<?=implode(',', array_values($row_grps))?>
 						</td>

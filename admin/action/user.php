@@ -41,10 +41,14 @@
 								}
 							}
             }
-						
+
 						if($newId > 0){
 						    $_SESSION[SESS_USR_KEY]->preview_type = $_POST['preview_type'];
-							$result = ['success' => true, 'message' => 'User successfully created!', 'id' => $newId];
+							$res = $obj->getById($newId);
+							$row = pg_fetch_object($res);
+							pg_free_result($res);
+							$result = ['success' => true, 'message' => 'User successfully created!', 'id' => $newId,
+							     'password' => $row->password, 'secret_key' => $row->secret_key];
 						}else{
 							$result = ['success' => false, 'message' => 'Failed to save user!'];
 						}
