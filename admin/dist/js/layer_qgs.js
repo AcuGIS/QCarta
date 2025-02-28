@@ -49,16 +49,16 @@ $('#layer_form').submit(false);
 
 		$('#id').val(tr.attr('data-id'));
 		$('#name').val(tds[0].getAttribute('data-order'));
-		$('#public').prop('checked', (tds[2].textContent == 'yes'));
+		$('#public').prop('checked', (tr.attr('data-public') == 'yes'));
 		$('#cached').prop('checked', (tr.attr('data-cached') == 'yes'));
 		$('#proxyfied').prop('checked', (tr.attr('data-proxyfied') == 'yes'));
 
 		$('#exposed').prop('disabled', !$('#proxyfied').prop('checked'));
 		
 		$('#exposed').prop('checked', (tr.attr('data-exposed') == 'yes'));
-		$('#customized').prop('checked', (tds[3].textContent == 'yes'));
-		$('#store_id').val(tds[4].getAttribute('data-value')).trigger('change');
-		$('#group_id').val(tds[5].getAttribute('data-value').split(','));
+		$('#customized').prop('checked', (tr.attr('data-customized') == 'yes'));
+		$('#store_id').val(tds[2].getAttribute('data-value')).trigger('change');
+		$('#group_id').val(tds[3].getAttribute('data-value').split(','));
 		edit_row = {'layers': tds[1].innerHTML.split('<br>')};
 	});
 	
@@ -252,8 +252,6 @@ $('#layer_form').submit(false);
 								const tds = [
 									{ "display": name_a, "@data-order": data.get('name') },
 									data.getAll('layers[]').join(','),
-									is_public,
-									is_customized,
 									$('#store_id').find(':selected').text(), 
 									$('#group_id').find(':selected').toArray().map(item => item.text).join(','),
 									`<a class="info" title="Show Connection" data-toggle="tooltip"><i class="text-info bi bi-info-circle"></i></a>
@@ -264,6 +262,8 @@ $('#layer_form').submit(false);
 								sortTable.row.add(tds).draw();
 								let dtrow = sortTable.rows(sortTable.rows().count()-1).nodes().to$();
 								dtrow.attr('data-id', response.id);
+								dtrow.attr('data-public', is_public);
+								dtrow.attr('data-customized', is_customized);
 								dtrow.attr('data-cached', is_cached);
 								dtrow.attr('data-proxyfied', is_proxyfied);
 								dtrow.attr('data-exposed', is_exposed);

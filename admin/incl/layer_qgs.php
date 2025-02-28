@@ -6,8 +6,6 @@
 					<!--<th data-name="id" data-editable='false'>ID</th>-->
 					<th data-name="name">Name</th>
 					<th data-name="layers">Layers</th>
-					<th data-name="public">Public</th>
-					<th data-name="customized">Customized</th>
 					<th data-name="store_id">Store</th>
 					<th data-name="group_id" data-type="select">Access Group</th>
 					<th data-editable='false' data-action='true'>Actions</th>
@@ -18,6 +16,8 @@
 				$row_grps = $grp_obj->getByKV('layer', $row->id);
 				?>
 				<tr data-id="<?=$row->id?>"
+				    data-public="<?=$row->public=='t' ? 'yes' : 'no'?>"
+					data-customized="<?=$row->customized=='t' ? 'yes' : 'no'?>"
 				    data-cached="<?=$row->cached=='t' ? 'yes' : 'no'?>"
 					data-proxyfied="<?=$row->proxyfied=='t' ? 'yes' : 'no'?>"
 					data-exposed="<?=$row->exposed=='t' ? 'yes' : 'no'?>"
@@ -27,8 +27,6 @@
 						<a href="../layers/<?=$row->id?>/index.php" target="_blank" style="background-color: #C8D5E3!important;"><?=$row->name?></a>
 					</td>
 					<td><?=str_replace(',', '<br>', $row->layers)?></td>
-					<td><?=$row->public=='t' ? 'yes' : 'no'?></td>
-					<td><?=$row->customized=='t' ? 'yes' : 'no'?></td>
 					<td data-value="<?=$row->store_id?>"><?=$stores[$row->store_id]?></td>
 					<td data-value="<?=implode(',', array_keys($row_grps))?>">
 						<?=implode(',', array_values($row_grps))?>
