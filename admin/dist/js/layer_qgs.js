@@ -58,7 +58,7 @@ $('#layer_form').submit(false);
 		$('#exposed').prop('checked', (tr.attr('data-exposed') == 'yes'));
 		$('#customized').prop('checked', (tr.attr('data-customized') == 'yes'));
 		$('#store_id').val(tds[2].getAttribute('data-value')).trigger('change');
-		$('#group_id').val(tds[3].getAttribute('data-value').split(','));
+		$('#group_id').val(tr.attr('data-group_id').split(','));
 		edit_row = {'layers': tds[1].innerHTML.split('<br>')};
 	});
 	
@@ -252,8 +252,7 @@ $('#layer_form').submit(false);
 								const tds = [
 									{ "display": name_a, "@data-order": data.get('name') },
 									data.getAll('layers[]').join(','),
-									$('#store_id').find(':selected').text(), 
-									$('#group_id').find(':selected').toArray().map(item => item.text).join(','),
+									$('#store_id').find(':selected').text(),
 									`<a class="info" title="Show Connection" data-toggle="tooltip"><i class="text-info bi bi-info-circle"></i></a>
 									<a class="edit" title="Edit" data-toggle="tooltip"><i class="text-warning bi bi-pencil-square"></i></a>
 									<a class="delete" title="Delete" data-toggle="tooltip"><i class="text-danger bi bi-x-square"></i></a>`
@@ -267,9 +266,9 @@ $('#layer_form').submit(false);
 								dtrow.attr('data-cached', is_cached);
 								dtrow.attr('data-proxyfied', is_proxyfied);
 								dtrow.attr('data-exposed', is_exposed);
+								dtrow.attr('data-group_id', $('#group_id').val().join(','));
 								dtrow.find('td:eq(0)').attr('data-order', $('#name').val());
 								dtrow.find('td:eq(4)').attr('data-value', $('#store_id').val());
-								dtrow.find('td:eq(5)').attr('data-value', $('#group_id').val().join(','));
 							}
 						}else{
 							alert("Create failed:" + response.message);

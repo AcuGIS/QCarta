@@ -7,7 +7,6 @@
 					<th data-name="name">Name</th>
 					<th data-name="layers">Layers</th>
 					<th data-name="store_id">Store</th>
-					<th data-name="group_id" data-type="select">Access Group</th>
 					<th data-editable='false' data-action='true'>Actions</th>
 				</tr>
 			</thead>
@@ -21,6 +20,7 @@
 				    data-cached="<?=$row->cached=='t' ? 'yes' : 'no'?>"
 					data-proxyfied="<?=$row->proxyfied=='t' ? 'yes' : 'no'?>"
 					data-exposed="<?=$row->exposed=='t' ? 'yes' : 'no'?>"
+					data-group_id="<?=implode(',', array_keys($row_grps))?>"
 					align="left">
 					<!--<td><?=$row->id?></td>-->
 					<td data-order="<?=$row->name?>">
@@ -28,9 +28,6 @@
 					</td>
 					<td><?=str_replace(',', '<br>', $row->layers)?></td>
 					<td data-value="<?=$row->store_id?>"><?=$stores[$row->store_id]?></td>
-					<td data-value="<?=implode(',', array_keys($row_grps))?>">
-						<?=implode(',', array_values($row_grps))?>
-					</td>
 					<td>						
 						<a class="info" title="Show info" data-toggle="tooltip"><i class="text-info bi bi-info-circle"></i></a>
 						<?php if(($row->owner_id == $_SESSION[SESS_USR_KEY]->id) || ($_SESSION[SESS_USR_KEY]->id == SUPER_ADMIN_ID)){ ?>
