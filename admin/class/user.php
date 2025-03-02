@@ -16,6 +16,16 @@
 				    }
 				    return implode($pass); //turn the array into a string
 				}
+				
+				public static function uniqueName($username){
+				    $uid = 1;
+					while(posix_getpwnam($username)){
+					   $username .= $uid;
+					   $uid = $uid + 1;
+					}
+					return $username;
+				}
+
 
         function create($data, $isHashed = false)
         {		

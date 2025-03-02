@@ -29,7 +29,7 @@
 								$result = ['success' => false, 'message' => 'Access level not allowed!'];
 							}else{
 								$email_user = explode('@', $_POST['email'])[0];
-								$_POST['ftp_user'] = $email_user.$newId;
+								$_POST['ftp_user'] = user_Class::uniqueName($email_user);
 								$_POST['pg_password'] = user_Class::randomPassword();
 								
 	              $newId = $obj->create($_POST);
