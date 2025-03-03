@@ -92,7 +92,7 @@
 		update_env($html_dir.'/env.php', $vars);
 
 		copy('../snippets/proxy_qgis.php', $html_dir.'/proxy_qgis.php');
-		copy('../snippets/layer_wms.php', $html_dir.'/layer_wms.php');
+		copy('../snippets/layer_wms.php', $html_dir.'/wms.php');
 		
 		$bbox = layers_get_bbox($qgs_file, $post['layers']);
 		$wms_url = ($post['proxyfied'] == 't') ? '/mproxy/service' : 'proxy_qgis.php';
