@@ -35,6 +35,7 @@ const CACHE_DIR = "${CACHE_DIR}";
 const DATA_DIR = "${DATA_DIR}";
 const NUM_PROCS = ${NUM_PROCS};
 const WITH_MAPPROXY = true;
+const PREVIEW_TYPES = ['leaflet' => 'Leaflet', 'openlayers' => 'OpenLayers'];
 ?>
 CAT_EOF
 
