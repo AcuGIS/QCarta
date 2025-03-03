@@ -132,7 +132,9 @@ $(document).on("click", ".edit", function() {
 							$('#btn_create').toggle();
 							$('#addnew_modal').modal('hide');
 							
-							if(sortTable.rows().count() == 0){ // if no rows in table, there are no data-order tags!
+							if(data.get('id') > 0){ // if edit
+							  location.reload();
+							}else if(sortTable.rows().count() == 0){ // if no rows in table, there are no data-order tags!
 								location.reload();
 							}else{
 
