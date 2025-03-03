@@ -54,7 +54,7 @@
     # remove layers not enabled in app
     $rm_layers = [];
     
-    $xml = simplexml_load_file('cap.xml');
+    $xml = simplexml_load_string($content);
     foreach($xml->Capability->Layer->Layer as $l){
         if(!str_contains($row->layers, (string)$l->Name)){
             array_push($rm_layers, $l);
