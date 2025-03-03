@@ -17,7 +17,8 @@ for i in 2 3 4 5 6 7 8 9; do
     sed -i.save "s|str_replace('http://localhost|str_replace('http://:0|" /var/www/html/layers/${i}/wms.php
 done
 
-find /var/www/html/layers/ -type f -name index.php -o -name ol_index.php -exec sed -i.save "s|'\.\$_SERVER\['HTTP_HOST'\]\.'|localhost|" {} \;
-
+for p in index ol_index; do
+    find /var/www/html/layers/ -type f -name ${p}.php -exec sed -i.save "s|'\.\$_SERVER\['HTTP_HOST'\]\.'|localhost|" {} \;
+done
 
 find /var/www/html -type f -name "*.php.save" -delete
