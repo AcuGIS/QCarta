@@ -269,9 +269,9 @@ cp installer/usdemo.qgs "${DATA_DIR}/stores"
 chown -R www-data:www-data "${CACHE_DIR}"
 chown -R www-data:www-data "${DATA_DIR}"
 
-cp -r . /var/www/html/
+cp -r . ${WWW_DIR}/
 chown -R www-data:www-data ${WWW_DIR}
-rm -rf /var/www/html/{installer,plugins}
+rm -rf ${WWW_DIR}/{installer,plugins}
 
 sed "
 s|\$WWW_DIR|$WWW_DIR|
