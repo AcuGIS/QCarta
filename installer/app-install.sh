@@ -326,9 +326,8 @@ CMD_EOF
 		sed 's/qgis\-server/localhost/' < docker/mapproxy.yaml > ${DATA_DIR}/mapproxy/mapproxy.yaml
 	fi
 
-	for d in data html; do
-		cp -r installer/demo/${d}/* /var/www/${d}/
-	done
+	cp -r installer/demo/data/* ${DATA_DIR}/
+	cp -r installer/demo/html/* ${WWW_DIR}/
 
 	for i in 2 3 4 5 6 7 8 9; do
 		mkdir ${CACHE_DIR}/layers/${i}
