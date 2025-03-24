@@ -76,6 +76,12 @@ function pg2qgis($store_id, $post, $conn){
 	return array_values($sources);
 }
 
+function qgis_remove_shortname($qgis_file){
+    $qgs_content = file_get_contents($qgis_file);
+	$qgs_content = preg_replace('/<shortname>[^<]*<\/shortname>/', '', $qgs_content);
+	file_put_contents($qgis_file, $qgs_content);
+}
+
 function install_store($id, $post, $conn){
 	$data_dir = DATA_DIR.'/stores/'.$id;
 	$html_dir = WWW_DIR.'/stores/'.$id;
@@ -122,6 +128,8 @@ function install_store($id, $post, $conn){
 		$qgis_file = dir2qgs($id, $data_dir);	// try to find source for conversion ( .geojson -> .qgs)
 	}
 	
+	qgis_remove_shortname($qgis_file);
+	
 	$is_public = $post['public'] == 't' ? 'true' : 'false';
 	
 	$vars = [ 'LAYER_ID' => $id, 'IS_PUBLIC' => $is_public, 'QGIS_FILENAME_ENCODED' => "'".urlencode($qgis_file)."'",];
@@ -140,6 +148,8 @@ function update_store($id, $post){
 	$html_dir = WWW_DIR.'/stores/'.$id;
 	
 	$qgis_file = find_qgs($data_dir);
+	
+	qgis_remove_shortname($qgis_file);
 	
 	$is_public = $post['public'] == 't' ? 'true' : 'false';
 	
