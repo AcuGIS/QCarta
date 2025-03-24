@@ -159,7 +159,7 @@
 					</div>
 					
 					<div class="form-group">
-						<input type="checkbox" name="exposed" id="exposed" value="t"/ disabled>
+						<input type="checkbox" name="exposed" id="exposed" value="t" disabled/>
 						<label for="exposed" class="form-label">Separate Layers</label>
 					</div>
 
