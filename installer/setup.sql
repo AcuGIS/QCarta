@@ -84,6 +84,7 @@ CREATE TABLE public.qgs_layer (
 	proxyfied BOOLEAN DEFAULT False,
 	customized BOOLEAN DEFAULT False,
 	exposed BOOLEAN DEFAULT False,
+	show_dt BOOLEAN DEFAULT False,
 	layers TEXT NOT NULL
 );
 

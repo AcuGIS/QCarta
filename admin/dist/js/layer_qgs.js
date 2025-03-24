@@ -56,6 +56,7 @@ $('#layer_form').submit(false);
 		$('#exposed').prop('disabled', !$('#proxyfied').prop('checked'));
 		
 		$('#exposed').prop('checked', (tr.attr('data-exposed') == 'yes'));
+		$('#show_dt').prop('checked', (tr.attr('data-show_dt') == 'yes'));
 		$('#customized').prop('checked', (tr.attr('data-customized') == 'yes'));
 		$('#store_id').val(tds[2].getAttribute('data-value')).trigger('change');
 		$('#group_id').val(tr.attr('data-group_id').split(','));

@@ -83,10 +83,12 @@
 		$is_public = $post['public'] == 't' ? 'true' : 'false';
 		$is_cached = $post['cached'] == 't' ? 'true' : 'false';
 		$qgs_layers = "array('".str_replace(",", "','", $post['layers'])."')";
+		$show_dt = $post['show_dt'] == 't'  ? 'true' : 'false';
 		
 		$vars = [ 'LAYER_ID' => $post['id'],
 			'IS_PUBLIC' => $is_public, 'QGIS_FILENAME_ENCODED' => "'".urlencode($qgs_file)."'",
-			'QGIS_LAYERS' => $qgs_layers, 'CACHE_ENABLED' => $is_cached];
+			'QGIS_LAYERS' => $qgs_layers, 'CACHE_ENABLED' => $is_cached,
+			'SHOW_DATATABLES' => $show_dt];
 
 		copy('../snippets/layer_env.php', $html_dir.'/env.php');
 		update_env($html_dir.'/env.php', $vars);
@@ -151,10 +153,12 @@
 		$is_public = $post['public'] == 't' ? 'true' : 'false';
 		$is_cached = $post['cached'] == 't' ? 'true' : 'false';
 		$qgs_layers = "array('".str_replace(",", "','", $post['layers'])."')";
+		$show_dt = $post['show_dt'] == 't'  ? 'true' : 'false';
 		
 		$vars = [ 
 			'IS_PUBLIC' => $is_public, 'QGIS_FILENAME_ENCODED' => "'".urlencode($qgs_file)."'",
-			'QGIS_LAYERS' => $qgs_layers, 'CACHE_ENABLED' => $is_cached];
+			'QGIS_LAYERS' => $qgs_layers, 'CACHE_ENABLED' => $is_cached,
+			'SHOW_DATATABLES' => $show_dt];
 
 		update_env($html_dir.'/env.php', $vars);
 		
@@ -322,6 +326,7 @@
 					if(empty($_POST['proxyfied'])){	$_POST['proxyfied'] = 'false';	}
 					if(empty($_POST['customized'])){	$_POST['customized'] = 'false';	}
 					if(empty($_POST['exposed']))	 {	$_POST['exposed'] = 'false';	}
+					if(empty($_POST['show_dt']))	 {	$_POST['show_dt'] = 'false';	}
 
 					$_POST['layers'] = implode(',', $_POST['layers']);
 

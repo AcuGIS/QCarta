@@ -20,6 +20,7 @@
 				    data-cached="<?=$row->cached=='t' ? 'yes' : 'no'?>"
 					data-proxyfied="<?=$row->proxyfied=='t' ? 'yes' : 'no'?>"
 					data-exposed="<?=$row->exposed=='t' ? 'yes' : 'no'?>"
+					data-show_dt="<?=$row->show_dt=='t' ? 'yes' : 'no'?>"
 					data-group_id="<?=implode(',', array_keys($row_grps))?>"
 					align="left">
 					<!--<td><?=$row->id?></td>-->
@@ -163,6 +164,11 @@
 						<label for="exposed" class="form-label">Separate Layers</label>
 					</div>
 
+					<div class="form-group">
+						<input type="checkbox" name="show_dt" id="show_dt" value="t"/>
+						<label for="show_dt" class="form-label">Show data tables</label>
+					</div>
+					
 					<div class="form-group">
 						<div class="input-group">
 							<select name="group_id[]" id="group_id" multiple required>

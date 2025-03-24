@@ -19,6 +19,7 @@
 							$this->cleanData($data['proxyfied'])."','".
 							$this->cleanData($data['customized'])."','".
 							$this->cleanData($data['exposed'])."','".
+							$this->cleanData($data['show_dt'])."','".
 							$this->cleanData($data['layers'])."') RETURNING id";
              
 							$result = pg_query($this->dbconn, $sql);
@@ -40,6 +41,7 @@
 					"', proxyfied='".$this->cleanData($data['proxyfied']).
 					"', customized='".$this->cleanData($data['customized']).
 					"', exposed='".$this->cleanData($data['exposed']).
+					"', show_dt='".$this->cleanData($data['show_dt']).
 					"', layers='".$this->cleanData($data['layers']).
 					"' where id = '".intval($data['id'])."'";
 					

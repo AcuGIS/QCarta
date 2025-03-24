@@ -94,3 +94,7 @@ html, body, #map {
 .leaflet-touch .leaflet-bar.leaflet-draw-toolbar a.leaflet-draw-edit-remove {
 	background-image: url('../../images/qicons/tdelete-edit.png');
 }
+
+.leaflet-touch .leaflet-bar.leaflet-dt-toolbar a.leaflet-dt-show {
+	background-image: url('../../images/qicons/table.png');
+}

@@ -29,8 +29,10 @@
 	list($projection) = $xml->xpath('/qgis/ProjectViewSettings/DefaultViewExtent/spatialrefsys/authid');
 	$parts = explode('/', $qgis_file);
 	$store_id = $parts[count($parts) - 2];
-?>
-<!DOCTYPE html>
+	
+	$feature_names = SHOW_DATATABLES ? layer_get_features($qgis_file) : array();
+
+?><!DOCTYPE html>
 <html lang="en">
 <head>
 	<base target="_top">
@@ -40,8 +42,13 @@
 	<title><?=implode(',', QGIS_LAYERS)?></title>
 	
 	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+	
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 	<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 	<script src="../../assets/dist/js/leaflet.browser.print.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
 
@@ -50,10 +57,19 @@
 <script src="../../assets/dist/js/leaflet-sidepanel.min.js"></script>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	
 	<script src="../../assets/dist/js/L.BetterWMS.js"></script>
 	<script src="../../assets/dist/js/L.Control.Opacity.js"></script>
 	<link rel="stylesheet" href="../../assets/dist/css/wms_index.css"/>
+	
+	<?php if(count($feature_names)){ ?>
+	<link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.2.2/b-3.2.2/b-html5-3.2.2/datatables.min.css" rel="stylesheet" integrity="sha384-8/teZDJvKonhCW0gzEq7h+7isOuQtsttozTAZnCt86gaZKLAMET4OfRS09qYO8wO" crossorigin="anonymous">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js" integrity="sha384-VFQrHzqBh5qiJIU0uGU5CIW3+OWpdGGJM9LBnGbuIH2mkICcFZ7lPd/AAtI7SNf7" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js" integrity="sha384-/RlQG9uf0M2vcTw3CX7fbqgbj/h8wKxw7C3zu9/GxcBPRKOEcESxaxufwRXqzq6n" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.2.2/b-3.2.2/b-html5-3.2.2/datatables.min.js" integrity="sha384-G21/IAOAMg4/9nYB3ZZGTQFatV1Z0pPjQMCiFDfZybF+BJ1wL/SgwqUWBWYNWfxE" crossorigin="anonymous"></script>
+ 
+	<?php } ?>
 </head>
 <body>
 
@@ -134,7 +150,8 @@
   </div>
 
 <script type="text/javascript">
-
+    var table_visible = false;
+    
 	const map = L.map('map', {
 		center: [0, 0],
 		zoom: 16,
@@ -149,17 +166,17 @@ position: 'topright'
 
 	var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
 	var carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '© <a href="https://carto.com/attributions">CARTO</a>Carto</a>'
+            attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>Carto</a>'
         }).addTo(map);
 
 	var esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png', {
             maxZoom: 19,
-            attribution: '© <a href="http://www.esri.com">ESRI</a>'
+            attribution: '&copy; <a href="http://www.esri.com">ESRI</a>'
         }).addTo(map);
 
       // WMS Layer
@@ -172,6 +189,7 @@ position: 'topright'
   	format: 'image/png',
 		maxZoom:25
 	}).addTo(map);
+
 	<?php $li = $li + 1; } ?>
 
 	map.fitBounds(BOUNDING_BOX);
@@ -235,8 +253,28 @@ position: 'topright'
 			manualMode: false,
   			position: 'topright'
 		}).addTo(map);
-        
 
+	<?php if(count($feature_names)){ ?>
+	var DtControl = L.Control.extend({
+        options: {	position: 'topright' },
+       
+        	onAdd: function(map) {
+         		var container = L.DomUtil.create('div', 'leaflet-dt-toolbar leaflet-bar leaflet-control');
+                var button = L.DomUtil.create('a', 'leaflet-control-button leaflet-dt-show', container);
+            
+                L.DomEvent.on(button, 'click', function(){
+                    const d = (table_visible) ? 1 : 2;
+                 	$("#map").height($(window).height() / d);
+                    map.invalidateSize();
+                    table_visible = !table_visible;
+                });
+   
+         		L.DomEvent.disableClickPropagation(container);	/* Prevent click events propagation to map */
+         		return container;
+        	}
+    });
+    map.addControl(new DtControl());
+    <?php } ?>
 	// Draw
 
     var featureGroup = new L.FeatureGroup().addTo(map);
@@ -253,26 +291,64 @@ position: 'topright'
     map.on(L.Draw.Event.CREATED, function (event) {
         featureGroup.addLayer(event.layer);
     });
+    
     map.on(L.Draw.Event.DRAWSTART, function (event) { map.off('click'); });
     map.on(L.Draw.Event.DRAWSTOP, function (event) {  map.on('click');  });
-              
-              
-              
+
     const sidepanelLeft = L.control.sidepanel('mySidepanelLeft', {
 			tabsPosition: 'top',
 			startTab: 'tab-5'
 		}).addTo(map);
+      
+   	  
+	$(document).ready(function () {
 
- 
-  $(document).ready(function () {
-
-var newParent = document.getElementById('custom-map-controls');
+	var newParent = document.getElementById('custom-map-controls');
         var oldParent = document.getElementsByClassName("leaflet-top leaflet-left")
 
         while (oldParent[0].childNodes.length > 0) {
             newParent.appendChild(oldParent[0].childNodes[0]);
+            }
+        
+            <?php if(count($feature_names)){
+          for($i=0; $i < count($feature_names); $i++){ ?>
+            $.ajax({
+                      url: "proxy_qgis.php?SERVICE=WFS&REQUEST=GetFeature&TYPENAME=<?=urlencode($feature_names[$i])?>&OUTPUTFORMAT=geojson",
+                      dataType: "json",
+                      success: function(response) {
+                          let dataSet_<?=$i?> = response.features.map(function(e) {
+                   			var props = Object.keys(e.properties).map(function(k){
+                    				return e.properties[k];
+                   			});
+                              return props;
+                    		});
+          
+                          let columns_<?=$i?> = Object.keys(response.features[0].properties).map(function(k){
+                            return {'title' : k};
+                          });
+                          
+                          //console.log(data_<?=$i?>.responseJSON.features[0].properties);
+                          //console.log(columns_<?=$i?>);
+                          
+                          $('#dataTable<?=$i?>').DataTable({
+                   			columns: columns_<?=$i?>,
+                   			deferRender: true,
+                   			data: dataSet_<?=$i?>,
+                            layout: {
+                                    topStart: {
+                                        buttons: ['pageLength', 'copy', 'csv', 'excel', 'pdf']
+                                    }
+                                }
+                          });
+                      },
+                      error: function (xhr) {
+                        alert(xhr.statusText)
+                      }
+                    });
+        <?php }
         }
- });
+        ?>
+	});
   
   
   const $jQuerysidePanel = $("#mySidepanelLeft");
@@ -289,5 +365,28 @@ if ($jQuerysidePanel.hasClass("closed")) {
 	
 </script>
 
+<?php if(count($feature_names)){ ?>
+<div id='dataTables'>
+	<ul class="nav nav-tabs" role="tablist">
+		<?php $first = ' active'; $li_first = 'class="nav-item" role="presentation"';
+			for($i=0; $i < count($feature_names); $i++){
+				$varname = $feature_names[$i];	?>
+			<li <?=$li_first?>>
+				<button class="nav-link<?=$first?>" data-bs-toggle="tab" data-bs-target="#tab-table<?=$i?>" role="tab" aria-controls="tab-table<?=$i?>" aria-selected="true"><?=$varname?></button>
+			</li>
+		<?php $first = ''; $li_first = ''; } ?>
+	</ul>
+	
+   	<div class="tab-content pt-2">
+  		<?php $first = ' show active';
+ 			for($i=0; $i < count($feature_names); $i++){
+				$varname = $feature_names[$i]; ?>
+ 			<div class="tab-pane<?=$first?>" id="tab-table<?=$i?>" role="tabpanel" aria-labelledby="<?=$varname?>-tab">
+				<table id="dataTable<?=$i?>" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>
+ 			</div>
+  		<?php $first = ''; } ?>
+   	</div>
+</div>
+<?php } ?>
 </body>
 </html>

@@ -69,6 +69,18 @@ function layer_get_capabilities($qgs_file){
 	return $xml;
 }
 
+function layer_get_features($qgs_file){
+	$feats = array();
+	
+	$xml_data = file_get_contents('http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map='.urlencode($qgs_file).'&SERVICE=WFS&REQUEST=GetCapabilities');
+	$xml = simplexml_load_string($xml_data);
+	
+	foreach($xml->FeatureTypeList->FeatureType as $ft){
+	   array_push($feats, (string)$ft->Name);
+	}
+	return $feats;
+}
+
 function layer_get_bounding_box($xml, $layer_name){
 
 	foreach($xml->Capability->Layer->Layer as $l){

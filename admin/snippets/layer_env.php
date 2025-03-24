@@ -5,4 +5,5 @@ const CACHE_ENABLED = false;
 const QGIS_FILENAME = 'none';
 const QGIS_FILENAME_ENCODED = 'none';
 const QGIS_LAYERS = array();
+const SHOW_DATATABLES = false;
 ?>
