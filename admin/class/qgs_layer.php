@@ -12,7 +12,7 @@
 						return 0;
 					}
 					
-            $sql = "INSERT INTO PUBLIC." .$this->table_ext.'_'.$this->table_name." (id,public,cached,proxyfied,customized,exposed,layers) VALUES('".
+            $sql = "INSERT INTO PUBLIC." .$this->table_ext.'_'.$this->table_name." (id,public,cached,proxyfied,customized,exposed,show_dt,layers) VALUES('".
 							$row_id."','".
 							$this->cleanData($data['public'])."','".
 							$this->cleanData($data['cached'])."','".
