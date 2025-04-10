@@ -21,6 +21,7 @@
 					data-proxyfied="<?=$row->proxyfied=='t' ? 'yes' : 'no'?>"
 					data-exposed="<?=$row->exposed=='t' ? 'yes' : 'no'?>"
 					data-show_dt="<?=$row->show_dt=='t' ? 'yes' : 'no'?>"
+					data-print_layout="<?=$row->print_layout?>"
 					data-group_id="<?=implode(',', array_keys($row_grps))?>"
 					align="left">
 					<!--<td><?=$row->id?></td>-->
@@ -143,6 +144,10 @@
 						
 						<label for="layers" class="form-label">Layers</label>
 						<select class="form-select" name="layers[]" id="layers" multiple required>
+						</select>
+						
+						<label for="print_layout" class="form-label">Print Layout</label>
+						<select class="form-select" name="print_layout" id="print_layout">
 						</select>
 					</div>
 

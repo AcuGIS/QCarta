@@ -88,7 +88,7 @@
 		$vars = [ 'LAYER_ID' => $post['id'],
 			'IS_PUBLIC' => $is_public, 'QGIS_FILENAME_ENCODED' => "'".urlencode($qgs_file)."'",
 			'QGIS_LAYERS' => $qgs_layers, 'CACHE_ENABLED' => $is_cached,
-			'SHOW_DATATABLES' => $show_dt];
+			'SHOW_DATATABLES' => $show_dt, 'QGIS_LAYOUT' => "'".$post['print_layout']."'" ];
 
 		copy('../snippets/layer_env.php', $html_dir.'/env.php');
 		update_env($html_dir.'/env.php', $vars);
@@ -158,7 +158,7 @@
 		$vars = [ 
 			'IS_PUBLIC' => $is_public, 'QGIS_FILENAME_ENCODED' => "'".urlencode($qgs_file)."'",
 			'QGIS_LAYERS' => $qgs_layers, 'CACHE_ENABLED' => $is_cached,
-			'SHOW_DATATABLES' => $show_dt];
+			'SHOW_DATATABLES' => $show_dt, 'PRINT_LAYOUT' => "'".$post['print_layout']."'"];
 
 		update_env($html_dir.'/env.php', $vars);
 		

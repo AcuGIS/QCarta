@@ -60,7 +60,7 @@ $('#layer_form').submit(false);
 		$('#customized').prop('checked', (tr.attr('data-customized') == 'yes'));
 		$('#store_id').val(tds[2].getAttribute('data-value')).trigger('change');
 		$('#group_id').val(tr.attr('data-group_id').split(','));
-		edit_row = {'layers': tds[1].innerHTML.split('<br>')};
+		edit_row = {'layers': tds[1].innerHTML.split('<br>'), 'print_layout': tr.attr('data-print_layout')};
 	});
 	
 	$(document).on("click", ".edit_preview", function() {
@@ -180,6 +180,7 @@ $('#layer_form').submit(false);
 			success: function(response){
 				 if(response.success) {
 					 load_select('layers', 'layers[]', response.layers);
+						load_select('print_layout', 'print_layout', response.print_layouts);
 					 	$('#store_id').prop('disabled', false);
 				 }else{
 					 alert('Error: Failed to list layers. ' + response.message);

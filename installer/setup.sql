@@ -85,6 +85,7 @@ CREATE TABLE public.qgs_layer (
 	customized BOOLEAN DEFAULT False,
 	exposed BOOLEAN DEFAULT False,
 	show_dt BOOLEAN DEFAULT False,
+	print_layout character varying(250) DEFAULT NULL,
 	layers TEXT NOT NULL
 );
 

@@ -173,6 +173,15 @@ function qgs_ordered_layers($xml){
 	return $layer_names;
 }
 
+function parseQGISLayouts($xml){
+    $rv = array();
+   list($layouts) = $xml->xpath('/qgis/Layouts//Layout/@name');
+   foreach($layouts as $l){
+       array_push($rv, (String)$l);
+   }
+   return $rv;
+}
+	
     $result = ['success' => false, 'message' => 'Error while processing your request!'];
 
     if(isset($_SESSION[SESS_USR_KEY]) && $_SESSION[SESS_USR_KEY]->accesslevel == 'Admin') {
@@ -281,7 +290,7 @@ function qgs_ordered_layers($xml){
 					$qgis_file = find_qgs(DATA_DIR.'/stores/'.$id);
 					if($qgis_file !== false){
 						$xml = simplexml_load_file($qgis_file);
-						$result = ['success' => true, 'layers' => qgs_ordered_layers($xml)];
+						$result = ['success' => true, 'layers' => qgs_ordered_layers($xml), 'print_layouts' => parseQGISLayouts($xml)];
 					}else{
 						$result = ['success' => false, 'message' => 'Error: No qgs file found!'];
 					}

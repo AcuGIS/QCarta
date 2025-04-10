@@ -12,7 +12,7 @@
 						return 0;
 					}
 					
-            $sql = "INSERT INTO PUBLIC." .$this->table_ext.'_'.$this->table_name." (id,public,cached,proxyfied,customized,exposed,show_dt,layers) VALUES('".
+            $sql = "INSERT INTO PUBLIC." .$this->table_ext.'_'.$this->table_name." (id,public,cached,proxyfied,customized,exposed,show_dt,print_layout,layers) VALUES('".
 							$row_id."','".
 							$this->cleanData($data['public'])."','".
 							$this->cleanData($data['cached'])."','".
@@ -20,6 +20,7 @@
 							$this->cleanData($data['customized'])."','".
 							$this->cleanData($data['exposed'])."','".
 							$this->cleanData($data['show_dt'])."','".
+							$this->cleanData($data['print_layout'])."','".
 							$this->cleanData($data['layers'])."') RETURNING id";
              
 							$result = pg_query($this->dbconn, $sql);
@@ -42,6 +43,7 @@
 					"', customized='".$this->cleanData($data['customized']).
 					"', exposed='".$this->cleanData($data['exposed']).
 					"', show_dt='".$this->cleanData($data['show_dt']).
+					"', print_layout='".$this->cleanData($data['print_layout']).
 					"', layers='".$this->cleanData($data['layers']).
 					"' where id = '".intval($data['id'])."'";
 					

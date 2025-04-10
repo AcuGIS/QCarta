@@ -65,6 +65,12 @@
 	
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	
+	<?php if(!empty(PRINT_LAYOUT)) { ?>
+	<link rel="stylesheet" href="../../assets/dist/locationfilter/locationfilter.css">
+	<script src="../../assets/dist/locationfilter/locationfilter.js"></script>
+	<script src="../../assets/dist/js/proj.js"></script>
+	<?php } ?>
+		
 	<?php if(count($feature_names)){ ?>
 	<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.2.2/b-3.2.2/b-html5-3.2.2/datatables.min.css" rel="stylesheet" integrity="sha384-8/teZDJvKonhCW0gzEq7h+7isOuQtsttozTAZnCt86gaZKLAMET4OfRS09qYO8wO" crossorigin="anonymous">
 
@@ -257,6 +263,8 @@
   			position: 'topright'
 		}).addTo(map);
 
+	<?php if(!empty(PRINT_LAYOUT)) { ?> var locationFilter = new L.LocationFilter({qgisTemplate: "<?=PRINT_LAYOUT?>"}).addTo(map); <?php } ?>
+	
 	<?php if(count($feature_names)){ ?>
 	var DtControl = L.Control.extend({
         options: {	position: 'topright' },

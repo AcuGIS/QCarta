@@ -14,6 +14,13 @@
 			http_response_code(400);	// Bad Request
 			die(400);
 		}
+    }else if($_GET['request'] == 'GetPrint'){
+                if(!empty($_GET['format'])){
+                        $format = urldecode($_GET['format']);
+                }else{
+                        http_response_code(400);        // Bad Request
+                        die(400);
+                }
 	}else if($_GET['request'] == 'GetFeatureInfo'){
 			if(!empty($_GET['info_format'])){
 				$format = urldecode($_GET['info_format']);

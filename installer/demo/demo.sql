@@ -32,13 +32,13 @@ VALUES
 	(1, 2), (8, 2);
 INSERT INTO  public.pg_layer (id, public, tbl, geom) VALUES (1,	'f',	'states',	'geom');
 INSERT INTO  public.qgs_layer
-	(id, public, cached, proxyfied, customized, exposed, show_dt, layers)
+	(id, public, cached, proxyfied, customized, exposed, show_dt, print_layout, layers)
 VALUES
- 	(2,	false, true, true, false, false, true, 'states'),
-	(3, false, true, true, false, true,  true, 'neighborhoods,parks,waterways'),
-	(4, true,  true, true, false, true,  true, 'GB_Hex_5km_GS_RunningSand_v8,GB_Hex_5km_GS_SolubleRocks_v8'),
-	(5, false, true, true, false, false, true, 'paris'),
-	(6, false, true, true, true,  false, true, 'NDFD Forecast hawaii.apparentt,NDFD Forecast hawaii.apparentt.points'),
-	(7, true,  true, true, true,  false, true, 'S_USA.Activity_MBHR_PL — Activity_MBHR_PL'),
-	(8, false, true, true, true,  false, true, 'states'),
-	(9, true,  false,true, false, true,  true, 'Fields,Apiary,Tracks');
+ 	(2,	false, true, true, false, false, true, 'statelayout', 'states'),
+	(3, false, true, true, false, true,  true, 'chicago', 'neighborhoods,parks,waterways'),
+	(4, true,  true, true, false, true,  true, 'bgslayout', 'GB_Hex_5km_GS_RunningSand_v8,GB_Hex_5km_GS_SolubleRocks_v8'),
+	(5, false, true, true, false, false, true, 'parislayout', 'paris'),
+	(6, false, true, true, true,  false, true, '', 'NDFD Forecast hawaii.apparentt,NDFD Forecast hawaii.apparentt.points'),
+	(7, true,  true, true, true,  false, true, 'monarchs', 'S_USA.Activity_MBHR_PL — Activity_MBHR_PL'),
+	(8, false, true, true, true,  false, true, 'statelayout', 'states'),
+	(9, true,  false,true, false, true,  true, 'Beefields in Laax (atlas)', 'Fields,Apiary,Tracks');

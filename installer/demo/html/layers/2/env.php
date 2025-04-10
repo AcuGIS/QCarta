@@ -6,4 +6,5 @@ const QGIS_FILENAME = 'none';
 const QGIS_FILENAME_ENCODED = '%2Fvar%2Fwww%2Fdata%2Fstores%2F2%2Fusdemo.qgs';
 const QGIS_LAYERS = array('states');
 const SHOW_DATATABLES = true;
+const PRINT_LAYOUT = 'statelayout';
 ?>
