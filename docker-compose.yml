@@ -35,7 +35,7 @@ services:
       timeout: 50s
       retries: 10
   web:
-    image: acugis/quail_web:24032025
+    image: acugis/quail_web:10042025
     env_file:
       - docker/public.env
       - docker/.env
