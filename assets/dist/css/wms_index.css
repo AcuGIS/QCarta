@@ -27,6 +27,29 @@ html, body, #map {
     font-size: 16px;
   	padding-bottom: 0px;
 }
+
+.leaflet-popup-content {
+display: list-item!important; 	
+}
+
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+    background: white;
+    color: #333;
+    border: 0!important;
+    box-shadow: 0 1px 2px #999;
+    
+}
+
+.leaflet-popup-content-wrapper {
+    padding: 1px;
+    text-align: left;
+    border-radius: 0!important;
+   display: list-item!important; 
+}
+
+
+
   
 .p {font-size:15px!important}   
 
@@ -97,4 +120,19 @@ html, body, #map {
 
 .leaflet-touch .leaflet-bar.leaflet-dt-toolbar a.leaflet-dt-show {
 	background-image: url('../../images/qicons/table.png');
+}
+
+.dt-container table,
+.dt-container th,
+.dt-container td {
+    border-color: var(--bs-table-border-color) !important;
+}
+
+.dt-container th,
+.dt-container td {
+    width: initial !important;
+}
+
+body {
+	font-family: var(--bs-body-font-family) !important;
 }
