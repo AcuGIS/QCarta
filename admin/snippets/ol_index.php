@@ -277,7 +277,11 @@ html, body {
                 const properties = feature.properties;
                 let content = '<h3>Feature Information</h3><ul>';
                 for (const key in properties) {
-                  content += `<li><strong>${key}:</strong> ${properties[key]}</li>`;
+                  if((typeof properties[key] === 'string') && properties[key].match(/DCIM\/.*\.(jpg|jpeg|png|webp|gif)/i)){
+                    content += `<li><strong>${key}:</strong> <a href="media/${properties[key]}" target="_blank"><img src="media/${properties[key]}" alt="${properties[key]}" height="100"/></a></li>`;
+                  }else{
+                    content += `<li><strong>${key}:</strong> ${properties[key]}</li>`;
+                  }
                 }
                 content += '</ul>';
                 popupContainer.innerHTML = content;

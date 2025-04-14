@@ -91,7 +91,10 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
     if(!content.includes("class='layer-title'") && !content.includes("<TR><TH>")){
       return;
     }   
-	
+
+    // replace image paths with HTML image link
+    content = content.replace(/(DCIM\/.*\.(jpg|jpeg|png|webp|gif))/i, '<a href="media/$1" target="_blank"><img src="media/$1" alt="$1" height="100"/></a>');
+
     // Otherwise show the content in a popup, or something.
     L.popup({ maxWidth: 800})
       .setLatLng(latlng)
