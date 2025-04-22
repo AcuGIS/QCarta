@@ -43,6 +43,20 @@ function escape_filename($name){
 					
 					$result = ['success' => true, 'message' => 'Chunk uploaded!'];
 				}
+			}else if($action == 'upload_bytes') {
+				$_POST['source'] = escape_filename($_POST['source']);
+
+				$mode = (intval($_POST['start']) == 0) ? 'w' : 'a';
+				$dst = fopen(DATA_DIR.'/upload/'.$_SESSION[SESS_USR_KEY]->id.'_'.$_POST['source'], $mode);
+
+				if($dst === false){
+					$result = ['success' => false, 'message' => 'Chunk fopen error!'];
+				}else{
+					fwrite($dst, $_POST['bytes']);
+					fclose($dst);
+
+					$result = ['success' => true, 'message' => 'Chunk uploaded!'];
+				}
 			}else if($action == 'url') {
 				
 				// https://www.php.net/manual/en/context.http.php

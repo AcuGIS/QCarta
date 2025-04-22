@@ -11,28 +11,6 @@
 	require('class/pglink.php');
 	require('class/qgs.php');
 
-	function return_bytes($val)
-	{
-	    $val = trim($val);
-	    $num = (int) rtrim($val, 'KMG');
-	    $last = strtolower($val[strlen($val) - 1]);
-
-	    switch ($last) {
-	        // The 'G' modifier is available
-	        case 'g':
-	            $num = $num * 1024 * 1024 * 1024;
-	            break;
-	        case 'm':
-	            $num = $num * 1024 * 1024;
-	            break;
-	        case 'k':
-	            $num *= 1024;
-	            break;
-	    }
-
-	    return $num;
-	}
-
 	if(!isset($_SESSION[SESS_USR_KEY]) || $_SESSION[SESS_USR_KEY]->accesslevel != 'Admin') {
     header('Location: ../login.php');
     exit;

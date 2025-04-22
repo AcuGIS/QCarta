@@ -1,6 +1,7 @@
 <?php
 	session_start(['read_and_close' => true]);
 	require('../incl/const.php');
+	require('../incl/app.php');
 	require('../class/database.php');
 	require('../class/table.php');
 	require('../class/user.php');
@@ -29,12 +30,12 @@
 	$url_key_param = '';
 
   if(isset($_SESSION[SESS_USR_KEY])) {	// session auth
-		$user_id = $_SESSION[SESS_USR_KEY]->id;
+	$user_id = $_SESSION[SESS_USR_KEY]->id;
 	
 	}else if (!isset($_SERVER['PHP_AUTH_USER'])) {
-    header('WWW-Authenticate: Basic realm="Quail REST"');
-    header('HTTP/1.0 401 Unauthorized');
-    exit;
+        header('WWW-Authenticate: Basic realm="Quail REST"');
+        header('HTTP/1.0 401 Unauthorized');
+        exit(0);
 	}else if($_SERVER['PHP_AUTH_USER'] == ''){
 		// public access, no user entered
 	}else {	// HTTP auth
@@ -183,7 +184,41 @@
 		}
 		pg_free_result($result);
 		$reply = ['success' => true, 'layer' => $row];
-		
+	}else if($_GET['q'] == 'store'){	// /rest/store/top
+        
+	    $row = ['name' => $_GET['l']];
+					
+		$obj = new qgs_Class($database->getConn(), SUPER_ADMIN_ID);
+		$store_res = $obj->getByName($row['name']);
+		if($store_res == null){
+		  $reply = ['success' => true, 'message' => 'Database error'];
+		}else if(pg_num_rows($store_res) == 0){
+		  $reply = ['success' => true, 'message' => 'Store not found'];
+		}else{
+            $store_row = pg_fetch_assoc($store_res);
+    		pg_free_result($store_res);
+    		
+    		$row['id'] = $store_row['id'];
+    		
+    		$path = DATA_DIR.'/stores/'.$store_row['id'];
+    		$path_len = strlen($path) + 1;
+    		
+    	    $directory  = new \RecursiveDirectoryIterator($path);
+            $iterator   = new \RecursiveIteratorIterator($directory);
+            
+            $files = array();
+            foreach ($iterator as $info) {
+                $fp = $info->getPathname();
+                if (is_file($fp)) {
+                    $files[] = array('path' =>substr($fp, $path_len), 'mtime' => filemtime($fp));
+                }
+            }
+            $row['files'] = $files;
+            $row['post_max_size'] = return_bytes(ini_get('post_max_size'));
+    
+            $reply = ['success' => true, 'store' => $row];
+		}
+
 	}else{
 		$reply = ['success' => false, 'message' => 'Error: Unknown query'];
 		http_response_code(400);	// bad request

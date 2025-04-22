@@ -294,6 +294,23 @@ function parseQGISLayouts($xml){
 					}else{
 						$result = ['success' => false, 'message' => 'Error: No qgs file found!'];
 					}
+				}else if($action == 'update_file'){
+				    $upload_dir = DATA_DIR.'/stores/'.$id;
+
+					if(!is_dir($upload_dir)){
+					   $result = ['success' => false, 'message' => 'Error: No such store!'];
+					}else{
+					    $source = basename($_POST['relative_path']);
+                        $uploaded_file = DATA_DIR.'/upload/'.$_SESSION[SESS_USR_KEY]->id.'_'.$source;
+                        $store_file = DATA_DIR.'/stores/'.$id.'/'.$_POST['relative_path'];
+                        if(is_file($store_file)){
+                            unlink($store_file);
+                        }
+                        
+                        rename($uploaded_file, $store_file);
+                        touch($store_file, $_POST['mtime']);
+                        $result = ['success' => true, 'message' => 'File updated!'];
+					}
 				}
     }
 

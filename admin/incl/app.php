@@ -125,6 +125,27 @@
 		return round($bytes / pow(1024, $e), 2).' '.$labels[$e];
 	}
 	
+	function return_bytes($val){
+	    $val = trim($val);
+	    $num = (int) rtrim($val, 'KMG');
+	    $last = strtolower($val[strlen($val) - 1]);
+
+	    switch ($last) {
+	        // The 'G' modifier is available
+	        case 'g':
+	            $num = $num * 1024 * 1024 * 1024;
+	            break;
+	        case 'm':
+	            $num = $num * 1024 * 1024;
+	            break;
+	        case 'k':
+	            $num *= 1024;
+	            break;
+	    }
+
+	    return $num;
+	}
+	
 	function is_pid_running($pid_file){
 		
 		if(!is_file($pid_file)){
