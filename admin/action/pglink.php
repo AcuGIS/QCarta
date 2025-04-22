@@ -76,7 +76,10 @@
 						}else{
 							$store_dir = WWW_DIR.'/stores/'.$newId;
 							
-							mkdir($store_dir);
+							if(!is_dir($store_dir)){
+							 mkdir($store_dir);
+							}
+							
 							copy(WWW_DIR.'/admin/snippets/store_env.php', $store_dir.'/env.php');
 							$vars = ["DATA_DIR.'/'" => "DATA_DIR.'/stores/'"];
 							update_template(WWW_DIR.'/admin/snippets/data_filep.php', $store_dir.'/data_filep.php', $vars);
@@ -250,7 +253,9 @@
 							if($cmd){
 								$store_dir = WWW_DIR.'/stores/'.$dst['id'];
 								
-								mkdir($store_dir);
+								if(!is_dir($store_dir)){
+								    mkdir($store_dir);
+								}
 								copy(WWW_DIR.'/admin/snippets/store_env.php', $store_dir.'/env.php');
 								
 								$vars = ["DATA_DIR.'/'" => "DATA_DIR.'/stores/'"];
