@@ -5,7 +5,6 @@
 	require('../class/table.php');
 	require('../class/table_ext.php');
 	require('../class/pglink.php');
-	require('../class/user.php');
 	
 	function rrmdir($dir) {
 	 if (is_dir($dir)) {

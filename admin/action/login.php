@@ -3,7 +3,6 @@
 	require('../incl/const.php');
 	require('../class/database.php');
 	require('../class/table.php');
-	require('../class/table_ext.php');
 	require('../class/user.php');
 
 	if(isset($_SESSION[SESS_USR_KEY])) {

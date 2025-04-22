@@ -3,7 +3,6 @@
 	require('admin/incl/const.php');
 	require('admin/class/database.php');
 	require('admin/class/table.php');
-	require('admin/class/user.php');
 	require('admin/class/access_group.php');
 
   if(!isset($_SESSION[SESS_USR_KEY])) {

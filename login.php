@@ -1,8 +1,5 @@
 <?php
 		require('admin/incl/const.php');
-		require('admin/class/database.php');
-		require('admin/class/table.php');
-		require('admin/class/user.php');
 
 		session_start(['read_and_close' => true]);
 		if(isset($_SESSION[SESS_USR_KEY])) {
