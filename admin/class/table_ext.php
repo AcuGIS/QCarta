@@ -91,5 +91,10 @@
 					 return false;
 				 }
        }
+       
+       function getByName($name){
+           $sql = 'SELECT * from public.'.$this->table_name.' INNER JOIN public.'.$this->table_ext.'_'.$this->table_name.' ON '.$this->table_name.'.id = '.$this->table_ext.'_'.$this->table_name.'.id WHERE '.$this->table_name.'.name = \''.$name.'\'';
+           return pg_query($this->dbconn, $sql);
+       }
 	}
 ?>
