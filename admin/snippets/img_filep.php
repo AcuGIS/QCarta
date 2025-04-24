@@ -4,7 +4,7 @@ include('../../admin/incl/index_prefix.php');
 const IMG_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
 
 $f = str_replace('..', '', $_GET['f']);
-$fpath = DATA_DIR.'/'.LAYER_ID.'/'.$f;
+$fpath = DATA_FOLDER.'/'.$f;
 
 if(!empty($_GET['f']) && is_file($fpath)){
     $ext = pathinfo($f, PATHINFO_EXTENSION);

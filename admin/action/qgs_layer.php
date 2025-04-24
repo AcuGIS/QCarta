@@ -96,7 +96,7 @@
 		copy('../snippets/proxy_qgis.php', $html_dir.'/proxy_qgis.php');
 		copy('../snippets/layer_wms.php', $html_dir.'/wms.php');
 		
-		$vars = ["DATA_DIR.'/'" => "DATA_DIR.'/layers/'"];
+		$vars = ["DATA_FOLDER.'/'" => "DATA_DIR.'/stores/".$post['store_id']."'"];
 		update_template(WWW_DIR.'/admin/snippets/img_filep.php', $html_dir.'/img_filep.php', $vars);
 
 		$bbox = layers_get_bbox($qgs_file, $post['layers']);
