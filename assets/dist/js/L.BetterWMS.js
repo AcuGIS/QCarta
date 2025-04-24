@@ -93,7 +93,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
     }   
 
     // replace image paths with HTML image link
-    content = content.replace(/(DCIM\/.*\.(jpg|jpeg|png|webp|gif))/i, '<a href="media/$1" target="_blank"><img src="media/$1" alt="$1" height="100"/></a>');
+    content = content.replace(/(DCIM\/.*\.(jpg|jpeg|png|webp|gif))/i, '<a href="img_filep.php?f=$1" target="_blank"><img src="img_filep.php?f=$1" alt="$1" height="100"/></a>');
 
     // Otherwise show the content in a popup, or something.
     L.popup({ maxWidth: 800})

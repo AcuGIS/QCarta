@@ -96,6 +96,9 @@
 		copy('../snippets/proxy_qgis.php', $html_dir.'/proxy_qgis.php');
 		copy('../snippets/layer_wms.php', $html_dir.'/wms.php');
 		
+		$vars = ["DATA_DIR.'/'" => "DATA_DIR.'/layers/'"];
+		update_template(WWW_DIR.'/admin/snippets/img_filep.php', $html_dir.'/img_filep.php', $vars);
+
 		$bbox = layers_get_bbox($qgs_file, $post['layers']);
 		$wms_url = ($post['proxyfied'] == 't') ? '/mproxy/service' : 'proxy_qgis.php';
 		
