@@ -300,11 +300,17 @@ function parseQGISLayouts($xml){
 					if(!is_dir($upload_dir)){
 					   $result = ['success' => false, 'message' => 'Error: No such store!'];
 					}else{
+					    // convert windows path delimiters    
+					    $_POST['relative_path'] = str_replace('\\', '/', $_POST['relative_path']);
+
 					    $source = basename($_POST['relative_path']);
                         $uploaded_file = DATA_DIR.'/upload/'.$_SESSION[SESS_USR_KEY]->id.'_'.$source;
                         $store_file = DATA_DIR.'/stores/'.$id.'/'.$_POST['relative_path'];
                         if(is_file($store_file)){
                             unlink($store_file);
+                        }else if(str_contains($store_file, '/')){
+                            $file_dir = dirname($store_file);
+                            mkdir($file_dir, 0770, true);
                         }
                         
                         rename($uploaded_file, $store_file);
