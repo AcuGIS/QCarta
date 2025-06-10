@@ -18,7 +18,7 @@ System Requirements
 =======================
 * 2 GB RAM
 * 5 GB Disk
-* Tested on Ubuntu 24
+* Tested on Ubuntu 24 LTS
 
 .. note::
     Seeding and tile generation can be CPU intensive for larger data sets.  Plan accordingly.
@@ -29,7 +29,7 @@ ECW Support
 
 For ECW Support, use the Quail ECW Support installer prior to installation
 
-https://github.com/AcuGIS/quail-ecw-support
+https://github.com/AcuGIS/qcarta-ecw-support
 
 
 Installer (Recommended)
@@ -39,7 +39,7 @@ Clone the repository:
 
 .. code-block:: console
 
-    git clone https://github.com/AcuGIS/quail.git
+    git clone https://github.com/AcuGIS/qcarta.git
    
 Change to the /quail directory and run the installers in sequence below:
 
@@ -61,14 +61,21 @@ Optionally, run below to provision SSL using letsencrypt:
    certbot --apache --agree-tos --email hostmaster@yourdomain.com --no-eff-email -d yourdomain.com
 
 
-Login at https://yourdomain.com/login.php
+Login at https://yourdomain.com and click the login button at top right.
+
+.. image:: _static/qcarta-login.png
+
+The login page is displayed as below
+
+
+.. image:: _static/qcarta-login-page.png
 
 Default credentials
 
 * Email:  admin@admin.com
 * Password: quail
 
-.. image:: _static/quail-login-page.png
+
 
 Note: If you see below when navigating to your domain, remove the default index.html page from /var/www/html
 
