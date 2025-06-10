@@ -26,8 +26,8 @@ Install with Docker
 
 .. code-block:: console
 
-   git clone https://github.com/AcuGIS/quail.git
-   cd quail
+   git clone https://github.com/AcuGIS/qcarta.git
+   cd qcarta
    installer/docker-install.sh
    docker-compose pull
 
@@ -50,7 +50,7 @@ Default credentials
 * Email:  admin@admin.com
 * Password: quail
 
-.. image:: _static/quail-login.png
+.. image:: _static/qcarta-login-page.png
 
 
 Upload QGIS Project
