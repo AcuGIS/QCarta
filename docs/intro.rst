@@ -4,7 +4,10 @@ Intro
 Overview
 ------------
 
-Quail is a lightweight Administration tool and layer server for QGIS Server.
+QCarta is a lightweight GeoPortal and Administration for QGIS Server.
+
+
+.. image:: _static/qcarta-login.png
 
    - Create OGC Web Services from your QGIS Projects
    - Create OGC Web Services directly from many Geospatial formats
@@ -12,7 +15,7 @@ Quail is a lightweight Administration tool and layer server for QGIS Server.
    - Intergrated MapProxy for Layer Caching
    - Group Level permissions for Stores and Layers
 
-Quail also contains a basic Map Portal that automatically creates Leaflet Maps you can share and customize with Group Level permissions
+QCarta also contains a choice of Map Portal layouts with Group Level permissions
 
 The workflow is similar to GeoServer. You create Stores from data sources. From Stores, you create Layers.
 
@@ -38,7 +41,7 @@ Layers provide OGC Web Services that are served via MapProxy
 
 **MapProxy**
 
-Quail also installs MapProxy, for caching. Quail Authentication is integrated with MapProxy.
+QCarta also installs MapProxy, for caching. Quail Authentication is integrated with MapProxy.
 
 Layers can also be seeded in advance.
 
@@ -56,9 +59,9 @@ Create Users and Groups. All Stores and Layers provide Group level permissions.
 
 **Map Portal**
 
-Quail has a built in Map Portal with User and Group level access. Users can log directly into your Map Portal as see only those maps they have permissions for.
+QCarta has a built in Map Portal with User and Group level access. Users can log directly into your Map Portal as see only those maps they have permissions for.
 
-.. image:: _static/quail-public-layers.png
+
 
 
 Authors
