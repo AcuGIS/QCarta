@@ -6,8 +6,7 @@ QCarta
 QCarta is a QGIS Map Portal and OGC Web Server.
 
    - Publish QGIS Projects
-   - Support for PostGIS
-   - Support for most Raster and Vector data files
+   - Support for PostGIS, Raster, and Vector stores
    - Intergrated MapProxy for Layer Caching
    - Group Level permissions for Stores and Layers
    
