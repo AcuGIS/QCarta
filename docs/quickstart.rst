@@ -56,7 +56,13 @@ Default credentials
 Upload QGIS Project
 ==========================
 
+You can upload QGIS Projects to create Stores using the QCarta QGIS Plugin.
+
+Alternatively, you can upload via the admin panel as well.
+
 Once logged in, go to Stores > Add New
+
+.. image:: _static/qcarta-stores-add.png
 
 Upload your QGIS Project and any required data files.  If your QGIS Project uses a PostGIS backend, create a PostGIS Data Store for it.
 
@@ -75,7 +81,7 @@ Create Layer(s)
 
 Go to Layers > Add New and select the Layer(s) to use from your Project.
 
-.. image:: sections/layers/create-layer-4.png
+.. image:: _static/qcarta-layers-add.png
 
 
 View Layer URLs and Preview
@@ -91,7 +97,7 @@ You can now see and test your Layer urla
 
 You can nwo also view your Leaflet Layer Preview by clicking on the Layer name
 
-.. image:: sections/layers/first-layer.png
+.. image:: _static/qcarta-layers-visible.png
 
 
 
