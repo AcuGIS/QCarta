@@ -92,8 +92,8 @@ To install using Docker:
 
 .. code-block:: console
 
-    git clone https://github.com/AcuGIS/quail.git
-    cd quail
+    git clone https://github.com/AcuGIS/qcarta.git
+    cd qcarta
     installer/docker-install.sh
     docker-compose pull
 
