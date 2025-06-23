@@ -14,119 +14,69 @@ QGIS Plugin
 
 Installation is done via the install scripts located in the /installer directory.
 
-System Requirements
-=======================
-* 2 GB RAM
-* 5 GB Disk
-* Tested on Ubuntu 24 LTS
+Installation
+==================
 
-.. note::
-    Seeding and tile generation can be CPU intensive for larger data sets.  Plan accordingly.
+The plugin is available via the QGIS Plugin Repository
 
+This is the recommended way to install it.
 
-ECW Support
-========================
+Manual Installation
+==================
 
-For ECW Support, use the Quail ECW Support installer prior to installation
+Download qcarta_qgis_plugin.zip to your desktop
 
-https://github.com/AcuGIS/qcarta-ecw-support
+In QGIS, go to Plugins > Manage and Install Plugins and click on "Install from Zip" in left menu.
 
+Browse to location where you saved acugis_sftp_tool.zip and then click "Install Plugin"
 
-Installer (Recommended)
-=======================
+.. image:: install-1.png
 
-Clone the repository:
+Once installed, you should see the Plugins menu.
 
-.. code-block:: console
+Usage
+==================
+  
+Begin by selecting Configure SFTP servers:  
 
-    git clone https://github.com/AcuGIS/qcarta.git
-   
-Change to the /quail directory and run the installers in sequence below:
+.. image:: qcarta01.png
 
-If you already have PostgreSQL with PostGIS enabled, skip the postgres.sh script.
+Click Add to add server(s).
 
-.. code-block:: console
- 
-    cd quail
-    ./installer/postgres.sh
-    ./installer/app-install.sh [--no-mapproxy]
+.. image:: qcarta3.png
 
+Click Save.
 
-Optionally, run below to provision SSL using letsencrypt:
+Go to Create Store
 
-.. code-block:: console
+.. image:: qcarta02.png
 
-   apt-get -y install python3-certbot-apache
-
-   certbot --apache --agree-tos --email hostmaster@yourdomain.com --no-eff-email -d yourdomain.com
-
-
-Login at https://yourdomain.com and click the login button at top right.
-
-.. image:: _static/qcarta-login.png
-
-The login page is displayed as below
-
-
-.. image:: _static/qcarta-login-page.png
-
-Default credentials
-
-* Email:  admin@admin.com
-* Password: quail
-
-
-
-Note: If you see below when navigating to your domain, remove the default index.html page from /var/www/html
-
-.. image:: error-page.png
-
-
-Docker Install
-=======================
+Select the Server you wish to upload to.  
 
 .. warning::
-   Docker is not recommended for Production hosting.
+    The entire QGIS Project directory will be uploaded.
 
-To install using Docker:
+Click Upload
 
-.. code-block:: console
+A success message will be displayed up completion.
 
-    git clone https://github.com/AcuGIS/qcarta.git
-    cd qcarta
-    installer/docker-install.sh
-    docker-compose pull
+.. image:: qcarta6.png
 
-Next, go to docker/public.env and set the SERVER_NAME and IP to your machines hostname and IP.
-
-.. code-block:: console
-
-    docker-compose up
-
-If you want to build from source, run next command.
-
-.. code-block:: console
-   docker-compose build
-   
-To clean persistent data, you can remove volumes with this command:
-
-.. code-block:: console
-
-    docker volume rm quail_{cache_qgis,data_layers,data_qgis,data_mapproxy,data_stores,html_layers,html_stores,pg_data,www_cache}
-
-Navigate to http://yourdomain.com:8000
-
-Default credentials
-
-* Email:  admin@admin.com
-* Password: quail
+.. note::
+    If files exist, you will prompted if you wish to overwrite files.
+    
 
 
+Update Store
+==================
 
+You can update an existing Store using the Update Store function
 
+.. image:: qcarta03.png
 
+Select the Server and Store:
 
-
+.. image:: qcarta7.png
 
 
 
