@@ -2,14 +2,15 @@
 
 [![Documentation Status](https://readthedocs.org/projects/quailserver/badge/?version=latest)](https://quail.docs.acugis.com/en/latest/?badge=latest)
 
-## QGIS Server Adminstration and Layer Server 
+## QGIS Map Portal 
 
-Publish your QGIS Projects as OGC Web Services.  
+Publish your QGIS Projects quickly and easily.  
 
 Group level permissions and integration MapProxy caching.
 
-![Quail](docs/_static/quail-github.png)
-   
+![Quail](docs/_static/QCarta-Main.png)
+
+  
 ## Requirements
 
 - Ubuntu 24
@@ -62,11 +63,43 @@ $ docker-compose build
 
 URL: http://yourdomain.com:8000
 
-## Layer Portal
+## Features and Demos
 
-Quail also includes a Layer Portal with Group Level Permissions
+QCarta includes sample projects to get you started
 
-![QuailMap](docs/sections/sample/bee-preview-quail.png)
+- Layer level permissions
+- Maps
+- Documents
+- Links
+- GeoStories
+- SQL Views
+- SQL Reports
+- Plotlt Support
+- SQL Workshop
+- OGC Web Services (WMS, WFS, and WMTS)
+- Topics and Keywords
+- Metadata
+
+<p>&nbsp;</p>
+
+![QuailMap](docs/_static/QCarta-Github-Readme.png)
+
+Plotly Chart Support:
+
+![QuailMap](docs/_static/QCarta-Github-Readme-2.png)
+
+Saved Queries
+
+![QuailMap](docs/_static/QCarta-Github-Readme-Query.png)
+
+SQL Reports
+
+![QuailMap](docs/_static/QCarta-Github-Readme-SQL.png)
+
+
+GeoStories
+
+![QuailMap](docs/_static/GeoStories.png)
 
 ## Documentation
 
