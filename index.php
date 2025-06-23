@@ -104,7 +104,7 @@ style="display:inline-block; padding-right:5px; font-family: Century Gothic, 'Tr
 
     <div class="flex pt-20">
         <!-- Search Sidebar -->
-        <div class="w-80 fixed left-0 top-[75px] bottom-0 bg-white shadow-lg p-6 overflow-y-auto" style="margin-top: 1rem!important">
+        <div class="w-80 fixed left-0 top-[75px] bottom-0 bg-white shadow-lg p-6 overflow-y-auto" style="margin-top: 0rem!important">
             <h2 class="text-xl font-semibold text-gray-800 mb-6">Search</h2>
             
             <!-- Generic Text Search -->
