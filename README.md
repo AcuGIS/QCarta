@@ -67,6 +67,8 @@ URL: http://yourdomain.com:8000
 
 QCarta includes sample projects to get you started
 
+### Features
+
 - Layer level permissions
 - Maps
 - Documents
@@ -82,22 +84,23 @@ QCarta includes sample projects to get you started
 
 <p>&nbsp;</p>
 
+### Demo Projects
+
 ![QuailMap](docs/_static/QCarta-Github-Readme.png)
 
-Plotly Chart Support:
+### Plotly Chart Support:
 
 ![QuailMap](docs/_static/QCarta-Github-Readme-2.png)
 
-Saved Queries
+### Saved Queries
 
 ![QuailMap](docs/_static/QCarta-Github-Readme-Query.png)
 
-SQL Reports
+### SQL Reports
 
 ![QuailMap](docs/_static/QCarta-Github-Readme-SQL.png)
 
-
-GeoStories
+### GeoStories
 
 ![QuailMap](docs/_static/GeoStories.png)
 
