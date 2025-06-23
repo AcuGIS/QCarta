@@ -28,9 +28,18 @@ Advanced Mapping Features
 
 Additional Features
 
-   - Support for Documents
-   - GeoStories
-   - Links
+- Layer level permissions
+- Maps
+- Documents
+- Links
+- GeoStories
+- SQL Views
+- SQL Reports
+- Plotlt Support
+- SQL Workshop
+- OGC Web Services (WMS, WFS, and WMTS)
+- Topics and Keywords
+- Metadata
 
 .. image:: _static/qcarta-geostories.png
 
