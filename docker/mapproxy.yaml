@@ -1,0 +1,204 @@
+---
+services:
+  demo: ~
+  tms:
+    use_grid_names: true
+    origin: nw
+  kml:
+    use_grid_names: true
+  wmts: ~
+  wms:
+    md:
+      title: MapProxy WMS Proxy
+      abstract: This is a minimal MapProxy example.
+layers:
+- name: bgsgrid.gb_hex_5km_gs_runningsand_v8
+  title: Layer bgsgrid.gb_hex_5km_gs_runningsand_v8
+  sources:
+  - bgsgrid.gb_hex_5km_gs_runningsand_v8_cache
+- name: usa
+  title: Layer usa
+  sources:
+  - usa_cache
+- name: Bees.Fields
+  title: Layer Bees.Fields
+  sources:
+  - Bees.Fields_cache
+- name: Bees.Apiary
+  title: Layer Bees.Apiary
+  sources:
+  - Bees.Apiary_cache
+- name: Bees.Tracks
+  title: Layer Bees.Tracks
+  sources:
+  - Bees.Tracks_cache
+- name: paris1550.paris
+  title: Layer paris1550.paris
+  sources:
+  - paris1550.paris_cache
+- name: paris1550.arrondissements
+  title: Layer paris1550.arrondissements
+  sources:
+  - paris1550.arrondissements_cache
+- name: neighborhoods.neighborhoods
+  title: Layer neighborhoods.neighborhoods
+  sources:
+  - neighborhoods.neighborhoods_cache
+- name: neighborhoods.parks
+  title: Layer neighborhoods.parks
+  sources:
+  - neighborhoods.parks_cache
+- name: neighborhoods.waterways
+  title: Layer neighborhoods.waterways
+  sources:
+  - neighborhoods.waterways_cache
+caches:
+  qfieldsimplebee_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - qfieldSimpleBee
+  bgsgrid.gb_hex_5km_gs_runningsand_v8_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - bgsgrid.gb_hex_5km_gs_runningsand_v8
+  usa_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - usa
+  Bees.Fields_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - Bees.Fields
+  Bees.Apiary_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - Bees.Apiary
+  Bees.Tracks_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - Bees.Tracks
+  paris1550.paris_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - paris1550.paris
+  paris1550.arrondissements_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - paris1550.arrondissements
+  neighborhoods.neighborhoods_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - neighborhoods.neighborhoods
+  neighborhoods.parks_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - neighborhoods.parks
+  neighborhoods.waterways_cache:
+    grids:
+    - webmercator
+    request_format: image/png
+    format: image/png
+    sources:
+    - neighborhoods.waterways
+sources:
+  bgsgrid.gb_hex_5km_gs_runningsand_v8:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F4%2Fbgsgrid.qgs
+      layers: gb_hex_5km_gs_runningsand_v8
+      transparent: true
+  usa:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F2%2Fusdemo.qgs
+      layers: states
+      transparent: true
+  Bees.Fields:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F6%2Fbees.qgs
+      layers: Fields
+      transparent: true
+  Bees.Apiary:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F6%2Fbees.qgs
+      layers: Apiary
+      transparent: true
+  Bees.Tracks:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F6%2Fbees.qgs
+      layers: Tracks
+      transparent: true
+  paris1550.paris:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F5%2Fparis.qgs
+      layers: paris
+      transparent: true
+  paris1550.arrondissements:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F5%2Fparis.qgs
+      layers: arrondissements
+      transparent: true
+  neighborhoods.neighborhoods:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F3%2Fchicago.qgs
+      layers: neighborhoods
+      transparent: true
+  neighborhoods.parks:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F3%2Fchicago.qgs
+      layers: parks
+      transparent: true
+  neighborhoods.waterways:
+    type: wms
+    req:
+      url: http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map=%2Fvar%2Fwww%2Fdata%2Fstores%2F3%2Fchicago.qgs
+      layers: waterways
+      transparent: true
+grids:
+  webmercator:
+    base: GLOBAL_WEBMERCATOR
+globals:
+  image:
+    formats:
+      imgformat:
+        format: image/png
+        mode: P
+        transparent: true
+...

@@ -1,0 +1,20 @@
+# https://mapproxy.github.io/mapproxy/latest/seed.html
+seeds:
+  myseed1:
+    caches: [Bees.Fields_cache,Bees.Apiary_cache,Bees.Tracks_cache]
+    # grids: []
+    # coverages: []
+    levels:
+      to: 10
+    refresh_before:
+      time: 2013-10-10T12:35:00
+
+cleanups:
+  myclean1:
+    caches: [Bees.Fields_cache,Bees.Apiary_cache,Bees.Tracks_cache]
+    remove_before:
+      days: 14
+    levels:
+        from: 11
+
+coverages:

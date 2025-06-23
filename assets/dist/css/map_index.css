@@ -1,0 +1,1264 @@
+body {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+
+#sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 100vh;
+  overflow-y: auto;
+  background: #f8f9fa;
+  padding: 0;
+  border-right: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+  color: #212529;
+  z-index: 10;
+}
+
+#sidebar.collapsed {
+  transform: translateX(-100%);
+}
+
+#sidebarToggle {
+  position: absolute;
+  left: 400px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 32px;
+  height: 48px;
+  background: white;
+  border: none;
+  border-radius: 0 24px 24px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: left 0.3s ease, background 0.2s;
+  outline: none;
+  border-left: 1px solid #ccc;
+  padding: 0;
+}
+
+#sidebarToggle:hover {
+  background: #f0f0f0;
+}
+
+#sidebar.collapsed + #sidebarToggle,
+#sidebarToggle.collapsed {
+  left: 0;
+  border-radius: 0 24px 24px 0;
+}
+
+#sidebarToggle .tab-grip {
+  width: 12px;
+  height: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+#sidebarToggle .tab-grip-bar {
+  width: 12px;
+  height: 2px;
+  background: #bbb;
+  border-radius: 1px;
+}
+
+body.dark-mode #sidebarToggle {
+  background: #2d2d2d;
+  color: #ffffff;
+  border-color: #404040;
+}
+
+#sidebarTabs {
+  border-bottom: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+#sidebarTabs .nav-link {
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  color: #495057;
+  padding: 8px 16px;
+  margin-right: 4px;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+#sidebarTabs .nav-link:hover {
+  border: none;
+  border-bottom: 2px solid #adb5bd;
+  color: #212529;
+}
+
+#sidebarTabs .nav-link.active {
+  border: none;
+  border-bottom: 2px solid #0d6efd;
+  color: #0d6efd;
+  font-weight: 500;
+}
+
+/* Dark mode adjustments */
+body.dark-mode #sidebarTabs {
+  background-color: #2d2d2d;
+  border-bottom-color: #404040;
+}
+
+body.dark-mode #sidebarTabs .nav-link {
+  color: #adb5bd;
+}
+
+body.dark-mode #sidebarTabs .nav-link:hover {
+  border-bottom-color: #6c757d;
+  color: #fff;
+}
+
+body.dark-mode #sidebarTabs .nav-link.active {
+  border-bottom-color: #ffffff;
+  color: #ffffff;
+}
+
+.tab-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+canvas { background: #fff; border-radius: 4px; box-shadow: 0 0 4px rgba(0,0,0,0.1); }
+
+.leaflet-control-browser-print { margin-top: 5px; }
+
+#custom-toolbar {
+  position: absolute;
+  z-index: 1001;
+  background: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+#custom-toolbar a {
+  display: block;
+  padding: 6px 8px;
+  text-align: center;
+  color: #333;
+  text-decoration: none;
+  border-bottom: 1px solid #ccc;
+}
+
+#custom-toolbar a:hover { background: #eee; }
+
+#custom-toolbar a:last-child { border-bottom: none; }
+
+.custom-popup .leaflet-popup-content-wrapper {
+  padding: 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.custom-popup .leaflet-popup-content {
+  margin: 0;
+  width: 300px !important;
+}
+
+.popup-content {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.popup-header {
+  background: #f8f9fa;
+  padding: 10px 15px;
+  border-bottom: 1px solid #dee2e6;
+  border-radius: 8px 8px 0 0;
+}
+
+.popup-title {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #212529;
+}
+
+.popup-body {
+  padding: 15px;
+}
+
+.popup-row {
+  display: flex;
+  margin-bottom: 8px;
+  line-height: 1.4;
+  padding: 4px 8px;
+}
+
+.popup-row:nth-child(even) {
+  background-color: #fff;
+}
+
+.popup-row:nth-child(odd) {
+  background-color: #fff8e1;
+}
+
+body.dark-mode .popup-row:nth-child(even) {
+  background-color: #2d2d2d;
+}
+
+body.dark-mode .popup-row:nth-child(odd) {
+  background-color: #363636;
+}
+
+.popup-label {
+  font-weight: 600;
+  color: #495057;
+  min-width: 100px;
+  margin-right: 10px;
+}
+
+.popup-value {
+  color: #212529;
+  flex: 1;
+}
+
+.leaflet-popup-tip {
+  background: #fff;
+}
+
+/* Add dark mode styles */
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+body.dark-mode #sidebar {
+  background: #2d2d2d;
+  border-right-color: #404040;
+}
+
+body.dark-mode .nav-tabs {
+  border-bottom-color: #404040;
+}
+
+body.dark-mode .nav-link {
+  color: #ffffff;
+}
+
+body.dark-mode .nav-link.active {
+  background-color: #404040;
+  color: #ffffff;
+}
+
+body.dark-mode .tab-content {
+  background-color: #2d2d2d;
+  color: #ffffff;
+}
+
+body.dark-mode .list-group-item {
+  background-color: #2d2d2d;
+  border-color: #404040;
+  color: #ffffff;
+}
+
+body.dark-mode .form-select {
+  background-color: #404040;
+  color: #ffffff;
+  border-color: #505050;
+}
+
+body.dark-mode .form-select:focus {
+  background-color: #505050;
+}
+
+body.dark-mode .popup-content {
+  background-color: #2d2d2d;
+  color: #ffffff;
+}
+
+body.dark-mode .popup-header {
+  background-color: #404040;
+  border-bottom-color: #505050;
+}
+
+body.dark-mode .popup-title {
+  color: #ffffff;
+}
+
+body.dark-mode .popup-label {
+  color: #cccccc;
+}
+
+body.dark-mode .popup-value {
+  color: #ffffff;
+}
+
+body.dark-mode .leaflet-popup-content-wrapper {
+  background-color: #2d2d2d;
+}
+
+body.dark-mode .leaflet-popup-tip {
+  background-color: #2d2d2d;
+}
+
+/* Theme switcher button */
+.theme-switch {
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  z-index: 1000;
+  background: white;
+  border: 2px solid rgba(0,0,0,0.2);
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+body.dark-mode .theme-switch {
+  background: #2d2d2d;
+  color: white;
+  border-color: #404040;
+}
+
+.theme-switch:hover {
+  background: #f0f0f0;
+}
+
+body.dark-mode .theme-switch:hover {
+  background: #404040;
+}
+
+/* Add styles for search and bookmark controls */
+.search-control {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+}
+
+.search-control input {
+  width: 100%;
+  padding: 5px 10px;
+  border: 1px solid #ced4da;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  background-color: #ffffff;
+}
+
+.search-results {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 5px;
+}
+
+.search-result-item {
+  padding: 8px;
+  border-bottom: 1px solid #dee2e6;
+  cursor: pointer;
+  background-color: #f8f9fa;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item:hover {
+  background: #e9ecef;
+}
+
+body.dark-mode .search-control {
+  background: #2d2d2d;
+  border-color: #404040;
+}
+
+body.dark-mode .search-control input {
+  background: #404040;
+  border-color: #505050;
+  color: white;
+}
+
+body.dark-mode .search-result-item {
+  border-bottom-color: #404040;
+  background-color: #2d2d2d;
+}
+
+body.dark-mode .search-result-item:hover {
+  background: #404040;
+}
+
+.bookmark-control {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #f8f9fa;
+}
+
+.bookmark-header {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.bookmark-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid #505050;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  background-color: #404040;
+  color: #ffffff;
+  white-space: nowrap;  /* Prevent text wrapping in buttons */
+  min-width: 120px;  /* Ensure minimum width for buttons */
+}
+
+.bookmark-button:active {
+  transform: translateY(1px);
+}
+
+.bookmark-button.primary {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.bookmark-button.primary:hover {
+  background-color: #0b5ed7;
+}
+
+.bookmark-button.secondary {
+  background-color: #ffffff;
+  color: #212529;
+  border: 1px solid #dee2e6;
+}
+
+.bookmark-button.secondary:hover {
+  background-color: #f8f9fa;
+}
+
+/* Dark mode styles */
+body.dark-mode .bookmark-button.secondary {
+  background-color: #2d2d2d;
+  color: #ffffff;
+  border-color: #404040;
+}
+
+body.dark-mode .bookmark-button.secondary:hover {
+  background-color: #404040;
+}
+
+.bookmark-list {
+  max-height: 200px;
+  overflow-y: auto;
+  display: none;
+  margin-top: 10px;
+}
+
+.bookmark-item {
+  padding: 8px;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #212529;
+}
+
+.bookmark-item:last-child {
+  border-bottom: none;
+}
+
+.bookmark-item:hover {
+  background: #f5f5f5;
+}
+
+.bookmark-item button {
+  background: #dc3545;
+  color: white;
+  border-color: #dc3545;
+  padding: 2px 8px;
+  font-size: 0.875rem;
+}
+
+.bookmark-item button:hover {
+  background: #c82333;
+  border-color: #bd2130;
+}
+
+body.dark-mode .bookmark-control {
+  background-color: #2d2d2d;
+  color: #ffffff;
+}
+
+body.dark-mode .bookmark-control button {
+  background: #495057;
+  border-color: #495057;
+  color: white;
+}
+
+body.dark-mode .bookmark-control button:hover {
+  background: #383d42;
+  border-color: #383d42;
+}
+
+body.dark-mode .bookmark-control .save-bookmark {
+  background: #28a745;
+  border-color: #28a745;
+}
+
+body.dark-mode .bookmark-control .save-bookmark:hover {
+  background: #218838;
+  border-color: #1e7e34;
+}
+
+body.dark-mode .bookmark-list {
+  background: #2d2d2d;
+  border-color: #404040;
+}
+
+body.dark-mode .bookmark-item {
+  border-bottom-color: #404040;
+}
+
+body.dark-mode .bookmark-item:hover {
+  background: #404040;
+}
+
+body.dark-mode .bookmark-item button {
+  background: #dc3545;
+  border-color: #dc3545;
+}
+
+body.dark-mode .bookmark-item button:hover {
+  background: #c82333;
+  border-color: #bd2130;
+}
+
+/* Custom toolbar icon styles */
+.leaflet-control-custom {
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  text-align: center;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+  cursor: pointer;
+  margin-bottom: 8px !important;
+}
+
+.leaflet-control-custom a {
+  font-size: 20px;
+  color: #444;
+  display: block;
+  width: 100%;
+  height: 100%;
+  line-height: 36px;
+  text-decoration: none;
+  text-align: center;
+}
+
+/* Make all control buttons consistent size */
+.leaflet-bar a {
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  font-size: 20px;
+}
+
+/* Adjust spacing between controls */
+.leaflet-control {
+  margin-bottom: 0 !important;
+  margin-top: 2px !important;
+}
+
+.leaflet-bar {
+  margin-bottom: 0 !important;
+}
+
+.leaflet-bar a {
+  margin-bottom: 0 !important;
+  border-bottom: 1px solid #ccc !important;
+}
+
+.leaflet-bar a:last-child {
+  border-bottom: none !important;
+}
+
+/* Dark mode styles for controls */
+body.dark-mode .leaflet-control a {
+  background-color: #2d2d2d !important;
+  border-color: #404040 !important;
+  color: #fff !important;
+}
+
+body.dark-mode .leaflet-control a:hover {
+  background-color: #404040 !important;
+}
+
+body.dark-mode .leaflet-control a i {
+  color: #fff !important;
+}
+
+/* Style the draw control buttons */
+.leaflet-draw-toolbar a {
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  text-align: center;
+  background-image: none !important;
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  color: #444;
+  font-size: 18px;
+}
+
+.leaflet-draw-toolbar a:hover {
+  background-color: #f4f4f4;
+}
+
+/* Draw control icons */
+.leaflet-draw-draw-polyline::before {
+  content: '\f1b2';  /* fa-line */
+}
+
+.leaflet-draw-draw-polygon::before {
+  content: '\f5ee';  /* fa-hexagon */
+}
+
+.leaflet-draw-draw-rectangle::before {
+  content: '\f5cb';  /* fa-square */
+}
+
+.leaflet-draw-draw-circle::before {
+  content: '\f111';  /* fa-circle */
+}
+
+.leaflet-draw-draw-marker::before {
+  content: '\f3c5';  /* fa-map-marker-alt */
+}
+
+.leaflet-draw-edit-edit::before {
+  content: '\f044';  /* fa-edit */
+}
+
+.leaflet-draw-edit-remove::before {
+  content: '\f2ed';  /* fa-trash-alt */
+}
+
+/* Dark mode support */
+body.dark-mode .leaflet-draw-toolbar a {
+  color: #fff;
+}
+
+body.dark-mode .leaflet-draw-toolbar a:hover {
+  background-color: #404040;
+}
+
+body.dark-mode .leaflet-control-custom {
+  background-color: #2d2d2d;
+  border-color: #404040;
+}
+
+body.dark-mode .leaflet-control-custom a {
+  color: #fff;
+}
+
+body.dark-mode .leaflet-control-custom:hover {
+  background-color: #404040;
+}
+
+/* Dark mode for draw control icons */
+body.dark-mode .leaflet-draw-toolbar a {
+  color: #fff !important;
+  background-color: #2d2d2d !important;
+  border-color: #404040 !important;
+}
+
+body.dark-mode .leaflet-draw-toolbar a:hover {
+  background-color: #404040 !important;
+}
+
+body.dark-mode .leaflet-draw-toolbar a.leaflet-disabled {
+  color: #666 !important;
+  background-color: #2d2d2d !important;
+}
+
+body.dark-mode .leaflet-draw-toolbar a.leaflet-disabled:hover {
+  background-color: #2d2d2d !important;
+}
+
+.leaflet-interactive {fill:#000!important;}
+
+body.dark-mode .leaflet-draw-toolbar a.leaflet-draw-draw-polyline::before,
+body.dark-mode .leaflet-draw-toolbar a.leaflet-draw-draw-polygon::before,
+body.dark-mode .leaflet-draw-toolbar a.leaflet-draw-draw-rectangle::before,
+body.dark-mode .leaflet-draw-toolbar a.leaflet-draw-draw-circle::before,
+body.dark-mode .leaflet-draw-toolbar a.leaflet-draw-draw-marker::before,
+body.dark-mode .leaflet-draw-toolbar a.leaflet-draw-edit-edit::before,
+body.dark-mode .leaflet-draw-toolbar a.leaflet-draw-edit-remove::before {
+  color: #fff !important;
+}
+
+body.dark-mode .leaflet-draw-toolbar a.leaflet-disabled::before {
+  color: #666 !important;
+}
+
+/* Dark mode for Measure, Print, and QGIS Print controls */
+body.dark-mode .measure-control,
+body.dark-mode .leaflet-control-browser-print a,
+body.dark-mode .leaflet-control-qgis-print a,
+body.dark-mode .leaflet-control-zoom-in,
+body.dark-mode .leaflet-control-clear a,
+body.dark-mode .leaflet-bar a {
+  background-color: #2d2d2d !important;
+  border-color: #404040 !important;
+  color: #fff !important;
+}
+
+body.dark-mode .measure-control:hover,
+body.dark-mode .leaflet-control-browser-print a:hover,
+body.dark-mode .leaflet-control-qgis-print a:hover,
+body.dark-mode .leaflet-control-zoom-in:hover,
+body.dark-mode .leaflet-control-clear a:hover,
+body.dark-mode .leaflet-bar a:hover {
+  background-color: #404040 !important;
+}
+
+/* Ensure all control icons are white in dark mode */
+body.dark-mode .leaflet-control-browser-print a i,
+body.dark-mode .leaflet-control-qgis-print a i,
+body.dark-mode .leaflet-control-clear a i,
+body.dark-mode .leaflet-control-zoom-in i,
+body.dark-mode .measure-control i,
+body.dark-mode .leaflet-bar a i {
+  color: #fff !important;
+}
+
+/* Specific override for the Browser Print button icon */
+body.dark-mode .leaflet-control-browser-print a .fa-print,
+body.dark-mode .leaflet-control-browser-print a i {
+  color: #fff !important;
+}
+
+/* Additional dark mode styles for print controls */
+body.dark-mode .leaflet-control-browser-print a,
+body.dark-mode .leaflet-control-qgis-print a {
+  background-color: #2d2d2d !important;
+  border-color: #404040 !important;
+  color: #fff !important;
+}
+
+body.dark-mode .leaflet-control-browser-print a:hover,
+body.dark-mode .leaflet-control-qgis-print a:hover {
+  background-color: #404040 !important;
+}
+
+body.dark-mode .leaflet-control-browser-print a i,
+body.dark-mode .leaflet-control-qgis-print a i {
+  color: #fff !important;
+}
+
+/* Remove ?? from theme switcher */
+.theme-icon {
+  display: none;
+}
+
+/* Add styles for edit mode */
+.edit-mode-active {
+  background-color: #ffeb3b !important;
+}
+
+.edit-popup {
+  max-width: 300px;
+}
+
+.edit-popup .form-group {
+  margin-bottom: 10px;
+}
+
+.edit-popup label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.edit-popup input,
+.edit-popup select,
+.edit-popup textarea {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.edit-popup .btn-group {
+  margin-top: 10px;
+}
+
+.edit-popup .btn {
+  margin-right: 5px;
+}
+
+/* Add styles for export control */
+.leaflet-control-export {
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  text-align: center;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+  cursor: pointer;
+  margin-bottom: 8px !important;
+}
+
+.leaflet-control-export i {
+  line-height: 36px;
+}
+
+.leaflet-control-export-format {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  width: 120px !important;
+  margin-top: 2px !important;
+  background: white;
+  border: 2px solid rgba(0,0,0,0.2);
+  border-radius: 4px;
+  padding: 4px;
+  z-index: 2000;
+}
+
+body.dark-mode .leaflet-control-export {
+  background: #2d2d2d;
+  color: #ffffff;
+  border-color: #404040;
+}
+
+body.dark-mode .leaflet-control-export-format {
+  background: #2d2d2d;
+  color: #ffffff;
+  border-color: #404040;
+}
+
+/* Adjust spacing between controls */
+.leaflet-control {
+  margin-bottom: 2px !important;
+}
+
+/* Add margin to the first control */
+.leaflet-control-zoom {
+  margin-top: 15px !important;
+}
+
+/* Add styles for tabbed popup */
+.custom-popup .nav-tabs {
+  margin-bottom: 0;
+  border-bottom: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+  padding: 0.5rem 0.5rem 0;
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.custom-popup .nav-tabs .nav-item {
+  flex: 1;
+  text-align: center;
+  min-width: 0;
+}
+
+.custom-popup .nav-tabs .nav-link {
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  color: #495057;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  margin-right: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.custom-popup .nav-tabs .nav-link:hover {
+  border-bottom-color: #adb5bd;
+  background-color: transparent;
+}
+
+.custom-popup .nav-tabs .nav-link.active {
+  color: #0d6efd;
+  border-bottom-color: #0d6efd;
+  background-color: transparent;
+}
+
+.custom-popup .popup-header {
+  background-color: #f8f9fa;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.custom-popup .popup-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #212529;
+}
+
+.custom-popup .popup-body {
+  padding: 1rem;
+}
+
+.custom-popup .popup-row {
+  display: flex;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.custom-popup .popup-row:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.custom-popup .popup-row:nth-child(odd) {
+  background-color: #fff;
+}
+
+.custom-popup .popup-label {
+  font-weight: 600;
+  color: #495057;
+  min-width: 120px;
+  margin-right: 1rem;
+}
+
+.custom-popup .popup-value {
+  color: #212529;
+  flex: 1;
+}
+
+.custom-popup .leaflet-popup-content-wrapper {
+  padding: 0;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.custom-popup .leaflet-popup-content {
+  margin: 0;
+  width: 350px !important;
+}
+
+.custom-popup .leaflet-popup-tip {
+  background: #fff;
+}
+
+body.dark-mode .custom-popup .nav-tabs {
+  background-color: #2d2d2d;
+  border-bottom-color: #404040;
+}
+
+body.dark-mode .custom-popup .nav-tabs .nav-item {
+  flex: 1;
+  text-align: center;
+  min-width: 0;
+}
+
+body.dark-mode .custom-popup .nav-tabs .nav-link {
+  color: #adb5bd;
+}
+
+body.dark-mode .custom-popup .nav-tabs .nav-link:hover {
+  border-bottom-color: #6c757d;
+  color: #fff;
+}
+
+body.dark-mode .custom-popup .nav-tabs .nav-link.active {
+  color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+body.dark-mode .custom-popup .popup-header {
+  background-color: #2d2d2d;
+}
+
+body.dark-mode .custom-popup .popup-title {
+  color: #fff;
+}
+
+body.dark-mode .custom-popup .popup-body {
+  background-color: #2d2d2d;
+}
+
+body.dark-mode .custom-popup .popup-row:nth-child(even) {
+  background-color: #363636;
+}
+
+body.dark-mode .custom-popup .popup-row:nth-child(odd) {
+  background-color: #2d2d2d;
+}
+
+body.dark-mode .custom-popup .popup-label {
+  color: #cccccc;
+}
+
+body.dark-mode .custom-popup .popup-value {
+  color: #fff;
+}
+
+body.dark-mode .custom-popup .leaflet-popup-content-wrapper {
+  background-color: #2d2d2d;
+}
+
+body.dark-mode .custom-popup .leaflet-popup-tip {
+  background-color: #2d2d2d;
+}
+
+.layer-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 12px;
+  border-bottom: 1px solid #dee2e6;
+  color: #212529;
+}
+
+.layer-item:last-child {
+  border-bottom: none;
+}
+
+.layer-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #212529;
+}
+
+.layer-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.layer-visibility {
+  cursor: pointer;
+  color: #666;
+  padding: 4px;
+}
+
+.layer-visibility:hover {
+  color: #000;
+}
+
+.layer-menu {
+  cursor: pointer;
+  color: #666;
+  padding: 4px;
+  position: relative;
+}
+
+.layer-menu:hover {
+  color: #000;
+}
+
+.layer-menu-content {
+  display: none;
+  position: fixed; /* Change to fixed positioning */
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 8px;
+  min-width: 200px;
+  z-index: 1000;
+}
+
+.layer-menu-content.show {
+  display: block;
+}
+
+.layer-menu-item {
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.layer-menu-item:hover {
+  background: #f8f9fa;
+}
+
+/* Dark mode styles */
+body.dark-mode .layer-item {
+  border-bottom-color: #404040;
+  background-color: #2d2d2d;
+  color: #ffffff;
+}
+
+body.dark-mode .layer-visibility,
+body.dark-mode .layer-menu {
+  color: #999;
+}
+
+body.dark-mode .layer-visibility:hover,
+body.dark-mode .layer-menu:hover {
+  color: #fff;
+}
+
+body.dark-mode .layer-menu-content {
+  background: #2d2d2d;
+  border-color: #404040;
+  color: #ffffff;
+}
+
+body.dark-mode .layer-menu-item {
+  color: #ffffff;
+}
+
+body.dark-mode .layer-menu-item:hover {
+  background: #404040;
+}
+
+body.dark-mode .layer-left span {
+  color: #ffffff;
+}
+
+body.dark-mode .layer-menu-content input[type="range"] {
+  background: #404040;
+}
+
+body.dark-mode .layer-menu-content input[type="range"]::-webkit-slider-thumb {
+  background: #ffffff;
+}
+
+body.dark-mode .layer-menu-content input[type="range"]::-moz-range-thumb {
+  background: #ffffff;
+}
+
+/* Add styles for SQL query results */
+.sql-query-container {
+  padding: 15px;
+}
+
+.sql-query-container textarea {
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+#queryResults {
+  margin-top: 15px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+#queryResults table {
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+#queryResults th {
+  position: sticky;
+  top: 0;
+  background: #f8f9fa;
+  z-index: 1;
+}
+
+body.dark-mode #queryResults th {
+  background: #2d2d2d;
+}
+
+/* Add horizontal scroll for wide tables */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Add some padding to the table cells */
+#queryResults td, #queryResults th {
+  padding: 8px;
+  border: 1px solid #dee2e6;
+}
+
+body.dark-mode #queryResults td, 
+body.dark-mode #queryResults th {
+  border-color: #404040;
+}
+
+#sql-tab {
+  padding: 8px 24px;
+}
+
+#sql-tab i {
+  font-size: 1rem;  /* Reduced from 1.2rem */
+  display: inline-block;
+  width: 20px;  /* Reduced from 24px */
+  text-align: center;
+}
+
+/* Modal styles */
+body.dark-mode .modal-content {
+  background-color: #2d2d2d;
+  color: #fff;
+}
+
+.modal-header {
+    display: flex
+;
+    flex-shrink: 0;
+    align-items: center;
+    padding: var(--bs-modal-header-padding);
+    border-bottom: var(--bs-modal-header-border-width) solid var(--bs-modal-header-border-color);
+    border-top-left-radius: var(--bs-modal-inner-border-radius);
+    border-top-right-radius: var(--bs-modal-inner-border-radius);
+    background: dodgerblue;
+    color: white;
+}
+
+body.dark-mode .modal-header {
+  border-bottom-color: #404040;
+}
+
+body.dark-mode .modal-footer {
+  border-top-color: #404040;
+}
+
+body.dark-mode .form-control {
+  background-color: #404040;
+  border-color: #505050;
+  color: #fff;
+}
+
+body.dark-mode .form-control:focus {
+  background-color: #505050;
+  border-color: #606060;
+  color: #fff;
+}

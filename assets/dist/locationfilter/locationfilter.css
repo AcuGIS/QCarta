@@ -1,0 +1,78 @@
+div.leaflet-marker-icon.location-filter.resize-marker {
+    background: url( img/resize-handle.png ) no-repeat;  
+    cursor: move;
+}
+div.leaflet-marker-icon.location-filter.move-marker {
+    background: url( img/move-handle.png ) no-repeat;  
+    cursor: move;
+}
+
+div.location-filter.button-container {
+    background: none!important;
+    background: none!important;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    border-radius: 7px;
+    padding-right: 2px;
+}
+.leaflet-container div.location-filter.button-container a {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid #ccc;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: inset rgba(255,255,255,0.75) 0 1px 1px;
+    -moz-box-shadow: inset rgba(255,255,255,0.75) 0 1px 1px;
+    box-shadow: inset rgba(255,255,255,0.75) 0 1px 1px;    
+    background: #fff;
+    color: #222;
+    text-indent: 0;
+    overflow: visible;
+    font-size: 13px;
+    text-align: center;
+    line-height: 36px;
+}
+.leaflet-container div.location-filter.button-container a:hover {
+    background: #f5f5f5;
+}
+
+.leaflet-container div.location-filter.button-container a.enable-button {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    background: #fff;
+    background-image: url(print.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 24px 24px;
+    color: transparent;
+    text-indent: -9999px;
+    overflow: hidden;
+}
+.leaflet-container div.location-filter.button-container a.enable-button:hover,
+.leaflet-container div.location-filter.button-container.enabled a.enable-button {
+    background: #f5f5f5;
+    background-image: url(print.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 24px 24px;
+}
+
+.leaflet-container div.location-filter.button-container a:not(.enable-button) {
+    width: 60px;
+    font-size: 12px;
+    line-height: 36px;
+    padding: 0;
+    overflow: hidden;
+    text-indent: 0;
+    color: #222;
+    background: #fff;
+    background-image: none;
+}
+
+.leaflet-container div.location-filter.button-container a.adjust-button {
+    margin-left: 2px;
+}
