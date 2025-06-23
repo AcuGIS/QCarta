@@ -32,7 +32,7 @@ VALUES
     (2, true, true, false, false, false, false, true, 'statelayout', 'states'),
     (3, true, true, false, true, false, true, true, 'chicago', 'neighborhoods,parks,waterways'),
 	(4, false, true, false, true, false, false, true, 'bgslayout', 'gb_hex_5km_gs_runningsand_v8'),
-	(5, false, true, false, true, false, false, true, 'parislayout', 'paris,arrondissements'),
+	(5, false, true, false, true, false, false, false, 'parislayout', 'paris,arrondissements'),
 	(6, false, true, false, true, false, false, true, 'Beehives in Laax', 'Fields,Apiary,Tracks');
 
 INSERT INTO public.layer_query
