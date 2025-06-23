@@ -44,6 +44,7 @@ Additional Features
 
    intro
    installing
+   plugin
    quickstart
    
    
