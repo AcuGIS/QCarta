@@ -16,8 +16,8 @@ $database = new Database(DB_HOST, DB_NAME, DB_USER, DB_PASS, DB_PORT, DB_SCMA);
 $conn = $database->getConn();
 $user_id = isset($_SESSION[SESS_USR_KEY]) ? $_SESSION[SESS_USR_KEY]->id : SUPER_ADMIN_ID;
 
-$topic_obj	= new topic_Class($conn, $user_id);
-$gemet_obj	= new topic_Class($conn, $user_id, 'gemet');
+$topic_obj	= new topic_Class($conn, SUPER_ADMIN_ID);
+$gemet_obj	= new topic_Class($conn, SUPER_ADMIN_ID, 'gemet');
 
 $topics  = $topic_obj->getRows();
 $gemets  = $gemet_obj->getRows();
