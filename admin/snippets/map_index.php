@@ -38,11 +38,15 @@
 	$proto = empty($_SERVER['HTTPS']) ? 'http' : 'https';
 	$access_key = '';
 	
-	if(str_starts_with($wms_url, '/mproxy/')){
-	$content = file_get_contents($proto.'://'.$_SERVER['HTTP_HOST'].'/admin/action/authorize.php?secret_key=SECRET_KEY&ip='.$_SERVER['REMOTE_ADDR']);
-		$auth = json_decode($content);
-		$wms_url .= '?access_key='.$auth->access_key;
-		$access_key = $auth->access_key; // Store access key for JavaScript
+	if(str_starts_with($wms_url, '/mproxy/') && ($ql_row->public == 'f')){
+	    if(empty($_GET['access_key'])){
+			$content = file_get_contents($proto.'://'.$_SERVER['HTTP_HOST'].'/admin/action/authorize.php?secret_key='.$_SESSION[SESS_USR_KEY]->secret_key.'&ip='.$_SERVER['REMOTE_ADDR']);
+  		    $auth = json_decode($content);
+      		$access_key = $auth->access_key; // Store access key for JavaScript			
+		}else{
+		    $access_key = $_GET['access_key'];
+		}
+		$wms_url .= '?access_key='.$access_key;
 	}
 	
 	$qgis_file = urldecode(QGIS_FILENAME_ENCODED);

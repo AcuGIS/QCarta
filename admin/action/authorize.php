@@ -24,7 +24,7 @@
 				http_response_code(405);	//not allowed
 			}else{
 				// secret key is valid, generate access key
-				$obj = new access_key_Class($database->getConn(), SUPER_ADMIN_ID);
+				$obj = new access_key_Class($database->getConn(), $sec_row->id);
 				
 				if(isset($_GET['ip'])){
 					$row = $obj->getByIP($sec_row->id, $_GET['ip']);
@@ -37,7 +37,7 @@
 				}else{
 					// re-create access_key obj to have secret key owner
 					unset($obj);
-					$obj = new access_key_Class($database->getConn(), $sec_row->owner_id);
+					$obj = new access_key_Class($database->getConn(), $sec_row->id);
 					
 					// make a new key valid for 15 minutes
 					$time = new DateTime();
