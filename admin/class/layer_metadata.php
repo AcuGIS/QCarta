@@ -112,9 +112,6 @@ class layer_metadata_Class extends table_Class
     function getByLayerId($layer_id){
       $sql  = "select * from public." .$this->table_name;
       $sql .= ' WHERE layer_id='.$layer_id;
-      if($this->owner_id != SUPER_ADMIN_ID){
-       	$sql .= " AND owner_id = ".$this->owner_id;
-      }
       return pg_query($this->dbconn, $sql);
     }
 };
