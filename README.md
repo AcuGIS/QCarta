@@ -28,8 +28,8 @@ hostnamectl set-hostname <yourhostname>
 ### Installer
 
 ```bash
-   git clone https://github.com/AcuGIS/quail.git
-   cd quail
+   git clone https://github.com/AcuGIS/qcarta.git
+   cd qcarta
    ./installer/postgres.sh
    ./installer/app-install.sh
 ```
@@ -49,8 +49,8 @@ Default credentials
 ### Docker (Not for Production Use)
 
 ```bash
-git clone https://github.com/AcuGIS/quail.git
-$ cd quail
+git clone https://github.com/AcuGIS/qcarta.git
+$ cd qcarta
 $ ./installer/docker-install.sh
 $ docker-compose pull
 
