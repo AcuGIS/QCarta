@@ -358,7 +358,7 @@ if(!isset($_SESSION[SESS_USR_KEY])) {
     </div>
     <div class="col-md-6 d-flex align-items-center justify-content-left mb-4">
         <img src="assets/images/workshop.png" style="padding-left: 20px; width:15%">&nbsp;&nbsp;
-        <a href="sql_workshop_pg.php" style="text-decoration:none;font-size:28px;color:#666">PostgreSQL/PostGIS</a>
+        <a href="sql_workshop_pg.php" style="text-decoration:none;font-size:28px;color:#666">PostGIS</a>
     </div>
     <div class="col-md-6 d-flex align-items-center justify-content-left mb-4">
         <img src="assets/images/workshop.png" style="padding-left: 20px; width:15%">&nbsp;&nbsp;
