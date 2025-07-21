@@ -115,7 +115,7 @@ if ($selected_service && isset($pg_services[$selected_service])) {
     <br class="clear">
     <?php include("incl/sidebar.php"); ?>
     <div class="main-page-content" style="padding: 0rem 0rem 0rem 0rem;">
-        <h1 style="color:#fff!important; background:dodgerblue!important; font-weight:400!important; font-family: Century Gothic!important; font-size: 22px !important; letter-spacing: 1px; margin: 10px 0 20px 0; background-color: #1E90FF !important; color: #AFE1AF!important!important; padding: 25px 0 15px 10px; width: 80%; font-weight: 500;">PostgreSQL/PostGIS SQL Workshop</h1>
+        <h1 style="color:#fff!important; background:dodgerblue!important; font-weight:400!important; font-family: Century Gothic!important; font-size: 22px !important; letter-spacing: 1px; margin: 10px 0 20px 0; background-color: #1E90FF !important; color: #AFE1AF!important!important; padding: 25px 0 15px 10px; width: 80%; font-weight: 500;">PostGIS SQL Workshop</h1>
         <div class="tab-bar">
             <button class="tab-btn active" id="tab-sql" onclick="showTab('sql')">SQL Terminal</button>
             <button class="tab-btn" id="tab-vqb" onclick="showTab('vqb')">Visual Query Builder</button>
