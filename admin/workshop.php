@@ -347,21 +347,24 @@ if(!isset($_SESSION[SESS_USR_KEY])) {
 							</div>
 						</div>
 						
-						 <div class="row">
-
-    <div class="col-sm-4" style="display: flex; align-items: center; justify-content: left; text-align: left;"><img src="assets/images/workshop.png" style="padding-left: 20px; width:15%">&nbsp;&nbsp; <a href="sql_workshop_gpkg.php" style="text-decoration:none;font-size:28px;color:#666">GeoPackage</a>
-
+						 <div class="row" style="margin-top: 2em;">
+    <div class="col-md-6 d-flex align-items-center justify-content-left mb-4">
+        <img src="assets/images/workshop.png" style="padding-left: 20px; width:15%">&nbsp;&nbsp;
+        <a href="sql_workshop_gpkg.php" style="text-decoration:none;font-size:28px;color:#666">GeoPackage</a>
+    </div>
+    <div class="col-md-6 d-flex align-items-center justify-content-left mb-4">
+        <img src="assets/images/workshop.png" style="padding-left: 20px; width:15%">&nbsp;&nbsp;
+        <a href="sql_workshop_gdb.php" style="text-decoration:none;font-size:28px;color:#666">Geodatabase</a>
+    </div>
+    <div class="col-md-6 d-flex align-items-center justify-content-left mb-4">
+        <img src="assets/images/workshop.png" style="padding-left: 20px; width:15%">&nbsp;&nbsp;
+        <a href="sql_workshop_pg.php" style="text-decoration:none;font-size:28px;color:#666">PostgreSQL/PostGIS</a>
+    </div>
+    <div class="col-md-6 d-flex align-items-center justify-content-left mb-4">
+        <img src="assets/images/workshop.png" style="padding-left: 20px; width:15%">&nbsp;&nbsp;
+        <a href="sql_workshop_shp.php" style="text-decoration:none;font-size:28px;color:#666">Shapefile</a>
+    </div>
 </div>
-    <div class="col-sm-4" style="display: flex; align-items: center; justify-content: left; text-align: left;"><img src="assets/images/workshop.png" style="padding-left: 20px; width:15%">&nbsp;&nbsp; <a href="sql_workshop_gdb.php" style="text-decoration:none;font-size:28px;color:#666">Geodatabase</a>
-</div>
-
-
-<div class="col-sm-4" style="display: flex; align-items: center; justify-content: left; text-align: left;"><img src="assets/images/workshop.png" style="padding-left: 20px; width:15%">&nbsp;&nbsp; <a href="sql_workshop_shp.php" style="text-decoration:none;font-size:28px;color:#666">Shapefile</a>
-
-</div>
-
-
-  </div>
 					</div>
 				</div>
 		</div>
