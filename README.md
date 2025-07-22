@@ -8,7 +8,7 @@ Publish your QGIS Projects quickly and easily.
 
 Group level permissions and integration MapProxy caching.
 
-![Quail](docs/_static/QCarta-Main.png)
+![QCarta](docs/_static/QCarta-Main.png)
 
   
 ## Requirements
