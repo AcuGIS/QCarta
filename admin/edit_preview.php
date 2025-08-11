@@ -83,7 +83,7 @@
 			<form method="post" action="action/edit_preview.php">
 				<input type="hidden" name="action" value="save"/>
 				<input type="hidden" name="id" id="id" value="<?=$id?>"/>
-				<textarea name="preview_html" id="preview_html" rows="60" cols="150"><?php readfile('../layers/'.$_GET['id'].'/index.php'); ?></textarea>
+				<textarea name="preview_html" id="preview_html" rows="60" cols="150"><?= htmlentities(file_get_contents('../layers/'.$_GET['id'].'/index.php')) ?></textarea>
 				<input type="submit" name="submit" class="btn btn-primary" value="Submit">
 			</form>
 			</div>
