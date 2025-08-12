@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   qgis-server:
-    image: acugis/quail_qgis-server:26012025
+    image: acugis/quail_qgis-server:12082025
     build:
       context: .
       dockerfile: docker/qgis.Dockerfile
@@ -61,7 +61,7 @@ services:
       - qgis-server
       - mapproxy
   mapproxy:
-    image: acugis/quail_mapproxy:03022025
+    image: acugis/quail_mapproxy:12082025
     build:
       context: .
       dockerfile: docker/mapproxy.Dockerfile
