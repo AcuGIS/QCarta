@@ -35,7 +35,7 @@ services:
       timeout: 50s
       retries: 10
   web:
-    image: acugis/qcarta_web:17062025
+    image: acugis/qcarta_web:12082025
     env_file:
       - docker/public.env
       - docker/.env
