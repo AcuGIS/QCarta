@@ -347,7 +347,9 @@ $tableName = isset($shpPath) ? basename($shpPath, '.shp') : 'shapefile';
 
     <script>
       let vqbTableName = <?=json_encode($tableName)?>;
-      let vqbTableData[vqbTableName] = <?=json_encode(array_values($displayFields))?>;
+      let vqbTableData = {};
+      let vqbTableNames = [vqbTableName];
+      vqbTableData[vqbTableName] = <?=json_encode(array_values($displayFields))?>;
     </script>
     <script src="assets/dist/js/sql_workshop_shp.js"></script>
 

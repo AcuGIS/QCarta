@@ -71,8 +71,6 @@ function filterTables() {
 let vqbTableCount = 0;
 let vqbTables = {};
 let vqbColumns = {};
-let vqbTableData = {};
-let vqbTableNames = [vqbTableName];
 let vqbTablesOnCanvas = {};
 let vqbJoinTypes = {};
 

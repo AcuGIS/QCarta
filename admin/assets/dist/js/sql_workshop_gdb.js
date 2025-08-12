@@ -171,8 +171,7 @@ function generateVqbSql(e) {
     // Use exact table names as in the database
     let tables = Object.values(vqbTables);
     // Map lower/upper-case table names to their exact case from the database
-    let tableNameMap = {};
-    let tableNameMap = Object.fromEntries(vqbTableNames.map(x => [x.toLowerCase(), x]));
+        let tableNameMap = Object.fromEntries(vqbTableNames.map(x => [x.toLowerCase(), x]));
 
     // Build a map of column name -> count of tables it appears in
     let colTableCount = {};
