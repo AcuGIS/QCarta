@@ -23,7 +23,14 @@
 						}else{
 							$result = ['success' => false, 'message' => 'Failed to create/update access group!'];
 						}
-						
+	}else if($action == 'list') {
+	    $acc_groups = [];
+            $res = $obj->getRows();
+            while ($row = pg_fetch_assoc($res)) {
+                $acc_groups[] = ['id' => $row['id'], 'name' => $row['name']];
+            }
+            pg_free_result($res);
+            $result = ['success' => true,'access_groups' => $acc_groups];					
         } else if(($action == 'delete') && ($id != 1)) {
 						
 						$ref_ids = array();
