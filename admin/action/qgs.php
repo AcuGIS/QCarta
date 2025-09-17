@@ -299,14 +299,18 @@ function parseQGISLayouts($xml){
 						
 						$bounding_box = $DefaultViewExtent['xmin'].',</br>'.$DefaultViewExtent['ymin'].',</br>'.$DefaultViewExtent['xmax'].',</br>'.$DefaultViewExtent['ymax'];
 						list($projection) = $xml->xpath('/qgis/ProjectViewSettings/DefaultViewExtent/spatialrefsys/authid');
+i						$layout_names = [];
 						list($layouts) = $xml->xpath('/qgis/Layouts//Layout/@name');
-						
+						foreach($layouts as $name){
+						    $layout_names[] = (string)$name;
+						}
+
 						$layer_names = qgs_ordered_layers($xml);
 						
 						$proto = empty($_SERVER['HTTPS']) ? 'http' : 'https';
 						$base_url = $proto.'://'.$_SERVER['HTTP_HOST'].'/stores/'.$id;
 						$html_dir = WWW_DIR.'/layers/'.$id;
-						$kv = ['Projection' => (string) $projection, 'BoundingBox' => $bounding_box, 'Layouts' => (string)$layouts, 'Layers' => implode(' , ', $layer_names),
+						$kv = ['Projection' => (string) $projection, 'BoundingBox' => $bounding_box, 'Layouts' => implode(',', $layout_names), 'Layers' => implode(',', $layer_names),
 							'WMS'  => "<a href=".$base_url.'/wms?REQUEST=GetCapabilities'." target='_blank'>".$base_url.'/wms?REQUEST=GetCapabilities'."</a>",
 							'WFS' => "<a href=".$base_url.'/wfs?REQUEST=GetCapabilities'." target='_blank'>".$base_url.'/wfs?REQUEST=GetCapabilities'."</a>",
 							'WMTS' => "<a href=".$base_url.'/wmts?REQUEST=GetCapabilities'." target='_blank'>".$base_url.'/wmts?REQUEST=GetCapabilities'."</a>",
