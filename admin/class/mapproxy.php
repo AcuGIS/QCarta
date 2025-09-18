@@ -67,6 +67,11 @@ class mapproxy_Class
 					}
 				}
 				
+				// set dict sections to null, to avoid saving them as empty arrays
+				if(empty($yml['sources'])){ $yml['sources'] = null;}
+				if(empty($yml['caches'])){ $yml['caches'] = null;}
+				if(empty($yml['layers'])){ $yml['layers'] = null;}
+
 				yaml_emit_file(MAPPROXY_YAML, $yml);
 				$rv = true;
 			}
