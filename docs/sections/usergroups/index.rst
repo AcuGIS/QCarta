@@ -30,14 +30,21 @@ On installation, two Groups are created.
 Add New Group
 ================
 
+To add a new Group, click the "Groups" link in Users dropdown menu.
+
+.. image:: groups-menu-1.png 
+
+
 To add a new Group, click the "Add New" button at top.
 
-.. image:: 1-add-new.png
+
+.. image:: group-add-1.png
+
 
 
 Give your Group a name and click the Create button:
 
-.. image:: create-group.png
+.. image:: group-add-2.png
 
 
 Delete Group
