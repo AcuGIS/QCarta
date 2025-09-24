@@ -32,23 +32,27 @@ To add a new Link, click the "Add New" button at top.
 
 Populate the required fields for your PostgreSQL connection
 
-.. image:: 2-add-new.png
+.. image:: postgis-create-1-qcarta.png
+
+
+
+
 
 Under Database, click the "Load Database Names" icon
 
-.. image:: 3-add-new.png
-
 The list of available databases will appear.  Select the database you wish to connect to.
 
-.. image:: 4-add-new.png
+.. image:: postgis-create-2-qcarta.png
+
+
 
 Select the Group(s) that will have permission to the Store
 
-.. image:: 5-add-new.png
+.. image:: postgis-create-3-qcarta.png
 
-Click Save.  Your Store has been created.
+Click Save Connection.  Your Store has been created.
 
-.. image:: 6-add-new.png
+.. image:: postgis-create-4-qcarta.png
 
 
 Create From File(s)
