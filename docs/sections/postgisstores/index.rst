@@ -134,37 +134,11 @@ If your QGIS Project uses a PostGIS backend, the PostGIS Store will be automatic
 Once you have created a PostGIS Store, it can be used to create a PostGIS Layer.
 
 
-create-postgis-completed.png
 
-.. image:: create-postgis-completed.png
+Backup, Clone, and Restore
+=====================
 
-create-postgis-completed-qgs-confirm.png
-
-.. image:: create-postgis-completed-qgs-confirm.png
-
-create-postgis-database.png
-
-.. image:: create-postgis-database.png
-
-create-postgis-database-completed.png
-
-.. image:: create-postgis-database-completed.png
-
-create-postgis-import.png
-
-.. image:: create-postgis-import.png
-
-create-postgis-upload.png
-
-.. image:: create-postgis-upload.png
-
-create-postgis-upload-qgs-option.png
-
-.. image:: create-postgis-upload-qgs-option.png
-
-create-postgis-upload-selected.png
-
-.. image:: create-postgis-upload-selected.png
+You can Backup, Clone, and Restore your databases via the PostGIS tab.
 
 postgis-backup.png
 
