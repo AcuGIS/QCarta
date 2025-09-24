@@ -101,19 +101,27 @@ Click the Create Button
 
 .. image:: create-new-store.png
 
-Give your database a name and check the "Create Only" box.
+Give your database a name
 
-.. image:: create-db-only.png
+.. image:: empty-db-1.png
+
+Check the "Create Database Only" checkbox.
+
+.. image:: empty-db-2.png
+
+Click the Create button.
 
 Your database has been created and added as a PostGIS Store
 
-.. image:: db-connection-info.png
+.. image:: empty-db-3.png
+
 
 To view the database connection information, click the Connection icon at right
 
-.. image:: show-connection.png
+.. image:: empty-db-4.png
 
 This information can be used in your pg_service.conf file and any other location
+
 
 .. image:: pg-service-connection.png
 
