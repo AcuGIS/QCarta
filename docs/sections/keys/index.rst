@@ -29,65 +29,30 @@ To reset a User's Secret Key, click on the Edit button.
 
 In the modal box, click the Reset Key icon:
 
-.. image:: keys-reset.png
+.. image:: user-secret-key-1.png
 
 
-add new
+Add Key
+================
 
-.. image:: add-new.png
+New add a new Key, click the Add New button.
 
-clear-expired
+.. image:: access-key-1.png
+
+Enter the expiry data and any IP restriction(s).
+
+Click the Create button
+
+Clear Expired
+===============
+
+To clear Expired Keys, click the Clear Expired button
 
 .. image:: clear-expired.png
 
- 
-
-create-key-1
-
-.. image:: create-key-1.png
-
- 
-create-key-2
-
-.. image:: create-key-2.png
-
-
-create-key-3
-
-.. image:: create-key-3.png
-
-
-key-1
-
-.. image:: key-1.png
-
-
-keys-rest
 
 
 
-
-show-use.png
-
-.. image:: show-use.png
-
-
-show-use-3.png
-
-.. image:: show-use-3.png
-
-
-show-use-edit.png
-
-.. image:: show-use-edit.png
-
-
-The link will appear on the user dashboard as below:
-
-
-
-.. note::
-    By default, links open in a new window.
 
 
 
