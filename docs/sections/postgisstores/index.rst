@@ -69,20 +69,20 @@ To create a PostGIS database from a file, click the Create button at top right
 Give your database a name and click the Choose Files button.
 
 
-.. image:: create-store-from-geopackage-0.png
+.. image:: upload-qcarta-db-1.png
 
 Browse to the file(s) location
 
 
-.. image:: create-store-from-geopackage.png
+.. image:: upload-qcarta-db-2.png
 
 Click the Impprt button
 
-.. image:: create-store-from-geopackage-2.png
+.. image:: upload-qcarta-db-3.png
 
 The import results are displayed at the bottom of the page.
 
-.. image:: create-store-from-geopackage-3.png
+.. image:: upload-qcarta-db-4.png
 
 
 .. note::
