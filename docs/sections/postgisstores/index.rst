@@ -140,8 +140,6 @@ Backup, Clone, and Restore
 
 You can Backup, Clone, and Restore your databases via the PostGIS tab.
 
-postgis-backup.png
-
 .. image:: postgis-backup.png
 
 postgis-backup-name.png
