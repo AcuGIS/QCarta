@@ -23,7 +23,7 @@ Advanced Mapping Features
    - SQL Workshop
 
 
-.. image:: _static/qcarta-light.png
+.. image:: _static/QCarta-New-Light.png
 
 
 
@@ -63,6 +63,7 @@ Additional Features
     :maxdepth: 3
     :caption: Administration
 
+    sections/settings/index
     sections/users/index
     sections/usergroups/index
     sections/keys/index
