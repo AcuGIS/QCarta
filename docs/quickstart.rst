@@ -66,38 +66,35 @@ Once logged in, go to Stores > Add New
 
 Upload your QGIS Project and any required data files.  If your QGIS Project uses a PostGIS backend, create a PostGIS Data Store for it.
 
-.. image:: sections/qgisstore/qgis-store-modal.png
+.. image:: _static/qcarta-create-store-1.png
 
-Click the Info/showGdal link at right.
+Your QGIS Store has now been created
 
-.. image:: sections/qgisstore/select-files-gdal.png
-
-You can now view Capabilities as well as OpenLayers previews
-
-.. image:: sections/layers/first-store.png
 
 Create Layer(s)
 =========================
 
 Go to Layers > Add New and select the Layer(s) to use from your Project.
 
-.. image:: _static/qcarta-layers-add.png
+.. image:: _static/quickstart-layer-qcarta.png
 
 
-View Layer URLs and Preview
+
+View Layer(s)
 =======================
+
+You can now view your Map by clicking on the Poral link
+
+.. image:: _static/qcarta-layers-visible.png
 
 Click the Show Info button at right:
 
-.. image:: sections/layers/layer-show-info.png
+.. image:: _static/layer-completed-qcarta.png
 
-You can now see and test your Layer urla
 
-.. image:: sections/layers/layer-show-info-2.png
 
-You can nwo also view your Leaflet Layer Preview by clicking on the Layer name
 
-.. image:: _static/qcarta-layers-visible.png
+
 
 
 
