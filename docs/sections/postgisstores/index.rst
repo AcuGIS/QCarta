@@ -140,39 +140,33 @@ Backup, Clone, and Restore
 
 You can Backup, Clone, and Restore your databases via the PostGIS tab.
 
+Backup Database
+
 .. image:: postgis-backup.png
 
-postgis-backup-name.png
+Give backup a name
 
 .. image:: postgis-backup-name.png
 
-postgis-clone.png
+Clone Database
 
 .. image:: postgis-clone.png
 
-postgis-clone-clone.png
+Give Clone a name:
 
 .. image:: postgis-clone-clone.png
 
-postgis-clone-verified.png
+Verify Clone:
 
 .. image:: postgis-clone-verified.png
 
-postgis-restore.png
+Restore Database:
 
 .. image:: postgis-restore.png
 
-postgis-restore-select.png
+Select database to restore:
 
 .. image:: postgis-restore-select.png
-
-postgis-show-connection.png
-
-.. image:: postgis-show-connection.png
-
-postgis-show-connection-show.png
-
-.. image:: postgis-show-connection-show.png
 
 
 
