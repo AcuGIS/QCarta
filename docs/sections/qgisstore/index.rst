@@ -29,9 +29,12 @@ On Stores > QGS, click the Add New button:
 
 .. image:: select-files-0.png
 
-Give your Store a name.  Below we are using 'myqgisstore'.
+Give your Store a name.  Below we are using 'MyFirstStore'.
 
-.. image:: qgis-store-upload.png
+.. image:: qcarta-create-store-1.png
+
+
+
 
 Select your QGIS project and any static sources you wish to upload.
 
@@ -39,12 +42,11 @@ Select your QGIS project and any static sources you wish to upload.
 
 With files selected, chose if Store is Public and Access Groups (both can be changed later)
 
-.. image:: qgis-store-modal.png
+.. image:: qcarta-create-store-2.png
 
 Your new QGIS Store has now been created:
 
-.. image:: select-files-4.png
-
+.. image:: qcarta-create-store-created.png
 
 
 Show Info
@@ -56,7 +58,8 @@ To view your GetCapability urls as well as ESPG and Bounding Box, click on the "
 
 The Store GetCapability urls, ESPG, and Bounding Box are displayed in modal:
 
-.. image:: quail-qgis-store-info.png
+.. image:: qcarta-create-store--show-info.png
+
 
 Clicking the link will take you to the document(s)
 
