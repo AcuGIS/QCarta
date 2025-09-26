@@ -1,6 +1,6 @@
 # QCarta
 
-[![Documentation Status](https://readthedocs.org/projects/qcarta/badge/?version=latest)](https://qcarta.docs.acugis.com/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/quailserver/badge/?version=latest)](https://qcarta.docs.acugis.com/en/latest/?badge=latest)
 
 ## QGIS Map Portal 
 
