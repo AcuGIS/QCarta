@@ -86,19 +86,35 @@ Your Chart has now been configured.  You can edit the configuration at any time.
 
 .. image:: dashboard-create-13.png
 
+Click the Table button at left
+
 .. image:: dashboard-create-14.png
+
+Click the configure button on the Table element
 
 .. image:: dashboard-create-15.png
 
+Select fields to include and field order. Click the Apply button
+
 .. image:: dashboard-create-16.png
+
+Your Table has been configured
 
 .. image:: dashboard-create-17.png
 
+Click the Legend button at left
+
 .. image:: dashboard-create-18.png
+
+Click the configure button on the Legend element
 
 .. image:: dashboard-create-19.png
 
+Give Legend and name and select layers to include.  Click Apply
+
 .. image:: dashboard-create-20.png
+
+Your Legend has now been added.
 
 .. image:: dashboard-create-21.png
 
