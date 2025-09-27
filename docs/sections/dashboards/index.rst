@@ -31,7 +31,47 @@ NOTE: You can import the shapefile into PostGIS via Stores > PostGIS to create a
 
 On Stores > QGS, click the Add New button:
 
-.. image:: select-files-0.png
+.. image:: dashboard-create-1.png
+
+.. image:: dashboard-create-2.png
+
+.. image:: dashboard-create-3.png
+
+.. image:: dashboard-create-4.png
+
+.. image:: dashboard-create-5.png
+
+.. image:: dashboard-create-6.png
+
+.. image:: dashboard-create-7.png
+
+.. image:: dashboard-create-8.png
+
+.. image:: dashboard-create-9.png
+
+.. image:: dashboard-create-10.png
+
+.. image:: dashboard-create-11.png
+
+.. image:: dashboard-create-12.png
+
+.. image:: dashboard-create-13.png
+
+.. image:: dashboard-create-14.png
+
+.. image:: dashboard-create-15.png
+
+.. image:: dashboard-create-16.png
+
+.. image:: dashboard-create-17.png
+
+.. image:: dashboard-create-18.png
+
+.. image:: dashboard-create-19.png
+
+.. image:: dashboard-create-20.png
+
+.. image:: dashboard-create-21.png
 
 Give your Store a name.  Below we are using 'MyFirstStore'.
 
