@@ -1,5 +1,5 @@
 **********************
-Layers
+Layers (Maps)
 **********************
 
 .. contents:: Table of Contents
