@@ -71,6 +71,8 @@ Additional Features
     sections/qgisstore/index
     sections/postgisstores/index   
     sections/layers/index
+    sections/dashboards/index
+    sections/geostory/index
     sections/preview/index  
     sections/capabilities/index
     sections/urls/index  
