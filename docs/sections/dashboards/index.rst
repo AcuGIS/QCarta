@@ -25,27 +25,45 @@ If your QGIS Project uses a PostGIS data source, you can create a PostGIS Store.
 Create a Dashboard
 ================
 
-Below, we'll create a QGIS Store that uses ESRI shapefile as the data source.
+Below, we'll create a Dashboard from the USA PostGIS demo Layer.
 
-NOTE: You can import the shapefile into PostGIS via Stores > PostGIS to create a database from your shapefile(s)
-
-On Stores > QGS, click the Add New button:
+Click on Dashboards in the left menu:
 
 .. image:: dashboard-create-1.png
 
+Click the Add New button
+
 .. image:: dashboard-create-2.png
+
+Give your Dashboard and Name and Description.
+
+You can also set a thumbnail here (can be done later as well)
 
 .. image:: dashboard-create-3.png
 
+Select the QGIS Project Layer you will use from the dropdown and set Permissions.
+
+Click the Creat button
+
 .. image:: dashboard-create-4.png
+
+Your Dashboard has now been created:
 
 .. image:: dashboard-create-5.png
 
+To cofigure your Dashboard, click the Edit Preview button
+
 .. image:: dashboard-create-6.png
+
+A default Dashboard layout will appear
 
 .. image:: dashboard-create-7.png
 
+Click the Clear button on top to creal the layout:
+
 .. image:: dashboard-create-8.png
+
+Click the Map button at left to add the map canvas:
 
 .. image:: dashboard-create-9.png
 
