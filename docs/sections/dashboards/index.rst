@@ -59,13 +59,20 @@ A default Dashboard layout will appear
 
 .. image:: dashboard-create-7.png
 
-Click the Clear button on top to creal the layout:
+Click the Clear button on top to clear the layout:
 
 .. image:: dashboard-create-8.png
+
+Add Map
+===================
 
 Click the Map button at left to add the map canvas:
 
 .. image:: dashboard-create-9.png
+
+
+Add Charts
+===================
 
 Click the Chart button at left
 
@@ -86,6 +93,10 @@ Your Chart has now been configured.  You can edit the configuration at any time.
 
 .. image:: dashboard-create-13.png
 
+
+Add Tables
+===================
+
 Click the Table button at left
 
 .. image:: dashboard-create-14.png
@@ -102,6 +113,10 @@ Your Table has been configured
 
 .. image:: dashboard-create-17.png
 
+
+Add Legends
+===================
+
 Click the Legend button at left
 
 .. image:: dashboard-create-18.png
@@ -116,6 +131,14 @@ Give Legend and name and select layers to include.  Click Apply
 
 Your Legend has now been added.
 
+
+Grid
+===================
+
+Add any additional Chart, Table, Legend or Text elements you wish to.
+
+Drag the elements to the location you wish to use.  Click Save.
+
 .. image:: dashboard-create-21.png
 
 Give your Store a name.  Below we are using 'MyFirstStore'.
@@ -125,54 +148,10 @@ Give your Store a name.  Below we are using 'MyFirstStore'.
 
 
 
-Select your QGIS project and any static sources you wish to upload.
-
-.. image:: select-files.png
-
-With files selected, chose if Store is Public and Access Groups (both can be changed later)
-
-.. image:: qcarta-create-store-2.png
-
-Your new QGIS Store has now been created:
-
-.. image:: qcarta-create-store-created.png
-
-
-Show Info
+JSON
 ===================
 
-To view your GetCapability urls as well as ESPG and Bounding Box, click on the "info" link at right:
-
-.. image:: select-files-gdal.png
-
-The Store GetCapability urls, ESPG, and Bounding Box are displayed in modal:
-
-.. image:: qcarta-create-store--show-info.png
-
-
-Clicking the link will take you to the document(s)
-
-.. image:: select-files-7.png
-
-
-Paths
-===================
-
-Be sure the path to your flat files mataches the path used on the server.
-
-If you files are in the same directory as your QGIS Project, you can upload them along with the QGIS Project using multiselect.
-
-If they are stored in a sub directory, zip the directory prior to upload.
-
-Special Cases
-===================
-
-**ESRI Geodatabase** When using an ESRI Geodatabase for your project, upload a zipped copy of the *.gdb directory along with your QGIS Project.  On upload, the file will automatically be unzipped.
-
-**ESRI Shapefile** You must upload the support files (.prg, .dbf, etc...) along with the .shp file.
-
-**PostGIS** If you QGIS Project uses layers from a PostGIS data source, you must create a PostGIS Store for it (see next section, PostGIS Stores)
-
+You can also export JSON files and use as Template for other dashboards.
 
 
 
