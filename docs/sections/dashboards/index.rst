@@ -14,11 +14,15 @@ Dashboards
 Overview
 ==================
 
-A QGIS Store consists of your QGIS Project file, along with any Raster, Vector, and static files.
+A Dashboard allows you to add a Map along with Charts, Tables, Lgends, and Text.
+
+The data elements adjust with map pan.
+
+.. image:: ../../_static/qcarta-dashboards.png
 
 If your QGIS Project uses a PostGIS data source, you can create a PostGIS Store.
 
-Create a QGIS Store
+Create a Dashboard
 ================
 
 Below, we'll create a QGIS Store that uses ESRI shapefile as the data source.
