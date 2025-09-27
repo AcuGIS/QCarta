@@ -42,8 +42,7 @@ Additional Features
 - Topics and Keywords
 - Metadata
 
-.. image:: _static/qcarta-geostories.png
-
+.. image:: _static/qcarta-geostory.png
 
 
 .. include:: ../README.rst
