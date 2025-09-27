@@ -67,11 +67,22 @@ Click the Map button at left to add the map canvas:
 
 .. image:: dashboard-create-9.png
 
+Click the Chart button at left
+
 .. image:: dashboard-create-10.png
+
+On the Chart element click the Configure button
 
 .. image:: dashboard-create-11.png
 
+Give chart a name and select layer, X, Y, and other fields.  
+
+Click the Apply button.
+
 .. image:: dashboard-create-12.png
+
+Your Chart has now been configured.  You can edit the configuration at any time.
+
 
 .. image:: dashboard-create-13.png
 
