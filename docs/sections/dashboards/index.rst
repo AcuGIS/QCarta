@@ -141,12 +141,6 @@ Drag the elements to the location you wish to use.  Click Save.
 
 .. image:: dashboard-create-21.png
 
-Give your Store a name.  Below we are using 'MyFirstStore'.
-
-.. image:: qcarta-create-store-1.png
-
-
-
 
 JSON
 ===================
