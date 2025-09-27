@@ -14,9 +14,10 @@ GeoStories
 Overview
 ==================
 
-A QGIS Store consists of your QGIS Project file, along with any Raster, Vector, and static files.
+GeoStores allow you to add Layers and HTML into horizontal or veritical presentations.
 
-If your QGIS Project uses a PostGIS data source, you can create a PostGIS Store.
+.. image:: ../../_static/qcarta-geostory.png
+
 
 Create a QGIS Store
 ================
@@ -31,7 +32,7 @@ On Stores > QGS, click the Add New button:
 
 Give your Store a name.  Below we are using 'MyFirstStore'.
 
-.. image:: qcarta-create-store-1.png
+
 
 
 
