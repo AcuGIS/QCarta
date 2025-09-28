@@ -19,71 +19,57 @@ GeoStores allow you to add Layers and HTML into horizontal or veritical presenta
 .. image:: ../../_static/qcarta-geostory.png
 
 
-Create a QGIS Store
+Create GeoStory
 ================
 
-Below, we'll create a QGIS Store that uses ESRI shapefile as the data source.
+Below, we'll create a GeoStory using the City Bees QGIS demo Project.
 
-NOTE: You can import the shapefile into PostGIS via Stores > PostGIS to create a database from your shapefile(s)
+Click GeoStories on the left menu:
 
-On Stores > QGS, click the Add New button:
+.. image:: qcarta-geostory-1.png
 
-.. image:: select-files-0.png
+Click Add New
 
-Give your Store a name.  Below we are using 'MyFirstStore'.
+.. image:: qcarta-geostory-2.png
 
+Add a WMS section:
 
+.. image:: qcarta-geostory-3.png
 
+Add a Title, select the QGIS layer, and select Basemap
 
+.. image:: qcarta-geostory-4.png
 
+Scoll down to the Map Preview section and pan the map to where you want it.
 
-Select your QGIS project and any static sources you wish to upload.
+Click the Set Map View button
 
-.. image:: select-files.png
+.. image:: qcarta-geostory-5.png
 
-With files selected, chose if Store is Public and Access Groups (both can be changed later)
+Add any HTML content you wish to add to the HTML editor above the map
 
-.. image:: qcarta-create-store-2.png
+.. image:: qcarta-geostory-6.png
 
-Your new QGIS Store has now been created:
+Give Save Content
 
-.. image:: qcarta-create-store-created.png
+.. image:: qcarta-geostory-7.png
 
+Add additional sections.  HTML example below:
 
-Show Info
-===================
+.. image:: qcarta-geostory-8.png
 
-To view your GetCapability urls as well as ESPG and Bounding Box, click on the "info" link at right:
+Once you have added your sections, give your GeoStory a Name, Description, and set Permissions. 
 
-.. image:: select-files-gdal.png
+Click Export Vertical Story for vertical scrolling or Export Horiztonal Story for horizontal scrolling.
 
-The Store GetCapability urls, ESPG, and Bounding Box are displayed in modal:
+.. image:: qcarta-geostory-9.png
 
-.. image:: qcarta-create-store--show-info.png
+Your GeoStory has been created:
 
+.. image:: qcarta-geostory-10.png
 
-Clicking the link will take you to the document(s)
+.. image:: qcarta-geostory-12.png
 
-.. image:: select-files-7.png
-
-
-Paths
-===================
-
-Be sure the path to your flat files mataches the path used on the server.
-
-If you files are in the same directory as your QGIS Project, you can upload them along with the QGIS Project using multiselect.
-
-If they are stored in a sub directory, zip the directory prior to upload.
-
-Special Cases
-===================
-
-**ESRI Geodatabase** When using an ESRI Geodatabase for your project, upload a zipped copy of the *.gdb directory along with your QGIS Project.  On upload, the file will automatically be unzipped.
-
-**ESRI Shapefile** You must upload the support files (.prg, .dbf, etc...) along with the .shp file.
-
-**PostGIS** If you QGIS Project uses layers from a PostGIS data source, you must create a PostGIS Store for it (see next section, PostGIS Stores)
 
 
 
