@@ -34,7 +34,17 @@ Add Layer
 
 To create a new Layer, click the Add New button at top right.
 
-.. image:: layer-add-new.png
+.. image:: qcarta-layer-1.png
+
+.. image:: qcarta-layer-2.png
+
+.. image:: qcarta-layer-3.png
+
+.. image:: qcarta-layer-4.png
+
+.. image:: qcarta-layer-5.png
+
+.. image:: qcarta-layer-6.png
 
 Give your Layer a name:
 
