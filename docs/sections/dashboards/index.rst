@@ -18,7 +18,8 @@ A Dashboard allows you to add a Map along with Charts, Tables, Lgends, and Text.
 
 The data elements adjust with map pan.
 
-.. image:: ../../_static/qcarta-dashboards.png
+.. image:: ../../_static/qcarta-dashboard-demo.png
+
 
 If your QGIS Project uses a PostGIS data source, you can create a PostGIS Store.
 
