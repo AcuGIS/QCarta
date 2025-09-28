@@ -32,13 +32,22 @@ The fields are below
 Add Layer
 ==================
 
-To create a new Layer, click the Add New button at top right.
+To create a new Layer, click the Layer menu at left or the Layer card on the home page.
 
 .. image:: qcarta-layer-1.png
 
+Click the Add New button
+
 .. image:: qcarta-layer-2.png
 
+Give you layer a Name and Description.
+
+From the QGIS Store dropdown, select the QGIS Project.  select the Layer(s) you wish to include
+
 .. image:: qcarta-layer-3.png
+
+Select the Print Layout, Layout Options and Feature Options
+
 
 .. image:: qcarta-layer-4.png
 
