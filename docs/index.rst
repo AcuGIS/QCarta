@@ -42,7 +42,7 @@ Additional Features
 - Topics and Keywords
 - Metadata
 
-.. image:: _static/qcarta-dashboard-demo.png
+.. image:: _static/qcarta-new-dashboard.png
 
 
 
