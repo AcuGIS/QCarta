@@ -56,11 +56,13 @@ Edit Layer
 
 To edit a Layer, click the Edit button at right as shown below
 
-.. image:: layer-edit-1.png
+.. image:: qcarta-layer-7.png
+
 
 The Layer information is displayed. Make any changes you wish to make and click the Update button
 
-.. image:: show-layer-edit.png
+.. image:: qcarta-layer-8.png
+
 
 
 Clear Cache
@@ -82,7 +84,7 @@ To display information on a layer, click the Show Info button at right
 
 The information is displayed below
 
-.. image:: layer-show-info-2.png
+.. image:: qcarta-layer-9.png
 
 * **L.tileLayer.wms URL**	This is the WMS tile layer
 
@@ -121,7 +123,6 @@ To edit the Leaflet Preview for a Layer, click the Edit Preview button
 
 Make any edits you wish to and then click Submit
 
-.. image:: layer-show-preview-edit.png
 
 
 Layer Preview Template
