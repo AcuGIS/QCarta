@@ -9,25 +9,6 @@ Overview
 
 Layers are layers from your QGIS project.
 
-Layers are created from Stores.  Stores contain all Layers.
-
-The Layer section allows you to select how these Layers are served.
-
-The Layer table is show below.
-
-.. image:: layer-1.png
-
-The fields are below
-
-- **Name**. The Layer name. Clicking the Layer name will open the Layer in a Leafletjs map preview.	
-- **Layers**. The Layers used fromt the QGIS Project.  You can select which Layers to include.
-- **Public**. Public access allows anyone to view the Layer	 (Yes/No)
-* **Cached**. Session Caching enabled (Yes/No)
-* **MapProxy**. This indicates if MapProxy is enabled (Yes/No)
-* **Customized**. This inidicates if Layer is a Custom Leaflet map
-* **Store**. The Store used for the Layer	
-* **Access Group**. The Group(s) with access to the Layer.
-* **Actions**.  Layer actions
 
 Add Layer
 ==================
@@ -51,21 +32,14 @@ Select the Print Layout, Layout Options and Feature Options
 
 .. image:: qcarta-layer-4.png
 
+Your Layer has been created:
+
 .. image:: qcarta-layer-5.png
+
+Visit the Layer to view:
 
 .. image:: qcarta-layer-6.png
 
-Give your Layer a name:
-
-.. image:: create-layer-1.png
-
-Select the Store from the dropdown
-
-.. image:: create-layer-2.png
-
-Select the Layer(s) from the Store to include
-
-.. image:: seplayers.png
 
 The Select options are explained below
 
@@ -76,19 +50,6 @@ The Select options are explained below
 * **Separate Layers**. This option will cause enable a layer control for each Layers in Layer Preview
    
 
-Click the Create button.
-
-.. image:: create-layer-4.png
-
-Your Layer has now been created.
-
-No, click on the Layer name to preview the Layer you just created using Leafletjs
-
-.. image:: create-layer-5.png
-
-The Layer shows the two QGIS project layers we selected, Parks and Waterways
-
-.. image:: create-layer-6.png
 
 Edit Layer
 ==================
