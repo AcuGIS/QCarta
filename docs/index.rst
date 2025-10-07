@@ -76,6 +76,7 @@ Additional Features
     sections/filters/index
     sections/dashboards/index
     sections/geostory/index
+    sections/workshop/index
     sections/preview/index  
     sections/capabilities/index
     sections/urls/index  
