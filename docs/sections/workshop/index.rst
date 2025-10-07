@@ -13,8 +13,10 @@ PostGIS, GeoPackage, Shapefile, and ESRI Geodatabase are supported.
 
 .. image:: qcarta-reports-3.png
 
+SQL Workshop offers a choice of SQL Terminal and a Visual Query Builder.
 
-Using Workshop
+
+SQL Terminal
 ==================
 
 Click on the Workshop you wish to use
@@ -34,12 +36,29 @@ Test your Query
 .. image:: qcarta-sql-4.png
 
 
-Edit Reports
+Visual Query Builder
 ==================
 
-To edit a Report, click the Report Edit icon for the Layer
+Click the Visual Query Builder tab.
 
-.. image:: qcarta-reports-1.png
+.. image:: qcarta-sql-5.png
 
-Edit your Report and Save
+Select the Table(s) you wish to add.
+
+When joining tables, you'll be given Join options.
+
+.. image:: qcarta-sql-6.png
+
+Click the Generate SQL button
+
+.. image:: qcarta-sql-7.png
+
+Click the Copy to SQL Terminal button
+
+.. image:: qcarta-sql-8.png
+
+Execute SQL to view results.
+
+.. image:: qcarta-sql-9.png
+
 
