@@ -7,9 +7,9 @@ SQL Workshop
 Overview
 ==================
 
-Layers are layers from your QGIS project.
+SQL Workshop allows you to run SQL againts your QGIS data sources.
 
-Tip: You can use SQL Workshop to test your SQL prior to Report creation
+PostGIS, GeoPackage, Shapefile, and ESRI Geodatabase are supported.
 
 .. image:: qcarta-reports-3.png
 
@@ -17,32 +17,21 @@ Tip: You can use SQL Workshop to test your SQL prior to Report creation
 Using Workshop
 ==================
 
-To create a new Layer, click the Layer menu and click on the Reports icon
+Click on the Workshop you wish to use
 
-.. image:: qcarta-reports-1.png
+.. image:: qcarta-reports-3.png
 
-Click the Add New button
+Select your target data source from the dropdown.
 
-.. image:: qcarta-reports-2.png
+.. image:: qcarta-sql-2.png
 
-Give your Report a Name and Description and select the data source type.
+Enter your SQL
 
-Enter your Report SQL and click Create
+.. image:: qcarta-sql-3.png
 
-.. image:: qcarta-reports-2-b.png
+Test your Query
 
-Your Report has been added
-
-.. image:: qcarta-reports-2-c.png
-
-Go to the target map page and view the new Report link
-
-.. image:: qcarta-reports-2-d.png
-
-Open the report to verify
-
-.. image:: qcarta-reports-2-e.png
-
+.. image:: qcarta-sql-4.png
 
 
 Edit Reports
