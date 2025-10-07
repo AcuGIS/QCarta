@@ -7,53 +7,54 @@ Filters
 Overview
 ==================
 
-Layers are layers from your QGIS project.
+Filters are used to filter columns from your data source.
+
+   .. danger::
+      Filters cannot be used with MapProxy.  Be sure your QGIS Layer is configured to use QCarta Cache instead of MapProxy
 
 
 Add Filters
 ==================
 
-To create a new Layer, click the Layer menu at left or the Layer card on the home page.
+To create a new Filter, click the Layer menu at left and then click the Filter icon
 
-.. image:: qcarta-layer-1.png
+.. image:: qcarta-filters-1.png
 
 Click the Add New button
 
-.. image:: qcarta-layer-2.png
+.. image:: qcarta-filters-2.png
 
-Give you layer a Name and Description.
+Enter your Filter name and description and the column you wish to Filter.
 
-From the QGIS Store dropdown, select the QGIS Project.  select the Layer(s) you wish to include
+.. image:: qcarta-filters-3.png
 
-.. image:: qcarta-layer-3.png
+Go to your map and verify the Filter is present
 
-Select the Print Layout, Layout Options and Feature Options
+.. image:: qcarta-filters-4.png
+
+Test the Filter
+
+.. image:: qcarta-filters-5.png
+
+Filter applied
+
+.. image:: qcarta-filters-6.png
+
+Note:  When Filter(s) are applied, small filter icon with the number of filtered values is displayed
+
+.. image:: qcarta-filters-7.png
 
 
-.. image:: qcarta-layer-4.png
-
-Your Layer has been created:
-
-.. image:: qcarta-layer-5.png
-
-Visit the Layer to view:
-
-.. image:: qcarta-layer-6.png
-
-   
 
 
 Edit Filters
 ==================
 
-To edit a Layer, click the Edit button at right as shown below
+To edit a Filter, click the Filter icon for the layer.
 
-.. image:: qcarta-layer-7.png
+.. image:: qcarta-filters-1.png
 
-
-The Layer information is displayed. Make any changes you wish to make and click the Update button
-
-.. image:: qcarta-layer-8.png
+Edit the Filter and save it.
 
 
 
