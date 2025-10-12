@@ -82,8 +82,8 @@ function layer_get_features($qgs_file){
 }
 
 function layer_get_bounding_box($xml, $layer_name){
-
-	foreach($xml->Capability->Layer->Layer as $l){
+    $layers = $xml->xpath('//Layer');
+	foreach($layers as $l){
 		if($l->Name == $layer_name){
 			foreach($l->BoundingBox as $bb){
 				if($bb['SRS'] == 'EPSG:4326'){
