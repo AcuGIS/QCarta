@@ -26,17 +26,6 @@
 		file_put_contents(WWW_DIR.'/assets/layers/'.$post['id'].'.png', $png_data);
 	}
 	
-	function qgs_get_bounding_box($qgs_file){
-		$xml = layer_get_capabilities($qgs_file);
-		$bboxes = $xml->Capability->Layer->BoundingBox;
-		foreach($bboxes as $bb){
-			if($bb['SRS'] == 'EPSG:4326'){
-				return $bb;
-			}
-		}
-		return null;
-	}
-	
 	// example: service=WMS&version=1.1.0&request=GetMap&layers=tiger%3Agiant_polygon&bbox=-180.0%2C-90.0%2C180.0%2C90.0&width=768&height=384&srs=EPSG%3A4326&styles=&format=application/openlayers
 	function layer_get_wms_query($qgs_file, $row){
 
