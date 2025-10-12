@@ -127,7 +127,9 @@ function layers_get_bbox($qgs_file, $layers){
 	$layers = explode(',', $layers);
 	foreach($layers as $l){
 		$b = layer_get_bounding_box($xml, $l);
-		$bbox = merge_bbox($bbox, $b);
+		if($b){
+		    $bbox = merge_bbox($bbox, $b);
+		}
 	}
 	return $bbox;
 }
