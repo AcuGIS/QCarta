@@ -68,6 +68,11 @@
 		$post['id'] = $id;
 		$qgs_file = find_qgs(DATA_DIR.'/stores/'.$post['store_id']);
 		
+		$bbox = layers_get_bbox($qgs_file, $post['layers']);
+		if($bbox == null){
+		    return false;
+		}
+
 		//create .env
 		$is_public = $post['public'] == 't' ? 'true' : 'false';
 		$is_cached = $post['cached'] == 't' ? 'true' : 'false';
@@ -88,8 +93,7 @@
 
 		$vars = ["DATA_DIR.'/'.LAYER_ID.'" => "DATA_DIR.'/stores/".$post['store_id']];
 		update_template(WWW_DIR.'/admin/snippets/data_filep.php', $html_dir.'/store_filep.php', $vars);
-		
-		$bbox = layers_get_bbox($qgs_file, $post['layers']);
+
 		$wms_url = ($post['proxyfied'] == 't') ? '/mproxy/service' : 'proxy_qgis.php';
 		
 		$mproxy_layer_names = array();
@@ -184,6 +188,9 @@
 		}
 		
 		$bbox = layers_get_bbox($qgs_file, $post['layers']);
+		if($bbox == null){
+		    return false;
+		}
 
 		if($post['customized'] != 't'){	// if user hasn't updated index file
 			$wms_url = ($post['proxyfied'] == 't') ? '/mproxy/service' : 'proxy_qgis.php';			
