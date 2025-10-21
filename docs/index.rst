@@ -24,7 +24,9 @@ Advanced Mapping Features
    - SQL Workshop
 
 
-.. image:: _static/QCarta-New-Light.png
+.. image:: _static/QCarta-Intro.png
+
+
 
 
 
