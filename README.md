@@ -104,7 +104,7 @@ QCarta includes sample projects to get you started
 
 ### GeoStories
 
-![QuailMap](docs/_static/GeoStories.png)
+![QuailMap](docs/_static/qcarta-geostory.png)
 
 ## Documentation
 
