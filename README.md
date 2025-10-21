@@ -8,7 +8,7 @@ Publish your QGIS Projects quickly and easily.
 
 Group level permissions and integration MapProxy caching.
 
-![QCarta](docs/_static/QCarta-Main.png)
+![QCarta](docs/_static/QCarta-5-Dashboard.png)
 
   
 ## Requirements
@@ -86,11 +86,11 @@ QCarta includes sample projects to get you started
 
 ### Demo Projects
 
-![QuailMap](docs/_static/QCarta-Github-Readme.png)
+![QuailMap](docs/_static/QCarta-Intro.png)
 
 ### Plotly Chart Support:
 
-![QuailMap](docs/_static/QCarta-Github-Readme-2.png)
+![QuailMap](docs/_static/QCarta-5-Intro.png)
 
 ### Saved Queries
 
