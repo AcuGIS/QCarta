@@ -92,13 +92,15 @@ QCarta includes sample projects to get you started
 
 ![QuailMap](docs/_static/QCarta-5-Intro.png)
 
-### Saved Queries
+### Dashboards                                             
 
-![QuailMap](docs/_static/QCarta-Github-Readme-Query.png)
+![QuailMap](docs/_static/QCarta-5-Dashboards.png)
 
 ### SQL Reports
 
-![QuailMap](docs/_static/QCarta-Github-Readme-SQL.png)
+![QuailMap](docs/_static/QCarta-5-SQL-Reports)
+
+
 
 ### GeoStories
 
