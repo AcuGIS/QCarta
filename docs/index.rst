@@ -12,7 +12,8 @@ QCarta is a QGIS Map Portal and OGC Web Server.
    - Documents, Links, and GeoStories
    
 
-.. image:: _static/QCarta-Dashboard-Main.png
+.. image:: _static/QCarta-5-Dashboard.png
+
 
 
 Advanced Mapping Features
