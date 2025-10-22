@@ -6,48 +6,19 @@ QCarta
 QCarta is a QGIS Map Portal and OGC Web Server.
 
    - Publish QGIS Projects via Plugin
+   - Maps, Dashboards, Documents, Links, and GeoStories
    - Support for PostGIS, Raster, and Vector stores
    - Intergrated MapProxy for Layer Caching
    - Group Level permissions for Stores and Layers
-   - Documents, Links, and GeoStories
+   - SQL Reports, Filters, and QGIS Relations
+   - QGIS Print Layouts
+   - On-map Editing
+   - Plotly Charts
+   - SQL Workshop
+   - Meta Data (Keywords and Topics)
    
 
 .. image:: _static/QCarta-5-Dashboard.png
-
-
-
-Advanced Mapping Features
-
-   - QGIS Print Layouts
-   - Queries and Saved Queries
-   - Plotly Charts
-   - SQL Workshop
-
-
-.. image:: _static/QCarta-Intro.png
-
-
-
-
-
-Additional Features
-
-- Layer level permissions
-- Maps
-- Documents
-- Links
-- GeoStories
-- SQL Views
-- SQL Reports
-- Plotlt Support
-- SQL Workshop
-- OGC Web Services (WMS, WFS, and WMTS)
-- Topics and Keywords
-- Metadata
-
-.. image:: _static/qcarta-new-dashboard.png
-
-
 
 
 .. include:: ../README.rst
