@@ -77,6 +77,7 @@ QCarta includes sample projects to get you started
 - SQL Reports
 - SQL Workshop
 - QGIS Relations
+- QGIS Plugin
 - OGC Web Services (WMS, WFS, and WMTS)
 - Topics and Keywords
 - Metadata
