@@ -69,15 +69,14 @@ QCarta includes sample projects to get you started
 
 ### Features
 
-- Layer level permissions
 - Maps
-- Documents
-- Links
+- Dashboards
+- Filters
 - GeoStories
-- SQL Views
+- Plotly Support
 - SQL Reports
-- Plotlt Support
 - SQL Workshop
+- QGIS Relations
 - OGC Web Services (WMS, WFS, and WMTS)
 - Topics and Keywords
 - Metadata
