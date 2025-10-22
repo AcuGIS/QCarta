@@ -16,8 +16,8 @@ Installation is done via the install scripts located in the /installer directory
 
 System Requirements
 =======================
-* 2 GB RAM
-* 5 GB Disk
+* 4 GB RAM
+* 15 GB Disk
 * Tested on Ubuntu 24 LTS
 
 .. note::
@@ -63,12 +63,12 @@ Optionally, run below to provision SSL using letsencrypt:
 
 Login at https://yourdomain.com and click the login button at top right.
 
-.. image:: _static/qcarta-login.png
+.. image:: _static/QCarta-5-Dashboard.png
 
 The login page is displayed as below
 
 
-.. image:: _static/qcarta-login-page.png
+.. image:: _static/QCarta-5-Login.png
 
 Default credentials
 
