@@ -9,7 +9,7 @@ QCarta is a complete GeoPortal for QGIS Maps.
 Simply upload your QGIS Project via the QCarta QGIS Plugin (or via FTP) and select features and your map is online.
 
 
-.. image:: _static/qcarta-login.png
+.. image:: _static/QCarta-5-Intro.png
 
    - Maps
    - Dashboards
