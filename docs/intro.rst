@@ -9,7 +9,7 @@ QCarta is a complete GeoPortal for QGIS Maps.
 Simply upload your QGIS Project via the QCarta QGIS Plugin (or via FTP) and select features and your map is online.
 
 
-.. image:: _static/QCarta-5-Intro.png
+   .. image:: _static/QCarta-5-Intro.png
 
    - Maps
    - Dashboards
@@ -24,6 +24,7 @@ Simply upload your QGIS Project via the QCarta QGIS Plugin (or via FTP) and sele
    - OGC Web Services (WMS, WFS, and WMTS)
    - Topics and Keywords
    - Metadata
+   - Template and Map-Level Customization
 
 The workflow is similar to GeoServer. You create Stores from data sources. From Stores, you create Layers.
 
@@ -65,9 +66,9 @@ You can preview all stores and layers in OpenLayers and Leafletjs.
 
 Create Users and Groups. All Stores and Layers provide Group level permissions.
 
-**Map Portal**
+*Portal**
 
-QCarta has a built in Map Portal with User and Group level access. Users can log directly into your Map Portal as see only those maps they have permissions for.
+Users see only those resources they have permissions for.
 
 
 
