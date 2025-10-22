@@ -3,19 +3,19 @@
 [![Documentation Status](https://readthedocs.org/projects/quailserver/badge/?version=latest)](https://qcarta.docs.acugis.com/en/latest/?badge=latest)
 
 ## QGIS Map Portal 
+### Version 5.1.0
 
-Publish your QGIS Projects quickly and easily.  
+QCarta - the simplest way to publish your QGIS Projects.  
 
-Group level permissions and integration MapProxy caching.
+QCarta is a complete GeoPortal for QGIS.
 
 ![QCarta](docs/_static/QCarta-5-Dashboard.png)
-
   
 ## Requirements
 
 - Ubuntu 24
-- 2 GB RAM
-- 5 GB Disk
+- 4 GB RAM
+- 10 GB Disk
 
 ## Install
 
