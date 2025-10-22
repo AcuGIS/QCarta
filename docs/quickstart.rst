@@ -50,7 +50,7 @@ Default credentials
 * Email:  admin@admin.com
 * Password: quail
 
-.. image:: _static/qcarta-login-page.png
+.. image:: _static/QCarta-5-Login.png
 
 
 Upload QGIS Project
@@ -62,7 +62,7 @@ Alternatively, you can upload via the admin panel as well.
 
 Once logged in, go to Stores > Add New
 
-.. image:: _static/qcarta-stores-add.png
+.. image:: _static/QCarta-5-Stores-Add-New.png
 
 Upload your QGIS Project and any required data files.  If your QGIS Project uses a PostGIS backend, create a PostGIS Data Store for it.
 
