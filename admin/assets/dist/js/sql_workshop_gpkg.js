@@ -348,3 +348,16 @@ function showJoinTypeSelector(conn, joinId) {
     selector.style.top = y + 'px';
     canvas.appendChild(selector);
 }
+
+(function(){
+  const canvas = document.getElementById('vqb-canvas');
+  if(!canvas) return;
+
+  // Toggle .has-content automatically as tables are added/removed
+  const update = () => {
+    canvas.classList.toggle('has-content', canvas.childElementCount > 0);
+  };
+  new MutationObserver(update).observe(canvas, { childList: true });
+  update(); // initial
+})();
+

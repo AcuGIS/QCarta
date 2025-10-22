@@ -38,16 +38,73 @@
 	</script>
 	<script src="assets/dist/js/topics.js"></script>
     <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --background-color: #f8f9fa;
+            --border-color: #e9ecef;
+            --text-color: #2c3e50;
+        }
+
         html, body {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--background-color);
         }
         body {
             min-height: 100vh;
             overflow-y: auto;
         }
+
+        #container {
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #content {
+            position: relative;
+            padding: 0.5rem 1rem 1rem 1rem;
+            margin-left: 210px;
+            width: calc(100% - 210px);
+            height: auto;
+            overflow: visible;
+        }
+
+        .content-wrapper {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding-right: 1.5rem;
+            margin-bottom: 1rem;
+            height: 100%;
+            padding-left: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+
+        .page-header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .page-header .text-end {
+            margin-top: 0.5rem;
+            margin-left: 0;
+            align-self: flex-start;
+        }
+
+        .page-title {
+            color: var(--text-color);
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
         .editor-container {
             max-width: 1000px;
             margin: 0 auto;
@@ -71,6 +128,243 @@
             border-radius: 4px;
             margin-top: 20px;
             position: relative;
+        }
+
+        /* Enhanced Modal styles */
+        .modal-content {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            background: #fff;
+            color: #2c3e50;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border-bottom: none;
+            padding: 1.5rem 2rem;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .modal-header.bg-primary {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%) !important;
+        }
+
+        .modal-title {
+            color: #fff !important;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .modal-body {
+            padding: 2rem;
+            background-color: #fff;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            background-color: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            padding: 1.5rem 2rem;
+            border-radius: 0 0 16px 16px;
+        }
+
+        .modal-footer.bg-light {
+            background-color: #f8f9fa !important;
+        }
+
+        .modal-backdrop.show {
+            opacity: 0.6;
+            backdrop-filter: blur(2px);
+        }
+
+        .modal-dialog {
+            margin: 2rem auto;
+            max-width: 800px;
+            width: 95vw;
+        }
+
+        .modal-dialog.modal-lg {
+            max-width: 900px;
+        }
+
+        /* Form styling improvements */
+        .modal .form-label {
+            color: #495057 !important;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal .form-control,
+        .modal .form-select {
+            width: 100% !important;
+            background: #fff;
+            color: #495057;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .modal .form-control:focus,
+        .modal .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13,110,253,.15);
+            background: #fff;
+            color: #495057;
+            transform: translateY(-1px);
+        }
+
+        .modal .form-control::placeholder {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        /* Section headers */
+        .modal h6 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0d6efd !important;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .modal h6 i {
+            color: #0d6efd;
+        }
+
+        /* Button styling */
+        .modal .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .modal .btn-primary {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border-color: #0d6efd;
+            color: #fff;
+        }
+
+        .modal .btn-primary:hover {
+            background: linear-gradient(135deg, #0b5ed7 0%, #0a58ca 100%);
+            border-color: #0b5ed7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(13,110,253,0.3);
+        }
+
+        .modal .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: #fff;
+        }
+
+        .modal .btn-secondary:hover {
+            background-color: #495057;
+            border-color: #495057;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108,117,125,0.3);
+        }
+
+        .modal .btn-outline-secondary {
+            border-color: #6c757d;
+            color: #6c757d;
+            background: transparent;
+        }
+
+        .modal .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108,117,125,0.3);
+        }
+
+        /* Close button */
+        .modal .btn-close {
+            font-size: 1.2rem;
+            font-weight: 400;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+            color: #fff;
+        }
+
+        .modal .btn-close:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .modal .btn-close-white {
+            filter: invert(1);
+        }
+
+        /* Form text styling */
+        .modal .form-text {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
+        }
+
+        /* Icon styling */
+        .modal .bi {
+            font-size: 0.9rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .modal-dialog {
+                margin: 1rem;
+                width: calc(100vw - 2rem);
+            }
+            
+            .modal-body {
+                padding: 1.5rem;
+            }
+            
+            .modal-header,
+            .modal-footer {
+                padding: 1rem 1.5rem;
+            }
+        }
+
+        /* Animation for modal appearance */
+        .modal.fade .modal-dialog {
+            transform: scale(0.8) translateY(-50px);
+            transition: transform 0.3s ease-out;
+        }
+
+        .modal.show .modal-dialog {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Scrollbar styling for modal body */
+        .modal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
         }
     </style>
     <script>const TOPIC_RESOURCES = <?=json_encode(TOPIC_RESOURCES)?>;</script>
@@ -129,47 +423,73 @@
     
     
     <div id="addnew_modal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
+			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Create Topic</h4>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<div class="modal-header bg-primary text-white">
+						<h4 class="modal-title mb-0">
+							<i class="bi bi-plus-circle me-2"></i>Create New Topic
+						</h4>
+						<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					
-					<div class="modal-body" id="addnew_modal_body">
-						<form id="topic_form" class="border shadow p-3 rounded"
-									action=""
-									method="post"
-									enctype="multipart/form-data"
-									style="width: 450px;">
-  
+					<div class="modal-body p-4" id="addnew_modal_body">
+						<form id="topic_form" action="" method="post" enctype="multipart/form-data">
 							<input type="hidden" name="action" value="save"/>
 							<input type="hidden" name="id" id="id" value="0"/>
 							
-							<div class="form-group">
-								<label for="name">Name</label>
-								<input type="text" class="form-control" id="name" placeholder="Enter name" name="name" required>
+							<!-- Basic Information Section -->
+							<div class="row mb-4">
+								<div class="col-12">
+									<h6 class="text-primary mb-3 border-bottom pb-2">
+										<i class="bi bi-info-circle me-2"></i>Topic Information
+									</h6>
+								</div>
+								<div class="col-md-6 mb-3">
+									<label for="name" class="form-label fw-semibold">
+										<i class="bi bi-tag me-1"></i>Topic Name
+									</label>
+									<input type="text" class="form-control" id="name" name="name" required 
+										   placeholder="Enter topic name"/>
+								</div>
+								<div class="col-md-6 mb-3">
+									<label for="description" class="form-label fw-semibold">
+										<i class="bi bi-file-earmark-text me-1"></i>Description
+									</label>
+									<input type="text" class="form-control" id="description" name="description" required 
+										   placeholder="Enter topic description"/>
+								</div>
 							</div>
-							
-							<div class="form-group">
-								<label for="description">Description</label>
-								<input type="description" class="form-control" id="description" placeholder="Enter description" name="description" required>
+
+							<!-- Resource Associations Section -->
+							<div class="row mb-3">
+								<div class="col-12">
+									<h6 class="text-primary mb-3 border-bottom pb-2">
+										<i class="bi bi-diagram-3 me-2"></i>Resource Associations
+									</h6>
+								</div>
+								<?php foreach(TOPIC_RESOURCES as $type){ ?>
+								<div class="col-md-6 mb-3">
+									<label for="<?=$type?>_id" class="form-label fw-semibold">
+										<i class="bi bi-collection me-1"></i><?=ucfirst($type)?>
+									</label>
+									<select name="<?=$type?>_id[]" id="<?=$type?>_id" multiple class="form-select" style="min-height: 100px;">
+										<?php foreach($resources[$type] as $res_row){ ?>
+											<option value="<?=$res_row['id']?>"><?=$res_row['name']?></option>
+										<?php }?>
+									</select>
+									<small class="form-text text-muted">Hold Ctrl/Cmd to select multiple <?=$type?></small>
+								</div>
+								<?php } ?>
 							</div>
-							
-							<?php foreach(TOPIC_RESOURCES as $type){ ?>
-							<div class="form-group">
-							    <label for="<?=$type?>_id" style="font-weight: 500; color: #2c3e50; margin-bottom: 0.5rem;"><?=$type?></label>
-							    <select name="<?=$type?>_id[]" id="<?=$type?>_id" multiple class="form-control" style="min-height: 70px;">
-							        <?php foreach($resources[$type] as $res_row){ ?>
-							            <option value="<?=$res_row['id']?>"><?=$res_row['name']?></option>
-							        <?php }?>
-							    </select>
-							</div>
-							<?php } ?>
 						</form>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="activate btn btn-secondary" id="btn_create" data-dismiss="modal">Create</button>
+					<div class="modal-footer bg-light border-top">
+						<button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">
+							<i class="bi bi-x-circle me-1"></i>Cancel
+						</button>
+						<button type="button" class="btn btn-primary activate" id="btn_create">
+							<i class="bi bi-check-circle me-1"></i>Create Topic
+						</button>
 					</div>
 				</div>
 			</div>

@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   qgis-server:
-    image: acugis/quail_qgis-server:12082025
+    image: acugis/quail_qgis-server:26012025
     build:
       context: .
       dockerfile: docker/qgis.Dockerfile
@@ -35,7 +35,7 @@ services:
       timeout: 50s
       retries: 10
   web:
-    image: acugis/qcarta_web:12082025
+    image: acugis/qcarta_web:17062025
     env_file:
       - docker/public.env
       - docker/.env
@@ -61,7 +61,7 @@ services:
       - qgis-server
       - mapproxy
   mapproxy:
-    image: acugis/quail_mapproxy:12082025
+    image: acugis/quail_mapproxy:03022025
     build:
       context: .
       dockerfile: docker/mapproxy.Dockerfile

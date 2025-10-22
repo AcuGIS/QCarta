@@ -47,6 +47,7 @@
                             if (isset($section['type']) && $section['type'] === 'wms') {
                                 $section['url'] = $section['wmsUrl'] ?? '';
                                 $section['name'] = $section['layers'] ?? '';
+                                $section['basemap_id'] = $section['basemap_id'] ?? '';
                             }
                         }
                         unset($section);
@@ -160,12 +161,14 @@
             }
         }else if($action == 'delete') {
             
-            $tbls = array('topic_geostory' => 'topic_id', 'gemet_geostory' => 'gemet_id');
-            $ref_ids = $database->get_ref_ids($tbls, 'geostory_id', $id);
-
- 			if(count($ref_ids) > 0){
-                $result = ['success' => false, 'message' => 'Error: Can\'t delete geostory because it is used in '.count($ref_ids).' '.$ref_name.'(s) with ID(s) ' . implode(',', $ref_ids) . '!' ];
-            }else if($obj->delete($id)){
+            // Perform deletion steps and track which ones fail
+            $drop_categories_result = $obj->drop_categories($id);
+            $drop_sections_result = $obj->drop_sections($id);
+            $drop_access_result = $obj->drop_access($id);
+            $delete_result = $obj->delete($id);
+            
+            if($drop_categories_result && $drop_sections_result && $drop_access_result && $delete_result){
+                // Clean up files and directories
                 $story_index = WWW_DIR.'/geostories/'.$id.'/index.php';
                 if(is_file($story_index)){
                     rrmdir(dirname($story_index));
@@ -182,7 +185,14 @@
                 
                 $result = ['success' => true, 'message' => 'Story removed!'];
             }else{
-                $result = ['success' => false, 'message' => 'Story remove failed!'];
+                // Provide more specific error information for debugging
+                $errors = [];
+                if(!$drop_categories_result) $errors[] = 'drop_categories';
+                if(!$drop_sections_result) $errors[] = 'drop_sections';
+                if(!$drop_access_result) $errors[] = 'drop_access';
+                if(!$delete_result) $errors[] = 'delete';
+                
+                $result = ['success' => false, 'message' => 'Story remove failed! Failed steps: ' . implode(', ', $errors)];
             }
         }
 }

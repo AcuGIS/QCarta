@@ -12,7 +12,7 @@
 						return 0;
 					}
 					
-            $sql = "INSERT INTO PUBLIC." .$this->table_ext.'_'.$this->table_name." (id,cached,proxyfied,customized,exposed,show_charts,show_dt,show_query,print_layout,layers) VALUES('".
+            $sql = "INSERT INTO PUBLIC." .$this->table_ext.'_'.$this->table_name." (id,cached,proxyfied,customized,exposed,show_charts,show_dt,show_query,show_fi_edit,print_layout,layers,basemap_id) VALUES('".
 							$row_id."','".
 							$this->cleanData($data['cached'])."','".
 							$this->cleanData($data['proxyfied'])."','".
@@ -21,8 +21,10 @@
 							$this->cleanData($data['show_charts'])."','".
 							$this->cleanData($data['show_dt'])."','".
 							$this->cleanData($data['show_query'])."','".
+							$this->cleanData($data['show_fi_edit'])."','".
 							$this->cleanData($data['print_layout'])."','".
-							$this->cleanData($data['layers'])."') RETURNING id";
+							$this->cleanData($data['layers'])."',".
+							$this->cleanData($data['basemap_id']).") RETURNING id";
              
 							$result = pg_query($this->dbconn, $sql);
 							if(!$result){
@@ -45,8 +47,10 @@
 					"', show_charts='".$this->cleanData($data['show_charts']).
 					"', show_dt='".$this->cleanData($data['show_dt']).
 					"', show_query='".$this->cleanData($data['show_query']).
+					"', show_fi_edit='".$this->cleanData($data['show_fi_edit']).
 					"', print_layout='".$this->cleanData($data['print_layout']).
 					"', layers='".$this->cleanData($data['layers']).
+					"', basemap_id='".$this->cleanData($data['basemap_id'] ?? '').
 					"' where id = '".intval($data['id'])."'";
 					
 					$result = pg_query($this->dbconn, $sql);

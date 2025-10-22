@@ -113,6 +113,12 @@ $("div .progress").hide();
 			 });
 	});
 
+	$(document).on("click", ".edit_plotly_defaults", function() {
+		let tr = $(this).parents("tr");
+		let id = tr.attr('data-id');
+		window.location.href = 'edit_plotly_defaults.php?id=' + id;
+	});
+	
 	$(document).on("click", "#btn_upload", function() {
 			var obj = $(this);
 			var input = $('#qgs_form').find('input[type="text"]');

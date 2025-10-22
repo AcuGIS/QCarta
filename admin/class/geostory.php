@@ -19,8 +19,8 @@
                     if(empty($section['map_center'])){ $section['map_center'] = '0.0, 0.0'; }
                     if(empty($section['map_zoom'])){ $section['map_zoom'] = 4; }
 
-                    $sql = 'INSERT INTO public.geostory_wms (story_id,layer_id,section_order,title,layers,content,map_center,map_zoom) '.
-                            'VALUES ('.$id.','.$section['layer_id'].','.$section_order.',\''.$section['title'].'\',\''.$section['layers'].'\',\''.$content.'\',\''.$section['map_center'].'\', '.$section['map_zoom'].')';
+                    $sql = 'INSERT INTO public.geostory_wms (story_id,layer_id,section_order,title,layers,basemap_id,content,map_center,map_zoom) '.
+                            'VALUES ('.$id.','.$section['layer_id'].','.$section_order.',\''.$section['title'].'\',\''.$section['layers'].'\',\''.($section['basemap_id'] ?? '').'\',\''.$content.'\',\''.$section['map_center'].'\', '.$section['map_zoom'].')';
                 } else if ($section['type'] === 'upload') {
                     $style = $section['style'];
                     $sql = 'INSERT INTO public.geostory_upload (story_id,section_order,title,fillColor,strokeColor,strokeWidth,fillOpacity,pointRadius,content) '.
@@ -42,11 +42,16 @@
 		}
 		
 		function drop_sections($id){
+    		$success = true;
     		foreach(SECTION_TYPES as $s){
                 $sql = 'DELETE FROM public.'.$this->table_name.'_'.$s.' where story_id='.$id;
                 $result = pg_query($this->dbconn, $sql);
+                if(!$result){
+                    $success = false;
+                }
                 pg_free_result($result);
     		}
+    		return $success;
 		}
 			
         function create($data){		
@@ -101,23 +106,7 @@
 			}
 			return $rv;
        }
-       
-       function delete($id){
-           $this->drop_sections($id);
-           $this->drop_access($id);
 
-           $sql = 'DELETE FROM public.'.$this->table_name.' where id='.$id;
-   	       $result = pg_query($this->dbconn, $sql);
-            
-			if($result){
-			    $rv = (pg_affected_rows($result) > 0);
-				pg_free_result($result);
-				return $rv;
-			}else{
-			    return false;
-			}
-       }
-       
        function getStorySectionById($id, $type){
             $sql = 'select * from public.'.$this->table_name.'_'.$type.' WHERE story_id='.$id;
             $result = pg_query($this->dbconn, $sql);

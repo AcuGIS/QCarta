@@ -18,8 +18,7 @@ COPY --chown=www-data:www-data docker/seed.yaml /tmp/seed.yaml
 RUN sed -i.save 's/localhost/web/' /tmp/mapproxy.yaml
 
 RUN mkdir -p /var/www/data/mapproxy && \
-	chown -R www-data:www-data /var/www/data/mapproxy && \
-	chmod +x /usr/local/bin/mapproxy.sh
+	chown -R www-data:www-data /var/www/data/mapproxy
 
 VOLUME /var/www/data/mapproxy
 VOLUME /var/www/data/qgis

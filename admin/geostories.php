@@ -321,10 +321,12 @@ a.btn-warning:hover, a.btn-warning:focus,
 </head>
  
 <body>
+
+<?php const NAV_SEL = 'Geostories'; const TOP_PATH='../'; const ADMIN_PATH='';
+					include("incl/navbar.php"); ?>
 	<div id="container" style="display:block">
 	
-		<?php const NAV_SEL = 'Geostories'; const TOP_PATH='../'; const ADMIN_PATH='';
-					include("incl/navbar.php"); ?>
+		
 		<br class="clear">
 		<?php include("incl/sidebar.php"); ?>
 			

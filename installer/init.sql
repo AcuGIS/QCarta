@@ -15,3 +15,14 @@ INSERT INTO public.user_access
 VALUES
 	(1, 1),
 	(2, 2);
+
+INSERT INTO public.basemaps
+    (name, description, url, type, attribution, min_zoom, max_zoom, public, owner_id, created_at, updated_at, thumbnail)
+VALUES
+('OpenStreetMap', 'OpenStreetMap standard tiles', 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', 'xyz', '© OpenStreetMap contributors', 0, 19, true, 1, '2025-08-14 14:09:35.54709', '2025-08-14 14:09:35.54709', 'openstreetmap.png'),
+('Carto Light', 'Carto light tiles', 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', 'xyz', '© CartoDB', 0, 18, true, 1, '2025-08-14 14:13:00.68385', '2025-08-14 14:13:00.68385', 'carto.png');
+
+INSERT INTO public.basemaps_access
+    (basemaps_id, access_group_id)
+VALUES
+    (1,1),(2,1);

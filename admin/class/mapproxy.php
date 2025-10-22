@@ -4,7 +4,7 @@
 	
 class mapproxy_Class
 {	
-	public static function mapproxy_add_source($name, $qgs_file, $layers){
+	public static function mapproxy_add_source($name, $qgs_file, $layers, $has_filters = false){
 		
 		$lp = fopen(YAML_LOCKFILE, "w");
 		if (flock($lp, LOCK_EX)) {  // acquire an exclusive lock
@@ -17,6 +17,7 @@ class mapproxy_Class
 			
 			$yml['sources'][$name] = [
 				'type' => 'wms',
+				'forward_req_params' => ['FILTER'],
 				'req' => [
 					'url' 		=> 'http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map='.urlencode($qgs_file),
 					'layers'	=> $layers,
@@ -35,6 +36,9 @@ class mapproxy_Class
 				$yml['caches'] = array();
 			}
 			$yml['caches'][$cache_name] = [ 'grids' => ['webmercator'], 'request_format' => 'image/png', 'format' => 'image/png', 'sources' => [$name] ];
+			if($has_filters){
+			    $yml['caches'][$cache_name]['disable_storage'] = true;
+			}
 			
 			yaml_emit_file(MAPPROXY_YAML, $yml);
 			
@@ -63,7 +67,7 @@ class mapproxy_Class
 					if($lyr['name'] == $name){
 						unset($yml['layers'][$i]);
 						$yml['layers'] = array_values($yml['layers']);	//reindex array
-						break;
+						$i--;
 					}
 				}
 				
@@ -71,16 +75,14 @@ class mapproxy_Class
 				if(empty($yml['sources'])){ $yml['sources'] = null;}
 				if(empty($yml['caches'])){ $yml['caches'] = null;}
 				if(empty($yml['layers'])){ $yml['layers'] = null;}
-
+				
 				yaml_emit_file(MAPPROXY_YAML, $yml);
 				$rv = true;
 			}
-			$rv = false;
 			
 			flock($lp, LOCK_UN);    // release the lock
 		} else {
 			echo "Error: Couldn't get the lock!";
-			$rv = false;
 		}
 		fclose($lp);
 
@@ -110,5 +112,30 @@ class mapproxy_Class
 			}
 		}
 		return [0,0];
+	}
+	
+	public static function mapproxy_disable_storage($name, $state = true){
+		
+		$lp = fopen(YAML_LOCKFILE, "w");
+		if (flock($lp, LOCK_EX)) {  // acquire an exclusive lock
+			
+			$yml = yaml_parse_file(MAPPROXY_YAML);
+			
+			$cache_name = $name.'_cache';
+
+			if(isset($yml['caches'][$cache_name])){
+    			if($state){
+    			    $yml['caches'][$cache_name]['disable_storage'] = true;
+    			}else{
+    			    unset($yml['caches'][$cache_name]['disable_storage']);
+    			}
+                yaml_emit_file(MAPPROXY_YAML, $yml);
+			}
+
+			flock($lp, LOCK_UN);    // release the lock
+		} else {
+			echo "Error: Couldn't get the lock!";
+		}
+		fclose($lp);
 	}
 }

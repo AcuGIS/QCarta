@@ -29,6 +29,27 @@ CREATE TABLE public.user_access (	id SERIAL PRIMARY KEY,
 		UNIQUE(user_id, access_group_id)
 );
 
+CREATE TABLE public.basemaps (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    thumbnail TEXT,
+    url TEXT NOT NULL,
+    type VARCHAR(50) NOT NULL DEFAULT 'xyz',
+    attribution TEXT,
+    min_zoom INTEGER DEFAULT 0,
+    max_zoom INTEGER DEFAULT 18,
+    public BOOLEAN DEFAULT FALSE,
+    owner_id INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE public.basemaps_access ( id SERIAL PRIMARY KEY,
+    basemaps_id INTEGER NOT NULL        REFERENCES public.basemaps(id),
+    access_group_id INTEGER NOT NULL    REFERENCES public.access_group(id)
+);
+
 CREATE TABLE public.store (	id SERIAL PRIMARY KEY,
 	name character varying(250) NOT NULL,
 	type public.store_type NOT NULL,
@@ -83,6 +104,7 @@ CREATE TABLE public.pg_layer (
 
 CREATE TABLE public.qgs_layer (
 	id integer PRIMARY KEY REFERENCES public.layer(id),
+	basemap_id integer NOT NULL	REFERENCES public.basemaps(id),
 	cached BOOLEAN DEFAULT False,
 	proxyfied BOOLEAN DEFAULT False,
 	customized BOOLEAN DEFAULT False,
@@ -90,6 +112,7 @@ CREATE TABLE public.qgs_layer (
 	show_charts BOOLEAN DEFAULT False,
 	show_dt BOOLEAN DEFAULT False,
 	show_query BOOLEAN DEFAULT False,
+	show_fi_edit BOOLEAN DEFAULT False, /* show feature info edit */
 	print_layout character varying(250) DEFAULT NULL,
 	layers TEXT NOT NULL
 );
@@ -114,6 +137,15 @@ CREATE TABLE public.layer_query (	id SERIAL PRIMARY KEY,
     badge character varying(50) NOT NULL,
     database_type public.layer_query_type NOT NULL,
     sql_query TEXT NOT NULL,
+    layer_id integer NOT NULL REFERENCES public.layer(id),
+    owner_id integer NOT NULL REFERENCES public.user(id),
+    UNIQUE(name)
+);
+
+CREATE TABLE public.property_filter (	id SERIAL PRIMARY KEY,
+    name character varying(50) NOT NULL,
+    feature character varying(50) NOT NULL,
+    property character varying(50) NOT NULL,
     layer_id integer NOT NULL REFERENCES public.layer(id),
     owner_id integer NOT NULL REFERENCES public.user(id),
     UNIQUE(name)
@@ -208,6 +240,7 @@ CREATE TABLE public.geostory_access (	id SERIAL PRIMARY KEY,
 CREATE TABLE public.geostory_wms ( id SERIAL PRIMARY KEY,
 	story_id integer REFERENCES public.geostory(id),
 	layer_id integer REFERENCES public.layer(id),
+	basemap_id integer REFERENCES public.basemaps(id),
 	section_order integer NOT NULL,
 	title character varying(250) NOT NULL,
 	layers TEXT NOT NULL,
@@ -276,6 +309,22 @@ CREATE TABLE public.doc_access (	id SERIAL PRIMARY KEY,
 	UNIQUE(doc_id, access_group_id)
 );
 
+CREATE TABLE public.dashboard (	id SERIAL PRIMARY KEY,
+	name character varying(200),
+    description character varying(255),
+    filename character varying(250),
+    public BOOLEAN DEFAULT False,
+    layer_id integer NOT NULL	REFERENCES public.layer(id),
+    owner_id integer NOT NULL REFERENCES public.user(id),
+    last_updated TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE public.dashboard_access (	id SERIAL PRIMARY KEY,
+    dashboard_id integer NOT NULL		REFERENCES public.dashboard(id),
+    access_group_id integer NOT NULL	REFERENCES public.access_group(id),
+	UNIQUE(dashboard_id, access_group_id)
+);
+
 CREATE TABLE public.topic (	id SERIAL PRIMARY KEY,
 	name character varying(200),
     description character varying(255)
@@ -333,6 +382,59 @@ CREATE TABLE public.gemet_doc (	id SERIAL PRIMARY KEY,
     doc_id integer NOT NULL	    REFERENCES public.doc(id),
 	UNIQUE(gemet_id, doc_id)
 );
+
+CREATE TABLE public.store_relation (	id SERIAL PRIMARY KEY,
+    store_id integer NOT NULL	REFERENCES public.qgs_store(id),
+	name            character varying(255) NOT NULL,
+	parent_layer    character varying(255) NOT NULL,
+	parent_field    character varying(255) NOT NULL,
+	child_layer    character varying(255) NOT NULL,
+	child_field    character varying(255) NOT NULL,
+	child_list_fields    character varying(255) NOT NULL,
+	owner_id integer NOT NULL	REFERENCES public.user(id),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	UNIQUE(name)
+);
+
+CREATE FUNCTION check_doc_key(acc_k uuid, ip_addr inet, doc_id integer) RETURNS INTEGER AS $$
+declare
+    v_cnt numeric;
+begin
+    v_cnt := 0;
+UPDATE public.access_key SET valid_until = valid_until + interval '15 minutes'
+WHERE id IN (
+	SELECT k1.id
+	    FROM public.access_key k1
+	            INNER JOIN public.access_key_ips k2 ON (k1.ip_restricted = 'f') OR (k1.ip_restricted = 't' AND k1.id = k2.access_key_id AND k2.addr=ip_addr)
+	            INNER JOIN public.user_access g ON g.user_id = k1.owner_id
+	            INNER JOIN public.doc_access d ON d.access_group_id = g.access_group_id AND d.doc_id=doc_id
+	    WHERE access_key=acc_k AND valid_until >= now()
+			LIMIT 1
+	);
+GET DIAGNOSTICS v_cnt = ROW_COUNT;
+RETURN v_cnt;
+end;
+$$ LANGUAGE plpgsql;
+
+CREATE FUNCTION check_geostory_key(acc_k uuid, ip_addr inet, gs_id integer) RETURNS INTEGER AS $$
+declare
+    v_cnt numeric;
+begin
+    v_cnt := 0;
+UPDATE public.access_key SET valid_until = valid_until + interval '15 minutes'
+WHERE id IN (
+	SELECT k1.id
+	    FROM public.access_key k1
+	            INNER JOIN public.access_key_ips k2 ON (k1.ip_restricted = 'f') OR (k1.ip_restricted = 't' AND k1.id = k2.access_key_id AND k2.addr=ip_addr)
+	            INNER JOIN public.user_access g ON g.user_id = k1.owner_id
+	            INNER JOIN public.geostory_access gs ON gs.access_group_id = gs.access_group_id AND gs.geostory_id=gs_id
+	    WHERE access_key=acc_k AND valid_until >= now()
+			LIMIT 1
+	);
+GET DIAGNOSTICS v_cnt = ROW_COUNT;
+RETURN v_cnt;
+end;
+$$ LANGUAGE plpgsql;
 
 CREATE FUNCTION check_layer_key(acc_k uuid, ip_addr inet, lay_id integer) RETURNS INTEGER AS $$
 declare

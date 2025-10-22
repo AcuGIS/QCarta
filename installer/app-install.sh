@@ -12,6 +12,7 @@ CACHE_DIR='/var/www/cache'
 
 WITH_MAPPROXY=true
 WITH_DEMO=true
+WITH_SSO=true
 
 HNAME=$(hostname -f)
 #NOTE: Update this to http, if your site is not secured
@@ -141,6 +142,7 @@ CAT_EOF
 	
 	# apply patch for layer authentication
 	patch -d /usr/lib/python3/dist-packages/mapproxy -p0 < installer/wsgiapp_authorize.patch
+	patch -d /usr/lib/python3/dist-packages/mapproxy -p0 < installer/filter.patch
 
 	chmod +x /etc/systemd/system/mapproxy.service
 	systemctl daemon-reload
@@ -168,11 +170,13 @@ for opt in $@; do
 		WITH_MAPPROXY='false'
 	elif [ "${opt}" == '--no-demo' ]; then
 		WITH_DEMO='false'
+	elif [ "${opt}" == '--no-sso' ]; then
+		WITH_SSO='false'
 	fi
 done
 
 # 1. Install packages (assume PG is preinstalled)
-apt-get -y install apache2 libapache2-mod-fcgid php-{pgsql,mbstring,xml,zip,fpm,yaml,sqlite3,gd}
+apt-get -y install apache2 libapache2-mod-fcgid php-{pgsql,mbstring,xml,zip,fpm,yaml,sqlite3,gd} jq
 
 # manual check to avoid apt exit, if gdal is preinstalled from gdal-formats, package is on hold
 if [ ! -f /usr/bin/ogr2ogr ]; then
@@ -261,6 +265,7 @@ mkdir -p "${DATA_DIR}/layers"
 mkdir -p "${DATA_DIR}/stores"
 mkdir -p "${DATA_DIR}/geostories"
 mkdir -p "${DATA_DIR}/docs"
+mkdir -p "${DATA_DIR}/dashboards"
 
 mkdir -p "${WWW_DIR}/layers"
 mkdir -p "${WWW_DIR}/stores"
@@ -332,7 +337,7 @@ CMD_EOF
 	cp -r installer/demo/data/* ${DATA_DIR}/
 	cp -r installer/demo/html/* ${WWW_DIR}/
 
-	for i in 2 3 4 5 6 7 8 9; do
+	for i in 1 2 3; do
 		mkdir ${CACHE_DIR}/layers/${i}
 		for l in 0 1 2 3 4 5 6 7 8 9 a b c d e f; do
 			mkdir ${CACHE_DIR}/layers/${i}/${l}
@@ -350,6 +355,35 @@ password=${ADMIN_PG_PASS}
 CAT_EOF
 fi
 
+if [ "${WITH_SSO}" == 'true' ]; then
+    apt-get -y install composer
+    
+    cp installer/sso/*.php installer/sso/composer.{json,lock} ${WWW_DIR}/
+    chown www-data:www-data ${WWW_DIR}/composer.{json,lock}
+
+    pushd ${WWW_DIR}/
+        sudo -u www-data composer install
+        sudo -u www-data composer require league/oauth2-client
+        sudo -u www-data composer require league/oauth2-github
+        sudo -u www-data composer require thenetworg/oauth2-azure
+        
+        rm -f composer.{json,lock}
+       	sed -i.save 's/?>//' admin/incl/const.php 
+        cat >> admin/incl/const.php <<CAT_EOF
+const DISABLE_OAUTH_USER_CREATION = true;
+const GITHUB_CLIENT_ID='';
+const GITHUB_CLIENT_SECRET='';
+const MICROSOFT_CLIENT_ID='';
+const MICROSOFT_CLIENT_SECRET='';
+const MICROSOFT_TENANT_ID='';
+const GOOGLE_CLIENT_ID='';
+const GOOGLE_CLIENT_SECRET='';
+?>
+CAT_EOF
+    popd
+    
+    chown -R www-data:www-data ${WWW_DIR}
+fi
 
 # save 1Gb of space
 apt-get -y clean all

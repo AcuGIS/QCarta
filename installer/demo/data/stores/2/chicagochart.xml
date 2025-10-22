@@ -39,7 +39,7 @@
    <Option name="borderwidth" type="int" value="1"/>
    <Option name="visible" type="bool" value="false"/>
   </Option>
-  <Option name="title" type="QString" value="NeighborhoodChart"/>
+  <Option name="title" type="QString" value="ChicagoChart"/>
   <Option name="x_inv" type="invalid"/>
   <Option name="x_max" type="invalid"/>
   <Option name="x_min" type="invalid"/>

@@ -95,7 +95,7 @@ L.LocationFilter = L.Layer.extend({
 
     options: {
         enableButton: {
-            enableText: "QGIS Print",
+            enableText: "QGIS Print Layout",
             disableText: "Remove selection"
         },
         pdfButton: { text: "PDF" },

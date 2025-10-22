@@ -64,13 +64,8 @@
 				$result = ['success' => false, 'message' => 'Failed to save doc!'];
 			}
         }else if($action == 'delete') {
-            
-            $tbls = array('topic_doc' => 'topic_id', 'gemet_doc' => 'gemet_id');
-            $ref_ids = $database->get_ref_ids($tbls, 'doc_id', $id);
 
- 			if(count($ref_ids) > 0){
-                $result = ['success' => false, 'message' => 'Error: Can\'t delete doc because it is used in '.count($ref_ids).' '.$ref_name.'(s) with ID(s) ' . implode(',', $ref_ids) . '!' ];
-            }else if($obj->drop_access($id) && $obj->delete($id)){
+            if($obj->drop_categories($id) && $obj->drop_access($id) && $obj->delete($id)){
                 unlink(DATA_DIR.'/docs/'.$id);
                 
                 $thumbnail = '../../assets/docs/'.$id.'.png';

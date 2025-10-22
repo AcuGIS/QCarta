@@ -70,6 +70,7 @@
                 'layer_id' => $row->layer_id,
                 'wmsUrl' => $wmsUrl,
                 'layers' => $row->layers,
+                'basemap_id' => $row->basemap_id,
                 'content' => $row->content,
                 'map_center' => $row->map_center,
                 'map_zoom' => $row->map_zoom
@@ -370,8 +371,8 @@
                 
                 <?php if (!empty($_SESSION['content'])): ?>
                     <div class="btn-group">
-                        <button type="button" class="activate btn btn-success export" data-dismiss="modal" data-export_type="horizontal">Export Vertical Story</button>
-                        <button type="button" class="activate btn btn-info export" data-dismiss="modal" data-export_type="vertical">Export Horizontal Story</button>
+                        <button type="button" class="activate btn btn-success export" data-dismiss="modal" data-export_type="horizontal">Export Horizontal Story</button>
+                        <button type="button" class="activate btn btn-info export" data-dismiss="modal" data-export_type="vertical">Export Vertical Story</button>
                     </div>
                 <?php endif; ?>
             </div>

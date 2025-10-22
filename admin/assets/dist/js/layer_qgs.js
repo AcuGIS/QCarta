@@ -34,6 +34,24 @@ function load_select(id, name, arr){
 	$('#' + id).trigger('change');
 }
 
+async function mark_data_layers(store_id, arr){
+  const xmlData = await fetch(`../stores/${store_id}/wfs.ph?REQUEST=GetCapabilities`, { credentials: 'same-origin' }).then(r => r.text());
+  const xmlDoc = new window.DOMParser().parseFromString(xmlData, "text/xml");
+  
+  // get all feature types from store GetCapabilities
+  const featTypes = xmlDoc.getElementsByTagName('FeatureType');
+  $.each(featTypes, function(x){
+    const name = featTypes[x].getElementsByTagName('Name')[0].textContent;
+    const bb = featTypes[x].getElementsByTagName('ows:WGS84BoundingBox')[0];
+    const lc = bb.getElementsByTagName('ows:LowerCorner')[0];
+    const uc = bb.getElementsByTagName('ows:UpperCorner')[0];
+    // if feature bbox is [[0,0][0,0]] it has no geometry ?
+    if((lc.textContent == uc.textContent) && (lc.textContent == '0 0')){
+      $('select option:contains("' + name + '")').html(name + ' (data only)');
+    }
+  });
+}
+
 $(document).ready(function() {
 
 $('[data-toggle="tooltip"]').tooltip();	
@@ -60,9 +78,11 @@ $('#layer_form').submit(false);
 		$('#show_charts').prop('checked', (tr.attr('data-show_charts') == 'yes'));
 		$('#show_dt').prop('checked', (tr.attr('data-show_dt') == 'yes'));
 		$('#show_query').prop('checked', (tr.attr('data-show_query') == 'yes'));
+		$('#show_fi_edit').prop('checked', (tr.attr('data-show_fi_edit') == 'yes'));
 		$('#customized').prop('checked', (tr.attr('data-customized') == 'yes'));
 		$('#store_id').val(tds[2].getAttribute('data-value')).trigger('change');
 		$('#group_id').val(tr.attr('data-group_id').split(','));
+		$('#basemap_id').val(tr.attr('data-basemap_id'));
 		edit_row = {'layers': tds[1].innerHTML.split('<br>'), 'print_layout': tr.attr('data-print_layout')};
 	});
 	
@@ -82,6 +102,12 @@ $('#layer_form').submit(false);
 		let tr = $(this).parents("tr");
 		let id = tr.attr('data-id');
 		window.location.href = 'edit_layer_reports.php?id=' + id;
+	});
+
+	$(document).on("click", ".edit_property_filters", function() {
+		let tr = $(this).parents("tr");
+		let id = tr.attr('data-id');
+		window.location.href = 'edit_property_filters.php?id=' + id;
 	});
 
 	$(document).on("click", ".edit_layer_metadata", function() {
@@ -200,7 +226,8 @@ $('#layer_form').submit(false);
 			dataType:"json",
 			success: function(response){
 				 if(response.success) {
-					 load_select('layers', 'layers[]', response.layers);
+					  load_select('layers', 'layers[]', response.layers);
+						mark_data_layers(data.id, response.layers);
 						load_select('print_layout', 'print_layout', response.print_layouts);
 					 	$('#store_id').prop('disabled', false);
 				 }else{
@@ -276,6 +303,10 @@ $('#layer_form').submit(false);
 								const is_proxyfied = data.get('proxyfied') == 't' ? 'yes' : 'no';
 								const is_exposed = data.get('exposed') == 't' ? 'yes' : 'no';
 								const is_customized = data.get('customized') == 't' ? 'yes' : 'no';
+								const is_show_charts = data.get('show_charts') == 't' ? 'yes' : 'no';
+								const is_show_dt = data.get('show_dt') == 't' ? 'yes' : 'no';
+								const is_show_query = data.get('show_query') == 't' ? 'yes' : 'no';
+								const is_editable = data.get('show_fi_edit') == 't' ? 'yes' : 'no';
 							
 								const tds = [
 									{ "display": name_a, "@data-order": data.get('name') },
@@ -295,7 +326,13 @@ $('#layer_form').submit(false);
 								dtrow.attr('data-cached', is_cached);
 								dtrow.attr('data-proxyfied', is_proxyfied);
 								dtrow.attr('data-exposed', is_exposed);
+								dtrow.attr('data-show_charts', is_show_charts);
+								dtrow.attr('data-show_dt', is_show_dt);
+								dtrow.attr('data-show_query', is_show_query);
+								dtrow.attr('data-show_fi_edit', is_editable);
 								dtrow.attr('data-group_id', $('#group_id').val().join(','));
+								dtrow.attr('data-print_layout', $('#print_layout').val());
+								
 								dtrow.find('td:eq(0)').attr('data-order', $('#name').val());
 								dtrow.find('td:eq(4)').attr('data-value', $('#store_id').val());
 							}

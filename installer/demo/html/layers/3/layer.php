@@ -79,7 +79,7 @@
 							<p style="color:#666!important"><b>Abstract</b>: <?=$qgs_abstract?></p>
                           
 							<p style="color:#666!important"><b>Projection</b>: <?=$projection?></p>
-							<p style="color:#666!important"><b>Bounding Box</b>:41.644543, -87.940115, 42.023039, -87.524137</p>
+							<p style="color:#666!important"><b>Bounding Box</b>:46.804286, 9.25242, 46.814982, 9.267365</p>
 							<p style="color:#666!important"><b>OGC Web Services:</b>:
                               <br>
 							 <a href="<?=$proto.'://'.$_SERVER['HTTP_HOST']?>/stores/<?=$store_id?>/wms?REQUEST=GetCapabilities" target="_blank" style="color:#0078A8; text-decoration:none!important">WMS</a>
@@ -108,14 +108,14 @@
 	});
     
 	const bbox = {
-      minx: -87.940115,
-      miny: 41.644543,
-      maxx: -87.524137,
-      maxy: 42.023039
+      minx: 9.25242,
+      miny: 46.804286,
+      maxx: 9.267365,
+      maxy: 46.814982
     };
 
 // WMS Layer
-	<?php $layers = explode(',', 'neighborhoods.neighborhoods,neighborhoods.parks,neighborhoods.waterways'); $li = 0;
+	<?php $layers = explode(',', 'Bee_Map.Fields,Bee_Map.Apiary,Bee_Map.Tracks'); $li = 0;
 		 foreach($layers as $lay){ ?>
 	const wms<?=$li?> = L.tileLayer.betterWms('<?=$wms_url?>', {
 		layers: '<?=$lay?>',

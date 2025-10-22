@@ -67,11 +67,9 @@ if(!isset($_SESSION[SESS_USR_KEY])) {
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    padding-right: 1.5rem;
+    padding: 1.5rem;
     margin-bottom: 1rem;
     height: 100%;
-    padding=left: 1.5rem;
-    padding-bottom: 1.5rem;
 }		
 		.page-header {
 			display: flex;
@@ -88,11 +86,11 @@ if(!isset($_SESSION[SESS_USR_KEY])) {
 			align-self: flex-start;
 		}
 		
-		.page-title {
+		.page-title, h1 {
 			color: var(--text-color);
 			font-size: 1.75rem;
-			font-weight: 600;
-			margin: 0;
+			font-weight: 400;
+			margin: 0 0 1.5rem 0;
 		}
 		
 		.nav-tabs {
@@ -326,6 +324,61 @@ if(!isset($_SESSION[SESS_USR_KEY])) {
 			border-color: #d39e00 !important;
 			color: #212529 !important;
 		}
+
+		/* Workshop Cards Styles */
+		.workshop-container {
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+			margin-top: 2rem;
+		}
+
+		.workshop-card {
+			display: flex;
+			align-items: center;
+			padding: 1.5rem;
+			background: white;
+			border: 1px solid var(--border-color);
+			border-radius: 12px;
+			transition: all 0.3s ease;
+			text-decoration: none;
+			color: inherit;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+			width: 80%;
+		}
+
+		.workshop-card:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+			border-color: var(--primary-color);
+			text-decoration: none;
+			color: inherit;
+		}
+
+		.workshop-card img {
+			width: 60px;
+			height: 60px;
+			margin-right: 1.5rem;
+			flex-shrink: 0;
+		}
+
+		.workshop-card-title {
+			font-size: 1.5rem;
+			font-weight: 600;
+			color: #2c3e50 !important;
+			margin: 0;
+			transition: color 0.3s ease;
+		}
+
+		.workshop-card:hover .workshop-card-title {
+			color: #1E90FF !important;
+		}
+
+		.workshop-card-description {
+			font-size: 0.95rem;
+			color: var(--secondary-color);
+			margin-top: 0.25rem;
+		}
 	</style>
 </head>
  
@@ -338,33 +391,41 @@ if(!isset($_SESSION[SESS_USR_KEY])) {
 				<?php include("incl/sidebar.php"); ?>
 
 				<div id="content">
-					<div class="content-wrapper">
-						<div class="page-header">
-							<h1 class="page-title">SQL Workshop</h1>
-							<div class="text-end">
-								
-								
-							</div>
-						</div>
-						
-						 <div class="row" style="margin-top: 2em;">
-    <div class="col-md-6 d-flex align-items-center justify-content-left mb-4">
-        <img src="assets/images/workshop.png" style="padding-left: 20px; width:15%">&nbsp;&nbsp;
-        <a href="sql_workshop_gpkg.php" style="text-decoration:none;font-size:28px;color:#666">GeoPackage</a>
-    </div>
-    <div class="col-md-6 d-flex align-items-center justify-content-left mb-4">
-        <img src="assets/images/workshop.png" style="padding-left: 20px; width:15%">&nbsp;&nbsp;
-        <a href="sql_workshop_gdb.php" style="text-decoration:none;font-size:28px;color:#666">Geodatabase</a>
-    </div>
-    <div class="col-md-6 d-flex align-items-center justify-content-left mb-4">
-        <img src="assets/images/workshop.png" style="padding-left: 20px; width:15%">&nbsp;&nbsp;
-        <a href="sql_workshop_pg.php" style="text-decoration:none;font-size:28px;color:#666">PostGIS</a>
-    </div>
-    <div class="col-md-6 d-flex align-items-center justify-content-left mb-4">
-        <img src="assets/images/workshop.png" style="padding-left: 20px; width:15%">&nbsp;&nbsp;
-        <a href="sql_workshop_shp.php" style="text-decoration:none;font-size:28px;color:#666">Shapefile</a>
-    </div>
-</div>
+
+					<h1>SQL Workshop</h1>
+					
+					<div class="workshop-container">
+							<a href="sql_workshop_gpkg.php" class="workshop-card">
+								<img src="assets/images/workshop.png" alt="GeoPackage Workshop">
+								<div>
+									<h3 class="workshop-card-title">GeoPackage</h3>
+									<p class="workshop-card-description">SQL Workshop for GeoPackages</p>
+								</div>
+							</a>
+							
+							<a href="sql_workshop_gdb.php" class="workshop-card">
+								<img src="assets/images/workshop.png" alt="Geodatabase Workshop">
+								<div>
+									<h3 class="workshop-card-title">Geodatabase</h3>
+									<p class="workshop-card-description">SQL Workshop for Esri Geodatabases</p>
+								</div>
+							</a>
+							
+							<a href="sql_workshop_pg.php" class="workshop-card">
+								<img src="assets/images/workshop.png" alt="PostGIS Workshop">
+								<div>
+									<h3 class="workshop-card-title">PostGIS</h3>
+									<p class="workshop-card-description">SQL Workshop for PostGIS</p>
+								</div>
+							</a>
+							
+							<a href="sql_workshop_shp.php" class="workshop-card">
+								<img src="assets/images/workshop.png" alt="Shapefile Workshop">
+								<div>
+									<h3 class="workshop-card-title">Shapefile</h3>
+									<p class="workshop-card-description">SQL Workshop for Shapefiles</p>
+								</div>
+							</a>
 					</div>
 				</div>
 		</div>

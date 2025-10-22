@@ -19,3 +19,4 @@
 
 
 <link rel="stylesheet" href="assets/dist/css/meta.css">
+<script src="https://cdn.tailwindcss.com"></script>

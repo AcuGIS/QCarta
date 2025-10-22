@@ -35,15 +35,46 @@
 	<script src="assets/dist/js/html5_uploader.js"></script>
 	<script src="assets/dist/js/docs.js"></script>
     <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --background-color: #f8f9fa;
+            --border-color: #e9ecef;
+            --text-color: #2c3e50;
+        }
+
         html, body {
+            height: 100%;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            overflow-x: hidden;
         }
+
         body {
+            background-color: var(--background-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        #container {
+            position: relative;
             min-height: 100vh;
-            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        #content {
+            position: relative;
+            padding: 0.5rem 1rem 1rem 1rem;
+            margin-left: 210px;
+            width: calc(100% - 210px);
+            height: auto;
+            overflow: visible;
+        }
+
+        .page-title, h1 {
+            color: var(--text-color);
+            font-size: 1.75rem;
+            font-weight: 400;
+            margin: 0 0 1.5rem 0;
         }
         .editor-container {
             max-width: 1000px;
@@ -69,6 +100,283 @@
             margin-top: 20px;
             position: relative;
         }
+
+        /* Enhanced Modal styles */
+        .modal-content {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            background: #fff;
+            color: #2c3e50;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border-bottom: none;
+            padding: 1.5rem 2rem;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .modal-header.bg-primary {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%) !important;
+        }
+
+        .modal-title {
+            color: #fff !important;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .modal-body {
+            padding: 2rem;
+            background-color: #fff;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            background-color: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            padding: 1.5rem 2rem;
+            border-radius: 0 0 16px 16px;
+        }
+
+        .modal-footer.bg-light {
+            background-color: #f8f9fa !important;
+        }
+
+        .modal-backdrop.show {
+            opacity: 0.6;
+            backdrop-filter: blur(2px);
+        }
+
+        .modal-dialog {
+            margin: 2rem auto;
+            max-width: 800px;
+            width: 95vw;
+        }
+
+        .modal-dialog.modal-lg {
+            max-width: 900px;
+        }
+
+        /* Form styling improvements */
+        .modal .form-label {
+            color: #495057 !important;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal .form-control,
+        .modal .form-select {
+            width: 100% !important;
+            background: #fff;
+            color: #495057;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .modal .form-control:focus,
+        .modal .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13,110,253,.15);
+            background: #fff;
+            color: #495057;
+            transform: translateY(-1px);
+        }
+
+        .modal .form-control::placeholder {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        /* Checkbox styling */
+        .modal .form-check-input {
+            width: 1.2rem;
+            height: 1.2rem;
+            margin-top: 0.1rem;
+            border: 2px solid #dee2e6;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .modal .form-check-input:checked {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+
+        .modal .form-check-input:focus {
+            box-shadow: 0 0 0 0.2rem rgba(13,110,253,.25);
+        }
+
+        .modal .form-check-label {
+            color: #495057 !important;
+            font-weight: 500;
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
+
+        /* Section headers */
+        .modal h6 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0d6efd !important;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .modal h6 i {
+            color: #0d6efd;
+        }
+
+        /* Button styling */
+        .modal .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .modal .btn-primary {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border-color: #0d6efd;
+            color: #fff;
+        }
+
+        .modal .btn-primary:hover {
+            background: linear-gradient(135deg, #0b5ed7 0%, #0a58ca 100%);
+            border-color: #0b5ed7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(13,110,253,0.3);
+        }
+
+        .modal .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: #fff;
+        }
+
+        .modal .btn-secondary:hover {
+            background-color: #495057;
+            border-color: #495057;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108,117,125,0.3);
+        }
+
+        .modal .btn-outline-secondary {
+            border-color: #6c757d;
+            color: #6c757d;
+            background: transparent;
+        }
+
+        .modal .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108,117,125,0.3);
+        }
+
+        /* Close button */
+        .modal .btn-close {
+            font-size: 1.2rem;
+            font-weight: 400;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+            color: #fff;
+        }
+
+        .modal .btn-close:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .modal .btn-close-white {
+            filter: invert(1);
+        }
+
+        /* Form text styling */
+        .modal .form-text {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
+        }
+
+        /* Icon styling */
+        .modal .bi {
+            font-size: 0.9rem;
+        }
+
+        /* Progress bar styling */
+        .modal .progress {
+            height: 8px;
+            border-radius: 4px;
+            background-color: #e9ecef;
+            margin-top: 1rem;
+        }
+
+        .modal .progress-bar {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .modal-dialog {
+                margin: 1rem;
+                width: calc(100vw - 2rem);
+            }
+            
+            .modal-body {
+                padding: 1.5rem;
+            }
+            
+            .modal-header,
+            .modal-footer {
+                padding: 1rem 1.5rem;
+            }
+        }
+
+        /* Animation for modal appearance */
+        .modal.fade .modal-dialog {
+            transform: scale(0.8) translateY(-50px);
+            transition: transform 0.3s ease-out;
+        }
+
+        .modal.show .modal-dialog {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Scrollbar styling for modal body */
+        .modal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
     </style>
     
     <script>
@@ -77,22 +385,22 @@
 </head>
 
 <body>
+
+<?php const NAV_SEL = 'Documents'; const TOP_PATH='../'; const ADMIN_PATH='';
+					include("incl/navbar.php"); ?>
   
     <div id="container" style="display:block">
 		
-		<?php const NAV_SEL = 'Documents'; const TOP_PATH='../'; const ADMIN_PATH='';
-					include("incl/navbar.php"); ?>
+		
 		<br class="clear">
 		<?php include("incl/sidebar.php"); ?>
 			
 		<div id="content">
-			<div class="content-wrapper">
-				<div class="page-header">
-					<h1 class="page-title">Documents</h1>
-					<div class="text-end upgrade-btn">
-						<a class="btn btn-warning add-modal" role="button" aria-pressed="true" style="background-color: #ffc107; border-color: #ffc107; color: #212529; transition: background 0.2s, color 0.2s;" onmouseover="this.style.backgroundColor='#e0a800';this.style.borderColor='#d39e00';this.style.color='#212529';" onmouseout="this.style.backgroundColor='#ffc107';this.style.borderColor='#ffc107';this.style.color='#212529';"><i class="bi bi-plus-square"></i> Add New</a>
-					</div>
-				</div>
+
+			<h1>Documents</h1>
+			<div class="text-end upgrade-btn mb-3">
+				<a class="btn btn-warning add-modal" role="button" aria-pressed="true" style="background-color: #ffc107; border-color: #ffc107; color: #212529; transition: background 0.2s, color 0.2s;" onmouseover="this.style.backgroundColor='#e0a800';this.style.borderColor='#d39e00';this.style.color='#212529';" onmouseout="this.style.backgroundColor='#ffc107';this.style.borderColor='#ffc107';this.style.color='#212529';"><i class="bi bi-plus-square"></i> Add New</a>
+			</div>
             
             <div class="table-responsive">
                 <table class="table table-bordered" id="sortTable">
@@ -130,64 +438,122 @@
     
     
     <div id="addnew_modal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
+			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Create Link</h4>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<div class="modal-header bg-primary text-white">
+						<h4 class="modal-title mb-0">
+							<i class="bi bi-plus-circle me-2"></i>Create New Document
+						</h4>
+						<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					
-					<div class="modal-body" id="addnew_modal_body">
-						<form id="doc_form" class="border shadow p-3 rounded"
-									action=""
-									method="post"
-									enctype="multipart/form-data"
-									style="width: 450px;">
-  
+					<div class="modal-body p-4" id="addnew_modal_body">
+						<form id="doc_form" action="" method="post" enctype="multipart/form-data">
 							<input type="hidden" name="action" value="save"/>
 							<input type="hidden" name="id" id="id" value="0"/>
 							
-							<div class="form-group">
-								<label for="name">Name</label>
-								<input type="text" class="form-control" id="name" placeholder="Enter name" name="name" required>
+							<!-- Basic Information Section -->
+							<div class="row mb-4">
+								<div class="col-12">
+									<h6 class="text-primary mb-3 border-bottom pb-2">
+										<i class="bi bi-info-circle me-2"></i>Document Information
+									</h6>
+								</div>
+								<div class="col-md-6 mb-3">
+									<label for="name" class="form-label fw-semibold">
+										<i class="bi bi-file-text me-1"></i>Document Name
+									</label>
+									<input type="text" class="form-control" id="name" name="name" required 
+										   placeholder="Enter document name"/>
+								</div>
+								<div class="col-md-6 mb-3">
+									<label for="description" class="form-label fw-semibold">
+										<i class="bi bi-file-earmark-text me-1"></i>Description
+									</label>
+									<input type="text" class="form-control" id="description" name="description" required 
+										   placeholder="Enter document description"/>
+								</div>
+							</div>
+
+							<!-- File Upload Section -->
+							<div class="row mb-4">
+								<div class="col-12">
+									<h6 class="text-primary mb-3 border-bottom pb-2">
+										<i class="bi bi-cloud-arrow-up me-2"></i>File Upload
+									</h6>
+								</div>
+								<div class="col-md-6 mb-3">
+									<label for="filename" class="form-label fw-semibold">
+										<i class="bi bi-file-earmark-arrow-up me-1"></i>Document File
+									</label>
+									<input type="file" class="form-control" name="filename" id="filename" required />
+									<small class="form-text text-muted">Select the document file to upload</small>
+								</div>
+								<div class="col-md-6 mb-3">
+									<label for="image" class="form-label fw-semibold">
+										<i class="bi bi-image me-1"></i>Thumbnail Image
+									</label>
+									<input type="file" class="form-control" name="image" id="image" 
+										   accept=".jpeg,.jpg,.png,.webp"/>
+									<small class="form-text text-muted">Optional thumbnail image (JPEG, PNG, WebP)</small>
+								</div>
+							</div>
+
+							<!-- Progress Bar -->
+							<div class="row mb-4">
+								<div class="col-12">
+									<div class="progress">
+										<div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Access Control Section -->
+							<div class="row mb-4">
+								<div class="col-12">
+									<h6 class="text-primary mb-3 border-bottom pb-2">
+										<i class="bi bi-shield-lock me-2"></i>Access Control
+									</h6>
+								</div>
+								<div class="col-md-6 mb-3">
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" name="public" id="public" value="t"/>
+										<label for="public" class="form-check-label fw-semibold">
+											<i class="bi bi-globe me-1"></i>Public Access
+										</label>
+									</div>
+								</div>
 							</div>
 							
-							<div class="form-group">
-								<label for="description">Description</label>
-								<input type="description" class="form-control" id="description" placeholder="Enter description" name="description" required>
+							<!-- Access Groups Section -->
+							<div class="row mb-3">
+								<div class="col-12">
+									<h6 class="text-primary mb-3 border-bottom pb-2">
+										<i class="bi bi-people me-2"></i>Access Groups
+									</h6>
+								</div>
+								<div class="col-12 mb-3">
+									<label for="group_id" class="form-label fw-semibold">
+										<i class="bi bi-shield-check me-1"></i>Select Access Groups
+									</label>
+									<select name="group_id[]" id="group_id" multiple required class="form-select" style="min-height: 100px;">
+										<?php $sel = 'selected';
+										foreach($groups as $k => $v){ ?>
+											<option value="<?=$k?>" <?=$sel?>><?=$v?></option>
+										<?php $sel = ''; } ?>
+									</select>
+									<small class="form-text text-muted">Select groups that can access this document</small>
+								</div>
 							</div>
-							
-							<div class="form-group">
-								<label for="filename">File</label>
-								<input type="file" class="form-control" name="filename" id="filename" required />
-							</div>
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-							</div>
-
-							<div class="form-group">
-    							<label for="image" class="form-label">Thumbnail</label>
-    							<input type="file" class="form-control" name="image" id="image" accept=".jpeg,.jpg,.png,.webp"/>
-							</div>
-
-							<div class="form-group">
-    							<input type="checkbox" name="public" id="public" value="t"/>
-    							<label for="public" class="form-label">Public</label>
-							</div>
-
-							<div class="form-group">
-							    <label for="group_id" style="font-weight: 500; color: #2c3e50; margin-bottom: 0.5rem;">Access Groups</label>
-							    <select name="group_id[]" id="group_id" multiple required class="form-control" style="min-height: 70px;">
-							        <?php $sel = 'selected';
-							        foreach($groups as $k => $v){ ?>
-							            <option value="<?=$k?>" <?=$sel?>><?=$v?></option>
-							        <?php $sel = ''; } ?>
-							    </select>
-							</div>							
 						</form>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="activate btn btn-secondary" id="btn_create" data-dismiss="modal">Create</button>
+					<div class="modal-footer bg-light border-top">
+						<button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">
+							<i class="bi bi-x-circle me-1"></i>Cancel
+						</button>
+						<button type="button" class="btn btn-primary activate" id="btn_create">
+							<i class="bi bi-check-circle me-1"></i>Create Document
+						</button>
 					</div>
 				</div>
 			</div>

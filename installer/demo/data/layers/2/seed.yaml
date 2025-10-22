@@ -1,7 +1,7 @@
 # https://mapproxy.github.io/mapproxy/latest/seed.html
 seeds:
   myseed1:
-    caches: [usa_cache]
+    caches: [USA_PostGIS_Demo_cache]
     # grids: []
     # coverages: []
     levels:
@@ -11,7 +11,7 @@ seeds:
 
 cleanups:
   myclean1:
-    caches: [usa_cache]
+    caches: [USA_PostGIS_Demo_cache]
     remove_before:
       days: 14
     levels:

@@ -1,6 +1,7 @@
 <?php
 	require('../../admin/incl/index_prefix.php');
 	require('../../admin/incl/qgis.php');
+    require('../../admin/class/basemap.php');
 
 	$access_key = '';
     if(empty($_GET['access_key'])){
@@ -11,6 +12,24 @@
 	}else{
 	    $access_key = '?access_key='.$_GET['access_key'];
 	}
+	// Load basemap data for WMS sections
+	$basemap_data = [];
+	
+	$database = new Database(DB_HOST, DB_NAME, DB_USER, DB_PASS, DB_PORT, DB_SCMA);
+	$basemap_obj = new basemap_Class($database->getConn(), $_SESSION[SESS_USR_KEY]->id);
+	$basemap_rows = isset($_SESSION[SESS_USR_KEY]) ? $basemap_obj->getRows() : $basemap_obj->getPublic();
+	while($basemap_row = pg_fetch_assoc($basemap_rows)) {
+	    $basemap_data[$basemap_row['id']] = [
+	        'id' => $basemap_row['id'],
+	        'name' => $basemap_row['name'],
+	        'url' => $basemap_row['url'],
+	        'type' => $basemap_row['type'],
+	        'attribution' => $basemap_row['attribution'],
+	        'min_zoom' => $basemap_row['min_zoom'],
+	        'max_zoom' => $basemap_row['max_zoom']
+	    ];
+	}
+	pg_free_result($basemap_rows);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -154,6 +173,8 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/shapefile@0.6.6/dist/shapefile.js"></script>
     <script>
+    const basemaps = <?=json_encode($basemap_data)?>;
+    
     function mercatorToLatLng(x, y) {
         var R = 6378137.0;
         var lon = x / R * 180 / Math.PI;
@@ -169,6 +190,16 @@
         const closeFeatureInfo = document.getElementById('closeFeatureInfo');
         
         console.log('DEBUG: Initializing maps with layers:', layers);
+        console.log('DEBUG: Available basemaps:', basemaps);
+        
+        // Function to get basemap for a section
+        function getBasemapForSection(section) {
+            if (section.basemap_id && basemaps[section.basemap_id]) {
+                return basemaps[section.basemap_id];
+            }
+            // Return default basemap if none specified
+            return basemaps[0];
+        }
         
         if (closeFeatureInfo) {
             closeFeatureInfo.onclick = function() {
@@ -193,10 +224,17 @@
                         attributionControl: true
                     }).setView([0, 0], 2);
 
-                    // Add base layer
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; OpenStreetMap contributors'
-                    }).addTo(map);
+                    // Add basemap layer based on section configuration
+                    const basemap = getBasemapForSection(section);
+                    console.log('DEBUG: Using basemap for section:', basemap);
+                    
+                    if (basemap.type === 'xyz') {
+                        L.tileLayer(basemap.url, {
+                            attribution: basemap.attribution,
+                            minZoom: basemap.min_zoom || 0,
+                            maxZoom: basemap.max_zoom || 18
+                        }).addTo(map);
+                    }
 
                     // Enable zoom only when Control key is pressed
                     map.on('wheel', function(e) {

@@ -132,19 +132,18 @@
 		$size = 0;
 		
 		if (is_dir($dirname)) {
- 		 $objects = scandir($dirname);
- 		 foreach ($objects as $object) {
- 			 if ($object != "." && $object != "..") {
- 				 if (is_dir($dirname. DIRECTORY_SEPARATOR .$object) && !is_link($dirname."/".$object)){
- 					 $size += dir_size($dirname. DIRECTORY_SEPARATOR .$object);
- 				 }else{
+		 $objects = scandir($dirname);
+		 foreach ($objects as $object) {
+			 if ($object != "." && $object != "..") {
+				 if (is_dir($dirname. DIRECTORY_SEPARATOR .$object) && !is_link($dirname."/".$object)){
+					 $size += dir_size($dirname. DIRECTORY_SEPARATOR .$object);
+				 }else{
 					 $st = stat($dirname.'/'.$object);
- 					 $size += $st['size']; 
+					 $size += $st['size']; 
 				 }
- 					 
- 			 }
- 		 }
- 	 }
+			 }
+		 }
+	 }
 	 return $size;
 	}
 	

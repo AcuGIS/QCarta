@@ -104,9 +104,8 @@
 					}
       
 			}else if($action == 'delete') {
-    			$ref_ids = array();
     			$tbls = array('geostory_pg' => 'story_id');
-                $ref_ids = $database->get_ref_ids($tbls, 'layer_id', $id);
+                list($ref_ids,$ref_name) = $database->get_ref_ids($tbls, 'layer_id', $id);
 
     			if(count($ref_ids) > 0){
     				$result = ['success' => false, 'message' => 'Error: Can\'t delete layer because it is used in '.count($ref_ids).' '.$ref_name.'(s) with ID(s) ' . implode(',', $ref_ids) . '!' ];

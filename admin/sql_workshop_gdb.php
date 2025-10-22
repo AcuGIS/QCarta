@@ -281,17 +281,37 @@ if ($gdbPath && isset($_POST['export_csv']) && isset($_POST['sql'])) {
 	<link href="assets/dist/css/table.css" rel="stylesheet">
 	<link href="assets/dist/css/sql_workshop_gdb.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsPlumb/2.15.6/js/jsplumb.min.js"></script>
+
+<style>
+
+#content h1 {
+    font-family: Century Gothic, "Trebuchet MS", Tahoma, Verdana;
+    font-size: 22px !important;
+    /* text-transform: uppercase; */
+    letter-spacing: 1px;
+    margin: 10px 0 20px 0;
+    background-color: rgb(236 253 245 / var(--tw-bg-opacity, 1));
+    color: #666 !important;
+    padding: 15px 0 15px 10px;
+    width: 80%;
+    font-weight: 500;
+}
+
+
+</style>
 </head>
 <body>
-    <div id="container" style="display:block">
-        <?php const NAV_SEL = 'Layers'; const TOP_PATH='../'; const ADMIN_PATH='';
+
+  <?php const NAV_SEL = 'Layers'; const TOP_PATH='../'; const ADMIN_PATH='';
 					include("incl/navbar.php"); ?>
+
+    <div id="container" style="display:block">
+      
 		<br class="clear">
 		<?php include("incl/sidebar.php"); ?>
 
     <div class="main-page-content" style="padding: 0rem 0rem 0rem 0rem;">
-        <h1 style="color:#fff!important; background:dodgerblue!important; font-weight:400!important; important; font-family: Century Gothic!important;
-    font-size: 22px !important; letter-spacing: 1px; margin: 10px 0 20px 0; background-color: #1E90FF !important; color: #AFE1AF!important!important; padding: 25px 0 15px 10px; width: 80%; font-weight: 500;">GeoPackage SQL Workshop</h1>
+        <h1 style="background-color:rgb(236 253 245 / var(--tw-bg-opacity, 1))!important; font-weight:400!important; font-family: Century Gothic!important; font-size: 22px !important; letter-spacing: 1px; margin: 10px 0 20px 0; color: #666!important; padding: 25px 0 15px 10px; width: 80%; font-weight: 500;">GeoPackage SQL Workshop</h1>
         <form method="GET" style="margin-bottom: 20px;">
             <label for="gdb">File Geodatabase Directory Path:</label>
             <select name="gdb" id="gdb" style="width: 300px;">

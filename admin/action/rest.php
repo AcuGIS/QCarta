@@ -2,6 +2,7 @@
 	session_start(['read_and_close' => true]);
 	require('../incl/const.php');
 	require('../incl/app.php');
+	require('../incl/qgis.php');
 	require('../class/database.php');
 	require('../class/table.php');
 	require('../class/user.php');
@@ -12,6 +13,22 @@
 	require('../class/layer.php');
 	require('../class/qgs_layer.php');
 	require('../class/pg_layer.php');
+	
+	require('../class/geostory.php');
+	require('../class/web_link.php');
+	require('../class/topic.php');
+	require('../class/doc.php');
+	require('../class/basemap.php');
+	
+	function filter_by_user_access($db_obj, $tbl_prefix, $user_id, $rows){
+	    $filtered = [];
+	    foreach($rows as $row){
+        	if($row['public'] || $db_obj->check_user_tbl_access($tbl_prefix, $row['id'], $user_id)){
+             $filtered[] = $row;
+            }
+        }
+        return $filtered;
+	}
 	
 	$reply = ['success' => false, 'message' => 'Error while processing your request!'];
 	
@@ -75,6 +92,7 @@
 			$obj = new pglink_Class($database->getConn(), SUPER_ADMIN_ID);
 			$result = ($user_id == 0) ? $obj->getPublic() : $obj->getRows();
 			while ($row = pg_fetch_assoc($result)) {
+			    $row['public'] = ($row['public'] == 't');   // change to boolean
 				$rows[] = $row;
 			}
 		}else{
@@ -85,14 +103,14 @@
 				$row['wms_url'] = $base_url.'/'.$row['id'].'/wms'.$url_key_param;
 				$row['wfs_url'] = $base_url.'/'.$row['id'].'/wfs'.$url_key_param;
 				$row['wmts_url'] = $base_url.'/'.$row['id'].'/wmts'.$url_key_param;
-				
+				$row['public'] = ($row['public'] == 't');   // change to boolean
 				$rows[] = $row;
 			}
 		}
 		pg_free_result($result);
 		
 		$single = substr($_GET['q'], 0, -1);
-		$stores = [$single => $rows];
+		$stores = [$single => filter_by_user_access($database, 'store', $user_id, $rows)];
 		$reply = ['success' => true, $_GET['q'] => $stores];
 
 	}else if($_GET['q'] == 'layers'){	// /rest/layers
@@ -109,6 +127,7 @@
 			while ($row = pg_fetch_assoc($result)) {
 				$row['name'] = $stores[$row['store_id']].':'.$row['name'];
 				$row['url'] = $base_url.'/'.$row['id'].'/geojson.php'.$url_key_param;
+				$row['public'] = ($row['public'] == 't');   // change to boolean
 				$rows[] = $row;
 			}
 
@@ -120,6 +139,8 @@
 			$result = ($user_id == 0) ? $obj->getPublic() : $obj->getRows();
 			while ($row = pg_fetch_assoc($result)) {
 				$row['name'] = $stores[$row['store_id']].':'.$row['name'];
+				$row['public'] = ($row['public'] == 't');   // change to boolean
+
 				if($row['proxyfied'] == 't'){
 					$row['url'] = $proto.'://'.$_SERVER['HTTP_HOST'].'/mproxy/service'.$url_key_param;
 				}else{
@@ -129,7 +150,7 @@
 			}
 		}
 		pg_free_result($result);
-		$layers = ['layer' => $rows];
+		$layers = ['layer' => filter_by_user_access($database, 'layer', $user_id, $rows)];
 		$reply = ['success' => true, 'layers' => $layers];
 
 	}else if($_GET['q'] == 'layer'){	// /rest/layer/top:usa
@@ -148,8 +169,9 @@
 			$result = $obj->getById($layer_row['id']);
 			if($result){
 				$row = pg_fetch_assoc($result);
+				$row['public'] = ($row['public'] == 't');   // change to boolean
 				
-				if(($row['public'] != 't') && ($row['owner_id'] != $user_id)){
+				if(!$row['public'] && !$database->check_user_tbl_access('layer', $row['id'], $user_id)){
 					http_response_code(401);	//unauthorized
 					$reply = ['success' => false, 'message' => 'Error: Invalid credentials'];
 					echo json_encode($reply);
@@ -166,8 +188,9 @@
 			$result = $obj->getById($layer_row['id']);
 			if($result){
 				$row = pg_fetch_assoc($result);
+				$row['public'] = ($row['public'] == 't');   // change to boolean
 				
-				if(($row['public'] != 't') && ($row['owner_id'] != $user_id)){
+				if(!$row['public'] && !$database->check_user_tbl_access('layer', $row['id'], $user_id)){
 					http_response_code(401);	//unauthorized
 					$reply = ['success' => false, 'message' => 'Error: Invalid credentials'];
 					echo json_encode($reply);
@@ -198,25 +221,213 @@
             $store_row = pg_fetch_assoc($store_res);
     		pg_free_result($store_res);
     		
-    		$row['id'] = $store_row['id'];
-    		
-    		$path = DATA_DIR.'/stores/'.$store_row['id'];
-    		$path_len = strlen($path) + 1;
-    		
-    	    $directory  = new \RecursiveDirectoryIterator($path);
-            $iterator   = new \RecursiveIteratorIterator($directory);
-            
-            $files = array();
-            foreach ($iterator as $info) {
-                $fp = $info->getPathname();
-                if (is_file($fp)) {
-                    $files[] = array('path' =>substr($fp, $path_len), 'mtime' => filemtime($fp));
+            if(!$store_row['public'] && !$database->check_user_tbl_access('store', $store_row['id'], $user_id)){
+				http_response_code(401);	//unauthorized
+				$reply = ['success' => false, 'message' => 'Error: Invalid credentials'];
+				echo json_encode($reply);
+				exit(0);
+			}else{
+      		    $row['id'] = $store_row['id'];
+                $row['public'] = ($store_row['public'] == 't');   // change to boolean
+      		
+              	$path = DATA_DIR.'/stores/'.$store_row['id'];
+                $path_len = strlen($path) + 1;
+      		
+       	        $directory  = new \RecursiveDirectoryIterator($path);
+                $iterator   = new \RecursiveIteratorIterator($directory);
+                
+                $files = array();
+                foreach ($iterator as $info) {
+                    $fp = $info->getPathname();
+                    if (is_file($fp)) {
+                        $files[] = array('path' =>substr($fp, $path_len), 'mtime' => filemtime($fp));
+                    }
                 }
-            }
-            $row['files'] = $files;
-            $row['post_max_size'] = return_bytes(ini_get('post_max_size'));
-    
-            $reply = ['success' => true, 'store' => $row];
+                $row['files'] = $files;
+                $row['post_max_size'] = return_bytes(ini_get('post_max_size'));
+                
+                $id = $store_row['id'];
+                $qgis_file = find_qgs(DATA_DIR.'/stores/'.$id);
+				if($qgis_file !== false){
+					
+					$xml = simplexml_load_file($qgis_file);
+					list($DefaultViewExtent) = $xml->xpath('/qgis/ProjectViewSettings/DefaultViewExtent');
+					
+					$bounding_box = $DefaultViewExtent['xmin'].','.$DefaultViewExtent['ymin'].','.$DefaultViewExtent['xmax'].','.$DefaultViewExtent['ymax'];
+					list($projection) = $xml->xpath('/qgis/ProjectViewSettings/DefaultViewExtent/spatialrefsys/authid');
+					
+					$layout_names = [];
+					list($layouts) = $xml->xpath('/qgis/Layouts//Layout/@name');
+					foreach($layouts as $name){
+					    $layout_names[] = (string)$name;
+					}
+					
+					$layer_names = qgs_ordered_layers($xml);
+					
+					$proto = empty($_SERVER['HTTPS']) ? 'http' : 'https';
+					$base_url = $proto.'://'.$_SERVER['HTTP_HOST'].'/stores/'.$id;
+					$html_dir = WWW_DIR.'/layers/'.$id;
+					$kv = ['Projection' => (string) $projection, 'BoundingBox' => explode(',', $bounding_box), 'Layouts' => $layout_names, 'Layers' => $layer_names,
+						'WMS'  => $base_url.'/wms?REQUEST=GetCapabilities',
+						'WFS' => $base_url.'/wfs?REQUEST=GetCapabilities',
+						'WMTS' => $base_url.'/wmts?REQUEST=GetCapabilities',
+						'OpenLayers' => $base_url.'/wms?REQUEST=GetProjectSettings'
+					];
+					foreach($kv as $k => $v){
+					    $row[$k] = $v;
+					}
+				}
+					
+                $reply = ['success' => true, 'store' => $row];
+			}
+		}
+	}else if($_GET['q'] == 'geostories'){	// /rest/geostories
+		
+		$base_url = $proto.'://'.$_SERVER['HTTP_HOST'].'/geostory';
+		
+		$obj = new geostory_Class($database->getConn(), SUPER_ADMIN_ID);
+		$result = ($user_id == 0) ? $obj->getPublic() : $obj->getRows();
+		while ($row = pg_fetch_assoc($result)) {
+		    $row['public'] = ($row['public'] == 't');   // change to boolean
+			$row['url'] = $base_url.'/'.$row['id'].'/index.php'.$url_key_param;
+			$rows[] = $row;
+		}
+		
+		pg_free_result($result);
+		$geostories = ['geostory' => filter_by_user_access($database, 'geostory', $user_id, $rows)];
+		$reply = ['success' => true, 'geostories' => $geostories];
+
+	}else if($_GET['q'] == 'geostory'){	// /rest/geostory/Bee%20Farming
+		$geostory_name = $_GET['l'];
+		
+		$row = $database->get('public.geostory', 'name=\''.$geostory_name.'\'');
+				
+		$base_url = $proto.'://'.$_SERVER['HTTP_HOST'].'/geostory';
+		
+		$row['public'] = ($row['public'] == 't');   // change to boolean
+        $row['url'] = $base_url.'/'.$row['id'].'/index.php'.$url_key_param;
+
+        if($row['public'] || $database->check_user_tbl_access('geostory', $row['id'], $user_id)){
+		    $reply = ['success' => true, 'geostory' => $row];
+		}else{
+            http_response_code(403);	//403 Forbidden
+            $reply = ['success' => false, 'message' => 'Error: Access not allowed'];
+		}
+
+	}else if($_GET['q'] == 'web_links'){	// /rest/web_links
+		
+		$obj = new web_link_Class($database->getConn(), SUPER_ADMIN_ID);
+		$result = ($user_id == 0) ? $obj->getPublic() : $obj->getRows();
+		while ($row = pg_fetch_assoc($result)) {
+		    $row['public'] = ($row['public'] == 't');   // change to boolean
+			$rows[] = $row;
+		}
+		
+		pg_free_result($result);
+		$web_links = ['web_link' => filter_by_user_access($database, 'web_link', $user_id, $rows)];
+		$reply = ['success' => true, 'web_links' => $web_links];
+
+	}else if($_GET['q'] == 'web_link'){	// /rest/geostory/Bee%20Farming
+		$web_link_name = $_GET['l'];
+
+		$row = $database->get('public.web_link', 'name=\''.$web_link_name.'\'');
+		$row['public'] = ($row['public'] == 't');   // change to boolean
+		
+		if($row['public'] || database->check_user_tbl_access('web_link', $row['id'], $user_id)){
+		    $reply = ['success' => true, 'web_link' => $row];
+		}else{
+		    http_response_code(403);	//403 Forbidden
+            $reply = ['success' => false, 'message' => 'Error: Access not allowed'];
+		}
+
+	}else if($_GET['q'] == 'docs'){	// /rest/web_links
+
+		$obj = new doc_Class($database->getConn(), SUPER_ADMIN_ID);
+		$result = ($user_id == 0) ? $obj->getPublic() : $obj->getRows();
+		while ($row = pg_fetch_assoc($result)) {
+		    $row['public'] = ($row['public'] == 't');   // change to boolean
+			$rows[] = $row;
+		}
+
+		pg_free_result($result);
+		$docs = ['doc' => filter_by_user_access($database, 'doc', $user_id, $rows)];
+		$reply = ['success' => true, 'docs' => $docs];
+
+	}else if($_GET['q'] == 'doc'){	// /rest/geostory/Bee%20Farming
+		$doc_name = $_GET['l'];
+
+		$row = $database->get('public.doc', 'name=\''.$doc_name.'\'');
+		$row['public'] = ($row['public'] == 't');   // change to boolean
+		
+		if($row['public'] || $database->check_user_tbl_access('doc', $row['id'], $user_id)){
+		    $reply = ['success' => true, 'doc' => $row];
+		}else{
+		    http_response_code(403);	//403 Forbidden
+            $reply = ['success' => false, 'message' => 'Error: Access not allowed'];
+		}
+
+	}else if($_GET['q'] == 'topics'){	// /rest/topics
+
+		$obj = new topic_Class($database->getConn(), SUPER_ADMIN_ID);
+		$result = ($user_id == 0) ? $obj->getPublic() : $obj->getRows();
+		while ($row = pg_fetch_assoc($result)) {
+			$rows[] = $row;
+		}
+
+		pg_free_result($result);
+		$topics = ['topic' => $rows];
+		$reply = ['success' => true, 'topics' => $topics];
+
+	}else if($_GET['q'] == 'gemets'){	// /rest/gemets
+
+		$obj = new topic_Class($database->getConn(), SUPER_ADMIN_ID, 'gemet');
+		$result = ($user_id == 0) ? $obj->getPublic() : $obj->getRows();
+		while ($row = pg_fetch_assoc($result)) {
+			$rows[] = $row;
+		}
+
+		pg_free_result($result);
+		$gemets = ['gemet' => $rows];
+		$reply = ['success' => true, 'gemets' => $gemets];
+
+	}else if($_GET['q'] == 'basemaps'){	// /rest/basemaps
+
+		$obj = new basemap_Class($database->getConn(), SUPER_ADMIN_ID);
+		$result = ($user_id == 0) ? $obj->getPublic() : $obj->getRows();
+		while ($row = pg_fetch_assoc($result)) {
+		    $row['public'] = ($row['public'] == 't');   // change to boolean
+			$rows[] = $row;
+		}
+
+		pg_free_result($result);
+		$basemaps = ['basemap' => filter_by_user_access($database, 'basemap', $user_id, $rows)];
+		$reply = ['success' => true, 'basemaps' => $basemaps];
+
+	}else if($_GET['q'] == 'basemap'){	// /rest/basemap/OpenStreetMap
+		$bm_name = $_GET['l'];
+		
+		$row = $database->get('public.basemaps', 'name=\''.$bm_name.'\'');
+		$row['public'] = ($row['public'] == 't');   // change to boolean
+		
+		if($row['public'] || $database->check_user_tbl_access('basemaps', $row['id'], $user_id)){
+		    $reply = ['success' => true, 'basemap' => $row];
+		}else{
+		    http_response_code(403);	//403 Forbidden
+            $reply = ['success' => false, 'message' => 'Error: Access not allowed'];
+		}
+
+	}else if($_GET['q'] == 'layer_metadata'){	// /rest/layer_metadata/top:usa
+		$layer_name = explode($_GET['l']);
+
+		$l_row = $database->get('public.layer', 'name=\''.$layer_name.'\'');
+		$l_row['public'] = ($l_row['public'] == 't');   // change to boolean
+		
+		if($l_row['public'] || $database->check_user_tbl_access('layer', $l_row['id'], $user_id)){
+		    $row = $database->get('public.layer_metadata', 'layer_id = '.$l_row['id']);
+		    $reply = ['success' => true, 'layer_metadata' => $row];
+		}else{
+            http_response_code(403);	//403 Forbidden
+            $reply = ['success' => false, 'message' => 'Error: Access not allowed'];
 		}
 
 	}else{

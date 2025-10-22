@@ -43,34 +43,64 @@
 		</div>
 		
 		<div id="addnew_modal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
+			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Create Key</h4>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<div class="modal-header bg-primary text-white">
+						<h4 class="modal-title mb-0">
+							<i class="bi bi-plus-circle me-2"></i>Create New Access Key
+						</h4>
+						<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					
-					<div class="modal-body" id="addnew_modal_body">
-						<form id="key_form" class="border shadow p-3 rounded"
-									action=""
-									method="post"
-									style="width: 450px;">
-
+					<div class="modal-body p-4" id="addnew_modal_body">
+						<form id="key_form" action="" method="post">
 							<input type="hidden" name="action" value="save"/>
 							<input type="hidden" name="id" id="id" value="0"/>
 							
-							<div class="form-group">
-								<label for="name">Valid Until:</label>
-								<input type="datetime-local" class="form-control" id="valid_until" placeholder="Enter date" name="valid_until" value="<?=date("Y-m-d\TH:i:s")?>" min="<?=date("Y-m-d\TH:i:s")?>" required>
-
-								<label for="name">Allow from:</label>
-								<input type="text" class="form-control" id="allow_from" placeholder="IP/domain access list" name="allow_from">
+							<!-- Key Configuration Section -->
+							<div class="row mb-4">
+								<div class="col-12">
+									<h6 class="text-primary mb-3 border-bottom pb-2">
+										<i class="bi bi-key me-2"></i>Key Configuration
+									</h6>
+								</div>
+								<div class="col-md-6 mb-3">
+									<label for="valid_until" class="form-label fw-semibold">
+										<i class="bi bi-calendar-check me-1"></i>Valid Until
+									</label>
+									<input type="datetime-local" class="form-control" id="valid_until" name="valid_until" 
+										   value="<?=date("Y-m-d\TH:i:s")?>" min="<?=date("Y-m-d\TH:i:s")?>" required/>
+									<small class="form-text text-muted">Set expiration date and time for this key</small>
+								</div>
+								<div class="col-md-6 mb-3">
+									<label for="allow_from" class="form-label fw-semibold">
+										<i class="bi bi-globe me-1"></i>IP/Domain Restrictions
+									</label>
+									<input type="text" class="form-control" id="allow_from" name="allow_from" 
+										   placeholder="192.168.1.1, example.com"/>
+									<small class="form-text text-muted">Comma-separated list of allowed IPs or domains (optional)</small>
+								</div>
 							</div>
 
+							<!-- Security Information Section -->
+							<div class="row mb-3">
+								<div class="col-12">
+									<div class="alert alert-info">
+										<i class="bi bi-info-circle me-2"></i>
+										<strong>Security Note:</strong> Access keys provide programmatic access to your QCarta system. 
+										Make sure to store them securely and set appropriate expiration dates.
+									</div>
+								</div>
+							</div>
 						</form>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="activate btn btn-secondary" id="btn_create" data-dismiss="modal">Create</button>
+					<div class="modal-footer bg-light border-top">
+						<button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">
+							<i class="bi bi-x-circle me-1"></i>Cancel
+						</button>
+						<button type="button" class="btn btn-primary activate" id="btn_create">
+							<i class="bi bi-check-circle me-1"></i>Create Key
+						</button>
 					</div>
 				</div>
 			</div>

@@ -184,10 +184,12 @@
 				function drop_user($username){
 					$result = pg_query($this->connection, 'DROP USER "'.$username.'"');
 					pg_free_result($result);
+					return true;
 				}
-				
+
 				function get_ref_ids($tbls, $id_col, $id){
 				    $ref_ids = array();
+					$ref_name = '';
      			
          			foreach($tbls as $tbl => $ref_col){
         				$rows = $this->getAll('public.'.$tbl, $id_col.' = '.$id);
@@ -200,7 +202,7 @@
            					break;
         				}
          			}
-                    return $ref_ids;
+                    return [$ref_ids,$ref_name];
 				}
 				
 				function check_user_tbl_access($prefix, $id, $user_id){
@@ -229,7 +231,7 @@
 					pg_free_result($result);
 					return ($row->allowed == 1);
 				}
-				
+
 				function find_srid($schema, $tbl, $geom){
 					/*$query = "SELECT Find_SRID('".$schema."','".$tbl."','".$geom."')";
 					$result = pg_query($this->connection, $query);
@@ -244,7 +246,7 @@
 					return $row['find_srid'];*/
 					return 4326;
 				}
-				
+
 				function buildGeoJSON($query, $geom){
 					echo '{"type": "FeatureCollection",
 				    	"features": [';
@@ -298,7 +300,7 @@
 					
 					return 0;
 				}
-				
+
 				# Build GeoJSON feature collection array
 				function getGeoJSON($schema, $tbl, $geom, $where='', $fp = null){
 					if(!empty($where)){

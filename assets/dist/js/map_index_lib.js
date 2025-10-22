@@ -1,3 +1,128 @@
+function load_select(id, name, arr){
+	var obj = $('#' + id);
+	if(arr.length === 0){
+		return;
+	}
+	
+	var opts = '';
+	$.each(arr, function(x){
+		opts += '<option value="' + arr[x] + '">' + arr[x] + '</option>' + "\n";
+	});
+	
+	//change input to select
+	obj.replaceWith(`<select class="form-select" id="`+ id + `" name="`+ name +`" multiple required>` + opts + `</select>`);
+	$('#' + id).trigger('change');
+}
+
+function filter_match(f, prop_value){
+  if((f.op == 'IN') && (!f.val.includes(prop_value)) ){
+    return true;
+  }else if((f.op == 'NOT IN') && (f.val.includes(prop_value)) ){
+    return true;
+  }else if((f.op == '<') && (f.val[0] >= prop_value)){
+    return true;
+  }else if((f.op == '<=') && (f.val[0] > prop_value)){
+    return true;
+  }else if((f.op == '>') && (f.val[0] <= prop_value)){
+    return true;
+  }else if((f.op == '>=') && (f.val[0] < prop_value)){
+    return true;
+  }else if((f.op == '=') && (f.val[0] != prop_value)){
+    return true;
+  }else if((f.op == '!=') && (f.val[0] == prop_value)){
+    return true;
+  }
+  return false;
+}
+
+// ---------- Relations helpers (robust resolution) ----------
+function normalizeLayerName(n){
+  if (!n) return '';
+  return String(n).toLowerCase().replace(/^public\./,'').replace(/^\"|\"$/g,'');
+}
+function getFeatureLayerName(feat){
+  if (feat && typeof feat.id === 'string' && feat.id.includes('.')) return feat.id.split('.')[0];
+  return feat?.properties?._layerName || null;
+}
+
+// Build once and reuse: normalized name -> layer index
+let __layerNameIndex = null;
+function buildLayerNameIndex(){
+  const idx = new Map();
+  (layerConfigs || []).forEach((cfg, i) => {
+    const ns = normalizeLayerName(cfg.typename).split(',');
+    ns.forEach((n1, index) => {
+      if (n1) idx.set(n1, i);
+    });
+    const feats = layerWfsFeatures?.[i] || [];
+    if (feats.length){
+      const n2 = normalizeLayerName(getFeatureLayerName(feats[0]));
+      if (n2 && !idx.has(n2)) idx.set(n2, i);
+    }
+  });
+  __layerNameIndex = idx;
+  return idx;
+}
+function getLayerIndexByAnyName(layerName){
+  if (!__layerNameIndex) buildLayerNameIndex();
+  const n = normalizeLayerName(layerName);
+  if (__layerNameIndex.has(n)) return __layerNameIndex.get(n);
+  // last resort: exact match on config array
+  const exact = (layerConfigs || []).findIndex(l => l.name === layerName);
+  return exact;
+}
+
+// Map QGIS field/alias -> actual GeoJSON property key (now robust to name mismatches)
+function resolveFieldName(layerName, field) {
+  if (!field) return field;
+  try {
+    // 1) FIELD_MAPS (lowercased alias/real -> real)
+    const mmap = (window.FIELD_MAPS && window.FIELD_MAPS[layerName]) ? window.FIELD_MAPS[layerName] : null;
+    const lc = field.toLowerCase();
+    if (mmap && mmap[lc]) return mmap[lc];
+
+    // 2) Probe the actual features from whichever index maps to this layer
+    const layerIdx = getLayerIndexByAnyName(layerName);
+    const feats = layerIdx >= 0 ? (layerWfsFeatures[layerIdx] || []) : [];
+    if (feats.length && feats[0] && feats[0].properties) {
+      const keys = Object.keys(feats[0].properties);
+      const k = keys.find(k => k.toLowerCase() === lc);
+      if (k) return k;
+    }
+  } catch (_) {}
+  return field;
+}
+window.resolveFieldName = window.resolveFieldName || resolveFieldName;
+
+// Build relation indexes from backend-provided RELATIONS
+window.relationIndexes = {};
+function buildRelationIndexesFromBackend(){
+  window.relationIndexes = {};
+  const rels = Array.isArray(RELATIONS) ? RELATIONS : [];
+  if (!rels.length) return;
+
+  // keep index fresh for current session
+  buildLayerNameIndex();
+
+  rels.forEach(rel => {
+    // find child layer index even if names differ (schema prefix / quotes / shortname)
+    const childIdx = getLayerIndexByAnyName(rel.child_layer);
+    const childFeatures = (childIdx >= 0 ? (layerWfsFeatures[childIdx] || []) : []);
+    const m = new Map();
+    childFeatures.forEach(f => {
+      const realChildField = resolveFieldName(rel.child_layer, rel.child_field);
+      const raw = f?.properties?.[realChildField] ?? f?.properties?.[rel.child_field];
+      if (raw === undefined || raw === null) return; // skip bad keys
+      const key = String(raw);
+      if (!key) return; // skip empty string to avoid collapsing buckets
+      if (!m.has(key)) m.set(key, []);
+      m.get(key).push(f);
+    });
+    const k = `${rel.parent_layer}|${rel.parent_field}|${rel.child_layer}|${rel.child_field}`;
+    window.relationIndexes[k] = m;
+  });
+}
+
 // Define essential functions
 function updateChart(features, groupBy, valueField) {
   const bounds = map.getBounds();
@@ -50,6 +175,11 @@ function updateChart(features, groupBy, valueField) {
   });
   isChartsDataDirty = false;
 }
+
+
+
+
+
 
 function populateDropdowns(properties, selectedGroup = null, selectedValue = null) {
   const keys = Object.keys(properties);
@@ -179,13 +309,15 @@ function populatePlotlyFields(properties) {
 function reload_datatable(){
   layerConfigs.forEach((cfg, i) => {
     const layer = overlayLayers[cfg.name];
-    if(map.hasLayer(layer)){
+    if(layer && map.hasLayer(layer)){
       isDataTableDirty[i] = true; // make table dirty, if its visible, so we can reload it
       if(!isDataTableVisible(i)){
         console.log('reload_datatable: datatable' + i + ' is hidden, skipping reload, marking as dirty');
       }else{
         updateDataTable(i);
       }
+    }else{
+      isDataTableDirty[i] = false;
     }
   });
 }
@@ -254,6 +386,14 @@ function updateDataTable(li) {
     if (!f || !f.properties) {
       console.warn('Invalid feature at index', i, f);
       return '';
+    }
+    
+    if(layerConfigs[li].filter){
+      for (const [prop_k, ov] of Object.entries(layerConfigs[li].filter)) {
+        if(filter_match(ov, f.properties[prop_k])){
+          return '';
+        }
+      }
     }
     const row = keys.map(k => `<td>${f.properties[k]}</td>`).join('');
     const zoomBtn = `<button class='btn btn-sm btn-outline-primary' onclick='zoomToRowFeature(${li}, ${i})'>Zoom</button>`;
@@ -426,7 +566,7 @@ function fetchDataAndBuildChart() {
       // Debug: Log each layer's features
       results.forEach((result, index) => {
         
-        layerWfsFeatures[index] = result?.features || null;
+        layerWfsFeatures[index] = Array.isArray(result?.features) ? result.features : [];
         
         console.log(`Layer ${layerConfigs[index].name}:`, {
           featureCount: result?.features?.length || 0,
@@ -434,6 +574,9 @@ function fetchDataAndBuildChart() {
           geometryType: result?.features?.[0]?.geometry?.type || 'none'
         });
       });
+
+      // Build relation indexes now that features are loaded
+      try { buildRelationIndexesFromBackend(); } catch (e) { console.warn('Relation index build failed:', e); }
 
       // Initialize Chart tab layer selector
       const layerSelect = document.getElementById("layerSelect");
@@ -452,11 +595,15 @@ function fetchDataAndBuildChart() {
         valueField.addEventListener("change", updateChartTab);
         chartType.addEventListener("change", updateChartTab);
         map.on("moveend", updateChartTab);
-        map.on("moveend", reload_datatable);
         
         // Update the chart tab to show the selected layer
         layerSelect.value = 0;
         updateChartTab();
+      }
+
+      const dtPanel = document.getElementById("dataTablePanel");
+      if(dtPanel){
+        map.on("moveend", reload_datatable);
       }
 
       // Initialize Plotly tab layer selector only if it exists
@@ -464,10 +611,12 @@ function fetchDataAndBuildChart() {
       if (plotlyLayerSelect) {
         plotlyLayerSelect.innerHTML = "";
         layerConfigs.forEach((cfg, i) => {
-          const opt = document.createElement("option");
-          opt.value = i;
-          opt.text = cfg.label;
-          plotlyLayerSelect.appendChild(opt);
+          if(cfg.label){
+            const opt = document.createElement("option");
+            opt.value = i;
+            opt.text = cfg.label;
+            plotlyLayerSelect.appendChild(opt);
+          }
         });
         
         
@@ -521,13 +670,24 @@ function updateChartTab() {
   const selectedIndex = parseInt(layerSelect.value);
   console.log('updateChartTab - Selected layer index:', selectedIndex);
   
-  const features = layerWfsFeatures[selectedIndex] || [];
+  const features = (layerConfigs[selectedIndex].filter) ? layerWfsFeatures[selectedIndex].filter(f => 
+      {
+        for (const [prop_k, ov] of Object.entries(layerConfigs[selectedIndex].filter)) {
+          if(filter_match(ov, f.properties[prop_k])){
+            return false;
+          }
+        }
+        return true;
+      }
+    )
+    : layerWfsFeatures[selectedIndex] || [];
+  
   console.log('updateChartTab - Features for selected layer:', {
       count: features.length,
       firstFeature: features[0] || null,
       layerName: layerConfigs[selectedIndex]?.name
   });
-  
+
   chartFeatures = features;  // Store features for Chart/Data Table
   
   if (features.length > 0 && features[0]?.properties) {
@@ -1069,7 +1229,7 @@ function limitMapToResults(data) {
               
               // Highlight the selected feature
               layer.setStyle({
-                fillColor: '#ff7800',
+                fillColor: '#000000',
                 color: '#ff7800',
                 weight: 2,
                 opacity: 1,
@@ -1130,6 +1290,232 @@ function onSavedQueryClick(element){
   document.getElementById('viewDataBtn').style.display = 'block';
   document.getElementById('openInModal2').style.display = 'block';
   document.getElementById('exportResults2').style.display = 'block';
+}
+
+function onSavedPropFilterClick(element){
+  const filter_id = element.getAttribute('data-id');
+  const feature = element.getAttribute('data-feature');
+  const property = element.getAttribute('data-property');
+
+
+// Point the badge at THIS saved filter item
+  const modalEl = document.getElementById('filter_modal');
+  if (modalEl) {
+    modalEl.dataset.filterIndicatorTarget =
+      '.saved_prop_filter[data-id="' + filter_id + '"]';
+  }
+
+
+ 
+  let values = [];
+  let selected_ov = null;
+  layerConfigs.forEach((cfg, layer_index) => {
+    if(cfg.typename == feature){
+      
+      $.ajax({
+					type: "GET",
+					url: 'store_filep.php?f=fv_' + feature + '_' + property + '.json',
+					success: function(values){
+						if(typeof values[0] === 'string' || values[0] instanceof String){
+             	values.sort();
+            }else{
+              values.sort(function(a, b){return a-b});
+            }
+        
+            if(cfg.filter && cfg.filter[property]){
+              selected_ov = cfg.filter[property];
+            }
+            
+            document.getElementById('filter_property_p').textContent = property;
+            
+            document.getElementById('filter_feature').value = feature;
+            document.getElementById('filter_property').value = property;
+            
+            load_select('filter_values', 'filter_values[]', values);
+            if(selected_ov){
+              $('#filter_op').val(selected_ov.op);
+              $('#filter_values').val(selected_ov.val);
+            }else{
+              $('#filter_op').val('IN');
+            }
+            $('#filter_op').trigger('change');
+          
+            $('#filter_modal').modal('show');
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("Error: " + errorThrown); 
+					}
+			});
+    }
+  });
+
+}
+
+
+// --- Saved Filter Badge (self-contained, per-target) ---
+(function() {
+  // Remember which saved filter button was clicked
+  document.addEventListener('click', function(e) {
+    const btn = e.target.closest && e.target.closest('.saved_prop_filter');
+    if (btn) {
+      window.__lastSavedFilterSel = '.saved_prop_filter[data-id="' + (btn.dataset.id || '') + '"]';
+    }
+  }, true);
+
+  function removeBadgeForSelector(targetSelector) {
+    if (!targetSelector) return;
+    const el = document.querySelector(targetSelector);
+    el?.querySelector('.md-filter-badge')?.remove();
+  }
+
+  function updateBadgeForSelector(targetSelector, count) {
+    if (!targetSelector) return;
+    const target = document.querySelector(targetSelector);
+    if (!target) return;
+
+    // If nothing selected, remove just this target's badge
+    if (!count || count <= 0) {
+      removeBadgeForSelector(targetSelector);
+      return;
+    }
+
+    // Otherwise add/update this target's badge
+    let badge = target.querySelector('.md-filter-badge');
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.className = 'md-filter-badge';
+      badge.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v2l-7 7v5l-4-2v-3L3 7V5z"></path></svg><span class="md-filter-count"></span>';
+      target.appendChild(badge);
+    }
+    const cnt = badge.querySelector('.md-filter-count');
+    if (cnt) cnt.textContent = String(count);
+  }
+
+  function getSelectedValueCount() {
+    // Prefer the chips (Material UI)
+    const chips = document.querySelectorAll('#filter_chips .md-chip[aria-selected="true"]');
+    if (chips.length) return chips.length;
+
+    // jQuery multiselect fallback
+    if (window.$) { 
+      const arr = $('#filter_values').val() || [];
+      return Array.isArray(arr) ? arr.length : 0;
+    }
+
+    // Plain select fallback
+    const sel = document.getElementById('filter_values');
+    return sel ? Array.from(sel.options).filter(o => o.selected).length : 0;
+  }
+
+  function currentTargetSelector() {
+    return (document.getElementById('filter_modal')?.dataset?.filterIndicatorTarget) ||
+           window.__lastSavedFilterSel;
+  }
+
+  // Delegated click: Update ? update/add badge only for THIS saved filter
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest) return;
+    if (e.target.closest('#btn_update_filter')) {
+      setTimeout(function() {
+        const targetSel = currentTargetSelector();
+        const count = getSelectedValueCount();
+        updateBadgeForSelector(targetSel, count);
+      }, 0);
+    }
+  }, true);
+
+  // Delegated click: Clear ? remove badge only for THIS saved filter
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest) return;
+    if (e.target.closest('#btn_clear_filter')) {
+      const targetSel = currentTargetSelector();
+      removeBadgeForSelector(targetSel);
+    }
+  }, true);
+})();
+
+
+
+function onSavedPropFilterChange(){
+  const feature  = document.getElementById('filter_feature').value;
+  const property = document.getElementById('filter_property').value;
+  const op       = document.getElementById("filter_op").value;
+  const values = [];
+  
+  
+  const options = document.getElementById('filter_values').options;
+  for (var i=0, iLen = options.length; i < iLen; i++) {  
+    if (options[i].selected) {
+      values.push(options[i].value);
+    }
+  }
+  console.log(values);
+  
+  layerConfigs.forEach((cfg, layer_index) => {
+    if(cfg.typename == feature){
+      
+      if(cfg.filter == null){
+        cfg.filter = {};
+      }
+      
+      if(values.length > 0){
+        cfg.filter[property] = {'op': op, 'val': values};
+      }else{
+        delete cfg.filter[property];
+      }
+      
+      updateDataTable(layer_index);
+      updateChartTab();
+      
+      const url = (overlayLayers[cfg.name]._url.startsWith('/mproxy/service'))
+          ? URL.parse(overlayLayers[cfg.name]._url, window.location.origin)
+          : URL.parse(overlayLayers[cfg.name]._url, window.location.href.slice(0, -9));
+      
+      if(cfg.filter && (Object.keys(cfg.filter).length > 0)){
+        let f_prop_values = [];
+        for (const [k, f] of Object.entries(cfg.filter)) {
+          let f_values = (typeof f.val[0] === 'string' || f.val[0] instanceof String) ? '\'' + f.val.join('\' , \'') + '\'' : f.val.join(' , ');
+          if((f.op == 'IN') || (f.op == 'NOT IN')){
+            f_prop_values.push('"' + k + '" ' + f.op +' ( ' + f_values + ' )');
+          }else{
+            f_prop_values.push('"' + k + '" ' + f.op + ' ' + f_values);
+          }
+        }
+        cfg.filter_param = cfg.typename + ': ' + f_prop_values.join(' AND ');
+
+        url.searchParams.set('FILTER', cfg.filter_param);
+      }else{
+        url.searchParams.delete('FILTER');
+        cfg.filter = null;
+        cfg.filter_param = null;
+      }
+      // refresh map layer URL
+      overlayLayers[cfg.name].setUrl(url.toString());
+      console.log(overlayLayers[cfg.name]._url);
+    }
+  });
+  
+  $('#filter_modal').modal('hide');
+}
+
+function onSavedPropFilterClear(){
+  var elements = document.getElementById("filter_values").options;
+  for(var i = 0; i < elements.length; i++){
+    if(elements[i].selected){
+      elements[i].selected = false;
+    }
+  }
+  onSavedPropFilterChange();
+}
+
+function onSavedPropFilterOpChange(element){
+  let op = document.getElementById("filter_op").value;
+  let sel = document.getElementById("filter_values");
+  if((op == 'IN') || (op == 'NOT IN')){
+    sel.setAttribute('multiple', true);
+  }else{
+    sel.removeAttribute('multiple');
+  }
 }
 
 function onSavedReportClick(element){
@@ -1217,7 +1603,7 @@ function onSavedReportClick(element){
       this.innerHTML = 'Execute Query';
   });
   
-  
+ 
 }
 
 function clearSavedQuery() {

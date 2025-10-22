@@ -22,17 +22,19 @@
 <div style="display:flex;align-items:center;background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,0.08);padding:0;margin-bottom:12px;position:relative;">
   <div style="width:8px;height:48px;background:#636e72;"></div>
   <div style="padding:0 16px;flex:1;display:flex;align-items:center;min-height:48px;">
-    <a class="reference internal" href="<?=ADMIN_PATH?>settings.php" style="font-size:15px;font-weight:400;color:#2c3e50;text-decoration:none;">Settings</a>
+    <a class="reference internal" href="<?=ADMIN_PATH?>syssettings.php" style="font-size:15px;font-weight:400;color:#2c3e50;text-decoration:none;">Settings</a>
   </div>
   <span style="cursor:pointer;padding:4px;" onclick="var d=this.parentNode.querySelector('.dropdown-settings');d.style.display=d.style.display==='block'?'none':'block';event.stopPropagation();">
     <svg height="20" width="20" viewBox="0 0 20 20" style="vertical-align:middle;"><circle cx="10" cy="4" r="1.5" fill="#888"/><circle cx="10" cy="10" r="1.5" fill="#888"/><circle cx="10" cy="16" r="1.5" fill="#888"/></svg>
   </span>
   <div class="dropdown-settings" style="display:none;position:absolute;right:16px;top:44px;background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.15);min-width:140px;z-index:1000;">
-    <a href="<?=ADMIN_PATH?>settings.php" style="display:block;padding:10px 16px;color:#2c3e50;text-decoration:none;font-size:14px;">Site Settings</a>
+    <a href="<?=ADMIN_PATH?>settings.php" style="display:block;padding:10px 16px;color:#2c3e50;text-decoration:none;font-size:14px;">Landing Page</a>
+    <a href="<?=ADMIN_PATH?>basemaps.php" style="display:block;padding:10px 16px;color:#2c3e50;text-decoration:none;font-size:14px;">Basemaps</a>
     <a href="<?=ADMIN_PATH?>topics.php" style="display:block;padding:10px 16px;color:#2c3e50;text-decoration:none;font-size:14px;">Topics</a>
-    <a href="<?=TOP_PATH?>topic_viewer.php" style="display:block;padding:10px 16px;color:#2c3e50;text-decoration:none;font-size:14px;">Topic View</a>
-    <a href="<?=ADMIN_PATH?>gemets.php" style="display:block;padding:10px 16px;color:#2c3e50;text-decoration:none;font-size:14px;">GEMETs</a>
-    <a href="<?=TOP_PATH?>gemet_viewer.php" style="display:block;padding:10px 16px;color:#2c3e50;text-decoration:none;font-size:14px;">GEMET View</a>
+    <!-- <a href="<?=TOP_PATH?>topic_viewer.php" style="display:block;padding:10px 16px;color:#2c3e50;text-decoration:none;font-size:14px;">Topic View</a> -->
+    <a href="<?=ADMIN_PATH?>gemets.php" style="display:block;padding:10px 16px;color:#2c3e50;text-decoration:none;font-size:14px;">Keywords</a>
+    <!-- <a href="<?=TOP_PATH?>gemet_viewer.php" style="display:block;padding:10px 16px;color:#2c3e50;text-decoration:none;font-size:14px;">GEMET View</a> -->
+    <a href="<?=ADMIN_PATH?>edit_theme.php" style="display:block;padding:10px 16px;color:#2c3e50;text-decoration:none;font-size:14px;">Theme</a>
   </div>
 </div>
 <script>
@@ -109,6 +111,13 @@ document.addEventListener('click',function(){
   </div>
 </div>
 
+<div style="display:flex;align-items:center;background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,0.08);padding:0;margin-bottom:12px;">
+  <div style="width:8px;height:48px;background:#fdcb6e;"></div>
+  <div style="padding:0 16px;flex:1;display:flex;align-items:center;min-height:48px;">
+    <a class="reference internal" href="<?=ADMIN_PATH?>dashboards.php" style="font-size:15px;font-weight:400;color:#2c3e50;text-decoration:none;">Dashboards</a>
+  </div>
+</div>
+
 <div style="display:flex;align-items:center;background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,0.08);padding:0;margin-bottom:12px;position:relative;">
   <div style="width:8px;height:48px;background:#fdcb6e;"></div>
   <div style="padding:0 16px;flex:1;display:flex;align-items:center;min-height:48px;">
@@ -141,6 +150,7 @@ document.addEventListener('click',function(){
     <a href="<?=ADMIN_PATH?>sql_workshop_gpkg.php" style="display:block;padding:10px 16px;color:#2c3e50;text-decoration:none;font-size:14px;">GPKG</a>
     <a href="<?=ADMIN_PATH?>sql_workshop_gdb.php" style="display:block;padding:10px 16px;color:#2c3e50;text-decoration:none;font-size:14px;">GDB</a>
     <a href="<?=ADMIN_PATH?>sql_workshop_shp.php" style="display:block;padding:10px 16px;color:#2c3e50;text-decoration:none;font-size:14px;">SHP</a>
+    <a href="<?=ADMIN_PATH?>sql_workshop_pg.php" style="display:block;padding:10px 16px;color:#2c3e50;text-decoration:none;font-size:14px;">PG</a>
   </div>
 </div>
 <script>

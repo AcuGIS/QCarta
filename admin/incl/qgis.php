@@ -134,4 +134,80 @@ function layers_get_bbox($qgs_file, $layers){
 	return $bbox;
 }
 
+function qgs_ordered_layers($xml){
+	$layers = $xml->xpath('/qgis/layer-tree-group//layer-tree-layer');
+	$layer_by_id = array();
+	foreach($layers as $l){
+		$layer_by_id[(string)$l->attributes()->id] = (string)$l->attributes()->name;
+	}
+
+	$layer_names = array();
+	$layers = $xml->xpath('/qgis/layerorder//layer');
+	foreach($layers as $l){
+		array_push($layer_names, $layer_by_id[(string)$l->attributes()->id]);
+	}
+	return $layer_names;
+}
+
+/**
+ * Parse relations directly from a QGIS project file (.qgs or .qgz).
+ * Returns an array of rows:
+ *  [
+ *    'name' => string,
+ *    'parent_layer' => string,
+ *    'parent_field' => string,
+ *    'child_layer' => string,
+ *    'child_field' => string,
+ *    'child_list_fields' => ''   // optional, blank by default
+ *  ]
+ */
+function qgis_relations_from_project($pathToQgsOrQgz) {
+    // 1) Read XML from .qgs or from project.qgs inside .qgz
+    $xmlStr = null;
+    if (preg_match('/\.qgz$/i', $pathToQgsOrQgz)) {
+        $zip = new ZipArchive();
+        if ($zip->open($pathToQgsOrQgz) === true) {
+            $xmlStr = $zip->getFromName('project.qgs');
+            $zip->close();
+        }
+    } else {
+        $xmlStr = @file_get_contents($pathToQgsOrQgz);
+    }
+    if (!$xmlStr) return [];
+
+    // 2) Parse XML
+    $xml = @simplexml_load_string($xmlStr);
+    if (!$xml) return [];
+
+    // Map: layer-id -> layer-name (prefer <shortname>, fallback to <layername>)
+    $id2name = [];
+    foreach ($xml->xpath('/qgis/projectlayers/maplayer') as $ml) {
+        $id           = (string)$ml->id;
+        $id2name[$id] = (string)$ml->layername;
+    }
+
+    $rels = [];
+    foreach ($xml->xpath('/qgis/relations/relation') as $rel) {
+        $name  = (string)$rel['name'];
+        $refd  = (string)$rel['referencedLayer'];   // parent (id)
+        $refg  = (string)$rel['referencingLayer'];  // child  (id)
+        
+        // Use viewer-friendly names if available, fallback to smart mapping, then QGIS names
+        $pname = $id2name[$refd];
+        $cname = $id2name[$refg];
+
+        foreach ($rel->fieldRef as $fr) {
+            $rels[] = [
+                'name'              => $name,
+                'parent_layer'      => $pname,
+                'parent_field'      => (string)$fr['referencedField'],
+                'child_layer'       => $cname,
+                'child_field'       => (string)$fr['referencingField'],
+                'child_list_fields' => '' // leave empty; can be customized later
+            ];
+        }
+    }
+    return $rels;
+}
+
 ?>

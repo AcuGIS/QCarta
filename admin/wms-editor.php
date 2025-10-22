@@ -6,6 +6,7 @@
     require('class/table_ext.php');	
     require('class/layer.php');
     require('class/qgs_layer.php');
+    require('class/basemap.php');
 
     if(!isset($_SESSION[SESS_USR_KEY])) {
         header('Location: ../login.php');
@@ -23,7 +24,8 @@
         $title = $_POST['title'] ?? '';
         $layer_id = $_POST['layer_id'] ?? '';
         $wmsUrl = $_POST['wmsUrl'] ?? '';
-        $layers = implode(',', $_POST['layers']) ?? '';
+        $layers = isset($_POST['layers']) && is_array($_POST['layers']) ? implode(',', $_POST['layers']) : '';
+        $basemap_id = $_POST['basemap_id'] ?? '';
         $content = $_POST['content'] ?? '';
         $map_center = $_POST['map_center'] ?? '';
         $map_zoom = $_POST['map_zoom'] ?? '';
@@ -35,6 +37,7 @@
                 'layer_id' => $layer_id,
                 'wmsUrl' => $wmsUrl,
                 'layers' => $layers,
+                'basemap_id' => $basemap_id,
                 'content' => $content,
                 'map_center' => $map_center,
                 'map_zoom' => $map_zoom
@@ -54,6 +57,7 @@
         'layer_id' => 0,
         'wmsUrl' => '',
         'layers' => '',
+        'basemap_id' => '',
         'content' => ''
     ];
     
@@ -61,6 +65,10 @@
     $database = new Database(DB_HOST, DB_NAME, DB_USER, DB_PASS, DB_PORT, DB_SCMA);
     $obj = new qgs_layer_Class($database->getConn(),    $_SESSION[SESS_USR_KEY]->id);
 	$layer_rows = $obj->getRows();
+	
+	// Load basemaps
+	$basemap_obj = new basemap_Class($database->getConn(), $_SESSION[SESS_USR_KEY]->id);
+	$basemap_rows = $basemap_obj->getRows();
 
     $proto = empty($_SERVER['HTTPS']) ? 'http' : 'https';
     $auth_content = file_get_contents($proto.'://'.$_SERVER['HTTP_HOST'].'/admin/action/authorize.php?secret_key='.$_SESSION[SESS_USR_KEY]->secret_key.'&ip='.$_SERVER['REMOTE_ADDR']);
@@ -121,6 +129,7 @@
     <script>
     const access_key = '<?=$access_key?>';
 	var layerConfigs = {};
+	var basemapConfigs = {};
 	
 	<?php while($row = pg_fetch_assoc($layer_rows)) {
 	  $layers[$row['id']] = $row['name'];
@@ -135,11 +144,31 @@
 		      echo $row["name"];
 	        }
 	    } else {
-			echo implode(",", $row["layers"]);
+			// Check if layers is already a string or needs to be converted from array
+			if (is_array($row["layers"])) {
+				echo implode(",", $row["layers"]);
+			} else {
+				echo $row["layers"];
+			}
 	    } 
 	    ?>',
 	  public: <?=$row["public"] == "t" ? 'true':'false'?>,
-	  url: '<?php if($row["proxyfied"] == "t") { ?>/mproxy/service<?php }else{ ?><?=$_SERVER["HTTP_HOST"]?>/layers/<?=$row["id"]?>/proxy_qgis.php<?php } ?>'
+	  url: '<?php if($row["proxyfied"] == "t") { ?>/mproxy/service<?php }else{ ?>/layers/<?=$row["id"]?>/proxy_qgis.php<?php } ?>'
+	};
+	<?php } ?>
+	
+	<?php 
+	// Reset the basemap result pointer
+	pg_result_seek($basemap_rows, 0);
+	while($basemap_row = pg_fetch_assoc($basemap_rows)) { ?>
+	basemapConfigs[<?=$basemap_row['id']?>] = {
+		id: <?=$basemap_row['id']?>,
+		name: '<?=$basemap_row["name"]?>',
+		url: '<?=$basemap_row["url"]?>',
+		type: '<?=$basemap_row["type"]?>',
+		attribution: '<?=$basemap_row["attribution"]?>',
+		min_zoom: <?=$basemap_row["min_zoom"]?>,
+		max_zoom: <?=$basemap_row["max_zoom"]?>
 	};
 	<?php } ?>
     </script>
@@ -183,6 +212,18 @@
                 </div>
                 
                 <div class="mb-3">
+                    <label for="basemap_id" class="form-label">Basemap</label>
+                    <select class="form-control" id="basemap_id" name="basemap_id">
+                        <option value="">Select a basemap...</option>
+                        <?php 
+                        pg_result_seek($basemap_rows, 0);
+                        while($basemap_row = pg_fetch_assoc($basemap_rows)){ ?>
+                            <option value="<?=$basemap_row['id']?>" <?php if($content['basemap_id'] == $basemap_row['id']) { ?>selected<?php } ?>><?=$basemap_row['name']?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                
+                <div class="mb-3">
                     <label for="content" class="form-label">Additional Content</label>
                     <textarea id="content" name="content"><?php echo htmlspecialchars($content['content']); ?></textarea>
                 </div>
@@ -218,16 +259,33 @@
                 bounds = window.previewWmsBounds;
             }
             if (wmsUrl && layers) {
+                // Remove existing WMS layers
                 map.eachLayer((layer) => {
                     if (layer instanceof L.TileLayer.WMS) {
                         map.removeLayer(layer);
                     }
                 });
+                
+                // Ensure there's a basemap layer
+                let hasBasemap = false;
+                map.eachLayer((layer) => {
+                    if (layer instanceof L.TileLayer && !(layer instanceof L.TileLayer.WMS)) {
+                        hasBasemap = true;
+                    }
+                });
+                
+                // Add basemap if none exists
+                if (!hasBasemap) {
+                    updateBasemap();
+                }
+                
+                // Add WMS layer
                 L.tileLayer.wms(wmsUrl + '?access_key='+access_key, {
                     layers: layers,
                     format: 'image/png',
                     transparent: true
                 }).addTo(map);
+                
                 map.invalidateSize();
                 setTimeout(() => {
                     map.invalidateSize();
@@ -247,9 +305,7 @@
             mapElement.style.width = '100%';
         }
         const map = L.map('previewMap').setView([0, 0], 2);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+        // Don't add a default basemap - let updateBasemap() handle it
   
         setTimeout(() => { map.invalidateSize(); }, 300);
         $(window).on('resize', () => { map.invalidateSize(); });
@@ -273,10 +329,62 @@
        	$(document).on("change", '#layers', function() {
        	  updateMapPreview();
        	});
+       	
+       	$(document).on("change", '#basemap_id', function() {
+       	  updateBasemap();
+       	});
+
+        function updateBasemap() {
+            const basemapId = $('#basemap_id').val();
+            
+            // Store existing WMS layers to re-add them later
+            const existingWmsLayers = [];
+            map.eachLayer((layer) => {
+                if (layer instanceof L.TileLayer.WMS) {
+                    existingWmsLayers.push({
+                        url: layer._url,
+                        options: layer.options
+                    });
+                }
+            });
+            
+            // Remove all layers
+            map.eachLayer((layer) => {
+                map.removeLayer(layer);
+            });
+            
+            // Add basemap first
+            if (basemapId && basemapConfigs[basemapId]) {
+                const basemap = basemapConfigs[basemapId];
+                
+                if (basemap.type === 'xyz') {
+                    L.tileLayer(basemap.url, {
+                        attribution: basemap.attribution,
+                        minZoom: basemap.min_zoom,
+                        maxZoom: basemap.max_zoom
+                    }).addTo(map);
+                }
+            } else {
+                // Add default basemap if none selected
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+            }
+            
+            // Re-add WMS layers on top
+            existingWmsLayers.forEach(wmsLayer => {
+                L.tileLayer.wms(wmsLayer.url, wmsLayer.options).addTo(map);
+            });
+            
+            map.invalidateSize();
+        }
 
         $(document).ready(function() {
             
             $('#layer_id').trigger('change');
+            
+            // Initialize basemap - this will apply selected basemap or default
+            updateBasemap();
             
             $('#content').summernote({
                 height: 200,

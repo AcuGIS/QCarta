@@ -97,10 +97,9 @@ body {
 	/*padding:30px 30px 20px 20px;*/
 }
 
-#content h1 {
+/* #content h1 {
     font-family: Century Gothic, "Trebuchet MS", Tahoma, Verdana;
     font-size: 22px !important;
-    /* text-transform: uppercase; */
     letter-spacing: 1px;
     margin: 10px 0 20px 0;
     background-color: #1E90FF !important;
@@ -108,7 +107,23 @@ body {
     padding: 15px 0 15px 10px;
     width: 80%;
     font-weight: 500;
+} */
+
+#content h1 {
+    font-family: Century Gothic, "Trebuchet MS", Tahoma, Verdana;
+    font-size: 22px !important;
+    /* text-transform: uppercase; */
+    letter-spacing: 1px;
+    margin: 10px 0 20px 0;
+    background-color: rgb(236 253 245 / var(--tw-bg-opacity, 1));
+    color: #666 !important;
+    padding: 15px 0 15px 10px;
+    width: 80%;
+    font-weight: 500;
 }
+
+
+
 #content h2 {
 	font-size:16px;
 	color:#333;

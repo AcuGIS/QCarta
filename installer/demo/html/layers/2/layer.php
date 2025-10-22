@@ -2,7 +2,7 @@
 	require('../../admin/incl/index_prefix.php');
 	require('../../admin/incl/qgis.php');
 
-	$wms_url = '/mproxy/service';
+	$wms_url = 'proxy_qgis.php';
 	$proto = empty($_SERVER['HTTPS']) ? 'http' : 'https';
 	if(str_starts_with($wms_url, '/mproxy/')){
 		$content = file_get_contents($proto.'://'.$_SERVER['HTTP_HOST'].'/admin/action/authorize.php?secret_key=3b0f29cf-6c76-49c8-981c-c67cd1bbdf13&ip='.$_SERVER['REMOTE_ADDR']);
@@ -115,7 +115,7 @@
     };
 
 // WMS Layer
-	<?php $layers = explode(',', 'usa'); $li = 0;
+	<?php $layers = explode(',', 'states'); $li = 0;
 		 foreach($layers as $lay){ ?>
 	const wms<?=$li?> = L.tileLayer.betterWms('<?=$wms_url?>', {
 		layers: '<?=$lay?>',

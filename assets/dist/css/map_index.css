@@ -1,1264 +1,1383 @@
-body {
-  margin: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
+/* ==================================================================
+   QCarta Map — Material refresh for existing DOM
+   - Drop-in replacement for map_index.css
+   - Leans on Bootstrap 5 but styles components to feel like Material 3
+   - No markup changes required
+   ================================================================== */
+
+/* -----------------------
+   Material token palette
+   ----------------------- */
+:root{
+  --md-sys-color-primary: #7393B3;
+  --md-sys-color-on-primary: #FFFFFF;
+  --md-sys-color-primary-container: #b6c7d7;
+  --md-sys-color-on-primary-container: #21005D;
+
+  --md-sys-color-secondary: #7393B3;
+  --md-sys-color-on-secondary: #FFFFFF;
+  --md-sys-color-secondary-container: #C1E1C1;
+  --md-sys-color-on-secondary-container: #1D192B;
+
+  --md-sys-color-tertiary: #7D5260;
+  --md-sys-color-on-tertiary: #FFFFFF;
+  --md-sys-color-tertiary-container: #FFD8E4;
+  --md-sys-color-on-tertiary-container: #31111D;
+
+  --md-sys-color-surface: #FFFBFE;
+  --md-sys-color-surface-variant: #dee2e6;
+  --md-sys-color-on-surface: #1C1B1F;
+  --md-sys-color-on-surface-variant: #49454F;
+  --md-sys-color-outline: #79747E;
+
+  --md-sys-elevation-1: 0 1px 2px rgba(0,0,0,.12), 0 1px 3px rgba(0,0,0,.08);
+  --md-sys-elevation-2: 0 2px 6px rgba(0,0,0,.14), 0 2px 4px rgba(0,0,0,.10);
+  --md-sys-elevation-3: 0 4px 12px rgba(0,0,0,.14), 0 2px 8px rgba(0,0,0,.10);
+
+  --md-radius-s: 10px;
+  --md-radius-m: 14px;
+  --md-radius-l: 20px;
 }
 
-#map {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
+body.dark-mode{
+  --md-sys-color-primary: #D0BCFF;
+  --md-sys-color-on-primary: #381E72;
+  --md-sys-color-primary-container: #6750A4;
+  --md-sys-color-on-primary-container: #EADDFF;
+
+  --md-sys-color-secondary: #CCC2DC;
+  --md-sys-color-on-secondary: #332D41;
+  --md-sys-color-secondary-container: #4A4458;
+  --md-sys-color-on-secondary-container: #6750A4; /*#E8DEF8*/
+
+  --md-sys-color-tertiary: #EFB8C8;
+  --md-sys-color-on-tertiary: #492532;
+  --md-sys-color-tertiary-container: #633B48;
+  --md-sys-color-on-tertiary-container: #FFD8E4;
+
+  --md-sys-color-surface: #1C1B1F;
+  --md-sys-color-surface-variant: #49454F;
+  --md-sys-color-on-surface: #E6E1E5;
+  --md-sys-color-on-surface-variant: #CAC4D0;
+  --md-sys-color-outline: #938F99;
 }
 
-#sidebar {
+/* Blue
+--md-sys-color-primary:#1E66F5;
+--md-sys-color-primary-container:#DDE7FF;
+dark: #AFC6FF and #254DB3 for container
+
+Teal
+--md-sys-color-primary:#0F766E;
+--md-sys-color-primary-container:#C8F3EE;
+dark: #7ED4CC and #0B5C56
+
+Amber
+--md-sys-color-primary:#B7791F;
+--md-sys-color-primary-container:#FFE9C2;
+dark: #F2C98A and #7A5316 */
+
+/* -----------------------
+   Base layout (keep map + sidebar behavior)
+   ----------------------- */
+html, body{
+  margin:0; width:100%; height:100%;
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  overflow:hidden;
+}
+
+#map{
+  position:absolute; inset:0;
+  z-index:1;
+  cursor:pointer;
+}
+
+#sidebar{
+  position:absolute; top:12px; left:12px; bottom:12px;
+  width:360px;
+  display:flex; flex-direction:column;
+  background: var(--md-sys-color-surface);
+  border: 1px solid var(--md-sys-color-surface-variant);
+  border-radius: var(--md-radius-l);
+  box-shadow: var(--md-sys-elevation-2);
+  overflow:hidden;
+  z-index:10;
+  transition: transform .28s ease;
+}
+#sidebar.collapsed{ transform: translateX(calc(-100% - 12px)); }
+
+/* Sidebar drag/peek tab */
+#sidebarToggle{
+  position:absolute; top:50%; transform: translateY(-50%);
+  left: calc(360px + 16px);
+  width:40px; height:64px;
+  border:none; outline:none;
+  border-radius: 0 var(--md-radius-l) var(--md-radius-l) 0;
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  box-shadow: var(--md-sys-elevation-2);
+  display:flex; align-items:center; justify-content:center;
+  z-index:20;
+  transition: left .28s ease, background .15s ease;
+}
+#sidebar.collapsed + #sidebarToggle,
+#sidebarToggle.collapsed{ left:12px; }
+#sidebarToggle:hover{ background: color-mix(in oklab, var(--md-sys-color-surface), var(--md-sys-color-surface-variant) 20%); }
+#sidebarToggle i{ font-size:10px; }
+
+/* -----------------------
+   Navigation rail (existing .sidebar-tabs markup)
+   ----------------------- */
+.sidebar-container{ display:flex; gap:0; height:100%; width:100%; }
+
+.sidebar-tabs{
+  width:64px; flex:0 0 64px;
+  background: color-mix(in oklab, var(--md-sys-color-surface), var(--md-sys-color-surface-variant) 28%);
+  border-right:1px solid var(--md-sys-color-surface-variant);
+  display:flex;
+}
+.sidebar-tabs .nav-tabs{
+  border:none; width:100%;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  padding:12px 8px;
+}
+.sidebar-tabs .nav-item{ width:100%; display:flex; justify-content:center; }
+.sidebar-tabs .nav-link{
+  width:48px; height:48px;
+  display:flex; align-items:center; justify-content:center;
+  border:none; border-radius:24px;
+  color: var(--md-sys-color-on-surface-variant);
+  background:transparent;
+  position:relative;
+  transition: background .15s ease, color .15s ease, transform .1s ease;
+  overflow:hidden; /* for ripple */
+}
+.sidebar-tabs .nav-link i{ font-size:18px; }
+.sidebar-tabs .nav-link:hover{ background: color-mix(in oklab, var(--md-sys-color-primary-container), white 70%); }
+.sidebar-tabs .nav-link.active{
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+  box-shadow: var(--md-sys-elevation-1);
+  transform: translateZ(0);
+}
+
+/* -----------------------
+   Sidebar content area
+   ----------------------- */
+.sidebar-content{
+  flex:1; min-width:0; background: var(--md-sys-color-surface);
+  display:flex; flex-direction:column;
+}
+.tab-content{
+  height:100%; overflow:auto;
+}
+.tab-pane{ padding: 12px 14px; }
+
+/* Headings inside panes */
+.tab-pane h5, .tab-pane h6{
+  color: var(--md-sys-color-on-surface);
+  letter-spacing:.2px;
+}
+
+/* Buttons — keep Bootstrap semantics but soften to Material look */
+#sidebar .btn{
+  border-radius: 12px;
+  border:1px solid var(--md-sys-color-outline);
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  box-shadow: var(--md-sys-elevation-1);
+}
+#sidebar .btn-primary{
+  background: var(--md-sys-color-primary);
+  border-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}
+#sidebar .btn-outline-primary{
+  border-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-primary);
+}
+#sidebar .btn-outline-primary:hover{
+  background: color-mix(in oklab, var(--md-sys-color-primary), white 15%);
+  color: var(--md-sys-color-on-primary);
+  border-color: var(--md-sys-color-primary);
+}
+
+/* List of layers dynamically created in JS */
+.layer-item{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:10px; padding:10px 12px; margin:6px 0;
+  border:1px solid var(--md-sys-color-surface-variant);
+  border-radius: 14px;
+  background: var(--md-sys-color-surface);
+  box-shadow: var(--md-sys-elevation-1);
+  transition: transform .08s ease, box-shadow .15s ease, background .2s ease;
+  position:relative; overflow:hidden;
+}
+.layer-item:hover{ box-shadow: var(--md-sys-elevation-2); }
+.layer-left{ display:flex; align-items:center; gap:10px; }
+.layer-right{ position:relative; }
+
+.layer-visibility{ cursor:pointer; color: var(--md-sys-color-on-surface-variant); }
+.layer-menu{ cursor:pointer; color: var(--md-sys-color-on-surface-variant); }
+
+.layer-menu-content{
+  position:absolute; top:100%; right:0; width:220px;
+  background: var(--md-sys-color-surface);
+  border:1px solid var(--md-sys-color-surface-variant);
+  border-radius: 12px;
+  box-shadow: var(--md-sys-elevation-3);
+  padding:6px; display:none;
+}
+.layer-menu-content.show{ display:block; }
+.layer-menu-item{
+  display:flex; align-items:center; gap:10px;
+  padding:8px 10px; border-radius:10px; cursor:pointer;
+}
+.layer-menu-item:hover{
+  background: color-mix(in oklab, var(--md-sys-color-primary-container), white 70%);
+}
+
+/* Legend chip container bottom-right */
+.info.legend{
+  background: var(--md-sys-color-surface);
+  border:1px solid var(--md-sys-color-surface-variant);
+  border-radius: 12px;
+  box-shadow: var(--md-sys-elevation-2);
+  padding:6px 8px;
+}
+
+/* Leaflet right side controls rail — soften */
+.leaflet-top.leaflet-right{
+  position: fixed !important;
+  top: 12px !important;
+  right: 12px !important;
+  width: 48px !important;
+  height: calc(100vh - 24px) !important;
+  /* background: color-mix(in oklab, var(--md-sys-color-surface), var(--md-sys-color-surface-variant) 22%) !important; 
+  border: 1px solid var(--md-sys-color-surface-variant) !important;
+  border-radius: var(--md-radius-l) 0 0 var(--md-radius-l) !important;
+  box-shadow: var(--md-sys-elevation-2) !important; */
+  display:flex !important; flex-direction:column !important; align-items:center !important;
+  padding:6px 4px !important;
+}
+
+/* Popups */
+.leaflet-popup-content-wrapper.custom-popup,
+.leaflet-popup-content-wrapper{
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  border:1px solid var(--md-sys-color-surface-variant);
+  border-radius: 16px;
+  box-shadow: var(--md-sys-elevation-3);
+}
+.custom-popup .popup-navigation{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:6px; margin-bottom:6px;
+}
+.custom-popup .nav-btn{
+  border:none; background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+  width:32px; height:32px; border-radius: 10px;
+}
+.custom-popup .nav-counter{ font-size:.85rem; color: var(--md-sys-color-on-surface-variant); }
+
+.popup-row{
+  display:flex; gap:8px; padding:4px 0; border-bottom:1px dashed color-mix(in oklab, var(--md-sys-color-outline), transparent 60%);
+}
+.popup-row:last-child{ border-bottom:none; }
+.popup-label{ min-width:140px; color: var(--md-sys-color-on-surface-variant); }
+.popup-value img{ border-radius: 8px; box-shadow: var(--md-sys-elevation-1); }
+
+/* Search results and basemaps (keeps your existing selectors, refines visuals) */
+.search-results{
+  max-height:300px; overflow:auto;
+  background: var(--md-sys-color-surface);
+  /* border:1px solid var(--md-sys-color-surface-variant); */
+  border-radius: 12px;
+}
+.search-result-item{ transition: background .15s ease; }
+.search-result-item:hover{ background: color-mix(in oklab, var(--md-sys-color-primary-container), white 70%); }
+
+.basemap-card{
+  border:1px solid var(--md-sys-color-surface-variant);
+  border-radius: 12px;
+  overflow:hidden;
+  box-shadow: var(--md-sys-elevation-1);
+  transition: transform .1s ease, box-shadow .15s ease;
+  cursor:pointer;
+}
+.basemap-card:hover{ transform: translateY(-2px); box-shadow: var(--md-sys-elevation-2); }
+.basemap-meta, .basemap-info{ text-align:center; }
+
+/* Modal (Bootstrap) dark-mode tune */
+body.dark-mode .modal-content{
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  border:1px solid var(--md-sys-color-surface-variant);
+}
+.modal-header{ background: color-mix(in oklab, var(--md-sys-color-surface), var(--md-sys-color-surface-variant) 35%); }
+
+/* -----------------------
+   Simple CSS ripple for interactive elements
+   ----------------------- */
+.md-ripple{
+  position:absolute; inset:0; overflow:hidden; pointer-events:none; border-radius: inherit;
+}
+.md-ripple::before{
+  content:""; position:absolute; width:8px; height:8px; border-radius:50%;
+  background: currentColor; opacity:.12; transform: translate(-50%, -50%) scale(1);
+  left: var(--md-rx,50%); top: var(--md-ry,50%);
+  transition: transform .45s ease, opacity .6s ease;
+}
+.md-ripple.is-animating::before{
+  transform: translate(-50%, -50%) scale(28); opacity:0;
+}
+
+/* Attach ripple container to common controls */
+.sidebar-tabs .nav-link,
+#sidebar .btn,
+.layer-item,
+.layer-menu-item,
+#sidebarToggle{
+  position:relative;
+}
+
+/* Fix layer 3-dot dropdown being clipped/missing */
+.layer-item { overflow: visible !important; }   /* avoid clipping descendants */
+.layer-menu-content {
+  position: fixed !important;                   /* JS expects viewport coords */
+  z-index: 4000 !important;                     /* above sidebar/map */
+}
+
+/* .layer-item { overflow: visible; }
+.layer-right { position: relative; }
+.layer-menu-content {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 400px;
-  height: 100vh;
-  overflow-y: auto;
-  background: #f8f9fa;
-  padding: 0;
-  border-right: 1px solid #ccc;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 4000;
+} */
+
+
+
+/* Filters tab: keep the tiny blue funnel */
+#sidebar .md-filter-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  line-height:1;
+  color: var(--md-sys-color-primary);   /* sets 'currentColor' */
+}
+
+#sidebar .md-filter-badge svg{
+  width:20px !important;
+  height:20px !important;
+  display:inline-block;
+  flex:0 0 20px;
+  color: inherit;                       /* ensure the svg sees the primary color */
+}
+
+#sidebar .md-filter-badge svg path{
+  fill: currentColor !important;        /* make the path adopt the text color */
+}
+
+/* optional: style the count like a chip badge */
+#sidebar .md-filter-badge .md-filter-count{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:18px;
+  height:18px;
+  padding:0 6px;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:600;
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}
+
+
+/* Prefer multi-select over chips in Filters modal */
+.modal .md-filters .md-chip-set { display:none !important; }
+
+.modal .md-filters #filter_values{
+  display:block !important;
+  min-height: 220px;           /* visible rows */
+  max-height: 320px;
+  border-radius: 12px;
+  padding: 8px;
+}
+
+
+/* Fix: Leaflet Browser Print icon showing as a black square */
+.leaflet-control-browser-print a,
+.leaflet-bar .leaflet-control-browser-print a {
+  /* keep button surface consistent with your rail */
+  background-color: var(--md-sys-color-surface) !important;
+
+  /* ensure the icon actually draws */
+  -webkit-mask: none !important;
+  mask: none !important;
+
+  /* draw a printer SVG directly as bg image */
+  color: var(--md-sys-color-on-surface);
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%231C1B1F'>\
+<path d='M19 8H5V5h14v3zm0 3H5a2 2 0 0 0-2 2v4h4v3h10v-3h4v-4a2 2 0 0 0-2-2zm-3 7H8v-4h8v4z'/>\
+</svg>") !important;
+
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 22px 22px !important;
+
+  /* keep the button size/shape from the bar */
+  box-shadow: none;
+}
+
+/* Optional: nicer hover */
+.leaflet-control-browser-print a:hover {
+  background-color: color-mix(in oklab, var(--md-sys-color-primary-container), white 65%) !important;
+}
+
+/* Dark mode: swap the glyph to a light fill */
+body.dark-mode .leaflet-control-browser-print a {
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23E6E1E5'>\
+<path d='M19 8H5V5h14v3zm0 3H5a2 2 0 0 0-2 2v4h4v3h10v-3h4v-4a2 2 0 0 0-2-2zm-3 7H8v-4h8v4z'/>\
+</svg>") !important;
+}
+
+
+
+
+
+/* Bookmarks */
+
+/* ===== Bookmarks Material 3 refresh ===== */
+.bookmark-control{
+  margin-top:16px;
+  padding:12px;
+  background: var(--md-sys-color-surface);
+  border: 1px solid var(--md-sys-color-surface-variant);
+  border-radius: var(--md-radius-l);
+  box-shadow: var(--md-sys-elevation-1);
+}
+
+/* .bookmark-header{
+  display:flex; align-items:center; gap:8px;
+  margin-bottom:12px;
+  color: var(--md-sys-color-on-surface);
+} */
+
+
+
+.bookmark-header{
+  display:flex;
+  flex-wrap: wrap;
+  gap: 8px 0;
+}
+.bookmark-header .bookmark-button{
+  flex: 1 0 100%; /* each button takes a full line */
+}
+
+
+
+
+/* Base button */
+.bookmark-button{
+  -webkit-appearance:none; appearance:none;
+  display:inline-flex; align-items:center; gap:8px;
+  padding:10px 14px;
+  border-radius:12px;
+  border:1px solid var(--md-sys-color-outline);
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  font-weight:600; letter-spacing:.15px;
+  box-shadow: var(--md-sys-elevation-1);
+  cursor:pointer;
+  white-space:nowrap; min-width:60px;
+  transition: background .15s ease, box-shadow .15s ease, transform .05s ease;
+}
+
+.bookmark-button:hover{
+  background: color-mix(in oklab, var(--md-sys-color-primary-container), white 70%);
+  box-shadow: var(--md-sys-elevation-2);
+}
+.bookmark-button:active{ transform: translateY(1px); box-shadow: var(--md-sys-elevation-1); }
+.bookmark-button:focus-visible{
+  outline:3px solid color-mix(in oklab, var(--md-sys-color-primary), white 25%);
+  outline-offset:2px;
+}
+
+/* Variants */
+.bookmark-button.primary{ /* Filled */
+  background: var(--md-sys-color-primary);
+  border-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}
+.bookmark-button.primary:hover{
+  background: color-mix(in oklab, var(--md-sys-color-primary), white 10%);
+}
+
+.bookmark-button.secondary{ /* Tonal */
+  background: var(--md-sys-color-secondary-container);
+  border-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+.bookmark-button.secondary:hover{
+  background: color-mix(in oklab, var(--md-sys-color-secondary-container), white 10%);
+}
+
+/* Optional: outlined and text styles if you want them later */
+.bookmark-button.outlined{
+  background: transparent;
+  border-color: var(--md-sys-color-outline);
+  color: var(--md-sys-color-primary);
+}
+.bookmark-button.text{
+  background: transparent; border-color: transparent; box-shadow:none;
+  color: var(--md-sys-color-primary);
+}
+
+/* Icon sizing (works for <i> or inline SVG) */
+.bookmark-button i,
+.bookmark-button svg{ width:18px; height:18px; flex:0 0 18px; }
+.bookmark-button svg path{ fill: currentColor; }
+
+
+/* Bookmarks */
+
+
+
+
+
+
+
+/* Material-ish form fields in the sidebar */
+#sidebar input[type="text"],
+#sidebar input[type="search"],
+#sidebar input[type="number"],
+#sidebar select,
+#sidebar textarea,
+#sidebar .form-control {
+  background: var(--md-sys-color-surface);
+  border: 1px solid var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface);
+  border-radius: 12px;
+  padding: 10px 12px;
+  box-shadow: var(--md-sys-elevation-1);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+#sidebar .form-control:focus,
+#sidebar input:focus,
+#sidebar select:focus,
+#sidebar textarea:focus {
+  outline: none;
+  border-color: var(--md-sys-color-primary);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--md-sys-color-primary), white 25%);
+}
+
+/* Faster ripple */
+:root{
+  --md-ripple-scale: 18;        /* smaller = travels less distance */
+  --md-ripple-in: .12s;         /* was .45s */
+  --md-ripple-out: .12s;        /* was .60s */
+}
+.md-ripple::before{
+  transition: transform var(--md-ripple-in) ease,
+              opacity   var(--md-ripple-out) ease;
+}
+.md-ripple.is-animating::before{
+  transform: translate(-50%, -50%) scale(var(--md-ripple-scale));
+}
+
+
+
+/* ===== Bookmarks list MD3 card row ===== */
+
+/* Error tokens (safe if already defined) */
+:root{
+  --md-sys-color-error: #B3261E;
+  --md-sys-color-on-error: #FFFFFF;
+  --md-sys-color-error-container: #F9DEDC;
+  --md-sys-color-on-error-container: #410E0B;
+}
+
+/* List layout */
+.bookmark-list{
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease;
-  color: #212529;
-  z-index: 10;
+  gap: 10px;
+  margin-top: 10px;
 }
 
-#sidebar.collapsed {
-  transform: translateX(-100%);
-}
-
-#sidebarToggle {
-  position: absolute;
-  left: 400px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 20;
-  width: 32px;
-  height: 48px;
-  background: white;
-  border: none;
-  border-radius: 0 24px 24px 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-  cursor: pointer;
+/* Each saved view as a soft card */
+.bookmark-list .bookmark-item{
   display: flex;
   align-items: center;
-  justify-content: center;
-  transition: left 0.3s ease, background 0.2s;
-  outline: none;
-  border-left: 1px solid #ccc;
-  padding: 0;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--md-sys-color-surface-variant);
+  background: var(--md-sys-color-surface);
+  border-radius: 12px;
+  box-shadow: var(--md-sys-elevation-1);
+  transition: background .15s ease, box-shadow .15s ease, transform .05s ease;
+}
+.bookmark-list .bookmark-item:hover{
+  background: color-mix(in oklab, var(--md-sys-color-surface), var(--md-sys-color-primary-container) 25%);
+  box-shadow: var(--md-sys-elevation-2);
 }
 
-#sidebarToggle:hover {
-  background: #f0f0f0;
+.bookmark-list .bookmark-name{
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+  line-height: 1.2;
 }
+
+/* Delete = tonal-danger button (error container) */
+.bookmark-list .bookmark-delete,
+.bookmark-list .bookmark-item .bookmark-button,   /* fallback if you reuse .bookmark-button */
+.bookmark-list .bookmark-item button{             /* last resort: any button inside item */
+  -webkit-appearance: none; appearance: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--md-sys-color-error-container);
+  background: var(--md-sys-color-error-container);
+  color: var(--md-sys-color-on-error-container);
+  font-weight: 600; letter-spacing: .15px;
+  box-shadow: var(--md-sys-elevation-1);
+  cursor: pointer;
+}
+.bookmark-list .bookmark-delete:hover,
+.bookmark-list .bookmark-item .bookmark-button:hover,
+.bookmark-list .bookmark-item button:hover{
+  background: color-mix(in oklab, var(--md-sys-color-error-container), white 10%);
+}
+
+/* Icon sizing for FA/SVG */
+.bookmark-list .bookmark-item i,
+.bookmark-list .bookmark-item svg{ width: 16px; height: 16px; flex: 0 0 16px; }
+.bookmark-list .bookmark-item svg path{ fill: currentColor; }
+
+/* Optional: make the header buttons look like full-width action chips */
+.bookmark-header{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.bookmark-header .bookmark-button{
+  width: 100%;
+  justify-content: flex-start;
+  border: none;
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  box-shadow: var(--md-sys-elevation-1);
+}
+.bookmark-header .bookmark-button:hover{
+  background: color-mix(in oklab, var(--md-sys-color-primary-container), white 8%);
+}
+
+
+
+
+
+
+
+
+/* ===== Metadata pane (stack values under labels) ===== */
+#sidebar .tab-pane#meta .metadata-item{
+  display: grid;
+  grid-template-columns: 22px 1fr;   /* icon | content */
+  column-gap: 10px;
+  row-gap: 2px;
+  align-items: start;
+  padding: 6px 0;
+  border-bottom: 1px dashed color-mix(in oklab, var(--md-sys-color-outline), transparent 80%);
+}
+#sidebar .tab-pane#meta .metadata-item:last-child{ border-bottom: none; }
+
+/* Icon column */
+#sidebar .tab-pane#meta .metadata-item i{
+  grid-column: 1;
+  grid-row: 1 / span 2;             /* spans label + value */
+  width: 18px; height: 18px;
+  margin-top: 2px;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+/* Label on its own line; value flows beneath it in the same content column */
+#sidebar .tab-pane#meta .metadata-item strong{
+  grid-column: 2;
+  display: block;                    /* forces next line for the value */
+  color: var(--md-sys-color-on-surface);
+}
+
+/* Long values (e.g., BBox) wrap nicely */
+#sidebar .tab-pane#meta .metadata-item{ word-break: break-word; }
+
+/* OGC links sit under the label and align left */
+#sidebar .tab-pane#meta .metadata-item .ms-4{ margin-left:0 !important; }
+#sidebar .tab-pane#meta .metadata-item .mt-2{ margin-top:4px !important; }
+#sidebar .tab-pane#meta .metadata-item .btn{
+  display: inline-flex; align-items: center; gap: 6px;
+  border-radius: 999px;
+  padding: 4px 10px;
+  margin: 4px 6px 0 0;              /* tight chip spacing */
+}
+
+
+/* ===== Metadata pane borderless card ===== */
+#sidebar .tab-pane#meta .card{
+  border: 0 !important;                 /* remove the box border */
+  background: transparent;               /* blend with pane */
+  box-shadow: none !important;           /* no outer shadow */
+}
+
+/* Keep a clean, pill header */
+#sidebar .tab-pane#meta .card-header{
+  border: 0 !important;
+  border-radius: 12px;                   /* standalone rounded header */
+  padding: 10px 12px;
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  margin: 0 0 8px 0;                     /* space before rows start */
+}
+
+/* Slightly tighter body padding since there's no box */
+#sidebar .tab-pane#meta .card-body{
+  padding: 6px 2px 8px 2px;
+}
+
+/* Softer row dividers so it doesn't feel boxed-in */
+#sidebar .tab-pane#meta .metadata-item{
+  border-bottom: 1px dashed color-mix(in oklab, var(--md-sys-color-outline), transparent 85%);
+}
+
+/* Metadata header = tonal (light purple) */
+#sidebar .tab-pane#meta .card-header{
+  background: var(--md-sys-color-primary-container) !important;
+  color: var(--md-sys-color-on-primary-container) !important;
+  border: 0 !important;
+  border-radius: 14px;
+  padding: 10px 12px;
+  margin: 0 0 8px 0;
+}
+
+/* Stack WMS/WFS/WMTS vertically and make them full width */
+#sidebar .tab-pane#meta .metadata-item .ms-4{
+  margin: 8px 0 0 0 !important;   /* remove left indent, tiny top gap */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Make each button span the content width and look like a pill */
+#sidebar .tab-pane#meta .metadata-item .btn{
+  width: 100%;
+  justify-content: flex-start;
+  border-radius: 999px;
+  padding: 8px 12px;              /* you can bump to 10px 14px if you want bigger */
+  margin: 0;                      /* no extra margins since we use gap */
+}
+
+/* Keep the outline style but harmonize with your palette */
+#sidebar .tab-pane#meta .metadata-item .btn.btn-outline-primary{
+  border-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-primary);
+  background: transparent;
+}
+#sidebar .tab-pane#meta .metadata-item .btn.btn-outline-primary:hover{
+  background: color-mix(in oklab, var(--md-sys-color-primary-container), white 12%);
+}
+
+/* Icon size/alignment inside the buttons */
+#sidebar .tab-pane#meta .metadata-item .btn i{
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  line-height: 1;
+}
+
+
+
+
+/* shared var already used by #sidebar and #sidebarToggle */
+:root { --sidebar-w: 360px; }
+
+/* widen for Reports and Basemaps (tweak widths as you like) */
+:root:has(#sidebar #report.show.active)   { --sidebar-w: 420px; }
+:root:has(#sidebar #basemaps.show.active) { --sidebar-w: 480px; }
+:root:has(#sidebar #meta.show.active) { --sidebar-w: 520px; }
+:root:has(#sidebar #plotly.show.active) { --sidebar-w: 520px; }
+
+/* If your pane id is different, include it too: */
+:root:has(#sidebar #basemap.show.active),
+:root:has(#sidebar #base.show.active)     { --sidebar-w: 480px; }
+:root:has(#sidebar #meta.show.active)     { --sidebar-w: 520px; }
+:root:has(#sidebar #plotly.show.active)     { --sidebar-w: 520px; }
+
+
+
+#sidebar{ width: var(--sidebar-w); max-width: var(--sidebar-w); }
+#sidebarToggle{ left: calc(var(--sidebar-w) + 16px); }
 
 #sidebar.collapsed + #sidebarToggle,
-#sidebarToggle.collapsed {
-  left: 0;
-  border-radius: 0 24px 24px 0;
+#sidebarToggle.collapsed{ left: 12px; }
+
+/* widen only when the Reports tab is active */
+
+
+
+
+/* Shared variable lives on :root so BOTH sidebar and toggle see it */
+:root { --sidebar-w: 360px; }                  /* default width */
+
+/* Use the variable */
+#sidebar{
+  width: var(--sidebar-w);
+  max-width: var(--sidebar-w);
+}
+#sidebarToggle{
+  left: calc(var(--sidebar-w) + 16px);         /* stays aligned with sidebar edge */
 }
 
-#sidebarToggle .tab-grip {
-  width: 12px;
-  height: 24px;
+/* When the Reports tab is active, widen the sidebar */
+:root:has(#sidebar #report.show.active){
+  --sidebar-w: 420px;                          /* tweak to taste */
+}
+
+/* Collapsed state still snaps the handle to the left */
+#sidebar.collapsed ~ #sidebarToggle,
+#sidebarToggle.collapsed{
+  left: 12px;
+}
+
+/* Smooth it out (optional) */
+#sidebar{ transition: width .22s ease, max-width .22s ease, transform .22s ease; }
+#sidebarToggle{ transition: left .22s ease, background .15s ease; }
+
+
+/* Circle controls on the right Leaflet rail */
+:root{ --ctl: 44px; } /* control size */
+
+.leaflet-top.leaflet-right .leaflet-bar{
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* make each bar button a circle with spacing */
+.leaflet-top.leaflet-right .leaflet-bar a{
+  width: var(--ctl);
+  height: var(--ctl);
+  line-height: var(--ctl);
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-  gap: 4px;
+
+  margin: 8px 0;                      /* vertical gap between circles */
+  border: 1px solid var(--md-sys-color-surface-variant);
+  border-radius: 9999px;               /* ?? circles */
+  background: var(--md-sys-color-surface);
+  box-shadow: var(--md-sys-elevation-1);
 }
 
-#sidebarToggle .tab-grip-bar {
-  width: 12px;
-  height: 2px;
-  background: #bbb;
-  border-radius: 1px;
+/* hover / focus */
+.leaflet-top.leaflet-right .leaflet-bar a:hover{
+  background: color-mix(in oklab, var(--md-sys-color-primary-container), white 80%);
+}
+.leaflet-top.leaflet-right .leaflet-bar a:focus-visible{
+  outline: 3px solid color-mix(in oklab, var(--md-sys-color-primary), white 25%);
+  outline-offset: 2px;
 }
 
-body.dark-mode #sidebarToggle {
-  background: #2d2d2d;
-  color: #ffffff;
-  border-color: #404040;
+/* Zoom control comes as two stacked <a> inside one bar; remove the joined look */
+.leaflet-top.leaflet-right .leaflet-control-zoom.leaflet-bar a{
+  border-radius: 9999px !important;
+  border-bottom: 1px solid var(--md-sys-color-surface-variant) !important; /* uniform border */
 }
 
-#sidebarTabs {
-  border-bottom: 1px solid #dee2e6;
-  background-color: #f8f9fa;
-  display: flex;
-  flex-wrap: nowrap;
+/* Dark mode tweak (optional) */
+body.dark-mode .leaflet-top.leaflet-right .leaflet-bar a{
+  background: var(--md-sys-color-surface);
+  border-color: var(--md-sys-color-surface-variant);
 }
 
-#sidebarTabs .nav-link {
-  border: none;
-  border-bottom: 2px solid transparent;
-  border-radius: 0;
-  color: #495057;
-  padding: 8px 16px;
-  margin-right: 4px;
-  transition: color 0.2s, border-color 0.2s;
-  white-space: nowrap;
-  font-size: 0.9rem;
+.leaflet-top.leaflet-right .leaflet-control a{ border-radius:9999px; width:var(--ctl); height:var(--ctl); display:flex; align-items:center; justify-content:center; }
+
+
+/* Same size token as before */
+:root { --ctl: 44px; }
+
+/* Locate (Leaflet.Locate) */
+.leaflet-top.leaflet-right .leaflet-control-locate.leaflet-bar{
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  margin: 8px 0 !important;                /* vertical spacing like others */
+}
+.leaflet-top.leaflet-right .leaflet-control-locate a,
+.leaflet-top.leaflet-right .leaflet-control-locate .leaflet-bar-part,
+.leaflet-top.leaflet-right .leaflet-control-locate .leaflet-bar-part-single{
+  width: var(--ctl) !important;
+  height: var(--ctl) !important;
+  line-height: var(--ctl) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 9999px !important;
+  border: 1px solid var(--md-sys-color-surface-variant) !important;
+  background: var(--md-sys-color-surface) !important;
+  box-shadow: var(--md-sys-elevation-1) !important;
 }
 
-#sidebarTabs .nav-link:hover {
-  border: none;
-  border-bottom: 2px solid #adb5bd;
-  color: #212529;
+/* Return to extent / Home cover common plugin classes */
+.leaflet-top.leaflet-right .leaflet-control-zoomhome a,
+.leaflet-top.leaflet-right .leaflet-control-zoom-extent a,
+.leaflet-top.leaflet-right .leaflet-control-resetview a,
+.leaflet-top.leaflet-right .leaflet-control-home a {
+  width: var(--ctl) !important;
+  height: var(--ctl) !important;
+  line-height: var(--ctl) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 9999px !important;
+  border: 1px solid var(--md-sys-color-surface-variant) !important;
+  background: var(--md-sys-color-surface) !important;
+  box-shadow: var(--md-sys-elevation-1) !important;
+  margin: 8px 0 !important;
 }
 
-#sidebarTabs .nav-link.active {
-  border: none;
-  border-bottom: 2px solid #0d6efd;
-  color: #0d6efd;
-  font-weight: 500;
+/* Hover/focus to match others */
+.leaflet-top.leaflet-right .leaflet-control-locate a:hover,
+.leaflet-top.leaflet-right .leaflet-control-zoomhome a:hover,
+.leaflet-top.leaflet-right .leaflet-control-zoom-extent a:hover,
+.leaflet-top.leaflet-right .leaflet-control-resetview a:hover,/* Geolocate control (e.g., leaflet-control-geolocate) -> force circular */
+:root { --ctl: 44px; } /* keep same size as other controls */
+
+.leaflet-top.leaflet-right .leaflet-control-geolocate{
+  margin: 8px 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
 
-/* Dark mode adjustments */
-body.dark-mode #sidebarTabs {
-  background-color: #2d2d2d;
-  border-bottom-color: #404040;
+.leaflet-top.leaflet-right .leaflet-control-geolocate a,
+.leaflet-top.leaflet-right .leaflet-control-geolocate button,
+.leaflet-top.leaflet-right .leaflet-control-geolocate .leaflet-bar-part,
+.leaflet-top.leaflet-right .leaflet-control-geolocate .leaflet-bar-part-single,
+.leaflet-top.leaflet-right .leaflet-control-geolocate > *{
+  width: var(--ctl) !important;
+  height: var(--ctl) !important;
+  line-height: var(--ctl) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 9999px !important;
+  border: 1px solid var(--md-sys-color-surface-variant) !important;
+  background: var(--md-sys-color-surface) !important;
+  box-shadow: var(--md-sys-elevation-1) !important;
 }
 
-body.dark-mode #sidebarTabs .nav-link {
-  color: #adb5bd;
+.leaflet-top.leaflet-right .leaflet-control-geolocate a:hover,
+.leaflet-top.leaflet-right .leaflet-control-geolocate button:hover{
+  background: color-mix(in oklab, var(--md-sys-color-primary-container), white 80%) !important;
+}
+.leaflet-top.leaflet-right .leaflet-control-geolocate a:focus-visible,
+.leaflet-top.leaflet-right .leaflet-control-geolocate button:focus-visible{
+  outline: 3px solid color-mix(in oklab, var(--md-sys-color-primary), white 25%) !important;
+  outline-offset: 2px;
 }
 
-body.dark-mode #sidebarTabs .nav-link:hover {
-  border-bottom-color: #6c757d;
-  color: #fff;
+.leaflet-top.leaflet-right .leaflet-control-zoom-in a:hover{
+  background: color-mix(in oklab, var(--md-sys-color-primary-container), white 80%) !important;
+}
+.leaflet-top.leaflet-right .leaflet-control-locate a:focus-visible,
+.leaflet-top.leaflet-right .leaflet-control-zoomhome a:focus-visible,
+.leaflet-top.leaflet-right .leaflet-control-zoom-extent a:focus-visible,
+.leaflet-top.leaflet-right .leaflet-control-resetview a:focus-visible,
+.leaflet-top.leaflet-right .leaflet-control-zoom-in a:focus-visible{
+  outline: 3px solid color-mix(in oklab, var(--md-sys-color-primary), white 25%) !important;
+  outline-offset: 2px;
 }
 
-body.dark-mode #sidebarTabs .nav-link.active {
-  border-bottom-color: #ffffff;
-  color: #ffffff;
-}
 
-.tab-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px;
-  background-color: #f8f9fa;
-  color: #212529;
-}
-
-canvas { background: #fff; border-radius: 4px; box-shadow: 0 0 4px rgba(0,0,0,0.1); }
-
-.leaflet-control-browser-print { margin-top: 5px; }
-
-#custom-toolbar {
-  position: absolute;
-  z-index: 1001;
-  background: #fff;
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-
-#custom-toolbar a {
+/* Example: use your QGIS logo file */
+.leaflet-top.leaflet-right .location-filter .enable-button::before{
+  content:"";
+  width: 22px; height: 22px;
+  background: url("print.png") no-repeat center / contain;
   display: block;
-  padding: 6px 8px;
-  text-align: center;
-  color: #333;
-  text-decoration: none;
-  border-bottom: 1px solid #ccc;
-}
-
-#custom-toolbar a:hover { background: #eee; }
-
-#custom-toolbar a:last-child { border-bottom: none; }
-
-.custom-popup .leaflet-popup-content-wrapper {
-  padding: 0;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-}
-
-.custom-popup .leaflet-popup-content {
-  margin: 0;
-  width: 300px !important;
-}
-
-.popup-content {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
-
-.popup-header {
-  background: #f8f9fa;
-  padding: 10px 15px;
-  border-bottom: 1px solid #dee2e6;
-  border-radius: 8px 8px 0 0;
-}
-
-.popup-title {
-  margin: 0;
-  font-size: 1.1rem;
-  color: #212529;
-}
-
-.popup-body {
-  padding: 15px;
-}
-
-.popup-row {
-  display: flex;
-  margin-bottom: 8px;
-  line-height: 1.4;
-  padding: 4px 8px;
-}
-
-.popup-row:nth-child(even) {
-  background-color: #fff;
-}
-
-.popup-row:nth-child(odd) {
-  background-color: #fff8e1;
-}
-
-body.dark-mode .popup-row:nth-child(even) {
-  background-color: #2d2d2d;
-}
-
-body.dark-mode .popup-row:nth-child(odd) {
-  background-color: #363636;
-}
-
-.popup-label {
-  font-weight: 600;
-  color: #495057;
-  min-width: 100px;
-  margin-right: 10px;
-}
-
-.popup-value {
-  color: #212529;
-  flex: 1;
-}
-
-.leaflet-popup-tip {
-  background: #fff;
-}
-
-/* Add dark mode styles */
-body.dark-mode {
-  background-color: #1a1a1a;
-  color: #ffffff;
-}
-
-body.dark-mode #sidebar {
-  background: #2d2d2d;
-  border-right-color: #404040;
-}
-
-body.dark-mode .nav-tabs {
-  border-bottom-color: #404040;
-}
-
-body.dark-mode .nav-link {
-  color: #ffffff;
-}
-
-body.dark-mode .nav-link.active {
-  background-color: #404040;
-  color: #ffffff;
-}
-
-body.dark-mode .tab-content {
-  background-color: #2d2d2d;
-  color: #ffffff;
-}
-
-body.dark-mode .list-group-item {
-  background-color: #2d2d2d;
-  border-color: #404040;
-  color: #ffffff;
-}
-
-body.dark-mode .form-select {
-  background-color: #404040;
-  color: #ffffff;
-  border-color: #505050;
-}
-
-body.dark-mode .form-select:focus {
-  background-color: #505050;
-}
-
-body.dark-mode .popup-content {
-  background-color: #2d2d2d;
-  color: #ffffff;
-}
-
-body.dark-mode .popup-header {
-  background-color: #404040;
-  border-bottom-color: #505050;
-}
-
-body.dark-mode .popup-title {
-  color: #ffffff;
-}
-
-body.dark-mode .popup-label {
-  color: #cccccc;
-}
-
-body.dark-mode .popup-value {
-  color: #ffffff;
-}
-
-body.dark-mode .leaflet-popup-content-wrapper {
-  background-color: #2d2d2d;
-}
-
-body.dark-mode .leaflet-popup-tip {
-  background-color: #2d2d2d;
-}
-
-/* Theme switcher button */
-.theme-switch {
-  position: absolute;
-  top: 10px;
-  right: 50px;
-  z-index: 1000;
-  background: white;
-  border: 2px solid rgba(0,0,0,0.2);
-  border-radius: 4px;
-  padding: 5px 10px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-body.dark-mode .theme-switch {
-  background: #2d2d2d;
-  color: white;
-  border-color: #404040;
-}
-
-.theme-switch:hover {
-  background: #f0f0f0;
-}
-
-body.dark-mode .theme-switch:hover {
-  background: #404040;
-}
-
-/* Add styles for search and bookmark controls */
-.search-control {
-  margin-top: 15px;
-  padding: 10px;
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-}
-
-.search-control input {
-  width: 100%;
-  padding: 5px 10px;
-  border: 1px solid #ced4da;
-  border-radius: 3px;
-  margin-bottom: 5px;
-  background-color: #ffffff;
-}
-
-.search-results {
-  max-height: 200px;
-  overflow-y: auto;
-  margin-top: 5px;
-}
-
-.search-result-item {
-  padding: 8px;
-  border-bottom: 1px solid #dee2e6;
-  cursor: pointer;
-  background-color: #f8f9fa;
-}
-
-.search-result-item:last-child {
-  border-bottom: none;
-}
-
-.search-result-item:hover {
-  background: #e9ecef;
-}
-
-body.dark-mode .search-control {
-  background: #2d2d2d;
-  border-color: #404040;
-}
-
-body.dark-mode .search-control input {
-  background: #404040;
-  border-color: #505050;
-  color: white;
-}
-
-body.dark-mode .search-result-item {
-  border-bottom-color: #404040;
-  background-color: #2d2d2d;
-}
-
-body.dark-mode .search-result-item:hover {
-  background: #404040;
-}
-
-.bookmark-control {
-  margin-top: 20px;
-  padding: 12px;
-  background-color: #f8f9fa;
-}
-
-.bookmark-header {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.bookmark-button {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  border: 1px solid #505050;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
-  background-color: #404040;
-  color: #ffffff;
-  white-space: nowrap;  /* Prevent text wrapping in buttons */
-  min-width: 120px;  /* Ensure minimum width for buttons */
-}
-
-.bookmark-button:active {
-  transform: translateY(1px);
-}
-
-.bookmark-button.primary {
-  background-color: #0d6efd;
-  color: white;
-}
-
-.bookmark-button.primary:hover {
-  background-color: #0b5ed7;
-}
-
-.bookmark-button.secondary {
-  background-color: #ffffff;
-  color: #212529;
-  border: 1px solid #dee2e6;
-}
-
-.bookmark-button.secondary:hover {
-  background-color: #f8f9fa;
-}
-
-/* Dark mode styles */
-body.dark-mode .bookmark-button.secondary {
-  background-color: #2d2d2d;
-  color: #ffffff;
-  border-color: #404040;
-}
-
-body.dark-mode .bookmark-button.secondary:hover {
-  background-color: #404040;
-}
-
-.bookmark-list {
-  max-height: 200px;
-  overflow-y: auto;
-  display: none;
-  margin-top: 10px;
-}
-
-.bookmark-item {
-  padding: 8px;
-  border-bottom: 1px solid #dee2e6;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #212529;
-}
-
-.bookmark-item:last-child {
-  border-bottom: none;
-}
-
-.bookmark-item:hover {
-  background: #f5f5f5;
-}
-
-.bookmark-item button {
-  background: #dc3545;
-  color: white;
-  border-color: #dc3545;
-  padding: 2px 8px;
-  font-size: 0.875rem;
-}
-
-.bookmark-item button:hover {
-  background: #c82333;
-  border-color: #bd2130;
-}
-
-body.dark-mode .bookmark-control {
-  background-color: #2d2d2d;
-  color: #ffffff;
-}
-
-body.dark-mode .bookmark-control button {
-  background: #495057;
-  border-color: #495057;
-  color: white;
-}
-
-body.dark-mode .bookmark-control button:hover {
-  background: #383d42;
-  border-color: #383d42;
-}
-
-body.dark-mode .bookmark-control .save-bookmark {
-  background: #28a745;
-  border-color: #28a745;
-}
-
-body.dark-mode .bookmark-control .save-bookmark:hover {
-  background: #218838;
-  border-color: #1e7e34;
-}
-
-body.dark-mode .bookmark-list {
-  background: #2d2d2d;
-  border-color: #404040;
-}
-
-body.dark-mode .bookmark-item {
-  border-bottom-color: #404040;
-}
-
-body.dark-mode .bookmark-item:hover {
-  background: #404040;
-}
-
-body.dark-mode .bookmark-item button {
-  background: #dc3545;
-  border-color: #dc3545;
-}
-
-body.dark-mode .bookmark-item button:hover {
-  background: #c82333;
-  border-color: #bd2130;
-}
-
-/* Custom toolbar icon styles */
-.leaflet-control-custom {
-  width: 36px !important;
-  height: 36px !important;
-  line-height: 36px !important;
-  text-align: center;
-  border-radius: 4px;
-  background-color: white;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-  cursor: pointer;
-  margin-bottom: 8px !important;
-}
-
-.leaflet-control-custom a {
-  font-size: 20px;
-  color: #444;
-  display: block;
-  width: 100%;
-  height: 100%;
-  line-height: 36px;
-  text-decoration: none;
-  text-align: center;
-}
-
-/* Make all control buttons consistent size */
-.leaflet-bar a {
-  width: 36px !important;
-  height: 36px !important;
-  line-height: 36px !important;
-  font-size: 20px;
-}
-
-/* Adjust spacing between controls */
-.leaflet-control {
-  margin-bottom: 0 !important;
-  margin-top: 2px !important;
-}
-
-.leaflet-bar {
-  margin-bottom: 0 !important;
-}
-
-.leaflet-bar a {
-  margin-bottom: 0 !important;
-  border-bottom: 1px solid #ccc !important;
-}
-
-.leaflet-bar a:last-child {
-  border-bottom: none !important;
-}
-
-/* Dark mode styles for controls */
-body.dark-mode .leaflet-control a {
-  background-color: #2d2d2d !important;
-  border-color: #404040 !important;
-  color: #fff !important;
-}
-
-body.dark-mode .leaflet-control a:hover {
-  background-color: #404040 !important;
-}
-
-body.dark-mode .leaflet-control a i {
-  color: #fff !important;
-}
-
-/* Style the draw control buttons */
-.leaflet-draw-toolbar a {
-  width: 36px !important;
-  height: 36px !important;
-  line-height: 36px !important;
-  text-align: center;
-  background-image: none !important;
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
-  color: #444;
+  text-indent: 0; /* ensure the icon is visible */
+}
+
+/* Geolocate: make it a perfect circle (square box, no padding) */
+:root { --ctl: 44px; } /* keep same as other controls */
+
+.leaflet-top.leaflet-right .leaflet-control-geolocate,
+.leaflet-top.leaflet-right .leaflet-control-geolocate a,
+.leaflet-top.leaflet-right .leaflet-control-geolocate button,
+.leaflet-top.leaflet-right .leaflet-control-geolocate .leaflet-bar-part,
+.leaflet-top.leaflet-right .leaflet-control-geolocate .leaflet-bar-part-single{
+  width: var(--ctl) !important;
+  height: var(--ctl) !important;
+  aspect-ratio: 1 / 1 !important;   /* guard against any stray widths */
+  padding: 0 !important;            /* <-- this fixes the oval */
+  box-sizing: border-box !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  border-radius: 9999px !important;
+  border: 1px solid var(--md-sys-color-surface-variant) !important;
+  background: var(--md-sys-color-surface) !important;
+  box-shadow: var(--md-sys-elevation-1) !important;
+  margin: 8px 0 !important;
+}
+
+/* Make sure the icon itself isn't stretching */
+.leaflet-top.leaflet-right .leaflet-control-geolocate svg,
+.leaflet-top.leaflet-right .leaflet-control-geolocate i{
+  width: 22px; height: 22px;
+}
+
+
+:root { --ctl: 44px; } /* keep same size as others */
+
+/* Right-rail 'return to extent' using .leaflet-control-zoom-in */
+.leaflet-top.leaflet-right .leaflet-control-zoom-in,
+.leaflet-top.leaflet-right .leaflet-control-zoom .leaflet-control-zoom-in,
+.leaflet-top.leaflet-right a.leaflet-control-zoom-in{
+  width: var(--ctl) !important;
+  height: var(--ctl) !important;
+  aspect-ratio: 1 / 1 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  margin: 8px 0 !important;
+  border-radius: 9999px !important;
+  border: 1px solid var(--md-sys-color-surface-variant) !important;
+  background: var(--md-sys-color-surface) !important;
+  box-shadow: var(--md-sys-elevation-1) !important;
+
+  /* if the icon is text (+) or a font icon, size nicely */
   font-size: 18px;
+  line-height: 1;
 }
 
-.leaflet-draw-toolbar a:hover {
-  background-color: #f4f4f4;
+/* Hover/focus match */
+.leaflet-top.leaflet-right .leaflet-control-zoom-in:hover{
+  background: color-mix(in oklab, var(--md-sys-color-primary-container), white 80%) !important;
+}
+.leaflet-top.leaflet-right .leaflet-control-zoom-in:focus-visible{
+  outline: 3px solid color-mix(in oklab, var(--md-sys-color-primary), white 25%) !important;
+  outline-offset: 2px;
 }
 
-/* Draw control icons */
-.leaflet-draw-draw-polyline::before {
-  content: '\f1b2';  /* fa-line */
+
+/* === FAB-style circular sidebar toggle, half-overlapping the sidebar === */
+:root{
+  --sidebar-left: 12px;                      /* where your sidebar sits */
+  --sidebar-w: 360px;                        /* default; you already adjust this via :has()/JS */
+  --toggle-size: 36px;
+
+  /* pick your colors */
+  --toggle-bg: var(--md-sys-color-primary-container);
+  --toggle-fg: var(--md-sys-color-on-primary-container);
+  --toggle-bg-hover: color-mix(in oklab, var(--toggle-bg), white 10%);
 }
 
-.leaflet-draw-draw-polygon::before {
-  content: '\f5ee';  /* fa-hexagon */
+#sidebarToggle{
+  position: absolute;
+  top: 50%;
+  left: calc(var(--sidebar-left) + var(--sidebar-w) - var(--toggle-size)/2);  /* half on the sidebar */
+  transform: translateY(-50%);
+  z-index: 1000;
+
+  width: var(--toggle-size);
+  height: var(--toggle-size);
+  border-radius: 9999px;
+  border: 0;
+  background: var(--toggle-bg);
+  color: var(--toggle-fg);
+  box-shadow: var(--md-sys-elevation-3);
+
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+
+  /* hide any legacy text/icon inside the button so only ::before shows */
+  font-size: 0;
+}
+#sidebarToggle:hover{ background: var(--toggle-bg-hover); }
+
+/* Icon via pseudo-element so fonts don't matter */
+#sidebarToggle::before{
+  font-size: 14px;
+  line-height: 1;
 }
 
-.leaflet-draw-draw-rectangle::before {
-  content: '\f5cb';  /* fa-square */
+/* Keep ripple visible even though we zeroed font-size */
+#sidebarToggle .md-ripple{ display:block; }
+
+/* When collapsed, dock half off-screen at the left edge and show chevron */
+#sidebar.collapsed ~ #sidebarToggle,
+#sidebarToggle.collapsed{
+  left: calc(var(--sidebar-left) - var(--toggle-size)/2);
+}
+#sidebar.collapsed ~ #sidebarToggle::before,
+#sidebarToggle.collapsed::before{
+  content: "\203A";             /* chevron (points right) */
+  transform: translateX(1px);
 }
 
-.leaflet-draw-draw-circle::before {
-  content: '\f111';  /* fa-circle */
+/* If the old handle had an <i> or <svg>, make sure it doesn't peek out */
+#sidebarToggle i,
+/* #sidebarToggle svg { display: none; }
+
+/* ===== Saved Queries MD3 card rows ===== */
+
+/* Container hook (use whichever you have) */
+#sidebar .saved-queries,
+#sidebar #savedQueriesList { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 10px; 
 }
 
-.leaflet-draw-draw-marker::before {
-  content: '\f3c5';  /* fa-map-marker-alt */
+/* Each item looks like a pill-card */
+#sidebar #savedQueriesList .list-group-item,
+#sidebar .saved-queries .list-group-item{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px 12px;
+  border: none !important; /* 1px solid var(--md-sys-color-surface-variant) !important; */
+  /* background: var(--md-sys-color-surface) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--md-sys-elevation-1); */
+  transition: background .15s ease, box-shadow .15s ease, transform .05s ease;
 }
 
-.leaflet-draw-edit-edit::before {
-  content: '\f044';  /* fa-edit */
+/* Lift a bit on hover/focus */
+#sidebar #savedQueriesList .list-group-item:hover,
+#sidebar .saved-queries .list-group-item:hover{
+  background: color-mix(in oklab, var(--md-sys-color-surface), var(--md-sys-color-primary-container) 20%);
+  box-shadow: var(--md-sys-elevation-2);
+}
+#sidebar #savedQueriesList .list-group-item:focus-visible,
+#sidebar .saved-queries .list-group-item:focus-visible{
+  outline: 3px solid color-mix(in oklab, var(--md-sys-color-primary), white 25%);
+  outline-offset: 2px;
 }
 
-.leaflet-draw-edit-remove::before {
-  content: '\f2ed';  /* fa-trash-alt */
+/* Title + subtitle block */
+#sidebar .saved-queries .list-group-item .title,
+#sidebar #savedQueriesList .list-group-item .title{
+  font-weight: 400;
+  color: var(--md-sys-color-on-surface);
+  line-height: 1.2;
+}
+#sidebar .saved-queries .list-group-item .subtitle,
+#sidebar #savedQueriesList .list-group-item .subtitle{
+  margin-top: 2px;
+  font-size: .9rem;
+  color: var(--md-sys-color-on-surface-variant);
+  line-height: 1.25;
 }
 
-/* Dark mode support */
-body.dark-mode .leaflet-draw-toolbar a {
-  color: #fff;
+/* Little status dot (if present) */
+#sidebar .saved-queries .list-group-item .status-dot,
+#sidebar #savedQueriesList .list-group-item .status-dot{
+  width: 6px; height: 6px; border-radius: 999px;
+  background: var(--md-sys-color-on-surface-variant);
+  opacity: .4;
 }
 
-body.dark-mode .leaflet-draw-toolbar a:hover {
-  background-color: #404040;
+/* Right-side label chip (e.g., Population / Habitat) */
+#sidebar .saved-queries .list-group-item .btn,
+#sidebar #savedQueriesList .list-group-item .btn{
+  margin-left: auto;
+  border-radius: 999px !important;
+  padding: 6px 10px;
+  font-weight: 700;
+}
+/* Harmonize outline color with theme */
+#sidebar .saved-queries .list-group-item .btn.btn-outline-primary,
+#sidebar #savedQueriesList .list-group-item .btn.btn-outline-primary{
+  border-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-primary);
+  background: transparent;
+}
+#sidebar .saved-queries .list-group-item .btn.btn-outline-primary:hover,
+#sidebar #savedQueriesList .list-group-item .btn.btn-outline-primary:hover{
+  background: color-mix(in oklab, var(--md-sys-color-primary-container), white 12%);
 }
 
-body.dark-mode .leaflet-control-custom {
-  background-color: #2d2d2d;
-  border-color: #404040;
+
+/* Saved Queries: push the badge to the right edge */
+#sidebar #savedQueriesList .list-group-item{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 350 !important;
 }
 
-body.dark-mode .leaflet-control-custom a {
-  color: #fff;
+/* Let everything except the badge grow on the left */
+#sidebar #savedQueriesList .list-group-item > :not(.badge,.btn,.chip){
+  flex: 1 1 auto;
 }
 
-body.dark-mode .leaflet-control-custom:hover {
-  background-color: #404040;
+/* The badge itself sits on the right */
+#sidebar #savedQueriesList .list-group-item .badge,
+#sidebar #savedQueriesList .list-group-item .btn,
+#sidebar #savedQueriesList .list-group-item .chip{
+  margin-left: auto;
+  white-space: nowrap;              /* keep it on one line */
+  border-radius: 999px;             /* keep the pill look */
+  padding: 6px 10px;                /* optional: comfy pill spacing */
 }
 
-/* Dark mode for draw control icons */
-body.dark-mode .leaflet-draw-toolbar a {
-  color: #fff !important;
-  background-color: #2d2d2d !important;
-  border-color: #404040 !important;
+#sidebar #savedQueriesList button.saved_layer_query.list-group-item.list-group-item-action
+  > :first-child{
+  font-weight: 300 !important;
 }
 
-body.dark-mode .leaflet-draw-toolbar a:hover {
-  background-color: #404040 !important;
+
+.saved-queries-header{
+    padding-top: 25px !important;
 }
 
-body.dark-mode .leaflet-draw-toolbar a.leaflet-disabled {
-  color: #666 !important;
-  background-color: #2d2d2d !important;
-}
 
-body.dark-mode .leaflet-draw-toolbar a.leaflet-disabled:hover {
-  background-color: #2d2d2d !important;
-}
+/* beats the inline display:block */
+#exportResults2 { display: none !important; }
 
-.leaflet-interactive {fill:#000!important;}
 
-body.dark-mode .leaflet-draw-toolbar a.leaflet-draw-draw-polyline::before,
-body.dark-mode .leaflet-draw-toolbar a.leaflet-draw-draw-polygon::before,
-body.dark-mode .leaflet-draw-toolbar a.leaflet-draw-draw-rectangle::before,
-body.dark-mode .leaflet-draw-toolbar a.leaflet-draw-draw-circle::before,
-body.dark-mode .leaflet-draw-toolbar a.leaflet-draw-draw-marker::before,
-body.dark-mode .leaflet-draw-toolbar a.leaflet-draw-edit-edit::before,
-body.dark-mode .leaflet-draw-toolbar a.leaflet-draw-edit-remove::before {
-  color: #fff !important;
-}
 
-body.dark-mode .leaflet-draw-toolbar a.leaflet-disabled::before {
-  color: #666 !important;
-}
+/* Remove any ::before rule you added for this button */
 
-/* Dark mode for Measure, Print, and QGIS Print controls */
-body.dark-mode .measure-control,
-body.dark-mode .leaflet-control-browser-print a,
-body.dark-mode .leaflet-control-qgis-print a,
-body.dark-mode .leaflet-control-zoom-in,
-body.dark-mode .leaflet-control-clear a,
-body.dark-mode .leaflet-bar a {
-  background-color: #2d2d2d !important;
-  border-color: #404040 !important;
-  color: #fff !important;
-}
-
-body.dark-mode .measure-control:hover,
-body.dark-mode .leaflet-control-browser-print a:hover,
-body.dark-mode .leaflet-control-qgis-print a:hover,
-body.dark-mode .leaflet-control-zoom-in:hover,
-body.dark-mode .leaflet-control-clear a:hover,
-body.dark-mode .leaflet-bar a:hover {
-  background-color: #404040 !important;
-}
-
-/* Ensure all control icons are white in dark mode */
-body.dark-mode .leaflet-control-browser-print a i,
-body.dark-mode .leaflet-control-qgis-print a i,
-body.dark-mode .leaflet-control-clear a i,
-body.dark-mode .leaflet-control-zoom-in i,
-body.dark-mode .measure-control i,
-body.dark-mode .leaflet-bar a i {
-  color: #fff !important;
-}
-
-/* Specific override for the Browser Print button icon */
-body.dark-mode .leaflet-control-browser-print a .fa-print,
-body.dark-mode .leaflet-control-browser-print a i {
-  color: #fff !important;
-}
-
-/* Additional dark mode styles for print controls */
-body.dark-mode .leaflet-control-browser-print a,
-body.dark-mode .leaflet-control-qgis-print a {
-  background-color: #2d2d2d !important;
-  border-color: #404040 !important;
-  color: #fff !important;
-}
-
-body.dark-mode .leaflet-control-browser-print a:hover,
-body.dark-mode .leaflet-control-qgis-print a:hover {
-  background-color: #404040 !important;
-}
-
-body.dark-mode .leaflet-control-browser-print a i,
-body.dark-mode .leaflet-control-qgis-print a i {
-  color: #fff !important;
-}
-
-/* Remove ?? from theme switcher */
-.theme-icon {
-  display: none;
-}
-
-/* Add styles for edit mode */
-.edit-mode-active {
-  background-color: #ffeb3b !important;
-}
-
-.edit-popup {
-  max-width: 300px;
-}
-
-.edit-popup .form-group {
-  margin-bottom: 10px;
-}
-
-.edit-popup label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.edit-popup input,
-.edit-popup select,
-.edit-popup textarea {
-  width: 100%;
-  padding: 5px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.edit-popup .btn-group {
-  margin-top: 10px;
-}
-
-.edit-popup .btn {
-  margin-right: 5px;
-}
-
-/* Add styles for export control */
-.leaflet-control-export {
+.leaflet-container .location-filter.button-container .enable-button{
   width: 36px !important;
   height: 36px !important;
-  line-height: 36px !important;
-  text-align: center;
-  border-radius: 4px;
-  background-color: white;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-  cursor: pointer;
-  margin-bottom: 8px !important;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  /* plate */
+  background-color: #fff !important;
+  border-radius: 50% !important;
+  border: 1px solid rgba(0,0,0,.12) !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,.15) !important;
+
+  /* icon on top of the plate */
+  background-image: url("/assets/icons/qgis-print.svg") !important; /* your path */
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 20px 20px !important;
+
+  /* hide label text visually */
+  font-size: 0 !important;
+  color: transparent !important;
 }
 
-.leaflet-control-export i {
-  line-height: 36px;
+
+
+
+
+/* Let the outer shell shrink-wrap the inner panel */
+.leaflet-popup.custom-popup {
+  display: inline-block !important;
+  max-width: none !important;
 }
 
-.leaflet-control-export-format {
-  position: absolute;
-  right: 0;
-  top: 100%;
-  width: 120px !important;
-  margin-top: 2px !important;
-  background: white;
-  border: 2px solid rgba(0,0,0,0.2);
-  border-radius: 4px;
-  padding: 4px;
-  z-index: 2000;
+/* Set the width on the rounded panel (the thing you actually see) */
+.leaflet-popup.custom-popup .leaflet-popup-content-wrapper {
+  max-width: none !important;      /* remove the 390px cap */
+  width: 620px !important;         /* pick your target width */
+  box-sizing: border-box !important;
 }
 
-body.dark-mode .leaflet-control-export {
-  background: #2d2d2d;
-  color: #ffffff;
-  border-color: #404040;
+/* Allow the inner content to expand to the wrapper width */
+.leaflet-popup.custom-popup .leaflet-popup-content {
+  width: auto !important;          /* override Leaflet's inline width */
+  max-width: none !important;
 }
 
-body.dark-mode .leaflet-control-export-format {
-  background: #2d2d2d;
-  color: #ffffff;
-  border-color: #404040;
+/* Kill the 370px cap that lives on your custom content class */
+.custom-popup .popup-content {
+  max-width: none !important;      /* overrides the 370px rule */
+  padding-right: 12px !important;  /* keep room for the close button */
 }
 
-/* Adjust spacing between controls */
-.leaflet-control {
-  margin-bottom: 2px !important;
+/* Keep it responsive on small screens */
+@media (max-width: 760px) {
+  .leaflet-popup.custom-popup .leaflet-popup-content-wrapper {
+    width: min(94vw, 620px) !important;
+  }
 }
 
-/* Add margin to the first control */
-.leaflet-control-zoom {
-  margin-top: 15px !important;
-}
 
-/* Add styles for tabbed popup */
-.custom-popup .nav-tabs {
-  margin-bottom: 0;
-  border-bottom: 1px solid #dee2e6;
-  background-color: #f8f9fa;
-  padding: 0.5rem 0.5rem 0;
-  display: flex;
-  flex-wrap: nowrap;
-  width: 100%;
-}
+/* Active (selected) map sidebar tab */
+.nav-tabs .nav-link.active {
+  background-color: #34d399 !important;  /* solid emerald tone */
+  color: #ffffff !important;              /* white icon/text for contrast */
 
-.custom-popup .nav-tabs .nav-item {
-  flex: 1;
-  text-align: center;
-  min-width: 0;
-}
+  /* Soft lift */
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.14),
+    0 3px 6px rgba(0, 0, 0, 0.10);
 
-.custom-popup .nav-tabs .nav-link {
-  padding: 0.5rem;
-  font-size: 0.875rem;
-  color: #495057;
   border: none;
-  border-bottom: 2px solid transparent;
-  border-radius: 0;
-  margin-right: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
+  border-radius: 50%;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
-.custom-popup .nav-tabs .nav-link:hover {
-  border-bottom-color: #adb5bd;
-  background-color: transparent;
+/* Optional: small hover lift for the active tab */
+.nav-tabs .nav-link.active:hover {
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.18),
+    0 4px 8px rgba(0, 0, 0, 0.12);
 }
 
-.custom-popup .nav-tabs .nav-link.active {
-  color: #0d6efd;
-  border-bottom-color: #0d6efd;
-  background-color: transparent;
+
+.leaflet-top .leaflet-control {
+    margin-top: 2px !important;
 }
 
-.custom-popup .popup-header {
-  background-color: #f8f9fa;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #dee2e6;
-}
 
-.custom-popup .popup-title {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #212529;
+.relation-block {
+  border: 1px solid var(--md-sys-color-surface-variant);
+  border-radius: 12px;
+  margin: 6px 0;
+  box-shadow: var(--md-sys-elevation-1);
 }
-
-.custom-popup .popup-body {
-  padding: 1rem;
-}
-
-.custom-popup .popup-row {
-  display: flex;
-  margin-bottom: 0.5rem;
-  line-height: 1.4;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-}
-
-.custom-popup .popup-row:nth-child(even) {
-  background-color: #f8f9fa;
-}
-
-.custom-popup .popup-row:nth-child(odd) {
-  background-color: #fff;
-}
-
-.custom-popup .popup-label {
-  font-weight: 600;
-  color: #495057;
-  min-width: 120px;
-  margin-right: 1rem;
-}
-
-.custom-popup .popup-value {
-  color: #212529;
-  flex: 1;
-}
-
-.custom-popup .leaflet-popup-content-wrapper {
-  padding: 0;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-}
-
-.custom-popup .leaflet-popup-content {
-  margin: 0;
-  width: 350px !important;
-}
-
-.custom-popup .leaflet-popup-tip {
-  background: #fff;
-}
-
-body.dark-mode .custom-popup .nav-tabs {
-  background-color: #2d2d2d;
-  border-bottom-color: #404040;
-}
-
-body.dark-mode .custom-popup .nav-tabs .nav-item {
-  flex: 1;
-  text-align: center;
-  min-width: 0;
-}
-
-body.dark-mode .custom-popup .nav-tabs .nav-link {
-  color: #adb5bd;
-}
-
-body.dark-mode .custom-popup .nav-tabs .nav-link:hover {
-  border-bottom-color: #6c757d;
-  color: #fff;
-}
-
-body.dark-mode .custom-popup .nav-tabs .nav-link.active {
-  color: #ffffff;
-  border-bottom-color: #ffffff;
-}
-
-body.dark-mode .custom-popup .popup-header {
-  background-color: #2d2d2d;
-}
-
-body.dark-mode .custom-popup .popup-title {
-  color: #fff;
-}
-
-body.dark-mode .custom-popup .popup-body {
-  background-color: #2d2d2d;
-}
-
-body.dark-mode .custom-popup .popup-row:nth-child(even) {
-  background-color: #363636;
-}
-
-body.dark-mode .custom-popup .popup-row:nth-child(odd) {
-  background-color: #2d2d2d;
-}
-
-body.dark-mode .custom-popup .popup-label {
-  color: #cccccc;
-}
-
-body.dark-mode .custom-popup .popup-value {
-  color: #fff;
-}
-
-body.dark-mode .custom-popup .leaflet-popup-content-wrapper {
-  background-color: #2d2d2d;
-}
-
-body.dark-mode .custom-popup .leaflet-popup-tip {
-  background-color: #2d2d2d;
-}
-
-.layer-item {
+.relation-title {
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  border-radius: 12px 12px 0 0;
+  padding: 6px 10px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 12px;
-  border-bottom: 1px solid #dee2e6;
-  color: #212529;
 }
+.relation-list {
+  padding: 6px 10px;
+  background: var(--md-sys-color-surface);
+  border-radius: 0 0 12px 12px;
+}
+.relation-list.collapsed { display: none; }
 
-.layer-item:last-child {
-  border-bottom: none;
-}
 
-.layer-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #212529;
-}
-
-.layer-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.layer-visibility {
-  cursor: pointer;
-  color: #666;
-  padding: 4px;
-}
-
-.layer-visibility:hover {
-  color: #000;
-}
-
-.layer-menu {
-  cursor: pointer;
-  color: #666;
-  padding: 4px;
-  position: relative;
-}
-
-.layer-menu:hover {
-  color: #000;
-}
-
-.layer-menu-content {
-  display: none;
-  position: fixed; /* Change to fixed positioning */
-  background: white;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  padding: 8px;
-  min-width: 200px;
-  z-index: 1000;
-}
-
-.layer-menu-content.show {
-  display: block;
-}
-
-.layer-menu-item {
-  padding: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.layer-menu-item:hover {
-  background: #f8f9fa;
-}
-
-/* Dark mode styles */
-body.dark-mode .layer-item {
-  border-bottom-color: #404040;
-  background-color: #2d2d2d;
-  color: #ffffff;
-}
-
-body.dark-mode .layer-visibility,
-body.dark-mode .layer-menu {
-  color: #999;
-}
-
-body.dark-mode .layer-visibility:hover,
-body.dark-mode .layer-menu:hover {
-  color: #fff;
-}
-
-body.dark-mode .layer-menu-content {
-  background: #2d2d2d;
-  border-color: #404040;
-  color: #ffffff;
-}
-
-body.dark-mode .layer-menu-item {
-  color: #ffffff;
-}
-
-body.dark-mode .layer-menu-item:hover {
-  background: #404040;
-}
-
-body.dark-mode .layer-left span {
-  color: #ffffff;
-}
-
-body.dark-mode .layer-menu-content input[type="range"] {
-  background: #404040;
-}
-
-body.dark-mode .layer-menu-content input[type="range"]::-webkit-slider-thumb {
-  background: #ffffff;
-}
-
-body.dark-mode .layer-menu-content input[type="range"]::-moz-range-thumb {
-  background: #ffffff;
-}
-
-/* Add styles for SQL query results */
-.sql-query-container {
-  padding: 15px;
-}
-
-.sql-query-container textarea {
-  font-family: monospace;
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-#queryResults {
-  margin-top: 15px;
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-#queryResults table {
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-#queryResults th {
-  position: sticky;
-  top: 0;
-  background: #f8f9fa;
-  z-index: 1;
-}
-
-body.dark-mode #queryResults th {
-  background: #2d2d2d;
-}
-
-/* Add horizontal scroll for wide tables */
-.table-responsive {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Add some padding to the table cells */
-#queryResults td, #queryResults th {
-  padding: 8px;
-  border: 1px solid #dee2e6;
-}
-
-body.dark-mode #queryResults td, 
-body.dark-mode #queryResults th {
-  border-color: #404040;
-}
-
-#sql-tab {
-  padding: 8px 24px;
-}
-
-#sql-tab i {
-  font-size: 1rem;  /* Reduced from 1.2rem */
-  display: inline-block;
-  width: 20px;  /* Reduced from 24px */
-  text-align: center;
-}
-
-/* Modal styles */
-body.dark-mode .modal-content {
-  background-color: #2d2d2d;
-  color: #fff;
-}
-
-.modal-header {
-    display: flex
-;
-    flex-shrink: 0;
-    align-items: center;
-    padding: var(--bs-modal-header-padding);
-    border-bottom: var(--bs-modal-header-border-width) solid var(--bs-modal-header-border-color);
-    border-top-left-radius: var(--bs-modal-inner-border-radius);
-    border-top-right-radius: var(--bs-modal-inner-border-radius);
-    background: dodgerblue;
-    color: white;
-}
-
-body.dark-mode .modal-header {
-  border-bottom-color: #404040;
-}
-
-body.dark-mode .modal-footer {
-  border-top-color: #404040;
-}
-
-body.dark-mode .form-control {
-  background-color: #404040;
-  border-color: #505050;
-  color: #fff;
-}
-
-body.dark-mode .form-control:focus {
-  background-color: #505050;
-  border-color: #606060;
-  color: #fff;
-}
+.relation-title { cursor: pointer; }
+.relation-list.collapsed { display: none; }

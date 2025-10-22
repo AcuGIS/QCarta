@@ -24,7 +24,9 @@
 					data-show_charts="<?=$row->show_charts=='t' ? 'yes' : 'no'?>"
 					data-show_dt="<?=$row->show_dt=='t' ? 'yes' : 'no'?>"
 					data-show_query="<?=$row->show_query=='t' ? 'yes' : 'no'?>"
+					data-show_fi_edit="<?=$row->show_fi_edit=='t' ? 'yes' : 'no'?>"
 					data-print_layout="<?=$row->print_layout?>"
+					data-basemap_id="<?=$row->basemap_id ?? ''?>"
 					data-group_id="<?=implode(',', array_keys($row_grps))?>"
 					align="left">
 					<!--<td><?=$row->id?></td>-->
@@ -34,18 +36,19 @@
 					<td><?=str_replace(',', '<br>', $row->layers)?></td>
 					<td data-value="<?=$row->store_id?>"><?=$stores[$row->store_id]?></td>
 					<td>						
-						<a class="info" title="Show info" data-toggle="tooltip"><i class="text-info bi bi-info-circle"></i></a>
-						<?php if(($row->owner_id == $_SESSION[SESS_USR_KEY]->id) || ($_SESSION[SESS_USR_KEY]->id == SUPER_ADMIN_ID)){ ?>
-						<a class="edit" title="Edit" data-toggle="tooltip"><i class="text-warning bi bi-pencil-square"></i></a>
-						<a class="edit_layer_queries" title="Edit Queries" data-toggle="tooltip"><i class="text-success bi bi-filetype-sql"></i></a>
-						<a class="edit_layer_reports" title="Edit Reports" data-toggle="tooltip"><i class="text-success bi bi-table"></i></a>
-						<a class="edit_layer_metadata" title="Edit Metadata" data-toggle="tooltip"><i class="text-primary bi bi-bar-chart-steps"></i></a>
-						<?php if(is_dir(CACHE_DIR.'/layers/'.$row->id)){ ?>
-						<a class="clear" title="Clear cache" data-toggle="tooltip"><i class="text-secondary bi bi-file-earmark-x"></i></a>
+						<a class="info me-2" title="Show info" data-toggle="tooltip"><i class="text-info bi bi-info-circle fs-5"></i></a>
+							<?php if(($row->owner_id == $_SESSION[SESS_USR_KEY]->id) || ($_SESSION[SESS_USR_KEY]->id == SUPER_ADMIN_ID)){ ?>
+							<a class="edit me-2" title="Edit" data-toggle="tooltip"><i class="text-warning bi bi-pencil-square fs-5"></i></a>
+							<!-- <a class="edit_layer_queries" title="Edit Queries" data-toggle="tooltip"><i class="text-success bi bi-filetype-sql"></i></a> -->
+							<a class="edit_layer_reports me-2" title="Edit Reports" data-toggle="tooltip"><i class="text-success bi bi-table fs-5"></i></a>
+							<a class="edit_property_filters me-2" title="Edit Filters" data-toggle="tooltip"><i class="text-success bi bi-funnel fs-5"></i></a>
+							<a class="edit_layer_metadata me-2" title="Edit Metadata" data-toggle="tooltip"><i class="text-primary bi bi-bar-chart-steps fs-5"></i></a>
+							<?php if(is_dir(CACHE_DIR.'/layers/'.$row->id)){ ?>
+							<a class="clear me-2" title="Clear cache" data-toggle="tooltip"><i class="text-secondary bi bi-file-earmark-x fs-5"></i></a>
 						<?php } ?>
-						<a class="edit_preview" title="Edit Preview" data-toggle="tooltip"><i class="text-warning bi bi-easel"></i></a>
-						<a class="delete" title="Delete" data-toggle="tooltip"><i class="text-danger bi bi-x-square"></i></a>
-					<?php } ?>
+							<a class="edit_preview me-2" title="Edit Preview" data-toggle="tooltip"><i class="text-warning bi bi-easel fs-5"></i></a>
+							<a class="delete me-2" title="Delete" data-toggle="tooltip"><i class="text-danger bi bi-x-square fs-5"></i></a>
+						<?php } ?>
 					</td>
 				</tr> <?php } ?>
 			</tbody>
@@ -120,96 +123,230 @@
 </div>
 
 <div id="addnew_modal" class="modal fade" role="dialog">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">Create Layer</h4>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-header bg-primary text-white">
+				<h4 class="modal-title mb-0">
+					<i class="bi bi-plus-circle me-2"></i>Create New Layer
+				</h4>
+				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			
-			<div class="modal-body" id="addnew_modal_body">
-				<form id="layer_form" class="border shadow p-3 rounded"
-							action=""
-							method="post"
-							enctype="multipart/form-data"
-							style="width: 450px;">
-
+			<div class="modal-body p-4" id="addnew_modal_body">
+				<form id="layer_form" action="" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="action" value="save"/>
 					<input type="hidden" name="id" id="id" value="0"/>
 					
-					<div class="form-group">
-						<label for="name" class="form-label">Name</label>
-						<input type="text" class="form-control" name="name" id="name" required/>
-						
-						<label for="description" class="form-label">Description</label>
-						<input type="text" class="form-control" name="description" id="description" required/>
-						
-						<label for="store_id" class="form-label">Store</label>
-						<select class="form-control" name="store_id" id="store_id">
-							<?php foreach($stores as $k => $v) { ?>
-								<option value="<?=$k?>"><?=$v?></option>
-							<?php } ?>
-						</select>
-						
-						<label for="layers" class="form-label">Layers</label>
-						<select class="form-select" name="layers[]" id="layers" multiple required>
-						</select>
-						
-						<div class="form-group">
-    						<label for="image" class="form-label">Thumbnail</label>
-    						<input type="file" class="form-control" name="image" id="image" accept=".jpeg,.jpg,.png,.webp"/>
-                            
-                            <input type="checkbox" name="auto_thumbnail" id="auto_thumbnail" value="t"/>
-                            <label for="auto_thumbnail" class="form-label">Generate thumbnail</label>
+					<!-- Basic Information Section -->
+					<div class="row mb-4">
+						<div class="col-12">
+							<h6 class="text-primary mb-3 border-bottom pb-2">
+								<i class="bi bi-info-circle me-2"></i>Basic Information
+							</h6>
 						</div>
-						
-						<label for="print_layout" class="form-label">Print Layout</label>
-						<select class="form-select" name="print_layout" id="print_layout">
-						</select>
+						<div class="col-md-6 mb-3">
+							<label for="name" class="form-label fw-semibold">
+								<i class="bi bi-tag me-1"></i>Layer Name
+							</label>
+							<input type="text" class="form-control" name="name" id="name" required 
+								   placeholder="Enter layer name"/>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label for="description" class="form-label fw-semibold">
+								<i class="bi bi-file-text me-1"></i>Description
+							</label>
+							<input type="text" class="form-control" name="description" id="description" required 
+								   placeholder="Enter layer description"/>
+						</div>
 					</div>
 
-					<div class="form-group">
-						<input type="checkbox" name="public" id="public" value="t"/>
-						<label for="public" class="form-label">Public</label>
-						<input type="checkbox" name="cached" id="cached" value="t"/>
-						<label for="cached" class="form-label">Cached</label>
-						<?php if(WITH_MAPPROXY) { ?>
-						<input type="checkbox" name="proxyfied" id="proxyfied" value="t"/>
-						<label for="cached" class="form-label">MapProxy</label>
-						<?php } ?>
-						<input type="checkbox" name="customized" id="customized" value="t"/>
-						<label for="customized" class="form-label">Customized</label>
-					</div>
-					
-					<div class="form-group">
-						<input type="checkbox" name="exposed" id="exposed" value="t" disabled/>
-						<label for="exposed" class="form-label">Separate Layers</label>
+					<!-- Store and Layers Section -->
+					<div class="row mb-4">
+						<div class="col-12">
+							<h6 class="text-primary mb-3 border-bottom pb-2">
+								<i class="bi bi-database me-2"></i>Store Configuration
+							</h6>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label for="store_id" class="form-label fw-semibold">
+								<i class="bi bi-server me-1"></i>QGIS Store
+							</label>
+							<select class="form-select" name="store_id" id="store_id">
+								<?php foreach($stores as $k => $v) { ?>
+									<option value="<?=$k?>"><?=$v?></option>
+								<?php } ?>
+							</select>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label for="layers" class="form-label fw-semibold">
+								<i class="bi bi-layers me-1"></i>Available Layers
+							</label>
+							<select class="form-select" name="layers[]" id="layers" multiple required>
+							</select>
+							<small class="form-text text-muted">Hold Ctrl/Cmd to select multiple layers</small>
+						</div>
 					</div>
 
-					<div class="form-group">
-    					<input type="checkbox" name="show_charts" id="show_charts" value="t"/>
-    					<label for="show_charts" class="form-label"><span title="If eanbled shows Charts tab">Show Charts</span></label>
-						<input type="checkbox" name="show_dt" id="show_dt" value="t"/>
-						<label for="show_dt" class="form-label"><span title="If eanbled shows datatables ">Show datatables</span></label>
-						<input type="checkbox" name="show_query" id="show_query" value="t"/>
-						<label for="show_query" class="form-label"><span title="If eanbled shows query tab">Show query</span></label>
+					<!-- Thumbnail Section -->
+					<div class="row mb-4">
+						<div class="col-12">
+							<h6 class="text-primary mb-3 border-bottom pb-2">
+								<i class="bi bi-image me-2"></i>Thumbnail Settings
+							</h6>
+						</div>
+						<div class="col-md-8 mb-3">
+							<label for="image" class="form-label fw-semibold">
+								<i class="bi bi-upload me-1"></i>Upload Thumbnail
+							</label>
+							<input type="file" class="form-control" name="image" id="image" 
+								   accept=".jpeg,.jpg,.png,.webp"/>
+							<small class="form-text text-muted">Supported formats: JPEG, PNG, WebP</small>
+						</div>
+						<div class="col-md-4 mb-3">
+							<div class="form-check mt-4">
+								<input type="checkbox" class="form-check-input" name="auto_thumbnail" id="auto_thumbnail" value="t"/>
+								<label for="auto_thumbnail" class="form-check-label fw-semibold">
+									<i class="bi bi-magic me-1"></i>Auto Generate
+								</label>
+							</div>
+						</div>
+					</div>
+
+					<!-- Print Layout Section -->
+					<div class="row mb-4">
+						<div class="col-12">
+							<h6 class="text-primary mb-3 border-bottom pb-2">
+								<i class="bi bi-printer me-2"></i>Print Configuration
+							</h6>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label for="print_layout" class="form-label fw-semibold">
+								<i class="bi bi-file-earmark-text me-1"></i>Print Layout
+							</label>
+							<select class="form-select" name="print_layout" id="print_layout">
+							</select>
+						</div>
+					</div>
+
+					<!-- Layer Options Section -->
+					<div class="row mb-4">
+						<div class="col-12">
+							<h6 class="text-primary mb-3 border-bottom pb-2">
+								<i class="bi bi-gear me-2"></i>Layer Options
+							</h6>
+						</div>
+						<div class="col-md-6 mb-3">
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" name="public" id="public" value="t"/>
+								<label for="public" class="form-check-label fw-semibold">
+									<i class="bi bi-globe me-1"></i>Public Access
+								</label>
+							</div>
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" name="cached" id="cached" value="t"/>
+								<label for="cached" class="form-check-label fw-semibold">
+									<i class="bi bi-hdd me-1"></i>Enable Caching
+								</label>
+							</div>
+							<?php if(WITH_MAPPROXY) { ?>
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" name="proxyfied" id="proxyfied" value="t"/>
+								<label for="proxyfied" class="form-check-label fw-semibold">
+									<i class="bi bi-diagram-3 me-1"></i>MapProxy Integration
+								</label>
+							</div>
+							<?php } ?>
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" name="customized" id="customized" value="t"/>
+								<label for="customized" class="form-check-label fw-semibold">
+									<i class="bi bi-palette me-1"></i>Custom Styling
+								</label>
+							</div>
+						</div>
+						<div class="col-md-6 mb-3">
+							<div class="form-check mb-3">
+								<input type="checkbox" class="form-check-input" name="exposed" id="exposed" value="t" disabled/>
+								<label for="exposed" class="form-check-label fw-semibold text-muted">
+									<i class="bi bi-layers-fill me-1"></i>Separate Layers
+								</label>
+							</div>
+							<label for="basemap_id" class="form-label fw-semibold">
+								<i class="bi bi-map me-1"></i>Default Basemap
+							</label>
+							<select class="form-select" name="basemap_id" id="basemap_id">
+								<?php foreach($basemaps as $k => $v) { ?>
+									<option value="<?=$k?>"><?=$v?></option>
+								<?php } ?>
+							</select>
+						</div>
+					</div>
+
+					<!-- Feature Options Section -->
+					<div class="row mb-4">
+						<div class="col-12">
+							<h6 class="text-primary mb-3 border-bottom pb-2">
+								<i class="bi bi-ui-checks me-2"></i>Feature Options
+							</h6>
+						</div>
+						<div class="col-md-6 mb-3">
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" name="show_charts" id="show_charts" value="t"/>
+								<label for="show_charts" class="form-check-label fw-semibold">
+									<i class="bi bi-bar-chart me-1"></i>Show Charts Tab
+								</label>
+							</div>
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" name="show_dt" id="show_dt" value="t"/>
+								<label for="show_dt" class="form-check-label fw-semibold">
+									<i class="bi bi-table me-1"></i>Show Data Tables
+								</label>
+							</div>
+						</div>
+						<div class="col-md-6 mb-3">
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" name="show_query" id="show_query" value="t"/>
+								<label for="show_query" class="form-check-label fw-semibold">
+									<i class="bi bi-search me-1"></i>Show Query Tab
+								</label>
+							</div>
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" name="show_fi_edit" id="show_fi_edit" value="t"/>
+								<label for="show_fi_edit" class="form-check-label fw-semibold">
+									<i class="bi bi-pencil-square me-1"></i>Show Edit Button
+								</label>
+							</div>
+						</div>
 					</div>
 					
-					<div class="form-group">
-						<div class="input-group">
-							<select name="group_id[]" id="group_id" multiple required>
+					<!-- Access Groups Section -->
+					<div class="row mb-3">
+						<div class="col-12">
+							<h6 class="text-primary mb-3 border-bottom pb-2">
+								<i class="bi bi-shield-lock me-2"></i>Access Control
+							</h6>
+						</div>
+						<div class="col-12 mb-3">
+							<label for="group_id" class="form-label fw-semibold">
+								<i class="bi bi-people me-1"></i>Access Groups
+							</label>
+							<select name="group_id[]" id="group_id" class="form-select" multiple required>
 								<?php $sel = 'selected';
 								foreach($groups as $k => $v){ ?>
 									<option value="<?=$k?>" <?=$sel?>><?=$v?></option>
 								<?php $sel = ''; } ?>
 							</select>
-							<span class="input-group-text"><i class="bi bi-shield-lock">Access Groups</i></span>
+							<small class="form-text text-muted">Select groups that can access this layer</small>
 						</div>
 					</div>
 				</form>
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="activate btn btn-secondary" id="btn_create" data-dismiss="modal">Create</button>
+			<div class="modal-footer bg-light border-top">
+				<button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">
+					<i class="bi bi-x-circle me-1"></i>Cancel
+				</button>
+				<button type="button" class="btn btn-primary activate" id="btn_create">
+					<i class="bi bi-check-circle me-1"></i>Create Layer
+				</button>
 			</div>
 		</div>
 	</div>

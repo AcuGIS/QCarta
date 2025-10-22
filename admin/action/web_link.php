@@ -51,13 +51,8 @@
 				$result = ['success' => false, 'message' => 'Failed to save Link!'];
 			}
         }else if($action == 'delete') {
-            
-            $tbls = array('topic_web_link' => 'topic_id', 'gemet_web_link' => 'gemet_id');
-            $ref_ids = $database->get_ref_ids($tbls, 'web_link_id', $id);
 
- 			if(count($ref_ids) > 0){
-                $result = ['success' => false, 'message' => 'Error: Can\'t delete web link because it is used in '.count($ref_ids).' '.$ref_name.'(s) with ID(s) ' . implode(',', $ref_ids) . '!' ];
-            }else if($obj->drop_access($id) && $obj->delete($id)){
+            if($obj->drop_categories($id) && $obj->drop_access($id) && $obj->delete($id)){
                 $thumbnail = '../../assets/links/'.$id.'.png';
                 if(is_file($thumbnail)){
                     unlink($thumbnail);

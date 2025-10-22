@@ -9,6 +9,7 @@
   require('../class/qgs_layer.php');
 	require('../class/mapproxy.php');
 	require('../incl/qgis.php');
+	require('../class/property_filter.php');
 		
 	function layer_get_featurename($qgs_file, $layers){
 		$xml_data = file_get_contents('http://localhost/cgi-bin/qgis_mapserv.fcgi?VERSION=1.1.0&map='.urlencode($qgs_file).'&SERVICE=WMS&REQUEST=DescribeLayer&LAYERS='.urlencode($layers).'&SLD_VERSION=1.1.0');
@@ -113,6 +114,8 @@
 		];
 		update_template('../snippets/wms_index.php', $html_dir.'/layer.php', $vars);
 		update_template('../snippets/map_index.php', $html_dir.'/index.php', $vars);
+		update_template('../snippets/analysis.php', $html_dir.'/analysis.php', $vars);
+		update_template('../snippets/analysis_table.php', $html_dir.'/table.php', $vars);
 		
 		// create cachee dir tree
 		mkdir(CACHE_DIR.'/layers/'.$id);
@@ -159,7 +162,7 @@
 		return true;
 	}
 	
-	function update_layer($id, $post, $oldrow){
+	function update_layer($db, $id, $post, $oldrow){
 		$html_dir = WWW_DIR.'/layers/'.$id;
 		$data_dir = DATA_DIR.'/layers/'.$id;
 
@@ -201,6 +204,8 @@
 			];
 			update_template('../snippets/wms_index.php', $html_dir.'/layer.php', $vars);
 			update_template('../snippets/map_index.php', $html_dir.'/index.php', $vars);
+			update_template('../snippets/analysis.php', $html_dir.'/analysis.php', $vars);
+			update_template('../snippets/analysis_table.php', $html_dir.'/table.php', $vars);
 		}
 
 		if($oldrow->exposed == 't'){
@@ -213,13 +218,22 @@
 		}
 		
 		if($post['proxyfied'] == 't'){
+		    
+		    $has_filters = false;
+		    $obj = new property_filter_Class($db->getConn(), $_SESSION[SESS_USR_KEY]->id);
+            $result = $obj->getLayerRows($id);
+            if($result && (pg_num_rows($result) > 0)){
+                $has_filters = true;
+                pg_free_result($result);
+            }
+            
 			if($post['exposed'] == 't'){
 				$lays = explode(',', $post['layers']);
 				foreach($lays as $l){
-					mapproxy_Class::mapproxy_add_source($post['name'].'.'.$l, $qgs_file, $l);
+					mapproxy_Class::mapproxy_add_source($post['name'].'.'.$l, $qgs_file, $l, $has_filters);
 				}
 			}else{
-				mapproxy_Class::mapproxy_add_source($post['name'], $qgs_file, $post['layers']);
+				mapproxy_Class::mapproxy_add_source($post['name'], $qgs_file, $post['layers'], $has_filters);
 			}
 			
 			mapproxy_Class::mapproxy_add_seed($mproxy_layer_names, $id);
@@ -373,9 +387,11 @@
 					if(empty($_POST['show_charts'])) {	$_POST['show_charts'] = 'false';}
 					if(empty($_POST['show_dt']))	 {	$_POST['show_dt'] = 'false';	}
 					if(empty($_POST['show_query']))	 {	$_POST['show_query'] = 'false';	}
+					if(empty($_POST['show_fi_edit']))	 {	$_POST['show_fi_edit'] = 'false';	}
 					if(empty($_POST['auto_thumbnail']))	 {	$_POST['auto_thumbnail'] = 'false';	}
+					if(empty($_POST['basemap_id']))	 {	$_POST['basemap_id'] = '';	}
 
-					$_POST['layers'] = implode(',', $_POST['layers']);
+					$_POST['layers'] = isset($_POST['layers']) && is_array($_POST['layers']) ? implode(',', $_POST['layers']) : '';
 
 				  if($id >= 0) { // update
 
@@ -384,7 +400,7 @@
 						pg_free_result($result);
 
             $newId = $obj->update($_POST) ? $id : 0;
-						update_layer($newId, $_POST, $oldrow);
+						update_layer($database, $newId, $_POST, $oldrow);
           } else { // insert
             $newId = $obj->create($_POST);
 						if($newId){
@@ -396,7 +412,7 @@
 						}
           }
 					
-					if($newId > 0){
+					if($newId > 0){        
 						$result = ['success' => true, 'message' => 'Layer successfully created!', 'id' => $newId];
 					}else{
 						$result = ['success' => false, 'message' => 'Failed to save layer!'];
@@ -409,12 +425,12 @@
     				$row = pg_fetch_object($result);
     				pg_free_result($result);
 
-         			$tbls = array('geostory_wms' => 'story_id', 'topic_layer' => 'topic_id', 'gemet_layer' => 'gemet_id', 'layer_report' => 'id', 'layer_query' => 'id');
-       	            $ref_ids = $database->get_ref_ids($tbls, 'layer_id', $id);
+         			$tbls = array('geostory_wms' => 'story_id', 'layer_report' => 'id', 'layer_query' => 'id', 'property_filter' => 'id', 'dashboard' => 'id');
+       	            list($ref_ids,$ref_name) = $database->get_ref_ids($tbls, 'layer_id', $id);
 
          			if(count($ref_ids) > 0){
                         $result = ['success' => false, 'message' => 'Error: Can\'t delete layer because it is used in '.count($ref_ids).' '.$ref_name.'(s) with ID(s) ' . implode(',', $ref_ids) . '!' ];
-         			}else if($obj->delete($id)){
+         			}else if($obj->drop_categories($id) && $obj->delete($id)){
 	        	        $result = ['success' => true, 'message' => 'Layer successfully deleted!'];
 						delete_layer($id, $row);
 					}					

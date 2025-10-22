@@ -9,10 +9,11 @@ require('../class/qgs_layer.php');
 require('../class/geostory.php');
 require('../class/web_link.php');
 require('../class/doc.php');
+require('../class/dashboard.php');
 require('../class/access_group.php');
 
 // Perform searches based on filters
-$results = ['layers' => [], 'stories' => [], 'links' => [], 'docs' => [] ];
+$results = ['layers' => [], 'stories' => [], 'links' => [], 'docs' => [], 'dashboards' => []];
 
 // Get search parameters
 $text = $_GET['text'] ?? '';
@@ -31,13 +32,15 @@ $qgsLayer   = new qgs_layer_Class($conn, $user_id);
 $geostory   = new geostory_Class($conn, $user_id);
 $webLink    = new web_link_Class($conn, $user_id);
 $doc        = new doc_Class($conn, $user_id);
+$dash        = new dashboard_Class($conn, $user_id);
 
 if(empty($_SESSION[SESS_USR_KEY])){
     $acc_cond = [
         'layers'  => 'l.public = true',
         'stories' => 'public = true',
         'links'   => 'public = true',
-        'docs'    => 'public = true'
+        'docs'    => 'public = true',
+        'dashboards' => 'public = true'
     ];
 }else{
     
@@ -54,6 +57,7 @@ if(empty($_SESSION[SESS_USR_KEY])){
         'stories' => '(public = true OR id IN ('.$acc_obj->getGroupRowIds('geostory', $usr_grps_ids).'))',
         'links'   => '(public = true OR id IN ('.$acc_obj->getGroupRowIds('web_link', $usr_grps_ids).'))',
         'docs'    => '(public = true OR id IN ('.$acc_obj->getGroupRowIds('doc', $usr_grps_ids).'))',
+        'dashboards'    => '(public = true OR id IN ('.$acc_obj->getGroupRowIds('dashboard', $usr_grps_ids).'))',
     ];
 }
 
@@ -138,6 +142,26 @@ foreach ($filters as $filter) {
                         'name' => $row['name'],
                         'description' => $row['description'],
                         'url' => "doc_file.php?id={$row['id']}",
+                        'last_updated' => substr($row['last_updated'], 0, -7),
+                        'image' => $image.'?v='.filemtime('../../'.$image)
+                    ];
+                }
+            }
+            break;
+        case 'dashboards':
+            $result = $dash->search($acc_cond[$filter], $text, $topic, $gemet, $keywords);
+            if ($result) {
+                while ($row = pg_fetch_assoc($result)) {
+                    $image = "assets/dashboards/default.png";
+                    if(file_exists("../../assets/dashboards/".$row['id'].".png")) {
+                        $image = "assets/dashboards/".$row['id'].".png";
+                    }
+                    
+                    $results['dashboards'][] = [
+                        'id' => $row['id'],
+                        'name' => $row['name'],
+                        'description' => $row['description'],
+                        'url' => "dashboard.php?id={$row['id']}",
                         'last_updated' => substr($row['last_updated'], 0, -7),
                         'image' => $image.'?v='.filemtime('../../'.$image)
                     ];

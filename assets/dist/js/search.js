@@ -139,73 +139,86 @@ function performSearch() {
         });
 }
 
-// Update results in the grid
+// --- helper: per-type UI meta (badge + quick action text) ---
+const TYPE_META = {
+  layer:     { badge: 'badge-map',  quick: 'Open Map',        label: 'Map' },
+  dashboard: { badge: 'badge-dash', quick: 'Open Dashboard',  label: 'Dashboard' },
+  story:     { badge: 'badge-pres', quick: 'Open Story',      label: 'Presentation' },
+  link:      { badge: 'badge-link', quick: 'Open Link',       label: 'Link' },
+  doc:       { badge: 'badge-doc',  quick: 'Open Document',   label: 'Document' }
+};
+
+// Update results in the grid matches new card style
 function updateResults(data) {
-    const grid = document.querySelector('.grid');
-    if (!grid) {
-        console.error('Results grid not found');
-        return;
+  const grid = document.querySelector('.grid');
+  if (!grid) {
+    console.error('Results grid not found');
+    return;
+  }
+
+  // Merge results and annotate type meta
+  const allResults = [
+    ...(data.layers || []).map(x => ({ ...x, type: 'layer' })),
+    ...(data.stories || []).map(x => ({ ...x, type: 'story' })),
+    ...(data.links || []).map(x => ({ ...x, type: 'link' })),
+    ...(data.docs || []).map(x => ({ ...x, type: 'doc' })),
+    ...(data.dashboards || []).map(x => ({ ...x, type: 'dashboard' }))
+  ].map(item => {
+    const meta = TYPE_META[item.type] || {};
+    return {
+      ...item,
+      _badge: meta.badge || '',
+      _quick: meta.quick || 'Open',
+      _label: meta.label || (item.label || ''),
+      _desc: item.description && item.description.trim() ? item.description : 'View details',
+      _img: item.image || 'assets/layers/default.png',
+      _url: item.url,
+      _name: item.name
+    };
+  });
+
+  // Only update if we have results or we've had user interaction
+  if (allResults.length > 0 || hasUserInteracted) {
+    grid.innerHTML = '';
+
+    allResults.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'group h-64 relative';
+
+      div.innerHTML = `
+        <a href="${item._url}" class="card bg-white rounded-lg overflow-hidden h-full flex flex-col" target="_blank" rel="noopener" aria-label="${item._quick}: ${item._name}">
+          <div class="thumb-wrap relative">
+            <img loading="lazy" src="${item._img}" alt="${item._name} thumbnail" class="w-full h-32 object-cover hover-zoom">
+            <div class="quick-actions">
+              <span class="px-3 py-1 bg-white/90 rounded shadow text-sm font-medium">${item._quick}</span>
+            </div>
+          </div>
+          <div class="p-3 flex flex-col flex-1 justify-between">
+            <div>
+              <h3 class="text-base font-semibold text-gray-900 mb-1">${item._name}</h3>
+              <p class="text-sm text-gray-500 line-clamp-2 mb-3">${item._desc}</p>
+            </div>
+          </div>
+          <div class="card-foot px-3 py-2 flex items-center justify-between">
+            <span class="badge ${item._badge}">${item._label}</span>
+            ${item.is_public === false ? '' : '<span class="text-xs text-gray-500"><i class="fa-regular fa-eye mr-1"></i>Public</span>'}
+          </div>
+        </a>
+      `;
+
+      grid.appendChild(div);
+    });
+
+    if (allResults.length === 0 && hasUserInteracted) {
+      grid.innerHTML = `
+        <div class="col-span-full text-center py-12">
+          <p class="text-gray-500">No results found. Try adjusting your search criteria.</p>
+        </div>
+      `;
     }
+  }
 
-    // Combine all results
-    const allResults = [
-        ...(data.layers || []).map(item => ({...item, type: 'layer', label:'Map', icon_path:'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"  d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" />'})),
-        ...(data.stories || []).map(item => ({...item, type: 'story', label:'Presentation', icon_path:'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>'})),
-        ...(data.links || []).map(item => ({...item, type: 'link', label:'Link', icon_path:'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"></path>'})),
-        ...(data.docs || []).map(item => ({...item, type: 'doc', label:'Document', icon_path:'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"></path>'}))
-    ];
-
-    console.log('Total results:', allResults.length);
-
-    // Only update if we have results or we've had user interaction
-    if (allResults.length > 0 || hasUserInteracted) {
-        grid.innerHTML = '';
-
-        // Create grid items
-        allResults.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'group';
-            div.innerHTML = `
-                <a href="${item.url}" class="block bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-blue-500 transition-colors duration-200" target="_blank">
-                    <div class="relative">
-                        <img src="${item.image}" alt="${item.name}" class="w-full h-36 object-cover">
-                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-200"></div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-base font-medium text-gray-900 mb-1">${item.name}</h3>
-              <p class="text-sm text-gray-500 line-clamp-2">${item.description}</p>
-<p>&nbsp;</p>
-              <div class="flex items-center text-sm text-gray-600">
-                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    ${item.icon_path}
-                  </svg>
-                  ${item.label}
-              </div>
-              <div class="mt-auto flex items-center justify-between pt-4">
-                  <div class="flex items-center text-sm text-gray-500">
-                      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                      </svg>
-                      Last updated: ${item.last_updated}
-                  </div>
-              </div>
-              </div>
-            </a>`;
-            grid.appendChild(div);
-        });
-
-        // Show message if no results and we've had user interaction
-        if (allResults.length === 0 && hasUserInteracted) {
-            grid.innerHTML = `
-                <div class="col-span-full text-center py-12">
-                    <p class="text-gray-500">No results found. Try adjusting your search criteria.</p>
-                </div>
-            `;
-        }
-    }
-
-    // Set initial load to false after first search
-    isInitialLoad = false;
+  isInitialLoad = false;
 }
 
 document.addEventListener('DOMContentLoaded', function() {

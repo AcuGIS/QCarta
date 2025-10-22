@@ -122,6 +122,21 @@
 			function drop_access($id){
 				return $this->remove_access($this->table_name, $id);
 			}
+			
+			function remove_category($category, $id){
+				$sql = "delete from public.".$category."_".$this->table_name." where ".$this->table_name."_id=".$id;
+				$result = pg_query($this->dbconn, $sql);
+				if(!$result){
+					return false;
+				}
+				$rv = (pg_num_rows($result) >= 0);
+				pg_free_result($result);
+				return $rv;
+			}
+			
+			function drop_categories($id){
+				return $this->remove_category('topic', $id) && $this->remove_category('gemet', $id);
+			}
 
 		function getPublic(){
             $sql = 'SELECT * from public.'.$this->table_name.' WHERE public = true';

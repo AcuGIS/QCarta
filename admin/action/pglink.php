@@ -71,7 +71,7 @@
 							}
             }
 						
-						if($newId == 0){							
+						if($newId == 0){
 							$result = ['success' => false, 'message' => 'PG Link create/update failed!'];
 						}else{
 							$store_dir = WWW_DIR.'/stores/'.$newId;
@@ -100,7 +100,7 @@
 						$tbls = array('layer');
 						
 						foreach($tbls as $k){
-							$rows = $database->getAll('public.'.$k, 'store_id = '.$id);							
+							$rows = $database->getAll('public.'.$k, 'store_id = '.$id);
 							foreach($rows as $row){
 								$ref_ids[] = $row['store_id'];
 							}

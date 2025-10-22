@@ -11,6 +11,112 @@ let isChartsDataDirty = true;
 let isPlotlyDataDirty = true;
 let isSavedQueryClick = false;
 
+// Helper functions for QGIS relations
+function _layerFromFeatureId(f){
+  if (f && typeof f.id === 'string' && f.id.includes('.')) return f.id.split('.')[0];
+  return f?.properties?._layerName || null;
+}
+
+// Pretty relations: table layout, hide noisy fields, human labels
+// Pretty relations: table layout, hide noisy fields, human labels
+function renderRelationsHTML(feature){
+  const rels = Array.isArray(RELATIONS) ? RELATIONS : [];
+  const parentLayer = _layerFromFeatureId(feature);
+  if (!parentLayer) return '';
+
+  const forParent = rels.filter(r => r.parent_layer === parentLayer);
+  if (!forParent.length) return '';
+
+  const props = feature.properties || {};
+
+  // helpers local to this renderer
+  const humanize = (s='') => s.replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase());
+  const isUuidish = v => typeof v === 'string' && /[0-9a-f-]{32,}/i.test(v);
+  const isSystemKey = k => /^(fid|id|geom|geometry|apiary_uuid|field_uuid|uuid)$/i.test(k);
+  const fmt = (v) => {
+    if (v == null) return '';
+    if (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v)) return new Date(v).toLocaleDateString();
+    return v;
+  };
+
+  const sections = forParent.map(rel => {
+    const realParentField = (window.resolveFieldName || (()=>{}))(parentLayer, rel.parent_field) || rel.parent_field;
+    const parentRaw = props[realParentField] ?? props[rel.parent_field];
+    const parentVal = (parentRaw === undefined || parentRaw === null) ? '' : String(parentRaw);
+
+    const key = `${rel.parent_layer}|${rel.parent_field}|${rel.child_layer}|${rel.child_field}`;
+    const idxMap = window.relationIndexes?.[key];
+    const children = idxMap ? (idxMap.get(parentVal) || []) : [];
+
+    // choose columns: prefer child_list_fields; else infer
+    let columns = (rel.child_list_fields || '')
+      .split(',').map(s => s.trim()).filter(Boolean);
+
+    if (!columns.length && children.length) {
+      const sample = children[0]?.properties || {};
+      columns = Object.keys(sample)
+        .filter(k => !isSystemKey(k) && !isUuidish(sample[k]))
+        .slice(0, 6);
+      if (!columns.length) columns = Object.keys(sample).slice(0, 4);
+    }
+
+    const rowsHtml = children.length ? children.map((cf, i) => {
+      const cp = cf.properties || {};
+      const tds = columns.map(col => {
+        const v = fmt(cp[col]);
+        return `<td title="${v ?? ''}">${v ?? ''}</td>`;
+      }).join('');
+      return `<tr><td class="rel-idx">${i+1}</td>${tds}</tr>`;
+    }).join('') : `<tr><td class="text-muted" colspan="${Math.max(1, columns.length)+1}">No related records.</td></tr>`;
+
+    return `
+      <div class="relation-block">
+        <div class="relation-title">
+          <span><i class="fa fa-link me-1"></i>${rel.name || rel.child_layer}</span>
+          <span class="badge bg-secondary">${children.length}</span>
+        </div>
+        <div class="relation-list collapsed">
+          <div class="table-responsive rel-table-wrap">
+            <table class="table table-sm rel-table mb-0">
+              <thead>
+                <tr>
+                  <th class="rel-idx">#</th>
+                  ${columns.map(c => `<th>${humanize(c)}</th>`).join('')}
+                </tr>
+              </thead>
+              <tbody>${rowsHtml}</tbody>
+            </table>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  return `<div class="popup-relations"><h6 class="mt-2 mb-1">Relations</h6>${sections}</div>`;
+} // ? this brace closes the function
+
+// Accordion with TOGGLE behavior (global, defined once)
+document.addEventListener('click', (e) => {
+  const title = e.target.closest('.relation-title');
+  if (!title) return;
+
+  const container = title.closest('.popup-relations');
+  if (!container) return;
+
+  const list = title.nextElementSibling;
+  const wasOpen = list && !list.classList.contains('collapsed');
+
+  container.querySelectorAll('.relation-list')
+    .forEach(l => l.classList.add('collapsed'));
+
+  if (!wasOpen && list) list.classList.remove('collapsed');
+});
+
+
+
+
+
+
+
 // disable logging to console
 console.log = function () {};
 
@@ -79,7 +185,17 @@ document.addEventListener('DOMContentLoaded', function() {
           sidebarToggle.classList.toggle('collapsed');
           sidebarToggleI.classList.toggle('fa-chevron-right');
           sidebarToggleI.classList.toggle('fa-chevron-left');
-          break;
+          
+          // Pan map by fixed pixels so the visual center stays consistent
+          const _isCollapsed = sidebar.classList.contains('collapsed');
+          if (_isCollapsed) {
+            // Sidebar just closed ? move right
+            try { map.panBy([SIDEBAR_SHIFT_X, 0], { animate: true }); } catch (e) {}
+          } else {
+            // Sidebar just opened ? move left
+            try { map.panBy([-SIDEBAR_SHIFT_X, 0], { animate: true }); } catch (e) {}
+          }
+break;
         case 'viewDataBtn':
         case 'viewDataBtnIcon':
           document.getElementById('sql-tab').click();
@@ -88,10 +204,27 @@ document.addEventListener('DOMContentLoaded', function() {
         case 'clearQueryBtnIcon':
           clearSavedQuery();
           break;
+        case 'btn_update_filter':
+          onSavedPropFilterChange();
+          break;
+        case 'btn_clear_filter':
+          onSavedPropFilterClear();
+          break;
         default:
           break;
       }
   });
+});
+
+document.addEventListener('change', function(event) {
+    // Check if the clicked element is one of our buttons
+    switch(event.target.id){
+      case 'filter_op':
+        onSavedPropFilterOpChange();
+        break;
+      default:
+        break;
+    }
 });
 
 function tabbedPopup(e){
@@ -121,7 +254,13 @@ function tabbedPopup(e){
   let urlNames = {};
   visibleLayers.forEach((layer, index) => {
     // if they have URL, they are externally added layers by WMS Loader
-    const u = layer?.url || WMS_SVC_URL;  
+    let u = layer?.url || WMS_SVC_URL;
+    if(layerConfigs[index].filter_param){
+      const delim = u.includes('?') ? '&' : '?';
+      u += delim + 'FILTER=' + layerConfigs[index].filter_param;
+    }
+      
+    
     if(u in urlNames){
       urlNames[u].push(layer.name); // append name to array
     }else{
@@ -164,10 +303,23 @@ function tabbedPopup(e){
         };
       });
       
-      // Create tabbed popup content
+      // Create navigation-based popup content (keeping tab structure for Edit compatibility)
+      if(features.length > 0){
       const popupContent = `
         <div class="popup-content">
-          <ul class="nav nav-tabs" role="tablist">
+          <div class="popup-navigation">
+            <button class="nav-btn prev-btn" id="prev-btn" ${features.length <= 1 ? 'disabled' : ''}>
+              <span class="nav-icon">‹</span>
+            </button>
+            <div class="nav-counter">
+              <span class="nav-icon-list">☰</span>
+              <span class="nav-text">1 of ${features.length}</span>
+            </div>
+            <button class="nav-btn next-btn" id="next-btn" ${features.length <= 1 ? 'disabled' : ''}>
+              <span class="nav-icon">›</span>
+            </button>
+          </div>
+          <ul class="nav nav-tabs" role="tablist" style="display: none;">
             ${features.map((feature, index) => `
               <li class="nav-item" role="presentation">
                 <button class="nav-link ${index === 0 ? 'active' : ''}" 
@@ -202,6 +354,7 @@ function tabbedPopup(e){
                           </div>
                         `}).join('')}
                     </div>
+                    ${renderRelationsHTML(feature)}
                   </div>
               </div>
             `).join('')}
@@ -221,7 +374,61 @@ function tabbedPopup(e){
         .setLatLng(e.latlng)
         .setContent(popupContent)
         .openOn(map);
-      
+        
+        // Add navigation functionality
+        setTimeout(() => {
+          const popupElement = document.querySelector('.custom-popup');
+          if (popupElement && features.length > 1) {
+            let currentIndex = 0;
+            const totalFeatures = features.length;
+            
+            const prevBtn = popupElement.querySelector('#prev-btn');
+            const nextBtn = popupElement.querySelector('#next-btn');
+            const navText = popupElement.querySelector('.nav-text');
+            const tabPanes = popupElement.querySelectorAll('.tab-pane');
+            const tabButtons = popupElement.querySelectorAll('.nav-link');
+            
+            function updateNavigation() {
+              // Update counter
+              navText.textContent = `${currentIndex + 1} of ${totalFeatures}`;
+              
+              // Show/hide tab panes
+              tabPanes.forEach((pane, index) => {
+                pane.classList.toggle('show', index === currentIndex);
+                pane.classList.toggle('active', index === currentIndex);
+              });
+              
+              // Update tab buttons
+              tabButtons.forEach((btn, index) => {
+                btn.classList.toggle('active', index === currentIndex);
+                btn.setAttribute('aria-selected', index === currentIndex ? 'true' : 'false');
+              });
+              
+              // Update button states
+              prevBtn.disabled = currentIndex === 0;
+              nextBtn.disabled = currentIndex === totalFeatures - 1;
+            }
+            
+            // Add event listeners
+            prevBtn.addEventListener('click', () => {
+              if (currentIndex > 0) {
+                currentIndex--;
+                updateNavigation();
+              }
+            });
+            
+            nextBtn.addEventListener('click', () => {
+              if (currentIndex < totalFeatures - 1) {
+                currentIndex++;
+                updateNavigation();
+              }
+            });
+            
+            // Initialize navigation state
+            updateNavigation();
+          }
+        }, 100);
+      }
     })
     .catch(error => {
       console.error('Error fetching data:', error);
@@ -233,6 +440,13 @@ const map = L.map('map', {
   zoomControl: false,  // Disable default zoom control
   cursor: 'pointer'    // Add cursor style
 });
+
+// Make map globally accessible for basemap manager
+window.map = map;
+
+// Shift amount used when opening/closing the sidebar
+const SIDEBAR_SHIFT_X = 300;
+
 
 // Add cursor style to map container
 document.getElementById('map').style.cursor = 'pointer';
@@ -288,28 +502,40 @@ legend.onAdd = function (map) {
 legend.addTo(map);
 
 // Set initial extent
-map.fitBounds([
-  [bbox.miny, bbox.minx],
-  [bbox.maxy, bbox.maxx]
-]);
+const sidebarWidth =
+  (document.getElementById('sidebar')?.offsetWidth) ?? 360; // CSS says 360px
+map.fitBounds(
+  [[bbox.miny, bbox.minx],[bbox.maxy, bbox.maxx]],
+  {
+    paddingTopLeft: [sidebarWidth + 24, 12],
+    paddingBottomRight: [12, 12]
+  }
+);
 
 // Create a single base layer that we'll update
-const baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '  OpenStreetMap contributors'
-}).addTo(map);
+// Initialize basemap manager after map is ready
+if (window.basemapManager) {
+  console.log('Setting map in basemap manager...');
+  window.basemapManager.setMap(map);
+} else {
+  console.log('Basemap manager not ready yet, will set map later');
+  // Wait for basemap manager to be ready
+  const checkBasemapManager = setInterval(() => {
+    if (window.basemapManager) {
+      console.log('Basemap manager ready, setting map...');
+      window.basemapManager.setMap(map);
+      clearInterval(checkBasemapManager);
+    }
+  }, 100);
+}
 
-// Define base layer URLs
+
+// Define base layer URLs (kept for compatibility, but basemap switching is now handled by basemap_manager.js)
 const baseLayerUrls = {
-  osm: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  carto: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-  esri: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+    carto: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+    osm: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    esri: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
 };
-
-// Handle basemap changes
-document.getElementById("basemapSelect").addEventListener("change", function() {
-  const selected = this.value;
-  baseLayer.setUrl(baseLayerUrls[selected]);
-});
 
 layerConfigs.forEach((cfg, idx) => {
   // Create WMS layer
@@ -318,7 +544,7 @@ layerConfigs.forEach((cfg, idx) => {
     format: 'image/png',
     transparent: true,
     version: '1.1.0'
- }).setZIndex(idx + 1).addTo(map);
+ }).setZIndex(100 + idx).addTo(map);
   overlayLayers[cfg.name] = wmsLayer;
   isDataTableDirty[idx] = true;
 
@@ -392,6 +618,8 @@ layerConfigs.forEach((cfg, idx) => {
     menuContent.classList.remove('show');
   });
   
+
+
   menuContent.appendChild(opacityDiv);
   menuContent.appendChild(zoomDiv);
   
@@ -432,6 +660,27 @@ layerConfigs.forEach((cfg, idx) => {
   li.appendChild(leftDiv);
   li.appendChild(rightDiv);
   document.getElementById('layerToggleList').appendChild(li);
+});
+
+// NOTE: push relation child layers after map is initialized, since they have no geometry and are invisible
+RELATIONS.forEach((rel, idx) => {
+  if(layerConfigs.some(cfg => cfg.typename === rel.child_layer)){
+    return;
+  }
+  let name = rel.child_layer;
+  if(WMS_SVC_URL.startsWith('/mproxy')){
+    const dotpos = layerConfigs[0].name.indexOf('.');
+    if(dotpos >= 0){  // if layers are exposed
+      name = layerConfigs[0].name.substr(0,dotpos);
+    }else{
+      //name = layerConfigs[0].name;
+      return; // all features are in layerWfsFeatures[0]
+    }
+  }else{
+	  overlayLayers[name] = null;
+  }
+  r = {'name': name, 'color':null, 'typename': rel.child_layer, 'label':null, 'filter':null};
+  layerConfigs.push(r);
 });
 
 // Initialize the map with data
@@ -594,3 +843,344 @@ document.getElementById('executeQuery')?.addEventListener('click', function() {
         this.innerHTML = 'Execute Query';
     });
 });
+
+function filterValuesSetup() {
+  function ensureChipsFromSelect() {
+    const sel = document.getElementById('filter_values');
+    const host = document.getElementById('filter_chips');
+    if (!sel || !host) return;
+    host.innerHTML = '';
+    Array.from(sel.options).forEach((opt, idx) => {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'md-chip';
+      chip.setAttribute('role', 'option');
+      chip.setAttribute('aria-selected', opt.selected ? 'true' : 'false');
+      chip.dataset.value = opt.value;
+      chip.dataset.index = String(idx);
+      chip.innerHTML = '<span class="md-check">✓</span><span class="md-text"></span>';
+      chip.querySelector('.md-text').textContent = opt.text;
+      chip.addEventListener('click', () => {
+        const nowSelected = chip.getAttribute('aria-selected') !== 'true';
+        chip.setAttribute('aria-selected', nowSelected ? 'true' : 'false');
+        opt.selected = nowSelected;
+        opt.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+      host.appendChild(chip);
+    });
+  }
+
+  function filterChips(query) {
+    const host = document.getElementById('filter_chips');
+    if (!host) return;
+    const q = (query || '').toLowerCase().trim();
+    Array.from(host.children).forEach(chip => {
+      const text = chip.querySelector('.md-text')?.textContent?.toLowerCase() || '';
+      chip.style.display = (!q || text.includes(q)) ? '' : 'none';
+    });
+  }
+
+  function syncChipsFromSelectSelection() {
+    const sel = document.getElementById('filter_values');
+    const host = document.getElementById('filter_chips');
+    if (!sel || !host) return;
+    Array.from(sel.options).forEach((opt, idx) => {
+      const chip = host.querySelector('[data-index="'+idx+'"]');
+      if (chip) chip.setAttribute('aria-selected', opt.selected ? 'true' : 'false');
+    });
+  }
+
+  // Observe select mutations (options replaced dynamically by app code)
+  const valuesSelect = document.getElementById('filter_values');
+  if (valuesSelect) {
+    const mo = new MutationObserver((mut) => {
+      const optionChanged = mut.some(m => m.type === 'childList');
+      if (optionChanged) ensureChipsFromSelect();
+    });
+    mo.observe(valuesSelect, { childList: true });
+    valuesSelect.addEventListener('change', syncChipsFromSelectSelection);
+  }
+
+  // Hook up search field
+  const search = document.getElementById('filter_values_search');
+  if (search) {
+    search.addEventListener('input', (e) => filterChips(e.target.value));
+  }
+
+  // Rebuild chips each time the modal opens and hide any enhancers for #filter_values
+  const modal = document.getElementById('filter_modal');
+  function hideEnhancersForValuesSelect() {
+    const sel = document.getElementById('filter_values');
+    if (!sel) return;
+    ['previousElementSibling','nextElementSibling'].forEach(k => {
+      const sib = sel[k];
+      if (!sib) return;
+      const cls = String(sib.className || '');
+      if (/select2|bootstrap-select/.test(cls)) {
+        sib.style.display = 'none';
+        sib.style.visibility = 'hidden';
+      }
+    });
+  }
+  if (modal) {
+    modal.addEventListener('shown.bs.modal', function() {
+      ensureChipsFromSelect();
+      hideEnhancersForValuesSelect();
+    });
+  }
+
+  // "Clear" button: clear selection
+  const clearBtn = document.getElementById('btn_clear_filter');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      const sel = document.getElementById('filter_values');
+      if (!sel) return;
+      Array.from(sel.options).forEach(o => { o.selected = false; });
+      sel.dispatchEvent(new Event('change', { bubbles: true }));
+      ensureChipsFromSelect();
+    });
+  }
+
+  // --- Filter indicator on the tab/trigger ---
+  function getFilterState() {
+    const sel = document.getElementById('filter_values');
+    const selectedCount = sel ? Array.from(sel.options).filter(o => o.selected).length : 0;
+    const prop = (document.getElementById('filter_property')?.value || '').trim();
+    return { selectedCount, hasActive: selectedCount > 0 || !!prop };
+  }
+
+  function setFilterIndicator(active, count) {
+    const triggers = document.querySelectorAll('[data-bs-target="#filter_modal"], [href="#filter_modal"]');
+    triggers.forEach(el => {
+      let badge = el.querySelector('.md-filter-badge');
+      if (active) {
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.className = 'md-filter-badge';
+          badge.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v2l-7 7v5l-4-2v-3L3 7V5z"></path></svg><span class="md-filter-count"></span>';
+          el.appendChild(badge);
+        }
+        const cnt = badge.querySelector('.md-filter-count');
+        if (cnt) cnt.textContent = String(count || 0);
+        badge.style.display = '';
+      } else if (badge) {
+        badge.remove();
+      }
+    });
+  }
+
+  document.getElementById('btn_update_filter')?.addEventListener('click', () => {
+    const st = getFilterState();
+    setFilterIndicator(st.hasActive, st.selectedCount);
+  });
+
+  document.getElementById('btn_clear_filter')?.addEventListener('click', () => {
+    setFilterIndicator(false, 0);
+  });
+
+  const initIndicator = () => {
+    const st = getFilterState();
+    setFilterIndicator(st.hasActive, st.selectedCount);
+    hideEnhancersForValuesSelect();
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initIndicator);
+  } else {
+    initIndicator();
+  }
+};
+
+// Inline the modal flow: when code calls showEditModal(featureId, featureData),
+// we make the popup editable and POST using the same endpoint as the modal.
+
+
+  // Map popup labels -> DB column names (adjust if your labels differ)
+  function labelToDb(label) {
+    var m = {
+      'Beekeeper':'beekeeper',
+      'Number of Boxes':'nbr_of_boxes',
+      'Species of Bees':'bee_species',
+      'Amount of Bees':'bee_amount',
+      'Photo':'picture',
+      'Kind of Disease':'kind_of_disease',
+      'Yearly Harvest (kg)':'average_harvest',
+      'Area mostly used':'area_id',
+      'ID':'uuid',
+      'Source':'source',
+      'Quality':'quality',
+      'X':'x','Y':'y','Z':'z',
+      'Horizontal accuracy':'horizontal_accuracy',
+      'Nb. of satellites':'nr_used_satellites',
+      'Fix status':'fix_status_descr',
+      'infected':'infected'
+    };
+    return m[label] || label.toLowerCase().replace(/\s+/g,'_');
+  }
+  function dbToLabel(db) {
+    var r = {
+      beekeeper:'Beekeeper',
+      nbr_of_boxes:'Number of Boxes',
+      bee_species:'Species of Bees',
+      bee_amount:'Amount of Bees',
+      picture:'Photo',
+      kind_of_disease:'Kind of Disease',
+      average_harvest:'Yearly Harvest (kg)',
+      area_id:'Area mostly used',
+      uuid:'ID',
+      source:'Source',
+      quality:'Quality',
+      x:'X', y:'Y', z:'Z',
+      horizontal_accuracy:'Horizontal accuracy',
+      nr_used_satellites:'Nb. of satellites',
+      fix_status_descr:'Fix status',
+      infected:'infected'
+    };
+    return r[db] || db;
+  }
+
+  function extractOriginal(tabPane) {
+    var out = {}, rows = tabPane.querySelectorAll('.popup-row');
+    for (var i=0;i<rows.length;i++){
+      var lab = rows[i].querySelector('.popup-label');
+      var val = rows[i].querySelector('.popup-value');
+      if (!lab || !val) continue;
+      var label = (lab.textContent||'').replace(/:\s*$/,'').trim();
+      var db = labelToDb(label);
+      var t = (val.textContent||'').trim();
+      out[db] = (t === '(NULL)') ? '' : t;
+    }
+    return out;
+  }
+
+  function makeEditable(tabPane) {
+    var rows = tabPane.querySelectorAll('.popup-row');
+    for (var i=0;i<rows.length;i++){
+      var lab = rows[i].querySelector('.popup-label');
+      var val = rows[i].querySelector('.popup-value');
+      if (!lab || !val) continue;
+      var label = (lab.textContent||'').replace(/:\s*$/,'').trim();
+      // skip read-onlys
+      if (/^(fid|uuid|geom|geometry)$/i.test(label)) continue;
+
+      var db = labelToDb(label);
+      var current = (val.textContent||'').trim();
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'form-control form-control-sm inline-edit-input';
+      input.name = db;
+      input.value = (current === '(NULL)') ? '' : current;
+      val.innerHTML = ''; val.appendChild(input);
+      rows[i].classList.add('editing');
+    }
+  }
+
+  function restoreReadOnly(tabPane, original) {
+    var rows = tabPane.querySelectorAll('.popup-row');
+    for (var i=0;i<rows.length;i++){
+      var lab = rows[i].querySelector('.popup-label');
+      var val = rows[i].querySelector('.popup-value');
+      var inp = val && val.querySelector('.inline-edit-input');
+      if (!lab || !val || !inp) continue;
+      var label = (lab.textContent||'').replace(/:\s*$/,'').trim();
+      var db = labelToDb(label);
+      val.textContent = (original[db] != null ? original[db] : '');
+      rows[i].classList.remove('editing');
+    }
+  }
+
+  function applyUpdates(tabPane, updates) {
+    var rows = tabPane.querySelectorAll('.popup-row');
+    for (var k in updates) if (Object.prototype.hasOwnProperty.call(updates,k)) {
+      var label = dbToLabel(k);
+      for (var i=0;i<rows.length;i++){
+        var lab = rows[i].querySelector('.popup-label');
+        var val = rows[i].querySelector('.popup-value');
+        if (!lab || !val) continue;
+        var ltxt = (lab.textContent||'').replace(/:\s*$/,'').trim();
+        if (ltxt === label) {
+          val.textContent = (updates[k] == null ? '' : String(updates[k]));
+          rows[i].classList.remove('editing');
+          break;
+        }
+      }
+    }
+  }
+
+  // POST using the SAME endpoint as your modal: relative 'api/oapif_update.php'
+  function quickSave(featureId, changes, tabPane) {
+    var layer = String(featureId).split('.')[0]; // featureId is like "Apiary.34" from the modal flow
+    var body = { collection:'auto', id:featureId, layer_id:layerId, updates:changes, layerHint:layer };
+
+    fetch('../../admin/action/oapif_update.php', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
+      body: JSON.stringify(body)
+    })
+    .then(function(res){ return res.text().then(function(t){ return {ok:res.ok, ct:res.headers.get('content-type')||'', text:t};});})
+    .then(function(r){
+      if (!r.ok) { console.error('Save failed', r.text.slice(0,400)); alert('Save failed (HTTP). See console.'); return; }
+      if (r.ct.indexOf('application/json') !== -1) {
+        var data; try { data = JSON.parse(r.text); } catch(e){ data = null; }
+        if (data && data.type==='Feature') { applyUpdates(tabPane, changes); finish(); return; }
+        if (data && data.error) { alert('Error: '+data.error); return; }
+      }
+      if (/<TransactionResponse/i.test(r.text) && /<totalUpdated>\s*[1-9]/i.test(r.text)) { applyUpdates(tabPane, changes); finish(); return; }
+      console.warn('Unexpected response:', r.text.slice(0,400)); alert('Save might not have applied. See console.');
+      function finish(){ if (window.disableInlineEditing) window.disableInlineEditing(tabPane); }
+    })
+    .catch(function(err){ console.error('Fetch error', err); alert('Save failed: '+err.message); });
+  }
+
+  // Replace the modal opener with inline editing
+function replaceModalOpener(){
+  var origShow = window.showEditModal;
+  window.showEditModal = function (featureId /*, featureData */) {
+    // find the active popup pane
+    var pane = document.querySelector('.leaflet-popup-content .tab-pane.active') ||
+               document.querySelector('.leaflet-popup-content .tab-pane') ||
+               document.querySelector('.leaflet-popup-content') ||
+               document.querySelector('.custom-popup');
+    if (!pane) return false;
+
+    // snapshot originals and enter edit mode
+    var original = extractOriginal(pane);
+    window.currentEditData = { featureId: featureId, originalData: original };
+    makeEditable(pane);
+
+    // swap the button to Save/Cancel
+    var editBtn = pane.querySelector('.edit-button');
+    if (editBtn) {
+      var wrap = document.createElement('div');
+      wrap.className = 'd-flex gap-2 mt-2'; wrap.style.width='100%';
+
+      var save = document.createElement('button');
+      save.className = 'btn btn-success btn-sm flex-fill';
+      save.innerHTML = 'Save';
+      save.onclick = function(ev){
+        ev.preventDefault();
+        // collect changes vs original
+        var inputs = pane.querySelectorAll('.inline-edit-input');
+        var updates = {}, changed=false;
+        for (var i=0;i<inputs.length;i++){
+          var name = inputs[i].name;
+          var now  = inputs[i].value;
+          var before = original[name] != null ? original[name] : original[labelToDb(name)];
+          if (String(now) !== String(before)) { updates[name] = (now === '' ? null : now); changed=true; }
+        }
+        if (!changed) { alert('No changes detected'); return; }
+        quickSave(featureId, updates, pane);
+      };
+
+      var cancel = document.createElement('button');
+      cancel.className = 'btn btn-secondary btn-sm flex-fill';
+      cancel.innerHTML = 'Cancel';
+      cancel.onclick = function(ev){ ev.preventDefault(); restoreReadOnly(pane, original); };
+
+      editBtn.parentNode.replaceChild(wrap, editBtn);
+      wrap.appendChild(save); wrap.appendChild(cancel);
+    }
+
+    // do NOT open any modal
+    return false;
+  };
+}

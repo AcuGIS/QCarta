@@ -12,13 +12,13 @@ for f in wms-editor pg-editor; do
 done
 sed -i.save "s|str_replace('http://localhost|str_replace('http://:0|" /var/www/html/admin/snippets/qgs_svc.php
 
-for i in 2 3 4 5 6 7 8; do
+for i in 2 3; do
     for s in wfs wms wmts; do
         sed -i.save "s|str_replace('http://localhost|str_replace('http://:0|" /var/www/html/stores/${i}/${s}.php
     done
 done
 
-for i in 2 3 4 5 6 7 8 9; do
+for i in 2 3; do
     sed -i.save "s|str_replace('http://localhost|str_replace('http://:0|" /var/www/html/layers/${i}/wms.php
 done
 

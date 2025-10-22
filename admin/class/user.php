@@ -57,6 +57,24 @@
             return 0;
         }
 
+        function create_sso($db_obj, $email, $name){
+            $post = ['name' => $name, 'email' => $email, 'password' => $this->randomPassword(),
+                'accesslevel' => 'User', 'group_id' => [1] ];
+            
+            $email_user = explode('@', $post['email'])[0];
+			$post['ftp_user'] = $this->uniqueName($email_user);
+			$post['pg_password'] = $this->randomPassword();
+								
+	        $newId = $this->create($post);
+			if($newId > 0){
+			    $usr_row = $this->getByEmail($post['email']);
+			    $db_obj->create_user($post['ftp_user'], $post['pg_password']);
+				return $usr_row;
+			}else{
+			    return false;
+			}
+        }
+        
 				function loginCheck($pwd, $email){
 
 	        $sql ="select * from public.user where email = '".$this->cleanData($email)."'";

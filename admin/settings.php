@@ -93,6 +93,10 @@
                             <input class="form-check-input" type="radio" name="login_redirect" id="login_redirect_viewer" value="viewer.php" <?php if($settings['login_redirect'] == 'viewer.php') { echo 'checked';}?>>
                             <label class="form-check-label" for="login_redirect_viewer">Viewer</label>
                         </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="login_redirect" id="login_redirect_dashboard" value="dashboard.php" <?php if($settings['login_redirect'] == 'dashboard.php') { echo 'checked';}?>>
+                            <label class="form-check-label" for="login_redirect_dashboard">Dashboard</label>
+                        </div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" id="btn_update" data-dismiss="modal">Update</button>

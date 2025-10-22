@@ -31,32 +31,45 @@
 		</div>
 		
 		<div id="addnew_modal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
+			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Create Group</h4>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<div class="modal-header bg-primary text-white">
+						<h4 class="modal-title mb-0">
+							<i class="bi bi-plus-circle me-2"></i>Create New Access Group
+						</h4>
+						<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					
-					<div class="modal-body" id="addnew_modal_body">
-						<form id="group_form" class="border shadow p-3 rounded"
-									action=""
-									method="post"
-									enctype="multipart/form-data"
-									style="width: 450px;">
-
+					<div class="modal-body p-4" id="addnew_modal_body">
+						<form id="group_form" action="" method="post" enctype="multipart/form-data">
 							<input type="hidden" name="action" value="save"/>
 							<input type="hidden" name="id" id="id" value="0"/>
 							
-							<div class="form-group">
-								<label for="name">Name:</label>
-								<input type="text" class="form-control" id="name" placeholder="Enter name" name="name" required>
+							<!-- Basic Information Section -->
+							<div class="row mb-4">
+								<div class="col-12">
+									<h6 class="text-primary mb-3 border-bottom pb-2">
+										<i class="bi bi-info-circle me-2"></i>Group Information
+									</h6>
+								</div>
+								<div class="col-12 mb-3">
+									<label for="name" class="form-label fw-semibold">
+										<i class="bi bi-tag me-1"></i>Group Name
+									</label>
+									<input type="text" class="form-control" id="name" name="name" required 
+										   placeholder="Enter group name"/>
+									<small class="form-text text-muted">Choose a descriptive name for this access group</small>
+								</div>
 							</div>
-
 						</form>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="activate btn btn-secondary" id="btn_create" data-dismiss="modal">Create</button>
+					<div class="modal-footer bg-light border-top">
+						<button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">
+							<i class="bi bi-x-circle me-1"></i>Cancel
+						</button>
+						<button type="button" class="btn btn-primary activate" id="btn_create">
+							<i class="bi bi-check-circle me-1"></i>Create Group
+						</button>
 					</div>
 				</div>
 			</div>

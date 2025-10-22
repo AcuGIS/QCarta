@@ -2,11 +2,13 @@
     session_start(['read_and_close' => true]);
 		require('../incl/const.php');
 		require('../incl/app.php');
+		require('../incl/qgis.php');
     require('../class/database.php');
 		require('../class/table.php');
 		require('../class/table_ext.php');
     require('../class/qgs.php');
 		require('../class/pglink.php');
+	require('../class/store_relation.php');
 		
 		$with_qfield = is_file('../class/qfield_util.php');
 		if($with_qfield){
@@ -140,7 +142,7 @@ function install_store($id, $post, $conn){
 			$upload_file = DATA_DIR.'/upload/'.$_SESSION[SESS_USR_KEY]->id.'_'.$source;
 		}
 
-		if(str_ends_with($upload_file, '.zip')){
+		if(str_ends_with($upload_file, '.zip') || str_ends_with($upload_file, '.qgz')){
 			$zip = new ZipArchive;
 			$res = $zip->open($upload_file);
 			if ($res === TRUE) {
@@ -196,21 +198,6 @@ function update_store($id, $post){
 	return true;
 }
 
-function qgs_ordered_layers($xml){
-	$layers = $xml->xpath('/qgis/layer-tree-group//layer-tree-layer');
-	$layer_by_id = array();
-	foreach($layers as $l){
-		$layer_by_id[(string)$l->attributes()->id] = (string)$l->attributes()->name;
-	}
-
-	$layer_names = array();
-	$layers = $xml->xpath('/qgis/layerorder//layer');
-	foreach($layers as $l){
-		array_push($layer_names, $layer_by_id[(string)$l->attributes()->id]);
-	}
-	return $layer_names;
-}
-
 function parseQGISLayouts($xml){
     $rv = array();
    list($layouts) = $xml->xpath('/qgis/Layouts//Layout/@name');
@@ -226,7 +213,8 @@ function parseQGISLayouts($xml){
 				
 				$database = new Database(DB_HOST, DB_NAME, DB_USER, DB_PASS, DB_PORT, DB_SCMA);
 				$obj = new qgs_Class($database->getConn(), $_SESSION[SESS_USR_KEY]->id);
-				
+				$rel_obj = new store_relation_Class($database->getConn(), $_SESSION[SESS_USR_KEY]->id);
+
 				$id = empty($_POST['id']) ? -1 : intval($_POST['id']);
 				$action = empty($_POST['action']) ? '' : $_POST['action'];
 				
@@ -254,6 +242,12 @@ function parseQGISLayouts($xml){
 	            }
 							
 							if($newId > 0){
+
+    							$qgs_file = find_qgs(DATA_DIR.'/stores/'.$newId);
+                                $relations = qgis_relations_from_project($qgs_file);
+                                if($newId > 0) { $rel_obj->delete($newId); }
+                                $rel_obj->create($newId, $relations);
+                        
 								$result = ['success' => true, 'message' => 'Store successfully created!', 'id' => $newId];
 							}else if(isset($_POST['source'])){
 								// clear upload files on failure
@@ -269,11 +263,11 @@ function parseQGISLayouts($xml){
         
 				}else if($action == 'delete') {
 					$tbls = array('layer' => 'id');
-       	            $ref_ids = $database->get_ref_ids($tbls, 'store_id', $id);
+       	            list($ref_ids,$ref_name) = $database->get_ref_ids($tbls, 'store_id', $id);
 					
 					if(count($ref_ids) > 0){
 						$result = ['success' => false, 'message' => 'Error: Can\'t delete store because it is used in '.count($ref_ids).' '.$ref_name.'(s) with ID(s) ' . implode(',', $ref_ids) . '!' ];
-					}else if($obj->drop_access($id) && $obj->delete($id)){
+					}else if($rel_obj->delete($id) && $obj->drop_access($id) && $obj->delete($id)){
           	            $result = ['success' => true, 'message' => 'Store successfully deleted!'];
 						
 						# remove data files
@@ -299,12 +293,13 @@ function parseQGISLayouts($xml){
 						
 						$bounding_box = $DefaultViewExtent['xmin'].',</br>'.$DefaultViewExtent['ymin'].',</br>'.$DefaultViewExtent['xmax'].',</br>'.$DefaultViewExtent['ymax'];
 						list($projection) = $xml->xpath('/qgis/ProjectViewSettings/DefaultViewExtent/spatialrefsys/authid');
-i						$layout_names = [];
+						
+						$layout_names = [];
 						list($layouts) = $xml->xpath('/qgis/Layouts//Layout/@name');
 						foreach($layouts as $name){
 						    $layout_names[] = (string)$name;
 						}
-
+						
 						$layer_names = qgs_ordered_layers($xml);
 						
 						$proto = empty($_SERVER['HTTPS']) ? 'http' : 'https';
@@ -324,7 +319,23 @@ i						$layout_names = [];
 					$qgis_file = find_qgs(DATA_DIR.'/stores/'.$id);
 					if($qgis_file !== false){
 						$xml = simplexml_load_file($qgis_file);
-						$result = ['success' => true, 'layers' => qgs_ordered_layers($xml), 'print_layouts' => parseQGISLayouts($xml)];
+						
+						// Get all layers from layer tree (including those in groups)
+						$layer_tree_layers = $xml->xpath('/qgis/layer-tree-group//layer-tree-layer');
+						$layer_names = array();
+						foreach($layer_tree_layers as $ltl){
+							$name = (string)$ltl['name'];
+							if ($name && !in_array($name, $layer_names)) {
+								$layer_names[] = $name;
+							}
+						}
+						
+						// If no layers found, fall back to the original method
+						if (empty($layer_names)) {
+							$layer_names = qgs_ordered_layers($xml);
+						}
+						
+						$result = ['success' => true, 'layers' => $layer_names, 'print_layouts' => parseQGISLayouts($xml)];
 					}else{
 						$result = ['success' => false, 'message' => 'Error: No qgs file found!'];
 					}

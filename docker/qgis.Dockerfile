@@ -36,8 +36,7 @@ COPY --chown=www-data:www-data docker/start-qgis.sh /usr/local/bin/start-qgis.sh
 # Temp fix for https://github.com/qgis/QGIS/issues/59613
 RUN mkdir -p /.cache/QGIS/ && \
 	chown -R www-data:www-data /.cache/QGIS/ && \
-	ln -s /var/www/cache/qgis /.cache/QGIS/QGIS3 && \
-	chmod +x /usr/local/bin/start-qgis.sh
+	ln -s /var/www/cache/qgis /.cache/QGIS/QGIS3
 
 VOLUME /var/www/cache/qgis
 VOLUME /var/www/data/qgis

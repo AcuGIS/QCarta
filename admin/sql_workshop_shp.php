@@ -226,8 +226,7 @@ $tableName = isset($shpPath) ? basename($shpPath, '.shp') : 'shapefile';
         <?php include("incl/sidebar.php"); ?>
 
     <div class="main-page-content" style="padding: 0rem 0rem 0rem 0rem;">
-        <h1 style="color:#fff!important; background:dodgerblue!important; font-weight:400!important; important; font-family: Century Gothic!important;
-    font-size: 22px !important; letter-spacing: 1px; margin: 10px 0 20px 0; background-color: #1E90FF !important; color: #AFE1AF!important!important; padding: 25px 0 15px 10px; width: 80%; font-weight: 500;">Shapefile SQL Workshop</h1>
+        <h1 style="background-color:rgb(236 253 245 / var(--tw-bg-opacity, 1))!important; font-weight:400!important; font-family: Century Gothic!important; font-size: 22px !important; letter-spacing: 1px; margin: 10px 0 20px 0; color: #666!important; padding: 25px 0 15px 10px; width: 80%; font-weight: 500;">Shapefile SQL Workshop</h1>
         <div class="tab-bar">
             <button class="tab-btn active" id="tab-sql" onclick="showTab('sql')">SQL Terminal</button>
             <button class="tab-btn" id="tab-vqb" onclick="showTab('vqb')">Visual Query Builder</button>
@@ -464,5 +463,30 @@ $tableName = isset($shpPath) ? basename($shpPath, '.shp') : 'shapefile';
         background-color: #e6f3ff;
     }
     </style>
+
+
+
+<script>
+(function(){
+  function showTab(tab){
+    const isSql = tab === 'sql';
+    document.getElementById('tab-sql')?.classList.toggle('active', isSql);
+    document.getElementById('tab-vqb')?.classList.toggle('active', !isSql);
+    document.getElementById('content-sql')?.classList.toggle('active', isSql);
+    document.getElementById('content-vqb')?.classList.toggle('active', !isSql);
+    try { localStorage.setItem('sqlworkshop.activeTab', tab); } catch(e){}
+  }
+  // make it available to your existing onclick="showTab('...')" hooks
+  window.showTab = showTab;
+
+  // Initial tab (restore last, or use URL hash, default SQL)
+  const initial =
+    (location.hash === '#vqb') ? 'vqb' :
+    (localStorage.getItem('sqlworkshop.activeTab') || 'sql');
+  showTab(initial);
+})();
+</script>
+
+
 </body>
 </html>
