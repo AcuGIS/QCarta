@@ -94,7 +94,7 @@ QCarta includes sample projects to get you started
 
 ### Plotly Chart Support:
 
-![QuailMap](docs/_static/QCarta-5-Intro.png)
+![QuailMap](docs/_static/QCarta-5-Plotly.png)
 
 ### SQL Reports
 
