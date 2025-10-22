@@ -25,17 +25,6 @@ This is the recommended way to install it.
 .. note::
     The plugin is NOT a requirement for publishing to QCarta, you can publish directly via QCarta admin interface as well.
 
-Manual Installation
-==================
-
-Download qcarta_qgis_plugin.zip to your desktop
-
-In QGIS, go to Plugins > Manage and Install Plugins and click on "Install from Zip" in left menu.
-
-Browse to location where you saved qcarta_qgis_plugin.zip and then click "Install Plugin"
-
-Once installed, you should see the Plugins menu.
-
 Usage
 ==================
   
