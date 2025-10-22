@@ -4,18 +4,26 @@ Intro
 Overview
 ------------
 
-QCarta is a lightweight GeoPortal and Administration for QGIS Server.
+QCarta is a complete GeoPortal for QGIS Maps.
+
+Simply upload your QGIS Project via the QCarta QGIS Plugin (or via FTP) and select features and your map is online.
 
 
 .. image:: _static/qcarta-login.png
 
-   - Create OGC Web Services from your QGIS Projects
-   - Create OGC Web Services directly from many Geospatial formats
-   - Create OGC Web Services from PostGIS
-   - Intergrated MapProxy for Layer Caching
-   - Group Level permissions for Stores and Layers
-
-QCarta also contains a choice of Map Portal layouts with Group Level permissions
+   - Maps
+   - Dashboards
+   - Filters
+   - GeoStories
+   - Plotly Support
+   - SQL Reports
+   - SQL Workshop
+   - QGIS Relations
+   - QGIS Plugin
+   - Group Level Permissions
+   - OGC Web Services (WMS, WFS, and WMTS)
+   - Topics and Keywords
+   - Metadata
 
 The workflow is similar to GeoServer. You create Stores from data sources. From Stores, you create Layers.
 
