@@ -150,7 +150,7 @@
         }
       }
       return ['name' => $name, 'color' => '#000', 'typename' => $typename, 'label' => $label, 'filter' => null];
-    }, explode(',', 'Bee_Map.Fields,Bee_Map.Apiary,Bee_Map.Tracks'))) ?>;
+    }, explode(',', 'Bee_Map.Apiary,Bee_Map.Tracks,Bee_Map.Fields'))) ?>;
     const qgsTitle = '<?= $qgs_title ?>';
     const printLayout = '<?=$ql_row->print_layout?>';
     const RELATIONS = <?= json_encode($RELATIONS ?? []) ?>;
