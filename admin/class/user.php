@@ -137,7 +137,9 @@
 				 	$row = pg_fetch_object($result);
 					pg_free_result($result);
 					
-          $sql = "update public.user set name='".$this->cleanData($data['name'])."'";
+          $sql = "update public.user set "
+              . "name='".$this->cleanData($data['name'])."', "
+               . "email='".$this->cleanData($data['email'])."'"; 
 					
 					if($row->password != $data['password']){	# if password is changed
 						$hashpassword = password_hash($data['password'], PASSWORD_DEFAULT);
