@@ -36,7 +36,7 @@
 		} else if(($action == 'delete') && ($id != 1)) {
 						
 						$ref_ids = array();
-						$tbls = array('user', 'basemap', 'store', 'layer', 'geostory', 'web_link', 'doc', 'dashboard');
+						$tbls = array('user', 'basemaps', 'store', 'layer', 'geostory', 'web_link', 'doc', 'dashboard');
 						
 						foreach($tbls as $k){
 							$rows = $database->getAll('public.'.$k.'_access', 'access_group_id = '.$id);							
