@@ -36,10 +36,10 @@ class store_relation_Class {
   function delete($id){
     $result = pg_query($this->dbconn, "DELETE FROM {$this->table} WHERE store_id={$id}");  
     if(!$result){
-		return 0;
+		return false;
 	}
 
-	$rv = pg_affected_rows($result) > 0;
+	$rv = pg_affected_rows($result) >= 0;
 	pg_free_result($result);
 
 	return $rv;
