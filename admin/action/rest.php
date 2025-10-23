@@ -400,7 +400,7 @@
 		}
 
 		pg_free_result($result);
-		$basemaps = ['basemap' => filter_by_user_access($database, 'basemap', $user_id, $rows)];
+		$basemaps = ['basemap' => filter_by_user_access($database, 'basemaps', $user_id, $rows)];
 		$reply = ['success' => true, 'basemaps' => $basemaps];
 
 	}else if($_GET['q'] == 'basemap'){	// /rest/basemap/OpenStreetMap
