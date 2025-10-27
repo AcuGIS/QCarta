@@ -37,7 +37,7 @@
 								
 								# make admins own their user
 								if($_POST['accesslevel'] == 'Admin'){
-									$obj->admin_self_own($id);
+									$obj->admin_self_own($newId);
 								}
 							}
             }
