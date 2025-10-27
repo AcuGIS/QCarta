@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>QCarta Login</title>
+<title>QCarta</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://cdn.tailwindcss.com"></script>
@@ -131,12 +131,13 @@
       <div>
         <button type="submit" name="submit" value="1" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
         
-        <div class="row">
-            <div class="separator">or</div>
-        </div>
+        
         
         <div class="row text-center">
             <?php if(!empty(GITHUB_CLIENT_ID)) { ?>
+            <div class="row">
+            <div class="separator">or</div>
+        </div>
             <div class="col login-option">
                 <a class="auth-icon" href="auth-github.php">
                     <img src="assets/images/auth-github.png" alt="Sign in with GitHub" title="Sign in with GitHub"/>
