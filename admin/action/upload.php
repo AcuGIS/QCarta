@@ -66,7 +66,7 @@
 				}else{
 					$name = $_SESSION[SESS_USR_KEY]->id.'_'.basename($_POST['url']);
 					$pid_file = DATA_DIR.'/upload/'.$name.'.pid';
-					shell_exec('wget -o /dev/null -O '.DATA_DIR.'/upload/'.$name.' '.$_POST['url']. '& echo $! > '.$pidfile);
+					shell_exec('wget -o /dev/null -O '.DATA_DIR.'/upload/'.$name.' '.$_POST['url']. ' & echo $! > '.$pid_file);
 					
 					$file_size = empty($hdrs['content-length']) ? 0 : $hdrs['content-length'];
 					
