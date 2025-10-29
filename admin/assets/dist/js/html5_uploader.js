@@ -15,32 +15,35 @@ async function uploadFile(tag_id, upload_uri, fn_post, fn_data) {
 	let upload_size = 0;
 	$("div .progress").show();
 					
-	for (var i = 0; i < fileInput.files.length; i++) {
-		const file = fileInput.files[i];
-		const upload_name = file.name;
-		
-		update_progress_bar(file.name, 0);
-		
-		let chunkSize = post_max_size - 1000; // 16MB per chunk
-		if(chunkSize >= file.size){
-			chunkSize = file.size;
-		}
-		// Split the file into 10MB chunks
-	  let start = 0;
-	  while (start < file.size) {
-	    const chunk = file.slice(start, start + chunkSize);
-			await uploadChunk(upload_uri, upload_name, start, chunk);
-			
-			start += chunkSize;
-			perc = Math.round((start / file.size) * 100.0);
-			update_progress_bar(file.name, perc);
-	  }
-		upload_size += file.size;
+	try {
+  	for (var i = 0; i < fileInput.files.length; i++) {
+  		const file = fileInput.files[i];
+  		const upload_name = file.name;
+  		
+  		update_progress_bar(file.name, 0);
+  		
+  		let chunkSize = post_max_size - 1000; // leave some space for headers
+  		if(chunkSize >= file.size){
+  			chunkSize = file.size;
+  		}
+  		// Split the file into 10MB chunks
+  	  let start = 0;
+  	  while (start < file.size) {
+  	    const chunk = file.slice(start, start + chunkSize);
+  			await uploadChunk(upload_uri, upload_name, start, chunk);
+  
+  			start += chunkSize;
+  			perc = Math.round((start / file.size) * 100.0);
+  			update_progress_bar(file.name, perc);
+  	  }
+  		upload_size += file.size;
+  	}
+	  
+    fn_data.append('upload_size', upload_size);
+		fn_post(fn_data);
+	} catch (e) {
+    console.error(e);
 	}
-	
-	fn_data.append('upload_size', upload_size);
-	
-	fn_post(fn_data);
 }
 
 async function uploadURL(tag_id, upload_uri, fn_post, fn_data) {
@@ -86,6 +89,9 @@ async function uploadURL(tag_id, upload_uri, fn_post, fn_data) {
 	    }
 			
 			data = await response.json();
+			if(!data.success){
+			  throw new Error('Chunk upload failed: ' + data.message);
+			}
 			upload_size = data.size;
 			
 			if(file_size == 0){	// chunked transfer
@@ -116,20 +122,18 @@ async function uploadChunk(upload_uri, upload_name, start, chunk) {
 	formData.append('source', upload_name);
 	formData.append('chunk', chunk);
 
-  try {
-    const response = await fetch(upload_uri, {
-      method: 'POST',
-      body: formData,
-			dataType: "json",
-    });
+  const response = await fetch(upload_uri, {
+    method: 'POST',
+    body: formData,
+		dataType: "json",
+  });
 
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    //const data = await response.json();
-    //console.log('Chunk uploaded successfully:', data);
-  } catch (error) {
-    console.error('Error uploading chunk:', error);
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  
+  const data = await response.json();
+  if(!data.success){
+    throw new Error('Error: Chunk upload failed: ' + data.message);
   }
 }
