@@ -26,12 +26,12 @@
                  kind==='table' ? `<div class="pad"><div id="${id}_table" style="height:100%;min-height:200px" data-cfg='{"source":{"kind":"wfs"}}'></div></div>` :
                  kind==='legend' ? `<div class="pad"><div id="${id}_legend" style="height:100%;min-height:200px" data-cfg='{"source":{"kind":"wms"}}'></div></div>` :
                  kind==='counter' ? `<div class="pad"><div id="${id}_counter" style="height:100%;min-height:120px;display:flex;align-items:center;justify-content:center;flex-direction:column" data-cfg='{"source":{"kind":"wfs"}}'></div></div>` :
-                 `<div class="pad" contenteditable="true"><h4>Notes</h4><p class="help">Click to type�</p></div>`;
+                 `<div class="pad" contenteditable="true"><h4>Notes</h4><p class="help">Click to typeï¿½</p></div>`;
     const tools = (DASHBOARD_EDITOR) ? `
-      <button class="tbtn" data-act="cfg" title="Configure">⚙</button>
-      <button class="tbtn" data-act="refresh" title="Refresh">↻</button>
-      <button class="tbtn" data-act="dup" title="Duplicate">⧉</button>
-      <button class="tbtn" data-act="del" title="Delete">×</button>` : '';
+      <button class="tbtn" data-act="cfg" title="Configure">âš™</button>
+      <button class="tbtn" data-act="refresh" title="Refresh">â†»</button>
+      <button class="tbtn" data-act="dup" title="Duplicate">â§‰</button>
+      <button class="tbtn" data-act="del" title="Delete">Ã—</button>` : '';
 
     el.innerHTML = `<div class="card-header">
       <div class="title" contenteditable="true" title="Double-click to edit title">${kind[0].toUpperCase()+kind.slice(1)}</div>
@@ -128,10 +128,12 @@
     }
     
     const map = L.map(divId, { zoomControl:true });
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19, attribution:'� OSM'}).addTo(map);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19, attribution:'ï¿½ OSM'}).addTo(map);
 
     // Store map instance globally for chart updates
     window.currentMap = map;
+    // Store highlighted feature layer for zoom functionality
+    window.highlightedFeatureLayer = null;
 
     // Add event listeners for map movement to update charts
     map.on('moveend', updateAllCharts);
@@ -554,6 +556,60 @@
     }
   }
 
+  // Fetch full GeoJSON features (with geometry) for zoom functionality
+  async function wfsFetchFullFeatures({typeName, limit=2000, cql='', bounds=null}){
+    const baseUrl = WMS_SVC_URL + (WMS_SVC_URL.includes('?') ? '&' : '?');
+    let url = `${baseUrl}SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&LAYERS=${encodeURIComponent(typeName)}&TYPENAME=${encodeURIComponent(typeName)}&OUTPUTFORMAT=application/json`;
+    if (limit && limit < 2000) url += `&MAXFEATURES=${encodeURIComponent(limit)}`;
+    if (cql) url += `&CQL_FILTER=${encodeURIComponent(cql)}`;
+    
+    // Add bounding box filter if provided
+    if (bounds) {
+      const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()}`;
+      url += `&BBOX=${encodeURIComponent(bbox)}&SRSNAME=EPSG:4326`;
+    }
+    
+    try {
+      const response = await fetch(url, {credentials:'same-origin'});
+      
+      if (!response.ok) {
+        console.error(`WFS request failed: ${response.status} ${response.statusText}`);
+        return [];
+      }
+      
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        console.error('WFS response is not JSON:', contentType);
+        return [];
+      }
+      
+      const responseText = await response.text();
+      
+      if (!responseText || responseText.trim() === '') {
+        console.error('WFS response is empty');
+        return [];
+      }
+      
+      if (responseText.includes('Exception') || responseText.includes('Error') || responseText.includes('error')) {
+        console.error('WFS returned error:', responseText.substring(0, 200));
+        return [];
+      }
+      
+      let geojson;
+      try {
+        geojson = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('Failed to parse WFS response as JSON:', parseError);
+        return [];
+      }
+      
+      return Array.isArray(geojson?.features) ? geojson.features : [];
+    } catch (error) {
+      console.error('WFS fetch error:', error);
+      return [];
+    }
+  }
+
   // ------- Chart cfg + render -------
   function getCfg(cardEl){ 
     const d=cardEl.querySelector('[id$="_chart"]') || cardEl.querySelector('[id$="_table"]') || cardEl.querySelector('[id$="_legend"]') || cardEl.querySelector('[id$="_counter"]'); 
@@ -571,6 +627,8 @@
   // Store table instances and their data for updates
   const tableInstances = new Map();
   const tableData = new Map();
+  // Store full GeoJSON features with geometry for zoom functionality
+  const tableFeatures = new Map();
   
   // Store counter instances and their data for updates
   const counterInstances = new Map();
@@ -580,7 +638,7 @@
     const el = document.getElementById(divId); if (!el) return;
     if (!cfg || !cfg.type){
       const x = Array.from({length:8}, (_,i)=>`Item ${i+1}`), y = x.map(()=>Math.round(Math.random()*100));
-      Plotly.newPlot(el, [{type:'bar', x, y}], {margin:{t:32,l:40,r:16,b:32}, title:'Chart (⚙ to configure)'}, {responsive:true, displaylogo:false});
+      Plotly.newPlot(el, [{type:'bar', x, y}], {margin:{t:32,l:40,r:16,b:32}, title:'Chart (âš™ to configure)'}, {responsive:true, displaylogo:false});
       return;
     }
     
@@ -610,7 +668,7 @@
     if (!rows.length){ Plotly.newPlot(el, [], {title:'No rows', margin:{t:32}}, {responsive:true, displaylogo:false}); return; }
 
     const xField = cfg.xField, yField = cfg.yField, agg=cfg.agg||'sum';
-    if (!xField || (!yField && cfg.type!=='pie')){ Plotly.newPlot(el, [], {title:'Pick fields in ⚙', margin:{t:32}}, {responsive:true, displaylogo:false}); return; }
+    if (!xField || (!yField && cfg.type!=='pie')){ Plotly.newPlot(el, [], {title:'Pick fields in âš™', margin:{t:32}}, {responsive:true, displaylogo:false}); return; }
 
     const groups=new Map();
     for (const r of rows){ const k=String(r[xField]); const v=parseFloat(String(r[yField]??'').replace(/[, ]/g,'')); if(!groups.has(k)) groups.set(k,[]); if(isFinite(v)) groups.get(k).push(v); }
@@ -639,15 +697,17 @@
     
     // Show default table if no configuration
     if (!cfg || !cfg.wfs || !cfg.wfs.typeName){
-      el.innerHTML = '<div style="padding:20px;text-align:center;color:#6b7280;"><h4>Table (⚙ to configure)</h4><p>Configure the table to display WFS data</p></div>';
+      el.innerHTML = '<div style="padding:20px;text-align:center;color:#6b7280;"><h4>Table (âš™ to configure)</h4><p>Configure the table to display WFS data</p></div>';
       return;
     }
     
     let rows = [];
+    let fullFeatures = [];
     try{
       // If we have cached data and not filtering by bounds, use cached data
       if (!filterByBounds && tableData.has(divId)) {
         rows = tableData.get(divId);
+        fullFeatures = tableFeatures.get(divId) || [];
       } else {
         // Fetch fresh data with bounds if filtering
         const bounds = filterByBounds && window.currentMap ? window.currentMap.getBounds() : null;
@@ -657,9 +717,17 @@
           cql: cfg.wfs.cql||'',
           bounds: bounds
         });
+        // Fetch full features with geometry for zoom functionality
+        fullFeatures = await wfsFetchFullFeatures({
+          typeName: cfg.wfs.typeName,
+          limit: cfg.wfs.limit||2000,
+          cql: cfg.wfs.cql||'',
+          bounds: bounds
+        });
         // Cache the data only if not filtering by bounds
         if (!filterByBounds) {
           tableData.set(divId, rows);
+          tableFeatures.set(divId, fullFeatures);
         }
       }
     }catch(e){
@@ -692,6 +760,9 @@
       `${cfg.title || ''} (${rows.length} features in view)` : 
       (cfg.title || '');
     
+    // SVG icon for Zoom To button
+    const zoomIconSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
+    
     // Build table HTML
     let tableHtml = '<div style="height:100%;overflow:auto;">';
     if (title) tableHtml += `<h4 style="margin:0 0 10px 0;padding:0 8px;">${title}</h4>`;
@@ -699,6 +770,8 @@
     
     // Header
     tableHtml += '<thead><tr style="background:#f8fafc;border-bottom:2px solid #e5e7eb;">';
+    // Add Zoom To column header first
+    tableHtml += `<th style="padding:8px;text-align:center;border-right:1px solid #e5e7eb;width:60px;">${zoomIconSvg}</th>`;
     displayFields.forEach(field => {
       tableHtml += `<th style="padding:8px;text-align:left;border-right:1px solid #e5e7eb;">${field}</th>`;
     });
@@ -706,8 +779,18 @@
     
     // Body
     tableHtml += '<tbody>';
-    rows.slice(0, cfg.limit || 100).forEach((row, idx) => { // Limit displayed rows
+    const displayedRows = rows.slice(0, cfg.limit || 100);
+    displayedRows.forEach((row, idx) => { // Limit displayed rows
       tableHtml += `<tr style="border-bottom:1px solid #f3f4f6;${idx % 2 === 0 ? 'background:#fff' : 'background:#f9fafb'}">`;
+      // Add Zoom To button cell first
+      const feature = fullFeatures[idx];
+      const hasGeometry = feature && feature.geometry;
+      if (hasGeometry) {
+        tableHtml += `<td style="padding:6px 8px;border-right:1px solid #f3f4f6;text-align:center;"><button class="zoom-to-btn" data-feature-index="${idx}" style="background:none;border:none;cursor:pointer;padding:4px;display:inline-flex;align-items:center;justify-content:center;opacity:0.7;transition:opacity 0.2s;" title="Zoom to feature" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">${zoomIconSvg}</button></td>`;
+      } else {
+        tableHtml += `<td style="padding:6px 8px;border-right:1px solid #f3f4f6;text-align:center;"></td>`;
+      }
+      // Add data fields
       displayFields.forEach(field => {
         const value = row[field];
         const displayValue = value !== null && value !== undefined ? String(value) : '';
@@ -723,6 +806,64 @@
     
     tableHtml += '</div>';
     el.innerHTML = tableHtml;
+    
+    // Add click handlers for zoom buttons
+    const zoomButtons = el.querySelectorAll('.zoom-to-btn');
+    zoomButtons.forEach((btn) => {
+      btn.addEventListener('click', function() {
+        const featureIndex = parseInt(this.getAttribute('data-feature-index'));
+        const feature = fullFeatures[featureIndex];
+        if (feature && feature.geometry && window.currentMap) {
+          try {
+            // Remove previous highlight if it exists
+            if (window.highlightedFeatureLayer) {
+              window.currentMap.removeLayer(window.highlightedFeatureLayer);
+              window.highlightedFeatureLayer = null;
+            }
+            
+            // Create a highlighted GeoJSON layer with distinctive styling
+            window.highlightedFeatureLayer = L.geoJSON(feature, {
+              style: function(f) {
+                return {
+                  color: '#ff0000',        // Red border
+                  weight: 4,               // Thick border
+                  opacity: 0.9,
+                  fillColor: '#ffff00',    // Yellow fill
+                  fillOpacity: 0.3
+                };
+              },
+              pointToLayer: function(feature, latlng) {
+                return L.circleMarker(latlng, {
+                  radius: 10,
+                  color: '#ff0000',
+                  weight: 4,
+                  fillColor: '#ffff00',
+                  fillOpacity: 0.7
+                });
+              }
+            }).addTo(window.currentMap);
+            
+            // Create a Leaflet GeoJSON layer to get bounds
+            const geoJsonLayer = L.geoJSON(feature);
+            const bounds = geoJsonLayer.getBounds();
+            if (bounds.isValid()) {
+              // Expand bounds to zoom out more (less close)
+              const sw = bounds.getSouthWest();
+              const ne = bounds.getNorthEast();
+              const latDiff = ne.lat - sw.lat;
+              const lngDiff = ne.lng - sw.lng;
+              const expandedBounds = L.latLngBounds(
+                [sw.lat - latDiff * 0.3, sw.lng - lngDiff * 0.3],
+                [ne.lat + latDiff * 0.3, ne.lng + lngDiff * 0.3]
+              );
+              window.currentMap.fitBounds(expandedBounds, { padding: [100, 100], maxZoom: 16 });
+            }
+          } catch (error) {
+            console.error('Error zooming to feature:', error);
+          }
+        }
+      });
+    });
     
     // Store table instance for updates
     tableInstances.set(divId, { element: el, config: cfg });
@@ -747,7 +888,7 @@
     
     // Show default legend if no configuration
     if (!cfg || !cfg.layers || cfg.layers.length === 0){
-      el.innerHTML = '<div style="padding:20px;text-align:center;color:#6b7280;"><h4>Legend (⚙ to configure)</h4><p>Configure the legend to display WMS layer legends</p></div>';
+      el.innerHTML = '<div style="padding:20px;text-align:center;color:#6b7280;"><h4>Legend (âš™ to configure)</h4><p>Configure the legend to display WMS layer legends</p></div>';
       return;
     }
     
@@ -775,7 +916,7 @@
     
     // Show default counter if no configuration
     if (!cfg || !cfg.wfs || !cfg.wfs.typeName || !cfg.field){
-      el.innerHTML = '<div style="padding:20px;text-align:center;color:#6b7280;"><h4>Counter (⚙ to configure)</h4><p>Configure the counter to display aggregated data</p></div>';
+      el.innerHTML = '<div style="padding:20px;text-align:center;color:#6b7280;"><h4>Counter (âš™ to configure)</h4><p>Configure the counter to display aggregated data</p></div>';
       return;
     }
     
@@ -868,9 +1009,9 @@
       <div class="mb">
         <div class="row"><label>Title</label><input id="chartTitle" placeholder="Enter chart title" value="${cfg?.title||''}"></div>
         <div class="row"><label>WFS endpoint</label><input value="${BASE}" readonly></div>
-        <div class="row"><label>Layer (typeName)</label><select id="wfsLayer"><option>Loading...�</option></select></div>
-        <div class="row"><label>X field</label><select id="xField"><option value="">�← choose layer�</option></select></div>
-        <div class="row" id="rowY"><label>Y field</label><select id="yField"><option value="">�← choose layer�</option></select></div>
+        <div class="row"><label>Layer (typeName)</label><select id="wfsLayer"><option>Loading...ï¿½</option></select></div>
+        <div class="row"><label>X field</label><select id="xField"><option value="">ï¿½â† choose layerï¿½</option></select></div>
+        <div class="row" id="rowY"><label>Y field</label><select id="yField"><option value="">ï¿½â† choose layerï¿½</option></select></div>
         <div class="row" id="rowAgg"><label>Aggregate</label>
           <select id="agg"><option value="sum"${cfg.agg==='sum'?' selected':''}>sum</option>
                           <option value="avg"${cfg.agg==='avg'?' selected':''}>avg</option>
@@ -1283,12 +1424,12 @@
           try {
             const response = await fetch(testUrl, {credentials:'same-origin'});
             if (response.ok) {
-              testResults.push(`✅ ${layer}: OK`);
+              testResults.push(`âœ… ${layer}: OK`);
             } else {
-              testResults.push(`❌ ${layer}: HTTP ${response.status}`);
+              testResults.push(`âŒ ${layer}: HTTP ${response.status}`);
             }
           } catch (error) {
-            testResults.push(`❌ ${layer}: ${error.message}`);
+            testResults.push(`âŒ ${layer}: ${error.message}`);
           }
         }
         
@@ -1353,9 +1494,9 @@
         item.draggable = true;
         item.dataset.field = field;
         item.innerHTML = `
-          <span class="drag-handle">⋮⋮</span>
+          <span class="drag-handle">â‹®â‹®</span>
           <span class="field-name">${field}</span>
-          <span class="remove-btn" title="Remove column">×</span>
+          <span class="remove-btn" title="Remove column">Ã—</span>
         `;
         
         // Drag and drop functionality
@@ -1522,7 +1663,7 @@
         <div class="row"><label>Title</label><input id="counterTitle" placeholder="Enter counter title" value="${cfg?.title||''}"></div>
         <div class="row"><label>WFS endpoint</label><input value="${BASE}" readonly></div>
         <div class="row"><label>Layer (typeName)</label><select id="counterLayer"><option>Loading...</option></select></div>
-        <div class="row"><label>Field to aggregate</label><select id="counterField"><option value="">← choose layer first</option></select></div>
+        <div class="row"><label>Field to aggregate</label><select id="counterField"><option value="">â† choose layer first</option></select></div>
         <div class="row"><label>Operation</label>
           <select id="counterOperation">
             <option value="count"${cfg.operation==='count'?' selected':''}>Count (number of records)</option>
