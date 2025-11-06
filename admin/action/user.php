@@ -4,6 +4,7 @@
     require('../class/database.php');
 		require('../class/table.php');
     require('../class/user.php');
+    require('../class/access_group.php');
 
     $result = ['success' => false, 'message' => 'Error while processing your request!'];
 
@@ -35,9 +36,20 @@
 	              $newId = $obj->create($_POST);
 								$database->create_user($_POST['ftp_user'], $_POST['pg_password']);
 								
-								# make admins own their user
 								if($_POST['accesslevel'] == 'Admin'){
+								    # make admins own their user
 									$obj->admin_self_own($newId);
+
+									# make a default group for new admin
+									$grp_obj = new access_group_Class($database->getConn(), $newId);
+									$group_post = ['name' => 'Admin ' . $newId . ' group'];
+									$grp_id = $grp_obj->create($group_post);
+									if($grp_id > 0){
+									    # assign him that group
+									    array_push($_POST['group_id'], $grp_id);
+										$obj->drop_access($newId);
+									    $obj->create_access($newId, $_POST['group_id']);
+									}
 								}
 							}
             }
