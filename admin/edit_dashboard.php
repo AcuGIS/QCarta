@@ -70,6 +70,21 @@
   .tbtn{border:none;background:#f3f4f6;width:30px;height:30px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:#6b7280;transition:all 0.2s}
   .tbtn:hover{background:#e5e7eb;color:#374151}
   .body{height:calc(100% - 52px);overflow:auto}
+
+  /* --- Fullscreen for cards (canvas area only) --- */
+  .canvas.fs-active{
+    position:relative;
+  }
+  .item.fs{
+    position:absolute !important;
+    margin:0 !important;
+    transform:none !important;
+    border-radius:0 !important;   /* optional: edge-to-edge */
+  }
+  .item.fs .body{
+    height:calc(100% - 52px);     /* keep header row visible */
+    overflow:auto;
+  }
   .pad{padding:12px}
   .resize{position:absolute;right:6px;bottom:6px;width:16px;height:16px;cursor:nwse-resize;background:
     linear-gradient(135deg,transparent 50%,#cbd5e1 50%),linear-gradient(45deg,transparent 50%,#cbd5e1 50%);background-size:8px 8px;background-repeat:no-repeat;background-position:left bottom,right top;border-radius:4px}
@@ -101,6 +116,7 @@
 <div class="topbar">
   <div><strong>QCarta Dashboard</strong></div>
   <div>
+    <a class="btn" href="index.php" title="Return to Admin">Return</a>
     <button class="btn" id="clearBtn">Clear</button>
     <button class="btn" id="loadBtn">Load</button>
     <button class="btn btn-primary" id="saveBtn">Save</button>
@@ -143,6 +159,6 @@ const WFS_BASE = `/stores/${storeId}/wfs`;
 const WMS_FORCE = new URL(location.href).searchParams.get('wmsLayer') || '';
 const dashboard_config = <?php if(is_file(DATA_DIR.'/dashboards/'.$id.'/config.json')) { readfile(DATA_DIR.'/dashboards/'.$id.'/config.json'); }else{ echo('null'); }  ?>;
 </script>
-<script src="assets/dist/js/edit_dashboard.js"></script>
+<script src="assets/dist/js/edit_dashboard.js?v=<?=filemtime(__DIR__.'/assets/dist/js/edit_dashboard.js')?>"></script>
 </body>
 </html>
