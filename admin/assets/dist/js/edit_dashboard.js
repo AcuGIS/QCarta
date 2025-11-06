@@ -31,17 +31,48 @@
       <button class="tbtn" data-act="cfg" title="Configure">âš™</button>
       <button class="tbtn" data-act="refresh" title="Refresh">â†»</button>
       <button class="tbtn" data-act="dup" title="Duplicate">â§‰</button>
-      <button class="tbtn" data-act="del" title="Delete">Ã—</button>` : '';
+      <button class="tbtn" data-act="full" title="Maximize to canvas">â›¶</button>
+      <button class="tbtn" data-act="del" title="Delete">Ã—</button>` : `
+      <button class="tbtn" data-act="full" title="Maximize to canvas">â›¶</button>`;
 
     el.innerHTML = `<div class="card-header">
       <div class="title" contenteditable="true" title="Double-click to edit title">${kind[0].toUpperCase()+kind.slice(1)}</div>
       <div class="tools">${tools}</div></div>
       <div class="body">${body}</div><div class="resize" title="Resize"></div>`;
-    // toolbar
-    el.querySelector('.tools').addEventListener('click', (e)=>{
+    // toolbar - ensure no duplicate fullscreen/maximize buttons
+    const toolsEl = el.querySelector('.tools');
+    if (toolsEl) {
+      // Find all potential fullscreen buttons (by data-act, icon, or title)
+      const allButtons = toolsEl.querySelectorAll('button');
+      const fullscreenButtons = [];
+      allButtons.forEach(btn => {
+        const act = btn.dataset.act;
+        const title = (btn.title || '').toLowerCase();
+        const text = btn.textContent || btn.innerHTML || '';
+        // Check if this is a fullscreen/maximize button
+        if (act === 'full' || 
+            title.includes('maximize') || 
+            title.includes('fullscreen') ||
+            text.includes('â›¶') ||
+            text.includes('âŠž')) {
+          fullscreenButtons.push(btn);
+        }
+      });
+      // If we found more than one, remove all but the first one
+      if (fullscreenButtons.length > 1) {
+        for (let i = 1; i < fullscreenButtons.length; i++) {
+          fullscreenButtons[i].remove();
+        }
+      }
+    }
+    toolsEl.addEventListener('click', (e)=>{
       const b=e.target.closest('button'); if(!b) return; const act=b.dataset.act;
       // Determine widget type dynamically
       const widgetKind = (el.querySelector('[id$="_map"]')&&'map')||(el.querySelector('[id$="_chart"]')&&'chart')||(el.querySelector('[id$="_table"]')&&'table')||(el.querySelector('[id$="_legend"]')&&'legend')||(el.querySelector('[id$="_counter"]')&&'counter')||'text';
+      if (act==='full'){
+        toggleFullscreen(el);
+        return;
+      }
       if (act==='del'){ el.remove(); return; }
       else if (act==='dup'){ addItem(widgetKind,+el.dataset.x+1,+el.dataset.y+1,+el.dataset.w,+el.dataset.h); }
       else if (act==='refresh'){
@@ -103,10 +134,22 @@
     el.querySelector('.resize').addEventListener('mousedown', ev=>{ ev.preventDefault(); drag={type:'resize',mx:ev.clientX,my:ev.clientY,x:+el.dataset.x,y:+el.dataset.y,w:+el.dataset.w,h:+el.dataset.h}; el.classList.add('ghost'); window.addEventListener('mousemove',onMove); window.addEventListener('mouseup',onUp,{once:true}); });
 
     canvas.appendChild(el); applyPos(el);
+    
+    // Cleanup duplicate buttons after widget creation
+    cleanupDuplicateButtons(el);
+    
+    // Setup watcher for dynamically added buttons
+    setupButtonWatcher(el);
+    
     let elid = 0;
     switch(kind){  
       case 'map':   buildMap(el.querySelector('[id$="_map"]').id, el); break;
-      case 'chart': elid  = el.querySelector('[id$="_chart"]').id;  renderChart(elid, getCfg(el)); break;
+      case 'chart': 
+        elid = el.querySelector('[id$="_chart"]').id;  
+        renderChart(elid, getCfg(el));
+        // Cleanup again after chart renders (Plotly might add buttons)
+        setTimeout(() => cleanupDuplicateButtons(el), 100);
+        break;
       case 'table': elid  = el.querySelector('[id$="_table"]').id;  renderTable(elid, getCfg(el)); break;
       case 'legend': elid = el.querySelector('[id$="_legend"]').id; renderLegend(elid, getCfg(el)); break;
       case 'counter': elid = el.querySelector('[id$="_counter"]').id; renderCounter(elid, getCfg(el)); break;
@@ -627,6 +670,7 @@
   // Store table instances and their data for updates
   const tableInstances = new Map();
   const tableData = new Map();
+  
   // Store full GeoJSON features with geometry for zoom functionality
   const tableFeatures = new Map();
   
@@ -668,12 +712,29 @@
     if (!rows.length){ Plotly.newPlot(el, [], {title:'No rows', margin:{t:32}}, {responsive:true, displaylogo:false}); return; }
 
     const xField = cfg.xField, yField = cfg.yField, agg=cfg.agg||'sum';
+    const y2Field = cfg.y2Field, agg2=cfg.agg2||'sum';
     if (!xField || (!yField && cfg.type!=='pie')){ Plotly.newPlot(el, [], {title:'Pick fields in âš™', margin:{t:32}}, {responsive:true, displaylogo:false}); return; }
 
     const groups=new Map();
-    for (const r of rows){ const k=String(r[xField]); const v=parseFloat(String(r[yField]??'').replace(/[, ]/g,'')); if(!groups.has(k)) groups.set(k,[]); if(isFinite(v)) groups.get(k).push(v); }
+    for (const r of rows){ 
+      const k=String(r[xField]); 
+      if(!groups.has(k)) groups.set(k, {y1: [], y2: []});
+      const v1=parseFloat(String(r[yField]??'').replace(/[, ]/g,''));
+      if(isFinite(v1)) groups.get(k).y1.push(v1);
+      if(y2Field) {
+        const v2=parseFloat(String(r[y2Field]??'').replace(/[, ]/g,''));
+        if(isFinite(v2)) groups.get(k).y2.push(v2);
+      }
+    }
     const labels=[...groups.keys()];
-    const values=labels.map(k=>{ const a=groups.get(k); if(!a.length) return 0; if(agg==='count') return a.length; if(agg==='avg') return a.reduce((s,v)=>s+v,0)/a.length; return a.reduce((s,v)=>s+v,0); });
+    const aggregateValues = (arr, aggFunc) => {
+      if(!arr.length) return 0;
+      if(aggFunc==='count') return arr.length;
+      if(aggFunc==='avg') return arr.reduce((s,v)=>s+v,0)/arr.length;
+      return arr.reduce((s,v)=>s+v,0);
+    };
+    const values1=labels.map(k=>aggregateValues(groups.get(k).y1, agg));
+    const values2=y2Field ? labels.map(k=>aggregateValues(groups.get(k).y2, agg2)) : null;
 
     // Update title to show if data is filtered by map bounds
     const title = filterByBounds ? 
@@ -681,10 +742,57 @@
       (cfg.title || '');
 
     if (cfg.type==='pie'){
-      Plotly.newPlot(el,[{type:'pie',labels,values}],{margin:{t:32,l:16,r:16,b:16},title:title},{responsive:true,displaylogo:false});
+      Plotly.newPlot(el,[{type:'pie',labels,values:values1}],{margin:{t:32,l:16,r:16,b:16},title:title},{responsive:true,displaylogo:false});
     } else {
       const t=(cfg.type==='line')?'scatter':'bar', mode=(cfg.type==='line')?'lines+markers':undefined;
-      Plotly.newPlot(el,[{type:t,mode,x:labels,y:values}],{margin:{t:32,l:40,r:16,b:32},title:title,xaxis:{title:xField},yaxis:{title:yField||agg}},{responsive:true,displaylogo:false});
+      const traces = [
+        {
+          type: t,
+          mode: mode,
+          x: labels,
+          y: values1,
+          name: cfg.yLabel || yField || 'Series 1',
+          marker: cfg.type==='bar' ? {color: '#6366f1'} : undefined,
+          line: cfg.type==='line' ? {color: '#6366f1', width: 2} : undefined
+        }
+      ];
+      
+      // Add second series if configured
+      if (y2Field && values2) {
+        // For bar charts, second series should be a line
+        const isBarWithSecondSeries = cfg.type === 'bar' && y2Field;
+        const secondSeriesType = isBarWithSecondSeries ? 'scatter' : t;
+        const secondSeriesMode = isBarWithSecondSeries ? 'lines+markers' : mode;
+        
+        traces.push({
+          type: secondSeriesType,
+          mode: secondSeriesMode,
+          x: labels,
+          y: values2,
+          name: cfg.y2Label || y2Field || 'Series 2',
+          marker: cfg.type==='line' ? {color: '#f59e0b'} : {color: '#f59e0b'},
+          line: (isBarWithSecondSeries || cfg.type==='line') ? {color: '#f59e0b', width: 2} : undefined,
+          yaxis: (cfg.type==='line' || cfg.type==='bar') ? 'y2' : undefined
+        });
+      }
+      
+      const layout = {
+        margin:{t:32,l:40,r:16,b:32},
+        title: title,
+        xaxis:{title:xField},
+        yaxis:{title:yField||agg}
+      };
+      
+      // Add second y-axis if we have two series and it's a line chart, or if it's a bar chart with second series
+      if (y2Field && values2 && (cfg.type==='line' || cfg.type==='bar')) {
+        layout.yaxis2 = {
+          title: y2Field || agg2,
+          overlaying: 'y',
+          side: 'right'
+        };
+      }
+      
+      Plotly.newPlot(el, traces, layout, {responsive:true, displaylogo:false});
     }
     
     // Store chart instance for updates
@@ -847,7 +955,7 @@
             const geoJsonLayer = L.geoJSON(feature);
             const bounds = geoJsonLayer.getBounds();
             if (bounds.isValid()) {
-              // Expand bounds to zoom out more (less close)
+              // Expand bounds slightly to zoom out more (less close)
               const sw = bounds.getSouthWest();
               const ne = bounds.getNorthEast();
               const latDiff = ne.lat - sw.lat;
@@ -856,6 +964,8 @@
                 [sw.lat - latDiff * 0.3, sw.lng - lngDiff * 0.3],
                 [ne.lat + latDiff * 0.3, ne.lng + lngDiff * 0.3]
               );
+              
+              // Fit bounds with padding and max zoom
               window.currentMap.fitBounds(expandedBounds, { padding: [100, 100], maxZoom: 16 });
             }
           } catch (error) {
@@ -1011,11 +1121,24 @@
         <div class="row"><label>WFS endpoint</label><input value="${BASE}" readonly></div>
         <div class="row"><label>Layer (typeName)</label><select id="wfsLayer"><option>Loading...ï¿½</option></select></div>
         <div class="row"><label>X field</label><select id="xField"><option value="">ï¿½â† choose layerï¿½</option></select></div>
-        <div class="row" id="rowY"><label>Y field</label><select id="yField"><option value="">ï¿½â† choose layerï¿½</option></select></div>
-        <div class="row" id="rowAgg"><label>Aggregate</label>
-          <select id="agg"><option value="sum"${cfg.agg==='sum'?' selected':''}>sum</option>
-                          <option value="avg"${cfg.agg==='avg'?' selected':''}>avg</option>
-                          <option value="count"${cfg.agg==='count'?' selected':''}>count</option></select></div>
+        <div style="background:#f8f9fa;padding:12px;border-radius:8px;margin-bottom:10px;border:1px solid #e5e7eb;">
+          <div style="font-weight:600;margin-bottom:8px;color:#495057;">Series 1</div>
+          <div class="row" id="rowY"><label>Y field</label><select id="yField"><option value="">ï¿½â† choose layerï¿½</option></select></div>
+          <div class="row" id="rowAgg"><label>Aggregate</label>
+            <select id="agg"><option value="sum"${cfg.agg==='sum'?' selected':''}>sum</option>
+                            <option value="avg"${cfg.agg==='avg'?' selected':''}>avg</option>
+                            <option value="count"${cfg.agg==='count'?' selected':''}>count</option></select></div>
+          <div class="row" id="rowYLabel"><label>Label</label><input id="yLabel" placeholder="Series 1" value="${cfg?.yLabel||''}"></div>
+        </div>
+        <div style="background:#f8f9fa;padding:12px;border-radius:8px;margin-bottom:10px;border:1px solid #e5e7eb;" id="series2Container">
+          <div style="font-weight:600;margin-bottom:8px;color:#495057;">Series 2 (optional)</div>
+          <div class="row" id="rowY2"><label>Y field</label><select id="y2Field"><option value="">ï¿½â† choose layerï¿½</option></select></div>
+          <div class="row" id="rowAgg2"><label>Aggregate</label>
+            <select id="agg2"><option value="sum"${cfg.agg2==='sum'?' selected':''}>sum</option>
+                             <option value="avg"${cfg.agg2==='avg'?' selected':''}>avg</option>
+                             <option value="count"${cfg.agg2==='count'?' selected':''}>count</option></select></div>
+          <div class="row" id="rowY2Label"><label>Label</label><input id="y2Label" placeholder="Series 2" value="${cfg?.y2Label||''}"></div>
+        </div>
         <div class="row"><label>CQL filter</label><input id="cql" placeholder="population > 10000" value="${cfg?.wfs?.cql||''}"></div>
         <div class="row"><label>Limit</label><input id="limit" type="number" min="1" max="50000" value="${cfg?.wfs?.limit||2000}"></div>
         <div class="row"><label>Chart type</label>
@@ -1028,10 +1151,21 @@
     document.body.appendChild(bd);
     console.log('Chart modal appended to body, backdrop element:', bd);
 
-    const layerSel=bd.querySelector('#wfsLayer'), xSel=bd.querySelector('#xField'), ySel=bd.querySelector('#yField');
-    const preview=bd.querySelector('#preview'), ctype=bd.querySelector('#ctype'), rowAgg=bd.querySelector('#rowAgg');
-    const toggleAgg=()=> rowAgg.style.display = (ctype.value==='pie') ? 'none':'grid';
-    ctype.addEventListener('change', toggleAgg); toggleAgg();
+    const layerSel=bd.querySelector('#wfsLayer'), xSel=bd.querySelector('#xField'), ySel=bd.querySelector('#yField'), y2Sel=bd.querySelector('#y2Field');
+    const preview=bd.querySelector('#preview'), ctype=bd.querySelector('#ctype'), rowAgg=bd.querySelector('#rowAgg'), rowAgg2=bd.querySelector('#rowAgg2');
+    const rowY=bd.querySelector('#rowY'), rowY2=bd.querySelector('#rowY2'), rowYLabel=bd.querySelector('#rowYLabel'), rowY2Label=bd.querySelector('#rowY2Label');
+    const series2Container=bd.querySelector('#series2Container');
+    const toggleFields=()=> {
+      const isPie = ctype.value==='pie';
+      rowAgg.style.display = isPie ? 'none':'grid';
+      rowAgg2.style.display = isPie ? 'none':'grid';
+      rowY.style.display = isPie ? 'none':'grid';
+      rowY2.style.display = isPie ? 'none':'grid';
+      rowYLabel.style.display = isPie ? 'none':'grid';
+      rowY2Label.style.display = isPie ? 'none':'grid';
+      series2Container.style.display = isPie ? 'none':'block';
+    };
+    ctype.addEventListener('change', toggleFields); toggleFields();
 
     (async ()=>{ try{
       const ls = await wfsGetLayers();
@@ -1069,20 +1203,23 @@
         const fields = await wfsDescribe(tn);
         if (fields.length > 0) {
           const opts = fields.map(n=>`<option value="${n}">${n}</option>`).join('');
-          xSel.innerHTML = opts; ySel.innerHTML = opts;
+          xSel.innerHTML = opts; ySel.innerHTML = opts; y2Sel.innerHTML = opts;
           if (cfg.xField) xSel.value = cfg.xField;
           if (cfg.yField) ySel.value = cfg.yField;
+          if (cfg.y2Field) y2Sel.value = cfg.y2Field;
           preview.innerHTML = `Layer <code>${tn}</code> fields: <code>${fields.join(', ')}</code>`;
         } else {
           preview.textContent = `No fields found for layer ${tn}. This might be a WMS-only layer.`;
           xSel.innerHTML = '<option value="">No fields available</option>';
           ySel.innerHTML = '<option value="">No fields available</option>';
+          y2Sel.innerHTML = '<option value="">No fields available</option>';
         }
       }catch(e){ 
         console.error('DescribeFeatureType failed:', e);
         preview.textContent = `Failed to get fields for layer ${tn}. This might be a WMS-only layer or WFS is not available.`;
         xSel.innerHTML = '<option value="">Fields unavailable</option>';
         ySel.innerHTML = '<option value="">Fields unavailable</option>';
+        y2Sel.innerHTML = '<option value="">Fields unavailable</option>';
       }
     }
     layerSel.addEventListener('change', fillFields);
@@ -1097,9 +1234,23 @@
     bd.onclick = (e) => { if (e.target === bd) bd.remove(); };
     bd.querySelector('#applyBtn').onclick = ()=>{
       const title = bd.querySelector('#chartTitle').value.trim();
-      const newCfg = { type: ctype.value, source:{kind:'wfs'}, title: title,
-        xField: xSel.value || '', yField: ySel.value || '', agg: bd.querySelector('#agg').value,
-        wfs:{ typeName: layerSel.value, cql: bd.querySelector('#cql').value.trim(), limit:+bd.querySelector('#limit').value||2000 } };
+      const y2FieldVal = y2Sel.value || '';
+      const newCfg = { 
+        type: ctype.value, 
+        source:{kind:'wfs'}, 
+        title: title,
+        xField: xSel.value || '', 
+        yField: ySel.value || '', 
+        agg: bd.querySelector('#agg').value,
+        yLabel: bd.querySelector('#yLabel').value.trim() || undefined,
+        wfs:{ typeName: layerSel.value, cql: bd.querySelector('#cql').value.trim(), limit:+bd.querySelector('#limit').value||2000 } 
+      };
+      // Add second series if configured (and not pie chart)
+      if (y2FieldVal && ctype.value !== 'pie') {
+        newCfg.y2Field = y2FieldVal;
+        newCfg.agg2 = bd.querySelector('#agg2').value;
+        newCfg.y2Label = bd.querySelector('#y2Label').value.trim() || undefined;
+      }
       setCfg(cardEl, newCfg); 
       // Update the card title
       cardEl.querySelector('.title').innerText = title || 'Chart';
@@ -1811,12 +1962,101 @@
     };
   });
 
+  // Cleanup function to remove duplicate fullscreen buttons
+  function cleanupDuplicateButtons(widgetEl) {
+    const toolsEl = widgetEl.querySelector('.tools');
+    if (!toolsEl) return;
+    
+    const allButtons = Array.from(toolsEl.querySelectorAll('button'));
+    const fullscreenButtons = [];
+    allButtons.forEach(btn => {
+      const act = btn.dataset.act;
+      const title = (btn.title || '').toLowerCase();
+      const text = btn.textContent || btn.innerHTML || '';
+      // Check if this is a fullscreen/maximize button
+      if (act === 'full' || 
+          title.includes('maximize') || 
+          title.includes('fullscreen') ||
+          text.includes('â›¶') ||
+          text.includes('âŠž')) {
+        fullscreenButtons.push(btn);
+      }
+    });
+    // If we found more than one, remove all but the one with proper data-act="full" and title
+    if (fullscreenButtons.length > 1) {
+      // Find the one to keep (prefer data-act="full" with proper title)
+      let keepBtn = null;
+      for (const btn of fullscreenButtons) {
+        if (btn.dataset.act === 'full' && 
+            btn.title && 
+            btn.title.includes('Maximize to canvas')) {
+          keepBtn = btn;
+          break;
+        }
+      }
+      // If no perfect match, keep the first one with data-act="full"
+      if (!keepBtn) {
+        for (const btn of fullscreenButtons) {
+          if (btn.dataset.act === 'full') {
+            keepBtn = btn;
+            break;
+          }
+        }
+      }
+      // If still no match, keep the first one
+      if (!keepBtn && fullscreenButtons.length > 0) {
+        keepBtn = fullscreenButtons[0];
+      }
+      // Remove all others
+      for (const btn of fullscreenButtons) {
+        if (btn !== keepBtn) {
+          btn.remove();
+        }
+      }
+    }
+  }
+
+  // Setup MutationObserver to watch for dynamically added buttons
+  function setupButtonWatcher(widgetEl) {
+    const toolsEl = widgetEl.querySelector('.tools');
+    if (!toolsEl) return;
+    
+    const observer = new MutationObserver((mutations) => {
+      let shouldCleanup = false;
+      mutations.forEach((mutation) => {
+        if (mutation.addedNodes.length > 0) {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType === 1) { // Element node
+              if (node.tagName === 'BUTTON' || node.querySelector && node.querySelector('button')) {
+                shouldCleanup = true;
+              }
+            }
+          });
+        }
+      });
+      if (shouldCleanup) {
+        cleanupDuplicateButtons(widgetEl);
+      }
+    });
+    
+    observer.observe(toolsEl, { childList: true, subtree: true });
+    
+    // Store observer so we can disconnect it if needed
+    widgetEl._buttonObserver = observer;
+  }
+
   function importLayout(items){ 
     canvas.innerHTML=''; 
     items.forEach(it=>{ 
       addItem(it.kind,it.x,it.y,it.w,it.h); 
       const el=canvas.lastElementChild; 
       el.querySelector('.title').innerText=it.title||it.kind; 
+      
+      // Cleanup any duplicate buttons after widget creation
+      cleanupDuplicateButtons(el);
+      
+      // Setup watcher for dynamically added buttons
+      setupButtonWatcher(el);
       
       // Restore configuration if available
       if(it.config) {
@@ -1844,7 +2084,11 @@
         break;
       case 'chart':
         elid=[...el.querySelectorAll('[id$="_chart"]')].pop()?.id; 
-        if(elid) renderChart(elid,getCfg(el));
+        if(elid) {
+          renderChart(elid,getCfg(el));
+          // Cleanup again after chart renders (Plotly might add buttons)
+          setTimeout(() => cleanupDuplicateButtons(el), 100);
+        }
         break;
       case 'table':
         elid=[...el.querySelectorAll('[id$="_table"]')].pop()?.id; 
@@ -1954,6 +2198,116 @@
       alert('Dashboard cleared.');
     }
   };
+  }
+
+  // --- Fullscreen toggle with CSS fallback (canvas area only) ---
+  function toggleFullscreen(cardEl){
+    // Check if already in fullscreen mode
+    const isFullscreen = cardEl.classList.contains('fs');
+    const fullscreenBtn = cardEl.querySelector('[data-act="full"]');
+    
+    if (isFullscreen){
+      // Exit fullscreen
+      cardEl.classList.remove('fs');
+      const canvasEl = cardEl.closest('.canvas') || canvas;
+      canvasEl.classList.remove('fs-active');
+      
+      // Restore original position and size
+      cardEl.style.left = cardEl.dataset._fsLeft || '';
+      cardEl.style.top = cardEl.dataset._fsTop || '';
+      cardEl.style.width = cardEl.dataset._fsWidth || '';
+      cardEl.style.height = cardEl.dataset._fsHeight || '';
+      cardEl.style.zIndex = cardEl.dataset._fsZIndex || '';
+      
+      canvasEl.style.overflow = cardEl.dataset._prevOverflow || '';
+      document.body.style.overflow = document.body.dataset._prevOverflow || '';
+      
+      // Update button title
+      if (fullscreenBtn) {
+        fullscreenBtn.title = 'Maximize to canvas';
+      }
+      
+      // Clean up stored data
+      delete cardEl.dataset._fsLeft;
+      delete cardEl.dataset._fsTop;
+      delete cardEl.dataset._fsWidth;
+      delete cardEl.dataset._fsHeight;
+      delete cardEl.dataset._fsZIndex;
+      delete cardEl.dataset._prevOverflow;
+      delete document.body.dataset._prevOverflow;
+      
+      onFullscreenChange(cardEl, false);
+      applyPos(cardEl); // Reapply grid positioning
+      return;
+    }
+
+    // Enter fullscreen - fill canvas area only
+    const canvasEl = cardEl.closest('.canvas') || canvas;
+    const canvasRect = canvasEl.getBoundingClientRect();
+    
+    // Store original position and size
+    cardEl.dataset._fsLeft = cardEl.style.left || '';
+    cardEl.dataset._fsTop = cardEl.style.top || '';
+    cardEl.dataset._fsWidth = cardEl.style.width || '';
+    cardEl.dataset._fsHeight = cardEl.style.height || '';
+    cardEl.dataset._fsZIndex = cardEl.style.zIndex || '';
+    
+    // Set fullscreen styles relative to canvas
+    cardEl.style.left = '0px';
+    cardEl.style.top = '0px';
+    cardEl.style.width = canvasRect.width + 'px';
+    cardEl.style.height = canvasRect.height + 'px';
+    cardEl.style.zIndex = '99999';
+    cardEl.classList.add('fs');
+    canvasEl.classList.add('fs-active');
+    
+    // Lock canvas scroll while fullscreen
+    cardEl.dataset._prevOverflow = canvasEl.style.overflow || '';
+    canvasEl.style.overflow = 'hidden';
+    
+    // Also prevent body scroll
+    document.body.dataset._prevOverflow = document.body.style.overflow || '';
+    document.body.style.overflow = 'hidden';
+    
+    // Update button title
+    if (fullscreenBtn) {
+      fullscreenBtn.title = 'Restore from canvas';
+    }
+    
+    onFullscreenChange(cardEl, true);
+
+    // Respond to ESC key
+    const onKey = (e)=>{
+      if(e.key==='Escape' && cardEl.classList.contains('fs')){
+        toggleFullscreen(cardEl); // Use the function itself to exit
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    
+    // Handle window resize while in fullscreen
+    const onResize = ()=>{
+      if(cardEl.classList.contains('fs')){
+        const newRect = canvasEl.getBoundingClientRect();
+        cardEl.style.width = newRect.width + 'px';
+        cardEl.style.height = newRect.height + 'px';
+        onFullscreenChange(cardEl, true);
+      } else {
+        window.removeEventListener('resize', onResize);
+      }
+    };
+    window.addEventListener('resize', onResize);
+
+    function onFullscreenChange(el, isOn){
+      // Reflow Leaflet map if present
+      if (el._leafletMap && el._leafletMap.invalidateSize){
+        setTimeout(()=>el._leafletMap.invalidateSize(), 60);
+      }
+      // Reflow Plotly if present
+      const chartDiv = el.querySelector('[id$="_chart"]');
+      if (chartDiv && window.Plotly && window.Plotly.Plots){
+        setTimeout(()=>window.Plotly.Plots.resize(chartDiv), 60);
+      }
+    }
   }
 
   // ------- start -------
