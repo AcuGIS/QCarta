@@ -88,4 +88,23 @@ Update Store
 You can update an existing Store using the Update Store tab.
 
 
+Upcoming Version
+==================
+
+.. image:: _static/Advanced-Create-Store.png
+
+.. image:: _static/Advanced-Update-Store.png
+
+.. image:: _static/Create-Store.png
+
+.. image:: _static/Publish-Layers.png
+
+.. image:: _static/qcarta-qgis-plugin.png
+
+.. image:: _static/Select-Server.png
+
+.. image:: _static/Test-Server.png
+
+.. image:: _static/Update-Store.png
+
 
