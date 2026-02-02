@@ -3,7 +3,7 @@
 [![Documentation Status](https://readthedocs.org/projects/quailserver/badge/?version=latest)](https://qcarta.docs.acugis.com/?badge=latest)
 
 ## QGIS Map Portal 
-### Version 5.1.3
+### Version 6.1.3
 
 QCarta - the simplest way to publish your QGIS Projects.  
 
