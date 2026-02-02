@@ -25,7 +25,8 @@ This is the recommended way to install it.
 .. note::
     The plugin is NOT a requirement for publishing to QCarta, you can publish directly via QCarta admin interface as well.
 
-Usage
+==================
+1. Launch Plugin
 ==================
   
 Once installed, go to Web > QCarta > QCarta Console:
@@ -34,7 +35,7 @@ Once installed, go to Web > QCarta > QCarta Console:
 
 
 ==================
-1. Configure
+2. Configure
 ==================
 
 Click Configure to add your QCarta server(s)
@@ -53,7 +54,7 @@ If you are using more than one QCarta installation, you must set the server as b
 
 
 ==================
-2. Publish Map
+3. Publish Map
 ==================
 
 Click Publish Map.
