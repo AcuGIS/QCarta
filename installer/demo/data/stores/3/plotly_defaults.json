@@ -1,0 +1,34 @@
+{
+  "defaults": {
+    "layer": "Apiary",
+    "chartType": "bar",
+    "xField": "bee_species",
+    "yField": "bee_amount",
+    "chartConfig": "default_chart.json"
+  },
+  "layerDefaults": {
+    "Fields": {
+      "chartType": "bar",
+      "xField": "bee_species",
+      "yField": "bee_amount",
+      "chartConfig": "fields_chart.json"
+    },
+    "Apiary": {
+      "chartType": "bar",
+      "xField": "bee_species",
+      "yField": "bee_amount",
+      "chartConfig": "apiary_chart.json"
+    },
+    "Tracks": {
+      "chartType": "bar",
+      "xField": "bee_species",
+      "yField": "bee_amount",
+      "chartConfig": "tracks_chart.json"
+    }
+  },
+  "chartTypes": {
+    "Fields": ["scatter", "bar", "pie"],
+    "Apiary": ["bar", "pie", "scatter"],
+    "Tracks": ["line", "scatter", "bar"]
+  }
+}

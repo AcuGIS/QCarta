@@ -1,0 +1,213 @@
+.table-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+.table-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.data-table {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+.loading-spinner {
+    text-align: center;
+    padding: 50px;
+    color: #6c757d;
+}
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 20px 0;
+    border: 1px solid #f5c6cb;
+}
+.layer-tabs {
+    margin-bottom: 20px;
+}
+.nav-tabs .nav-link {
+    border: none;
+    color: #6c757d;
+    font-weight: 500;
+}
+.nav-tabs .nav-link.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+}
+.export-buttons {
+    margin-bottom: 20px;
+}
+.btn-export {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+/* DataTables Buttons Styling */
+.dt-buttons {
+    margin-bottom: 15px;
+}
+
+.dt-buttons .btn {
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.dataTables_wrapper .dt-buttons {
+    float: left;
+}
+
+.dataTables_wrapper .dataTables_filter {
+    float: right;
+}
+
+/* Simple Pivot Table Styling */
+.pivot-controls {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.pivot-table {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow-x: auto;
+}
+
+.pivot-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.pivot-table th, .pivot-table td {
+    border: 1px solid #dee2e6;
+    padding: 8px;
+    text-align: center;
+}
+
+.pivot-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.field-list {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 10px;
+    background: #f8f9fa;
+}
+
+.field-item {
+    background: #007bff;
+    color: white;
+    padding: 6px 10px;
+    margin: 2px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+        .field-item:hover {
+    background: #0056b3;
+    }
+    
+    .field-item.dragging {
+    opacity: 0.5;
+    transform: rotate(5deg);
+    }
+    
+    .drop-zone {
+    min-height: 50px;
+    border: 2px dashed #dee2e6;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px 0;
+    background: #f8f9fa;
+    text-align: center;
+    transition: all 0.2s ease;
+    }
+    
+    .drop-zone.active {
+    border-color: #007bff;
+    background: #e7f1ff;
+    transform: scale(1.02);
+    }
+
+
+.table-header {
+    background: transparent;
+    color: #2c3e50;
+    padding: 0;
+    margin-bottom: 25px;
+    border-radius: 0;
+    box-shadow: none;
+    border-left: none;
+}
+
+.table-header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+.table-header p {
+    color: #7f8c8d;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Chart View Styling */
+.chart-controls {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.chart-container {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: relative;
+    min-height: 400px;
+}
+
+.chart-canvas {
+    width: 100% !important;
+    height: 400px !important;
+}
+
+.chart-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #6c757d;
+}
+
+.chart-placeholder i {
+    color: #dee2e6;
+}

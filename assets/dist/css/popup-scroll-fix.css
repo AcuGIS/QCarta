@@ -1,0 +1,456 @@
+/**
+ * QGIS Custom Tabbed Popup Scroll Bar Fix - CSS
+ * Prevents nested scroll bars in custom tabbed popups with Bootstrap tabs
+ */
+
+/* Reset any conflicting scroll behaviors */
+.leaflet-popup-content-wrapper {
+    overflow: hidden !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    max-height: 550px !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: #888 #f1f1f1 !important;
+    padding-right: 5px !important; /* Reduced padding to keep close button visible */
+    box-sizing: border-box !important; /* Ensure padding is included in width */
+}
+
+.leaflet-popup-content {
+    overflow: visible !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+    overflow-x: visible !important;
+    padding-right: 10px !important; /* Reduced padding to keep close button visible */
+    box-sizing: border-box !important; /* Ensure padding is included in width */
+}
+
+/* Custom scrollbar styling for webkit browsers */
+.leaflet-popup-content-wrapper::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+.leaflet-popup-content-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1 !important;
+    border-radius: 4px !important;
+}
+
+.leaflet-popup-content-wrapper::-webkit-scrollbar-thumb {
+    background: #888 !important;
+    border-radius: 4px !important;
+}
+
+.leaflet-popup-content-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #555 !important;
+}
+
+/* Ensure no nested scrollable elements */
+.leaflet-popup-content * {
+    overflow: visible !important;
+    overflow-y: visible !important;
+    overflow-x: visible !important;
+    max-height: none !important;
+}
+
+/* Specific fix for common problematic elements */
+.leaflet-popup-content div,
+.leaflet-popup-content p,
+.leaflet-popup-content span,
+.leaflet-popup-content table {
+    overflow: visible !important;
+    overflow-y: visible !important;
+    overflow-x: visible !important;
+}
+
+/* Fix for any Bootstrap or custom classes that might add scroll */
+.leaflet-popup-content .overflow-auto,
+.leaflet-popup-content .overflow-scroll,
+.leaflet-popup-content .overflow-y-auto,
+.leaflet-popup-content .overflow-y-scroll {
+    overflow: visible !important;
+    overflow-y: visible !important;
+    overflow-x: visible !important;
+}
+
+/* Ensure popup has proper dimensions and spacing */
+.leaflet-popup {
+    max-width: 510px !important; /* Slightly increased to accommodate padding */
+}
+
+/* Fix for any content that might be too wide */
+.leaflet-popup-content-wrapper {
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+    max-width: 390px !important; /* Ensure content doesn't exceed wrapper */
+}
+
+/* Remove any inline styles that might conflict */
+.leaflet-popup-content-wrapper[style*="overflow"] {
+    overflow: hidden !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
+.leaflet-popup-content[style*="overflow"] {
+    overflow: visible !important;
+    overflow-y: visible !important;
+    overflow-x: visible !important;
+}
+
+/* Ensure smooth scrolling */
+.leaflet-popup-content-wrapper {
+    scroll-behavior: smooth !important;
+}
+
+/* Fix for Firefox */
+.leaflet-popup-content-wrapper {
+    scrollbar-width: thin !important;
+    scrollbar-color: #888 #f1f1f1 !important;
+}
+
+/* Additional specificity to override any conflicting styles */
+body .leaflet-popup .leaflet-popup-content-wrapper {
+    overflow: hidden !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
+body .leaflet-popup .leaflet-popup-content {
+    overflow: visible !important;
+    overflow-y: visible !important;
+    overflow-x: visible !important;
+}
+
+/* ===== CUSTOM TABBED POPUP FIXES ===== */
+
+/* Fix for custom tabbed popups */
+.custom-popup .popup-content {
+    overflow: visible !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+    overflow-x: visible !important;
+    padding-right: 10px !important; /* Reduced padding to keep close button visible */
+    box-sizing: border-box !important;
+    max-width: 370px !important; /* Ensure content doesn't block close button */
+}
+
+.custom-popup .tab-content {
+    overflow: visible !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+    overflow-x: visible !important;
+    padding-right: 8px !important; /* Reduced padding to tab content */
+    box-sizing: border-box !important;
+}
+
+.custom-popup .tab-pane {
+    overflow: visible !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+    overflow-x: visible !important;
+}
+
+.custom-popup .popup-section,
+.custom-popup .popup-body {
+    overflow: visible !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+    overflow-x: visible !important;
+}
+
+.custom-popup .popup-row {
+    overflow: visible !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+    overflow-x: visible !important;
+}
+
+/* Ensure Bootstrap tabs don't create scroll contexts */
+.custom-popup .nav-tabs {
+    overflow: visible !important;
+    overflow-y: visible !important;
+    overflow-x: visible !important;
+    padding-right: 5px !important; /* Minimal padding to tabs */
+    box-sizing: border-box !important;
+}
+
+.custom-popup .tab-content {
+    overflow: visible !important;
+    overflow-y: hidden !important;
+    overflow-x: visible !important;
+}
+
+/* Fix for Bootstrap tab navigation */
+.custom-popup .nav-item {
+    overflow: visible !important;
+}
+
+.custom-popup .nav-link {
+    overflow: visible !important;
+}
+
+/* Ensure all elements within custom popups are visible */
+.custom-popup * {
+    overflow: visible !important;
+    overflow-y: hidden !important;
+    overflow-x: visible !important;
+    max-height: none !important;
+}
+
+/* Override any inline styles in custom popups */
+.custom-popup [style*="overflow"] {
+    overflow: visible !important;
+    overflow-y: hidden !important;
+    overflow-x: visible !important;
+}
+
+.custom-popup [style*="scroll"] {
+    overflow: visible !important;
+    overflow-y: visible !important;
+    overflow-x: visible !important;
+}
+
+/* Additional specificity for custom popups */
+body .custom-popup .popup-content,
+body .custom-popup .tab-content,
+body .custom-popup .tab-pane,
+body .custom-popup .popup-section,
+body .custom-popup .popup-body,
+body .custom-popup .popup-row {
+    overflow: visible !important;
+    overflow-y: visible !important;
+    overflow-x: visible !important;
+    max-height: none !important;
+}
+
+/* Ensure close button is visible and properly positioned */
+.leaflet-popup-close-button {
+    z-index: 1000 !important;
+    position: absolute !important;
+    right: 13px !important; /* Position to account for scroll bar width (8px + 5px margin) */
+    top: 5px !important;
+    width: 20px !important;
+    height: 20px !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid #ccc !important;
+    border-radius: 3px !important;
+    font-size: 14px !important;
+    line-height: 18px !important;
+    text-align: center !important;
+    cursor: pointer !important;
+}
+
+/* Alternative positioning for when scroll bar is not present */
+.leaflet-popup-content-wrapper:not([style*="overflow-y: auto"]) .leaflet-popup-close-button {
+    right: 5px !important; /* Closer to edge when no scroll bar */
+}
+
+/* Fix for images and content that might be too wide */
+.custom-popup img {
+    max-width: 50% !important;
+    height: auto !important;
+}
+
+.custom-popup .popup-value {
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+    max-width: 100% !important;
+}
+
+
+
+/* Let the close button extend past the popup edge */
+/* .leaflet-popup,
+.leaflet-popup-content-wrapper {
+  overflow: visible;               
+} */
+
+/* Circular, floating close button */
+/* .leaflet-popup-close-button {
+  position: absolute !important;
+  top: -10px !important;           
+  right: -10px !important;         
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  background: #cbd6e6 !important;  
+  color: #1f2d5a !important;       
+  border: 0 !important;
+  line-height: 32px !important;
+  font-size: 18px !important;
+  text-align: center !important;
+  box-shadow: 
+    0 3px 8px rgba(31, 45, 90, 0.15),   
+    0 0 0 3px rgba(31, 45, 90, 0.05);   
+  z-index: 1000 !important;
+  cursor: pointer !important;
+} */
+
+/* Hide default focus outline; add a nicer one */
+/* .leaflet-popup-close-button:focus {
+  outline: none !important;
+  box-shadow: 0 6px 18px rgba(31,45,90,.3),
+              0 0 0 3px rgba(31,45,90,.25) !important;
+}*/
+
+/* Hover/active micro-interactions */
+/* .leaflet-popup-close-button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+}*/
+/* .leaflet-popup-close-button:active {
+  transform: translateY(0);
+  filter: brightness(.97);
+} */
+
+/* Optional: add a little extra right padding to avoid covering text
+/*    if your popup has very tight padding. */
+.leaflet-popup-content {
+  padding-right: 24px;
+} */
+
+/* existing row style */
+.popup-row {
+  display: flex;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--md-sys-color-outline), transparent 60%);
+}
+
+/* zebra striping */
+.popup-row:nth-child(even) {
+  /* light gray tint on alternate rows */
+  background: #f5f5f5;
+}
+
+/* optional: better contrast in dark mode */
+@media (prefers-color-scheme: dark) {
+  .popup-row:nth-child(even) {
+    background: #f5f5f5;
+  }
+}
+
+/* optional: subtle hover */
+.popup-row:hover {
+  background: color-mix(in oklab, var(--md-sys-color-outline), transparent 85%);
+}
+
+
+
+/* Set a reusable horizontal padding that matches your popup's content padding */
+.custom-popup .leaflet-popup-content {
+  --popup-pad: 12px; /* change if your content has different horizontal padding */
+}
+
+/* Base row style (same as you had) */
+.custom-popup .popup-row {
+  display: flex;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--md-sys-color-outline), transparent 60%);
+}
+
+/* Zebra striping, full-bleed in VIEW mode only (see .editing override below) */
+.custom-popup .popup-body > .popup-row:nth-of-type(even) {
+  background: #f5f5f5;
+  /* make the tint go edge-to-edge inside the content area */
+  margin-inline: calc(-1 * var(--popup-pad));
+  padding-inline: var(--popup-pad);
+}
+
+/* Optional: better contrast in dark mode */
+@media (prefers-color-scheme: dark) {
+  .custom-popup .popup-body > .popup-row:nth-of-type(even) {
+    background: color-mix(in oklab, #fff 6%, transparent);
+  }
+}
+
+/* ---------- EDIT MODE SAFEGUARDS ---------- */
+
+/* When the popup is in edit mode, remove the full-bleed and give controls full width */
+.custom-popup.editing .popup-body > .popup-row {
+  margin-inline: 0;            /* no negative margins in edit mode */
+  padding-inline: 0;           /* avoid squeezing inputs */
+  background: transparent;     /* remove the tint if it interferes */
+}
+
+/* Make inputs fill the value column */
+.custom-popup.editing .popup-value > * {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* If you can't add an .editing class, auto-detect rows with form controls */
+.custom-popup .popup-row:has(input, select, textarea) {
+  margin-inline: 0;
+  padding-inline: 0;
+  background: transparent;
+}
+
+
+
+
+
+
+
+
+
+
+/* Remove caps on the outer shell and rounded panel */
+.leaflet-popup {
+  max-width: none !important;
+}
+.leaflet-popup .leaflet-popup-content-wrapper {
+  max-width: none !important;  /* stop constraining to 390px */
+  /* optional: add padding-top if your close button sits inside */
+  /* padding-top: 28px !important; */
+}
+
+/* Set the actual content width (overrides Leaflet's inline width) */
+.leaflet-popup .leaflet-popup-content {
+  width: 560px !important;     /* pick your target */
+  max-width: none !important;  /* don't re-cap it */
+  box-sizing: border-box;
+}
+
+/* Keep it sane on small screens */
+@media (max-width: 700px) {
+  .leaflet-popup .leaflet-popup-content {
+    width: min(94vw, 560px) !important;
+  }
+}
+
+
+
+/* Let the outer shell shrink-wrap the inner panel */
+.leaflet-popup.custom-popup {
+  display: inline-block !important;
+  max-width: none !important;
+}
+
+/* Set the width on the rounded panel (the thing you actually see) */
+.leaflet-popup.custom-popup .leaflet-popup-content-wrapper {
+  max-width: 450px !important;      /* remove the 390px cap */
+  width: 450px !important;         /* pick your target width */
+  box-sizing: border-box !important;
+}
+
+/* Allow the inner content to expand to the wrapper width */
+.leaflet-popup.custom-popup .leaflet-popup-content {
+  width: auto !important;          /* override Leaflet's inline width */
+  max-width: none !important;
+}
+
+/* Kill the 370px cap that lives on your custom content class */
+.custom-popup .popup-content {
+  max-width: none !important;      /* overrides the 370px rule */
+  padding-right: 12px !important;  /* keep room for the close button */
+}
+
+/* Keep it responsive on small screens */
+@media (max-width: 760px) {
+  .leaflet-popup.custom-popup .leaflet-popup-content-wrapper {
+    width: min(94vw, 620px) !important;
+  }
+}
+
+

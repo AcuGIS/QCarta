@@ -1,0 +1,1 @@
+{"defaults":[],"layerDefaults":{"states":{"chartType":"bar","xField":"state_name","yField":"carpool","chartConfig":"fields_chart.json"}},"chartTypes":{"states":["scatter","bar","line","box"]},"fieldMappings":[]}
