@@ -53,7 +53,7 @@
     <div class="col-4"><p>&nbsp;</p>
 
 			<div class="alert alert-success">
-			   <strong>Note:</strong> Manage QCarta-Tiles Service. <a href="https://QCarta.docs.acugis.com/en/latest/sections/qcarta-tiles/index.html" target="_blank"> Documentation</a>
+			   <strong>Note:</strong> Manage QCarta-Tiles Service. <a href="https://qcarta.docs.acugis.com/en/latest/sections/qcarta-cache/index.html" target="_blank"> Documentation</a>
 			</div>
 		</div>
 
