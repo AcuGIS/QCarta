@@ -9,9 +9,6 @@ Overview
 
 QCarta will automatically detect QGIS Reloations.
 
-   .. warning::
-      When using MapProxy, do not select Relation layers.  When using QCarta Cache, the Relation layers should be selected.
-
 
 QGIS Relations
 ==================
