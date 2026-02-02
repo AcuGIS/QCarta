@@ -9,10 +9,6 @@ Overview
 
 Filters are used to filter columns from your data source.
 
-   .. danger::
-      Filters cannot be used with MapProxy.  Be sure your QGIS Layer is configured to use QCarta Cache instead of MapProxy
-
-
 Add Filters
 ==================
 
