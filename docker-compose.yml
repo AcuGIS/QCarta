@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   qgis-server:
-    image: acugis/quail_qgis-server:21012026
+    image: acugis/quail_qgis-server:14022026
     build:
       context: .
       dockerfile: docker/qgis.Dockerfile

@@ -32,6 +32,7 @@ ADD installer/map_template.html /var/www/data/qgis/plugins/simple-browser/assets
 
 #COPY --chown=www-data:www-data docker/pg_service.conf /var/www/data/qgis/pg_service.conf
 COPY --chown=www-data:www-data docker/start-qgis.sh /usr/local/bin/start-qgis.sh
+RUN chmod +x /usr/local/bin/start-qgis.sh
 
 # Temp fix for https://github.com/qgis/QGIS/issues/59613
 RUN mkdir -p /.cache/QGIS/ && \
