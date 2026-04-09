@@ -38,7 +38,7 @@ INSERT INTO  public.qgs_layer
 	(id, basemap_id, cached, proxyfied, customized, exposed, show_charts, show_dt, show_query, show_fi_edit, print_layout, layers)
 VALUES
     (2, 6, true, false, false, false, false, true, true, false, 'statelayout', 'states'),
-	(3, 2, false, true, false, true, false, true, true, true, 'Beehives in Laax', 'Apiary,Tracks,Fields');
+	(3, 2, false, false, false, true, false, true, true, true, 'Beehives in Laax', 'Apiary,Tracks,Fields');
 
 INSERT INTO public.layer_query
     (name, description, badge, sql_query, layer_id, owner_id, database_type)
