@@ -138,6 +138,12 @@
                                     <span class="fw-bold small">Theme</span>
                                 </a>
                             </div>
+                            <div class="col-md-2 col-sm-4">
+                                <a href="<?=ADMIN_PATH?>switch_themes.php" class="btn btn-outline-dark d-flex flex-column align-items-center p-2 h-100 text-decoration-none">
+                                    <i class="bi bi-layout-sidebar-inset-reverse fs-2 mb-2"></i>
+                                    <span class="fw-bold small">Switch Themes</span>
+                                </a>
+                            </div>
 
                         </div>
                     </div>

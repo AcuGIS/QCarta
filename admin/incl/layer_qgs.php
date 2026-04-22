@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/qcarta_tile_project_key.php'; ?>
 	<div class="table-responsive">
 		<table class="table table-bordered" id="sortTable">
 
@@ -13,12 +14,19 @@
 
 			<tbody> <?php while($row = pg_fetch_object($rows)) {
 				$row_grps = $grp_obj->getByKV('layer', $row->id);
+				$topic_ids_row = $obj->get_assigned_category_ids('topic', $row->id);
+				$gemet_ids_row = $obj->get_assigned_category_ids('gemet', $row->id);
+				$tile_cache_key = qcarta_tile_cache_project_key_for_layer_id((int) $row->id);
 				?>
 				<tr data-id="<?=$row->id?>"
+				    data-tile_cache_key="<?=htmlspecialchars($tile_cache_key, ENT_QUOTES, 'UTF-8')?>"
 				    data-description="<?=$row->description?>"
+				    data-topic_id="<?=implode(',', $topic_ids_row)?>"
+				    data-gemet_id="<?=implode(',', $gemet_ids_row)?>"
 				    data-public="<?=$row->public=='t' ? 'yes' : 'no'?>"
 					data-customized="<?=$row->customized=='t' ? 'yes' : 'no'?>"
 				    data-cached="<?=$row->cached=='t' ? 'yes' : 'no'?>"
+					data-layers="<?=htmlspecialchars($row->layers, ENT_QUOTES, 'UTF-8')?>"
 					data-proxyfied="<?=$row->proxyfied=='t' ? 'yes' : 'no'?>"
 					data-exposed="<?=$row->exposed=='t' ? 'yes' : 'no'?>"
 					data-show_charts="<?=$row->show_charts=='t' ? 'yes' : 'no'?>"
@@ -44,6 +52,7 @@
 							<a class="edit_property_filters me-2" title="Edit Filters" data-toggle="tooltip"><i class="text-success bi bi-funnel fs-5"></i></a>
 							<a class="edit_layer_metadata me-2" title="Edit Metadata" data-toggle="tooltip"><i class="text-primary bi bi-bar-chart-steps fs-5"></i></a>
 							<?php if($row->cached == 't'){ ?>
+							<a href="#" class="warm_tile_cache me-2" title="Warm tile cache for this map only" data-toggle="tooltip"><i class="text-primary bi bi-speedometer2 fs-5"></i></a>
 							<a href="#" class="clear_project_cache me-2" title="Clear Cache (This Project)" data-toggle="tooltip"><i class="text-danger bi bi-trash fs-5"></i></a>
 						<?php } ?>
 							<a class="edit_preview me-2" title="Edit Preview" data-toggle="tooltip"><i class="text-warning bi bi-easel fs-5"></i></a>
@@ -248,8 +257,8 @@
 							</div>
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input" name="customized" id="customized" value="t"/>
-								<label for="customized" class="form-check-label fw-semibold">
-									<i class="bi bi-palette me-1"></i>Custom Styling
+								<label for="customized" class="form-check-label fw-semibold" title="When checked, saving only updates env.php; index.php, layer.php, analysis.php, and table.php are left as-is. When unchecked, each save replaces those files from the admin template (copied or hand-edited map PHP is overwritten).">
+									<i class="bi bi-file-earmark-code me-1"></i>Keep custom map PHP (no template overwrite)
 								</label>
 							</div>
 						</div>
@@ -308,6 +317,9 @@
 						</div>
 					</div>
 					
+					<!-- Topics & GEMET keywords -->
+					<?php require __DIR__.'/taxonomy_multiselect.php'; ?>
+
 					<!-- Access Groups Section -->
 					<div class="row mb-3">
 						<div class="col-12">
@@ -416,4 +428,62 @@
 	</div>
 </div>
 
+<div id="tile_seed_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="tile_seed_title" aria-hidden="true">
+	<div class="modal-dialog modal-xl modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header bg-primary text-white">
+				<div>
+					<h4 class="modal-title mb-0" id="tile_seed_title">
+						<i class="bi bi-speedometer2 me-2"></i>Warm tile cache
+					</h4>
+					<div class="small opacity-75 mt-1">Pre-seed <code>/api/tiles/</code> for <strong>one map</strong> (this row). Pick zoom levels, then Start.</div>
+				</div>
+				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body p-4">
+				<h6 class="text-primary border-bottom pb-2 mb-3"><i class="bi bi-map me-2"></i>This map only</h6>
+				<div class="mb-4">
+					<input type="hidden" id="tile_seed_layer_id" value="" />
+					<p class="fs-5 fw-semibold text-dark mb-1" id="tile_seed_map_display"></p>
+					<p class="text-muted small mb-0">Seeding applies only to the QGIS project and layer list for this published map—not other maps.</p>
+				</div>
+
+				<h6 class="text-primary border-bottom pb-2 mb-3"><i class="bi bi-grid-3x3-gap me-2"></i>Zoom levels to seed</h6>
+				<p class="text-muted small mb-2">Tick each zoom level (0 = world overview, higher = more detail, more tiles). Use presets or pick manually.</p>
+				<div class="btn-group btn-group-sm flex-wrap mb-2" role="group" aria-label="Zoom presets">
+					<button type="button" class="btn btn-outline-secondary" id="tile_seed_preset_overview" title="Zoom 0–6">Overview 0–6</button>
+					<button type="button" class="btn btn-outline-secondary" id="tile_seed_preset_standard" title="Zoom 0–10">Standard 0–10</button>
+					<button type="button" class="btn btn-outline-secondary" id="tile_seed_preset_detail" title="Zoom 0–14">Detail 0–14</button>
+					<button type="button" class="btn btn-outline-secondary" id="tile_seed_preset_clear">Clear all</button>
+					<button type="button" class="btn btn-outline-secondary" id="tile_seed_preset_all">Select all</button>
+				</div>
+				<div class="border rounded p-3 bg-light mb-4" id="tile_seed_zoom_wrap" style="max-height: 200px; overflow-y: auto;">
+					<div class="row row-cols-2 row-cols-sm-4 row-cols-md-6 row-cols-lg-8 g-2 small">
+						<?php for ($tz = 0; $tz <= 22; $tz++): ?>
+						<div class="col">
+							<div class="form-check">
+								<input class="form-check-input tile-seed-z" type="checkbox" value="<?= (int) $tz ?>" id="tile_seed_z_<?= (int) $tz ?>"<?= $tz <= 8 ? ' checked' : '' ?>/>
+								<label class="form-check-label" for="tile_seed_z_<?= (int) $tz ?>">Zoom <?= (int) $tz ?></label>
+							</div>
+						</div>
+						<?php endfor; ?>
+					</div>
+				</div>
+
+				<h6 class="text-primary border-bottom pb-2 mb-3"><i class="bi bi-calculator me-2"></i>Estimate</h6>
+				<p class="mb-4 small" id="tile_seed_estimate_wrap"><span id="tile_seed_estimate" class="text-muted">Open “Warm cache” from a map row to see the tile count estimate.</span></p>
+
+				<h6 class="text-primary border-bottom pb-2 mb-3"><i class="bi bi-graph-up me-2"></i>Progress</h6>
+				<div class="progress mb-2" style="height: 1.75rem;">
+					<div id="tile_seed_progress" class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+				</div>
+				<p id="tile_seed_status" class="small text-muted mb-0">Idle. Press Start to fetch tiles (runs in this browser; keep the tab open).</p>
+			</div>
+			<div class="modal-footer bg-light border-top">
+				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="tile_seed_close">Close</button>
+				<button type="button" class="btn btn-danger" id="tile_seed_stop" disabled><i class="bi bi-stop-fill me-1"></i>Stop</button>
+				<button type="button" class="btn btn-primary" id="tile_seed_start"><i class="bi bi-play-fill me-1"></i>Start seeding</button>
+			</div>
+		</div>
+	</div>
 </div>

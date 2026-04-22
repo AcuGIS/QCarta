@@ -79,7 +79,7 @@
 							<p style="color:#666!important"><b>Abstract</b>: <?=$qgs_abstract?></p>
                           
 							<p style="color:#666!important"><b>Projection</b>: <?=$projection?></p>
-							<p style="color:#666!important"><b>Bounding Box</b>:46.806325, 9.249581, 46.815363, 9.263862</p>
+							<p style="color:#666!important"><b>Bounding Box</b>:46.806322, 9.249581, 46.815363, 9.263862</p>
 							<p style="color:#666!important"><b>OGC Web Services:</b>:
                               <br>
 							 <a href="<?=$proto.'://'.$_SERVER['HTTP_HOST']?>/stores/<?=$store_id?>/wms?REQUEST=GetCapabilities" target="_blank" style="color:#0078A8; text-decoration:none!important">WMS</a>
@@ -109,13 +109,13 @@
     
 	const bbox = {
       minx: 9.249581,
-      miny: 46.806325,
+      miny: 46.806322,
       maxx: 9.263862,
       maxy: 46.815363
     };
 
 // WMS Layer
-	<?php $layers = explode(',', 'Apiary,Tracks,Fields'); $li = 0;
+	<?php $layers = QGIS_LAYERS; $li = 0;
 		 foreach($layers as $lay){ ?>
 	const wms<?=$li?> = L.tileLayer.betterWms('<?=$wms_url?>', {
 		layers: '<?=$lay?>',

@@ -9,6 +9,35 @@
     // Fields/aliases that must not be edited
     const READ_ONLY_FIELDS = new Set(['fid','uuid','geom','geometry','Infected','Position locked?']);
 
+    function layerProviderForMap(layerName) {
+        if (!layerName) {
+            return window.LAYER_PROVIDER != null ? window.LAYER_PROVIDER : 'postgres';
+        }
+        if (window.LAYER_PROVIDER_BY_NAME && Object.prototype.hasOwnProperty.call(window.LAYER_PROVIDER_BY_NAME, layerName)) {
+            return window.LAYER_PROVIDER_BY_NAME[layerName];
+        }
+        return window.LAYER_PROVIDER != null ? window.LAYER_PROVIDER : 'postgres';
+    }
+
+    function refreshMapLayersAfterEdit() {
+        if (typeof window.refreshQgisLayersAfterEdit === 'function') {
+            window.refreshQgisLayersAfterEdit();
+            return;
+        }
+        if (!window.map || !window.L || typeof window.map.eachLayer !== 'function') return;
+        const stamp = Date.now();
+        window.map.eachLayer(function (layer) {
+            if (
+                layer &&
+                typeof layer.setParams === 'function' &&
+                layer._url &&
+                (layer._url.indexOf('proxy_qgis.php') !== -1 || layer._url.indexOf('mproxy') !== -1)
+            ) {
+                layer.setParams({ CACHE: 0, cache: 0, _refresh: stamp }, false);
+            }
+        });
+    }
+
     // Wait for DOM to be ready
     document.addEventListener('DOMContentLoaded', function() {
         // Initialize the fix
@@ -172,35 +201,185 @@
     function addEditButtonsToPopup(popupContent) {
         // We'll add one button per tab; don't bail out if another tab has one.
         // (We skip only if this specific tab already has a button.)
+        function ensureActionBlock(tabPane, host) {
+            let block = tabPane.querySelector('.qc-popup-action-block');
+            if (!block) {
+                block = document.createElement('div');
+                block.className = 'qc-popup-action-block mt-2';
+                host.appendChild(block);
+            }
+            return block;
+        }
 
-        // Find all tab panes (each represents a feature)
-        const tabPanes = popupContent.querySelectorAll('.tab-pane');
-        
-        tabPanes.forEach((tabPane, index) => {
-            // Get the feature ID from the tab pane ID
-            const featureId = tabPane.id.replace('popup-', '').replace('-tab', '');
-            
-            // Find the popup body to add the edit button (fallbacks)
+        // Find all tab panes (each represents a feature); some popups use a flat body with no tabs
+        let tabPanes = popupContent.querySelectorAll('.tab-pane');
+        if (!tabPanes.length) {
+            const feats = window.__qcLastGfiFeatures;
+            let layerNm = '';
+            if (feats && feats[0] && feats[0].id != null && String(feats[0].id).indexOf('.') !== -1) {
+                layerNm = String(feats[0].id).split('.')[0];
+            }
+            if (!layerNm && typeof layerConfigs !== 'undefined' && layerConfigs && layerConfigs.length === 1) {
+                layerNm = String(layerConfigs[0].name || '');
+            }
+            if (layerProviderForMap(layerNm) !== 'postgres') {
+                return;
+            }
+            const fallbackHost =
+                popupContent.querySelector('.popup-body') ||
+                popupContent.querySelector('.popup-section') ||
+                popupContent;
+            if (
+                fallbackHost &&
+                feats &&
+                feats.length &&
+                !fallbackHost.querySelector('.qc-geom-edit-trigger')
+            ) {
+                const foot = document.createElement('div');
+                foot.className = 'qc-feature-geom-edit-footer border-top px-2 py-2 mt-1';
+                foot.innerHTML =
+                    '<button type="button" class="btn btn-primary btn-sm w-100 qc-geom-edit-trigger">' +
+                    '<i class="fas fa-draw-polygon" aria-hidden="true"></i> Edit geometry' +
+                    '</button>';
+                fallbackHost.appendChild(foot);
+                if (typeof window.qcWireDockedGeometryEditButton === 'function') {
+                    window.qcWireDockedGeometryEditButton(popupContent);
+                }
+            }
+            return;
+        }
+
+        function findFeatureForTabPane(tabPane) {
+            const feats = window.__qcLastGfiFeatures;
+            if (!tabPane || !feats || !feats.length) return null;
+            const rawId = (tabPane.id || '').replace(/^popup-/, '').replace(/-tab$/, '');
+            if (!rawId) return null;
+            for (let i = 0; i < feats.length; i++) {
+                const f = feats[i];
+                const resolved =
+                    typeof window.qcResolveFeatureEditId === 'function'
+                        ? window.qcResolveFeatureEditId(f)
+                        : '';
+                const fidStr = f.id != null ? String(f.id) : '';
+                if (resolved && rawId === resolved) return f;
+                if (fidStr && rawId === fidStr) return f;
+                const p = f.properties || {};
+                const n = p.fid != null ? p.fid : p.FID;
+                if (n != null && String(n) === rawId) return f;
+                if (
+                    n != null &&
+                    typeof layerConfigs !== 'undefined' &&
+                    layerConfigs &&
+                    layerConfigs.length === 1
+                ) {
+                    const composite = String(layerConfigs[0].name) + '.' + n;
+                    if (rawId === composite) return f;
+                }
+            }
+            return null;
+        }
+
+        tabPanes.forEach((tabPane) => {
+            const feature = findFeatureForTabPane(tabPane);
+            let featureId = '';
+            if (feature) {
+                if (typeof window.qcResolveFeatureEditId === 'function') {
+                    featureId = window.qcResolveFeatureEditId(feature);
+                }
+                if (!featureId && feature.id) {
+                    featureId = String(feature.id);
+                }
+                if (
+                    !featureId &&
+                    feature.properties &&
+                    feature.properties.fid != null &&
+                    typeof layerConfigs !== 'undefined' &&
+                    layerConfigs &&
+                    layerConfigs[0]
+                ) {
+                    featureId = String(layerConfigs[0].name) + '.' + feature.properties.fid;
+                }
+            }
+            if (!featureId) {
+                featureId = (tabPane.id || '').replace(/^popup-/, '').replace(/-tab$/, '');
+            }
+            if (!featureId) return;
+
             const popupBody = tabPane.querySelector('.popup-body') || tabPane.querySelector('.modal-body') || tabPane;
-            // Skip if this pane already has a button
-            if (tabPane.querySelector('.edit-button')) return;
 
-            // Create edit button
-            const editButton = document.createElement('button');
-            editButton.className = 'btn btn-primary btn-sm edit-button mt-2';
-            editButton.innerHTML = '<i class="fas fa-edit"></i> Edit';
-            editButton.style.width = '100%';
-            
-            // Add click handler
-            editButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                openEditModal(featureId, tabPane);
-            });
+            const actionBlock = ensureActionBlock(tabPane, popupBody);
 
-            // Add the button to the popup body
-            popupBody.appendChild(editButton);
+            if (!tabPane.querySelector('.edit-button') && typeof window.showEditModal === 'function') {
+                const editAttr = document.createElement('button');
+                editAttr.type = 'button';
+                editAttr.className = 'btn btn-outline-primary btn-sm edit-button qc-popup-action-btn';
+                editAttr.innerHTML = '<i class="fas fa-edit" aria-hidden="true"></i> Edit';
+                actionBlock.appendChild(editAttr);
+            }
+
+            let layerNmGeom = '';
+            if (featureId && featureId.indexOf('.') !== -1) {
+                layerNmGeom = featureId.split('.')[0];
+            }
+            if (
+                !layerNmGeom &&
+                typeof layerConfigs !== 'undefined' &&
+                layerConfigs &&
+                layerConfigs.length === 1
+            ) {
+                layerNmGeom = String(layerConfigs[0].name || '');
+            }
+            if (
+                layerProviderForMap(layerNmGeom) === 'postgres' &&
+                !tabPane.querySelector('.qc-tab-geom-edit')
+            ) {
+                const geomBtn = document.createElement('button');
+                geomBtn.type = 'button';
+                geomBtn.className = 'btn btn-primary btn-sm qc-tab-geom-edit qc-popup-action-btn';
+                geomBtn.innerHTML =
+                    '<i class="fas fa-draw-polygon" aria-hidden="true"></i> Edit geometry';
+                geomBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    let layerNm = '';
+                    if (featureId && featureId.indexOf('.') !== -1) {
+                        layerNm = featureId.split('.')[0];
+                    }
+                    if (typeof window.qcInferLayerNameForFeatureId === 'function') {
+                        const inf = window.qcInferLayerNameForFeatureId(featureId);
+                        if (inf) layerNm = inf;
+                    }
+                    if (
+                        !layerNm &&
+                        typeof layerConfigs !== 'undefined' &&
+                        layerConfigs &&
+                        layerConfigs.length === 1
+                    ) {
+                        layerNm = String(layerConfigs[0].name || '');
+                    }
+                    if (typeof window.startGeometryEdit === 'function') {
+                        window.startGeometryEdit(featureId, layerNm || '');
+                    }
+                });
+                actionBlock.appendChild(geomBtn);
+            }
+
+            // If either button existed before this script ran, keep both inside one compact block.
+            const existingEditBtn = tabPane.querySelector('.edit-button');
+            if (existingEditBtn && existingEditBtn.parentElement !== actionBlock) {
+                existingEditBtn.classList.add('qc-popup-action-btn');
+                actionBlock.appendChild(existingEditBtn);
+            }
+            const existingGeomBtn = tabPane.querySelector('.qc-tab-geom-edit');
+            if (existingGeomBtn && existingGeomBtn.parentElement !== actionBlock) {
+                existingGeomBtn.classList.add('qc-popup-action-btn');
+                actionBlock.appendChild(existingGeomBtn);
+            }
         });
+
+        if (typeof window.qcWireFeaturePanelAttributeEditButtons === 'function') {
+            window.qcWireFeaturePanelAttributeEditButtons(popupContent);
+        }
     }
 
     function openEditModal(featureId, tabPane) {
@@ -379,6 +558,39 @@ window.showEditModal = function showEditModal(featureId, featureData) {
             updates: coercedUpdates,
             layerHint
         };
+
+        const layerName = layerHint || (featureId.includes('.') ? featureId.split('.')[0] : null);
+        const prov = layerProviderForMap(layerName);
+        if (prov !== 'postgres' && layerName) {
+            console.log('Sending file-backed update to qgis_file_update.php', { featureId, layer: layerName, layerId });
+            fetch('../../admin/action/qgis_file_update.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    featureId: featureId,
+                    layer: layerName,
+                    updates: coercedUpdates,
+                    layer_id: layerId
+                })
+            })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                if (data && data.success) {
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('editFeatureModal'));
+                    if (modal) modal.hide();
+                    if (window.map) window.map.closePopup();
+                    applyUpdatesToOpenPopup(coercedUpdates);
+                    refreshMapLayersAfterEdit();
+                } else {
+                    alert('Save failed: ' + (data && data.error ? data.error : 'Unknown error'));
+                }
+            })
+            .catch(function (error) {
+                console.error('Fetch error:', error);
+                alert('Error updating feature: ' + error.message);
+            });
+            return;
+        }
         
         console.log('Sending request to ../../admin/action/oapif_update.php with body:', requestBody);
 
@@ -430,11 +642,7 @@ window.showEditModal = function showEditModal(featureId, featureData) {
                                 } else if (src?.refresh) src.refresh();
                             });
                         } else if (window.L && typeof map.eachLayer === 'function') {
-                            map.eachLayer(layer => {
-                                if (typeof layer.setParams === 'function') layer.setParams({ _ts: Date.now() });
-                                else if (typeof layer.redraw === 'function') layer.redraw();
-                                else if (typeof layer.refresh === 'function') layer.refresh();
-                            });
+                            refreshMapLayersAfterEdit();
                         }
                     }
 
@@ -455,11 +663,7 @@ window.showEditModal = function showEditModal(featureId, featureData) {
                                 } else if (src?.refresh) src.refresh();
                             });
                         } else if (window.L && typeof map.eachLayer === 'function') {
-                            map.eachLayer(layer => {
-                                if (typeof layer.setParams === 'function') layer.setParams({ _ts: Date.now() });
-                                else if (typeof layer.redraw === 'function') layer.redraw();
-                                else if (typeof layer.refresh === 'function') layer.refresh();
-                            });
+                            refreshMapLayersAfterEdit();
                         }
                     }
                     return;
@@ -805,7 +1009,43 @@ window.saveFeatureChangesInline = function (featureId, updates, tabPane) {
   var changes = canon(updates || {});
   if (!changes || !Object.keys(changes).length) { alert('No changes detected'); return; }
 
-  var body = { collection: 'auto', id: id, updates: changes, layerHint: layer };
+  var prov = (window.LAYER_PROVIDER_BY_NAME && layer && Object.prototype.hasOwnProperty.call(window.LAYER_PROVIDER_BY_NAME, layer))
+    ? window.LAYER_PROVIDER_BY_NAME[layer]
+    : (window.LAYER_PROVIDER != null ? window.LAYER_PROVIDER : 'postgres');
+
+  function inlineDone() {
+    if (window.applyUpdatesToPopup) applyUpdatesToPopup(tabPane, changes);
+    if (window.disableInlineEditing) disableInlineEditing(tabPane);
+    if (typeof window.refreshQgisLayersAfterEdit === 'function') window.refreshQgisLayersAfterEdit();
+  }
+
+  if (prov !== 'postgres' && layer) {
+    fetch('../../admin/action/qgis_file_update.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        featureId: id,
+        layer: layer,
+        updates: changes,
+        layer_id: typeof layerId !== 'undefined' ? layerId : null
+      })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      if (data && data.success) {
+        inlineDone();
+      } else {
+        alert('Save failed: ' + (data && data.error ? data.error : 'Unknown error'));
+      }
+    })
+    .catch(function (err) {
+      console.error('Inline fetch error', err);
+      alert('Save failed: ' + err.message);
+    });
+    return;
+  }
+
+  var body = { collection: 'auto', id: id, layer_id: typeof layerId !== 'undefined' ? layerId : null, updates: changes, layerHint: layer };
 
   // Same relative URL your modal uses (works under /layers/6/)
   fetch('../../admin/action/oapif_update.php', {
@@ -825,8 +1065,7 @@ window.saveFeatureChangesInline = function (featureId, updates, tabPane) {
     if (r.ct.indexOf('application/json') !== -1) {
       var data; try { data = JSON.parse(r.text); } catch (e) { data = null; }
       if (data && data.type === 'Feature' && data.properties) {
-        if (window.applyUpdatesToPopup) applyUpdatesToPopup(tabPane, changes);
-        if (window.disableInlineEditing) disableInlineEditing(tabPane);
+        inlineDone();
         return;
       }
       if (data && data.error) { alert('Error: ' + data.error); return; }
@@ -834,8 +1073,7 @@ window.saveFeatureChangesInline = function (featureId, updates, tabPane) {
 
     // WFS-T XML success
     if (/<TransactionResponse/i.test(r.text) && /<totalUpdated>\s*[1-9]/i.test(r.text)) {
-      if (window.applyUpdatesToPopup) applyUpdatesToPopup(tabPane, changes);
-      if (window.disableInlineEditing) disableInlineEditing(tabPane);
+      inlineDone();
       return;
     }
 

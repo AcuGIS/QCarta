@@ -35,6 +35,10 @@ function filter_match(f, prop_value){
   return false;
 }
 
+function dispatchSelectBubblingChange(select) {
+  if (select) select.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
 // ---------- Relations helpers (robust resolution) ----------
 function normalizeLayerName(n){
   if (!n) return '';
@@ -200,15 +204,16 @@ function populateDropdowns(properties, selectedGroup = null, selectedValue = nul
 
   if (!selectedGroup && keys.length > 0) {
     groupBy.value = keys.includes("pri_neigh") ? "pri_neigh" : keys[0];
+    dispatchSelectBubblingChange(groupBy);
   }
   if (!selectedValue && keys.length > 0) {
     valueField.value = keys.includes("pri_neigh") ? "pri_neigh" : keys[0];
+    dispatchSelectBubblingChange(valueField);
   }
 }
 
 function createPlotlyChart(features) {
   if (!features || features.length === 0) {
-    console.warn('No features available for Plotly chart');
     return;
   }
 
@@ -300,9 +305,11 @@ function populatePlotlyFields(properties) {
 
   if (keys.includes('pri_neigh')) {
     xField.value = 'pri_neigh';
+    dispatchSelectBubblingChange(xField);
   }
   if (keys.includes('shape_area')) {
     yField.value = 'shape_area';
+    dispatchSelectBubblingChange(yField);
   }
 }
 
@@ -526,17 +533,26 @@ function loadChartConfig(configFile) {
       // Update UI with loaded configuration
       if (config.xField) {
         const xFieldSelect = document.getElementById('plotlyXField');
-        if (xFieldSelect) xFieldSelect.value = config.xField;
+        if (xFieldSelect) {
+          xFieldSelect.value = config.xField;
+          dispatchSelectBubblingChange(xFieldSelect);
+        }
       }
       
       if (config.yField) {
         const yFieldSelect = document.getElementById('plotlyYField');
-        if (yFieldSelect) yFieldSelect.value = config.yField;
+        if (yFieldSelect) {
+          yFieldSelect.value = config.yField;
+          dispatchSelectBubblingChange(yFieldSelect);
+        }
       }
       
       if (config.chartType) {
         const chartTypeSelect = document.getElementById('plotlyChartType');
-        if (chartTypeSelect) chartTypeSelect.value = config.chartType;
+        if (chartTypeSelect) {
+          chartTypeSelect.value = config.chartType;
+          dispatchSelectBubblingChange(chartTypeSelect);
+        }
       }
       
       // Update the chart with new configuration
@@ -552,12 +568,41 @@ function loadChartConfig(configFile) {
 function fetchDataAndBuildChart() {
   console.log('Starting data fetch...');
   console.log('Using layerId:', layerId);
-  const urls = layerConfigs.map(cfg => 
-    WMS_SVC_URL + `&layers=${encodeURIComponent(cfg.name)}&service=WFS&version=1.1.0&request=GetFeature&typeName=${encodeURIComponent(cfg.typename)}&OUTPUTFORMAT=application/json`
-  );
-  console.log('WFS URLs:', urls);
 
-  Promise.all(urls.map(url => fetch(url).then(r => r.json())))
+  function wfsUrlForCfg(cfg) {
+    return WMS_SVC_URL + `&layers=${encodeURIComponent(cfg.name)}&service=WFS&version=1.1.0&request=GetFeature&typeName=${encodeURIComponent(cfg.typename)}&OUTPUTFORMAT=application/json`;
+  }
+
+  const fetchPromises = layerConfigs.map((cfg, index) => {
+    if (cfg.skipWfsFetch) {
+      return Promise.resolve({ features: [], _skipped: true, _index: index });
+    }
+    const url = wfsUrlForCfg(cfg);
+    return fetch(url)
+      .then(async (r) => {
+        if (!r.ok) {
+          console.warn('WFS request failed:', cfg.name || cfg.typename, r.status, url);
+          return { features: [] };
+        }
+        const text = await r.text();
+        if (!text || !text.trim()) {
+          console.warn('WFS empty body:', cfg.name || cfg.typename);
+          return { features: [] };
+        }
+        try {
+          return JSON.parse(text);
+        } catch (e) {
+          console.warn('WFS response not JSON:', cfg.name || cfg.typename, e);
+          return { features: [] };
+        }
+      })
+      .catch((err) => {
+        console.warn('WFS fetch error:', cfg.name || cfg.typename, err);
+        return { features: [] };
+      });
+  });
+
+  Promise.all(fetchPromises)
     .then(results => {
       console.log('WFS Results:', results);
       
@@ -598,7 +643,7 @@ function fetchDataAndBuildChart() {
         
         // Update the chart tab to show the selected layer
         layerSelect.value = 0;
-        updateChartTab();
+        dispatchSelectBubblingChange(layerSelect);
       }
 
       const dtPanel = document.getElementById("dataTablePanel");
@@ -636,7 +681,7 @@ function fetchDataAndBuildChart() {
         });
         
         plotlyLayerSelect.value = 0;
-        updatePlotlyTab();
+        dispatchSelectBubblingChange(plotlyLayerSelect);
         
         // Load initial chart configuration
         const xml_config = document.getElementById('plotlyConfig').value;
@@ -824,7 +869,7 @@ function addWmsLayer() {
       } else {
         map.addLayer(wmsLayer);
         // Reload WFS features for this layer
-        const wfsUrl = WFS_SVC_URL
+        const wfsUrl = WFS_SVC_URL +
           `&SERVICE=WFS&` +
           `VERSION=1.1.0&` +
           `REQUEST=GetFeature&` +
@@ -1391,47 +1436,21 @@ function onSavedPropFilterClick(element){
     if (cnt) cnt.textContent = String(count);
   }
 
-  function getSelectedValueCount() {
-    // Prefer the chips (Material UI)
-    const chips = document.querySelectorAll('#filter_chips .md-chip[aria-selected="true"]');
-    if (chips.length) return chips.length;
-
-    // jQuery multiselect fallback
-    if (window.$) { 
-      const arr = $('#filter_values').val() || [];
-      return Array.isArray(arr) ? arr.length : 0;
-    }
-
-    // Plain select fallback
-    const sel = document.getElementById('filter_values');
-    return sel ? Array.from(sel.options).filter(o => o.selected).length : 0;
-  }
-
   function currentTargetSelector() {
     return (document.getElementById('filter_modal')?.dataset?.filterIndicatorTarget) ||
            window.__lastSavedFilterSel;
   }
 
-  // Delegated click: Update ? update/add badge only for THIS saved filter
-  document.addEventListener('click', function(e) {
-    if (!e.target.closest) return;
-    if (e.target.closest('#btn_update_filter')) {
-      setTimeout(function() {
-        const targetSel = currentTargetSelector();
-        const count = getSelectedValueCount();
-        updateBadgeForSelector(targetSel, count);
-      }, 0);
-    }
-  }, true);
+  // Badge count is driven only from onSavedPropFilterChange() via __qcSyncPropertyFilterRowBadge.
+  // Do not re-count from chips/select on a delayed tick: load_select() replaces #filter_values, so
+  // chip UI and getSelectedValueCount() often disagree with the values[] applied to the map, and a
+  // capture+setTimeout(0) handler would run after onSavedPropFilterChange and overwrite the badge.
 
-  // Delegated click: Clear ? remove badge only for THIS saved filter
-  document.addEventListener('click', function(e) {
-    if (!e.target.closest) return;
-    if (e.target.closest('#btn_clear_filter')) {
-      const targetSel = currentTargetSelector();
-      removeBadgeForSelector(targetSel);
-    }
-  }, true);
+  /** Sync list-row badge from applied filter (same count as map uses). */
+  window.__qcSyncPropertyFilterRowBadge = function(appliedValueCount) {
+    const targetSel = currentTargetSelector();
+    updateBadgeForSelector(targetSel, appliedValueCount);
+  };
 })();
 
 
@@ -1449,8 +1468,6 @@ function onSavedPropFilterChange(){
       values.push(options[i].value);
     }
   }
-  console.log(values);
-  
   layerConfigs.forEach((cfg, layer_index) => {
     if(cfg.typename == feature){
       
@@ -1467,34 +1484,61 @@ function onSavedPropFilterChange(){
       updateDataTable(layer_index);
       updateChartTab();
       
-      const url = (overlayLayers[cfg.name]._url.startsWith('/mproxy/service'))
-          ? URL.parse(overlayLayers[cfg.name]._url, window.location.origin)
-          : URL.parse(overlayLayers[cfg.name]._url, window.location.href.slice(0, -9));
-      
-      if(cfg.filter && (Object.keys(cfg.filter).length > 0)){
+      const rawUrl = overlayLayers[cfg.name]._url;
+      // Leaflet tile templates must keep literal "{z}/{x}/{y}" in the path.
+      // URL(...).toString() encodes "{" "}" which breaks substitution and yields 400s on tile GETs.
+      const isTileTemplate =
+        typeof rawUrl === 'string' &&
+        rawUrl.indexOf('{z}') !== -1 &&
+        rawUrl.indexOf('{x}') !== -1 &&
+        rawUrl.indexOf('{y}') !== -1;
+
+      if (cfg.filter && Object.keys(cfg.filter).length > 0) {
         let f_prop_values = [];
         for (const [k, f] of Object.entries(cfg.filter)) {
           let f_values = (typeof f.val[0] === 'string' || f.val[0] instanceof String) ? '\'' + f.val.join('\' , \'') + '\'' : f.val.join(' , ');
-          if((f.op == 'IN') || (f.op == 'NOT IN')){
-            f_prop_values.push('"' + k + '" ' + f.op +' ( ' + f_values + ' )');
-          }else{
+          if ((f.op == 'IN') || (f.op == 'NOT IN')) {
+            f_prop_values.push('"' + k + '" ' + f.op + ' ( ' + f_values + ' )');
+          } else {
             f_prop_values.push('"' + k + '" ' + f.op + ' ' + f_values);
           }
         }
         cfg.filter_param = cfg.typename + ': ' + f_prop_values.join(' AND ');
-
-        url.searchParams.set('FILTER', cfg.filter_param);
-      }else{
-        url.searchParams.delete('FILTER');
+      } else {
         cfg.filter = null;
         cfg.filter_param = null;
       }
-      // refresh map layer URL
-      overlayLayers[cfg.name].setUrl(url.toString());
-      console.log(overlayLayers[cfg.name]._url);
+
+      if (isTileTemplate) {
+        const q = rawUrl.indexOf('?');
+        const pathPart = q === -1 ? rawUrl : rawUrl.slice(0, q);
+        const searchPart = q === -1 ? '' : rawUrl.slice(q + 1);
+        const sp = new URLSearchParams(searchPart);
+        if (cfg.filter_param) {
+          sp.set('FILTER', cfg.filter_param);
+        } else {
+          sp.delete('FILTER');
+        }
+        const qs = sp.toString();
+        overlayLayers[cfg.name].setUrl(qs ? pathPart + '?' + qs : pathPart);
+      } else {
+        const url = rawUrl.startsWith('/mproxy/service')
+          ? new URL(rawUrl, window.location.origin)
+          : new URL(rawUrl, window.location.href.slice(0, -9));
+        if (cfg.filter_param) {
+          url.searchParams.set('FILTER', cfg.filter_param);
+        } else {
+          url.searchParams.delete('FILTER');
+        }
+        overlayLayers[cfg.name].setUrl(url.toString());
+      }
     }
   });
-  
+
+  if (typeof window.__qcSyncPropertyFilterRowBadge === 'function') {
+    window.__qcSyncPropertyFilterRowBadge(values.length);
+  }
+
   $('#filter_modal').modal('hide');
 }
 

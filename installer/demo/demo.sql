@@ -35,10 +35,10 @@ VALUES
 	(1, 2), (2, 2), (3, 2);
 INSERT INTO  public.pg_layer (id, tbl, geom) VALUES (1,	'states',	'geom');
 INSERT INTO  public.qgs_layer
-	(id, basemap_id, cached, proxyfied, customized, exposed, show_charts, show_dt, show_query, show_fi_edit, print_layout, layers)
+	(id, basemap_id, cached, proxyfied, customized, exposed, show_charts, show_dt, show_query, show_fi_edit, print_layout, layers, popup_chart_config)
 VALUES
-    (2, 6, true, false, false, false, false, true, true, false, 'statelayout', 'states'),
-	(3, 2, false, false, false, true, false, true, true, true, 'Beehives in Laax', 'Apiary,Tracks,Fields');
+    (2, 6, true, false, false, false, false, true, true, false, 'statelayout', 'states', '{}'::jsonb),
+	(3, 2, true, false, false, true, false, true, true, true, 'Beehives in Laax', 'Apiary,Tracks,Fields', '{}'::jsonb);
 
 INSERT INTO public.layer_query
     (name, description, badge, sql_query, layer_id, owner_id, database_type)

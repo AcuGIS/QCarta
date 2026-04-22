@@ -1,1 +1,26 @@
-{"defaults":[],"layerDefaults":{"states":{"chartType":"bar","xField":"state_name","yField":"carpool","chartConfig":"fields_chart.json"}},"chartTypes":{"states":["scatter","bar","line","box"]},"fieldMappings":[]}
+{
+  "defaults": {
+    "layer": "states",
+    "chartType": "bar",
+    "xField": "state_name",
+    "yField": "carpool",
+    "chartConfig": "default_chart.json"
+  },
+  "layerDefaults": {
+    "Fields": {
+      "chartType": "bar",
+      "xField": "state_name",
+      "yField": "carpool",
+      "chartConfig": "fields_chart.json"
+    },
+    "states": {
+      "chartType": "bar",
+      "xField": "state_name",
+      "yField": "carpool",
+      "chartConfig": "apiary_chart.json"
+    }
+  },
+  "chartTypes": {
+    "states": ["scatter", "bar", "pie"]
+  }
+}

@@ -256,6 +256,18 @@ body .custom-popup .popup-row {
     max-width: 100% !important;
 }
 
+/* Compact horizontal action buttons for feature popup edits */
+.custom-popup .qc-popup-action-block {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.custom-popup .qc-popup-action-block .qc-popup-action-btn {
+  flex: 1 1 0;
+  white-space: nowrap;
+}
+
 
 
 /* Let the close button extend past the popup edge */

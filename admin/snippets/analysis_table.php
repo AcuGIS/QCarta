@@ -173,7 +173,7 @@
     <div class="layer-tabs">
       <ul class="nav nav-tabs" id="layerTabs" role="tablist">
         <?php 
-        $layers = explode(',', QGIS_LAYERS);
+        $layers = QGIS_LAYERS;
         foreach($layers as $index => $layer): 
         ?>
         <li class="nav-item" role="presentation">

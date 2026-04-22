@@ -1,6 +1,7 @@
 <?php
 session_start(['read_and_close' => true]);
 require('../incl/const.php');
+require_once __DIR__ . '/../incl/qcarta_tile_project_key.php';
 
 // Admin-only access check
 if(!isset($_SESSION[SESS_USR_KEY]) || $_SESSION[SESS_USR_KEY]->accesslevel != 'Admin') {
@@ -10,19 +11,6 @@ if(!isset($_SESSION[SESS_USR_KEY]) || $_SESSION[SESS_USR_KEY]->accesslevel != 'A
 }
 
 header('Content-Type: application/json');
-
-/**
- * Extract and sanitize project key from QGIS filename path
- * @param string $path QGIS project filename path (decoded)
- * @return string Sanitized project key
- */
-function qcarta_project_key_from_qgis_filename(string $path): string {
-	$base = basename($path);
-	$base = preg_replace('/\.(qgs|qgz)$/i', '', $base);
-	$base = preg_replace('/[^A-Za-z0-9._-]+/', '_', $base);
-	$base = trim($base, "._-");
-	return $base !== '' ? $base : 'unknown';
-}
 
 // Get layer_id from POST
 $layerId = intval($_POST['layer_id'] ?? 0);
@@ -38,15 +26,7 @@ if (!file_exists($envPath)) {
 	exit(1);
 }
 
-require $envPath;
-
-// Determine QGIS filename path
-$qgisPath = '';
-if (defined('QGIS_FILENAME') && QGIS_FILENAME !== 'none' && QGIS_FILENAME !== '') {
-	$qgisPath = QGIS_FILENAME;
-} elseif (defined('QGIS_FILENAME_ENCODED') && QGIS_FILENAME_ENCODED !== '' && QGIS_FILENAME_ENCODED !== 'none') {
-	$qgisPath = urldecode(QGIS_FILENAME_ENCODED);
-}
+$qgisPath = qcarta_read_qgis_path_from_env_file($envPath);
 
 if ($qgisPath === '' || $qgisPath === 'none') {
 	echo json_encode(['success' => false, 'message' => 'No QGIS project file found for this layer']);

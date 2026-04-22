@@ -123,7 +123,7 @@ function performSearch() {
         })
         .catch(error => {
             console.error('Search error:', error);
-            const grid = document.querySelector('.grid');
+            const grid = document.getElementById('catalogGrid') || document.querySelector('.grid');
             if (grid) {
                 // Only show error if we've had user interaction
                 if (hasUserInteracted) {
@@ -150,7 +150,7 @@ const TYPE_META = {
 
 // Update results in the grid matches new card style
 function updateResults(data) {
-  const grid = document.querySelector('.grid');
+  const grid = document.getElementById('catalogGrid') || document.querySelector('.grid');
   if (!grid) {
     console.error('Results grid not found');
     return;
@@ -184,6 +184,12 @@ function updateResults(data) {
     allResults.forEach(item => {
       const div = document.createElement('div');
       div.className = 'group h-64 relative';
+      div.dataset.id = String(item.id);
+      div.dataset.type = item.type || '';
+      if (item.lat != null && item.lng != null && item.lat !== '' && item.lng !== '') {
+        div.dataset.lat = String(item.lat);
+        div.dataset.lng = String(item.lng);
+      }
 
       div.innerHTML = `
         <a href="${item._url}" class="card bg-white rounded-lg overflow-hidden h-full flex flex-col" target="_blank" rel="noopener" aria-label="${item._quick}: ${item._name}">
@@ -220,6 +226,18 @@ function updateResults(data) {
 
   isInitialLoad = false;
 }
+
+/** Re-run catalog search (e.g. after closing Explore mode so the grid is not stuck on bbox-only layers). */
+window.qcartaRefreshCatalog = function () {
+  hasUserInteracted = true;
+  isInitialLoad = false;
+  performSearch();
+};
+
+window.qcartaMarkSearchInteracted = function () {
+  hasUserInteracted = true;
+  isInitialLoad = false;
+};
 
 document.addEventListener('DOMContentLoaded', function() {
     

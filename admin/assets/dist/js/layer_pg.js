@@ -1,5 +1,13 @@
 var tbl_action = 'pg_layer';
 
+function parseDataIdList(tr, attrName) {
+	var raw = tr.attr(attrName) || '';
+	if (!raw) {
+		return [];
+	}
+	return raw.split(',').map(function (x) { return String(x).trim(); }).filter(Boolean);
+}
+
 function load_select(name, arr){
 	var obj = $('#' + name);
 	if(arr.length === 0){
@@ -52,6 +60,10 @@ $('#layer_form').submit(false);
 		$('#public').prop('checked', (tds[1].textContent == 'yes'));
 		$('#store_id').val(tds[2].getAttribute('data-value')).trigger('change');
 		$('#group_id').val(tds[5].getAttribute('data-value').split(','));
+		if ($('#topic_id').length) {
+			$('#topic_id').val(parseDataIdList(tr, 'data-topic_id'));
+			$('#gemet_id').val(parseDataIdList(tr, 'data-gemet_id'));
+		}
 		edit_row = {'tbl': tds[3].textContent, 'geom':tds[4].textContent};
 	});
 
@@ -158,6 +170,10 @@ $('#layer_form').submit(false);
 								sortTable.row.add(tds).draw();
 								let dtrow = sortTable.rows(sortTable.rows().count()-1).nodes().to$();
 								dtrow.attr('data-id', response.id);
+								if ($('#topic_id').length) {
+									dtrow.attr('data-topic_id', ($('#topic_id').val() || []).join(','));
+									dtrow.attr('data-gemet_id', ($('#gemet_id').val() || []).join(','));
+								}
 								dtrow.find('td:eq(5)').attr('data-value', $('#group_id').val().join(','));
 							}
 						}else{

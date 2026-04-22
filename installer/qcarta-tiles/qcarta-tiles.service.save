@@ -1,0 +1,27 @@
+[Unit]
+Description=QCarta Tile Service (replaces MapProxy)
+After=network.target qgis-server.service
+Requires=network.target
+Conflicts=mapproxy.service
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/data/qcarta-tiles
+ExecStart=/usr/local/bin/qcarta-tiles
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+# Environment variables
+Environment="QGIS_SERVER_URL=http://localhost/cgi-bin/qgis_mapserv.fcgi"
+Environment="QCARTA_CACHE_PURGE_TOKEN=QCARTA_CACHE_PURGE_TOKEN_VALUE"
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

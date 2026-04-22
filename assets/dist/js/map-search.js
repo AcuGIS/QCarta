@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       // Loading state
-      const grid = document.querySelector('.grid');
+      const grid = document.getElementById('catalogGrid') || document.querySelector('.grid');
       if (grid) {
         grid.innerHTML = `
           <div class="col-span-full text-center py-12 text-gray-500">Searching...</div>
@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       handleSearchResults(data);
     } catch (err) {
-      const grid = document.querySelector('.grid');
+      const grid = document.getElementById('catalogGrid') || document.querySelector('.grid');
       if (grid) {
         grid.innerHTML = `
           <div class="col-span-full text-center py-12 text-red-500">Error: ${err.message}</div>
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Fallback: local render using the same card skeleton as the static grid
-    const grid = document.querySelector('.grid');
+    const grid = document.getElementById('catalogGrid') || document.querySelector('.grid');
     if (!grid) {
       console.error('Results grid not found');
       return;

@@ -20,6 +20,9 @@
 
     $docs  = $obj->getRows();
 	$groups = $grp_obj->getArr();
+
+	$taxonomy_topics = $database->select('SELECT id, name FROM public.topic ORDER BY name');
+	$taxonomy_gemets = $database->select('SELECT id, name FROM public.gemet ORDER BY name');
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
@@ -416,10 +419,14 @@
 
 					<tbody> <?php while($row = pg_fetch_object($docs)){
 					        $row_grps = $grp_obj->getByKV('doc', $row->id);
+							$topic_ids_row = $obj->get_assigned_category_ids('topic', $row->id);
+							$gemet_ids_row = $obj->get_assigned_category_ids('gemet', $row->id);
 					    ?>
 					    <tr align="left"
 							data-id="<?=$row->id?>"
 							data-public="<?=$row->public=='t' ? 'yes' : 'no'?>"
+							data-topic_id="<?=implode(',', $topic_ids_row)?>"
+							data-gemet_id="<?=implode(',', $gemet_ids_row)?>"
 							data-group_id="<?=implode(',', array_keys($row_grps))?>">
 							<td><?=$row->id?> </td>
 							<td><?=$row->name?></td>
@@ -545,6 +552,8 @@
 									<small class="form-text text-muted">Select groups that can access this document</small>
 								</div>
 							</div>
+
+							<?php require __DIR__.'/incl/taxonomy_multiselect.php'; ?>
 						</form>
 					</div>
 					<div class="modal-footer bg-light border-top">

@@ -59,6 +59,9 @@
 			}
 
 			if($newId > 0){
+				$topic_ids = (isset($_POST['topic_id']) && is_array($_POST['topic_id'])) ? $_POST['topic_id'] : [];
+				$gemet_ids = (isset($_POST['gemet_id']) && is_array($_POST['gemet_id'])) ? $_POST['gemet_id'] : [];
+				$obj->sync_topic_gemet_assignments($newId, $topic_ids, $gemet_ids);
 				$result = ['success' => true, 'message' => 'Doc successfully created!', 'id' => $newId];
 			}else{
 				$result = ['success' => false, 'message' => 'Failed to save doc!'];

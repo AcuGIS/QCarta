@@ -139,7 +139,7 @@ html, body{
 }
 .sidebar-tabs .nav-tabs{
   border:none; width:100%;
-  display:flex; flex-direction:column; align-items:center; gap:8px;
+  display:flex; flex-direction:column; align-items:center; gap:2px;
   padding:12px 8px;
 }
 .sidebar-tabs .nav-item{ width:100%; display:flex; justify-content:center; }
@@ -275,19 +275,69 @@ html, body{
   display:flex; align-items:center; justify-content:space-between;
   gap:6px; margin-bottom:6px;
 }
+.qc-feature-panel .popup-navigation{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:6px; margin-bottom:6px; padding:10px;
+}
 .custom-popup .nav-btn{
   border:none; background: var(--md-sys-color-secondary-container);
   color: var(--md-sys-color-on-secondary-container);
   width:32px; height:32px; border-radius: 10px;
 }
+.qc-feature-panel .nav-btn{
+  border:none; background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+  width:32px; height:32px; border-radius: 10px;
+}
 .custom-popup .nav-counter{ font-size:.85rem; color: var(--md-sys-color-on-surface-variant); }
+.qc-feature-panel .nav-counter{ font-size:.85rem; color: var(--md-sys-color-on-surface-variant); }
 
 .popup-row{
   display:flex; gap:8px; padding:4px 0; border-bottom:1px dashed color-mix(in oklab, var(--md-sys-color-outline), transparent 60%);
+  font-size: 13px;
 }
 .popup-row:last-child{ border-bottom:none; }
-.popup-label{ min-width:140px; color: var(--md-sys-color-on-surface-variant); }
+.popup-label{ min-width:140px; color: var(--md-sys-color-on-surface-variant); font-size: 13px; }
+.popup-value{ font-size: 13px; }
 .popup-value img{ border-radius: 8px; box-shadow: var(--md-sys-elevation-1); }
+
+.popup-inner {
+  padding: 10px 12px;
+}
+
+.popup-relations,
+.popup-chart {
+  margin-top: 10px;
+}
+
+.qc-collapsible {
+  width: 100%;
+}
+
+.qc-section .qc-collapsible-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 8px 10px;
+  background: #e9ecef;
+  border-radius: 6px;
+  cursor: pointer;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.qc-collapsible-header:hover {
+  background: color-mix(in oklab, var(--md-sys-color-primary-container), white 70%);
+}
+
+.qc-collapsible-body {
+  padding: 8px 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  margin-top: 4px;
+}
 
 /* Search results and basemaps (keeps your existing selectors, refines visuals) */
 .search-results{
@@ -317,6 +367,67 @@ body.dark-mode .modal-content{
   border:1px solid var(--md-sys-color-surface-variant);
 }
 .modal-header{ background: color-mix(in oklab, var(--md-sys-color-surface), var(--md-sys-color-surface-variant) 35%); }
+
+/* Report/SQL results modal header aligned with floating popup style */
+#sqlResultsModal .qc-report-modal-header{
+  background: #666;
+  color: #fff;
+  padding: 6px 10px;
+  min-height: 0;
+  border-bottom: 1px solid rgba(255,255,255,.18);
+  border-radius: 0 !important;
+}
+#sqlResultsModal .qc-report-modal-title{
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+#sqlResultsModal .modal-content{
+  border-radius: 0;
+  overflow: hidden;
+}
+#sqlResultsModal .qc-report-modal-controls{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+#sqlResultsModal .qc-report-modal-btn{
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: none;
+}
+#sqlResultsModal .qc-report-modal-btn.btn-success{ background: #198754; }
+#sqlResultsModal .qc-report-modal-btn.btn-info{ background: #0dcaf0; color: #083642; }
+#sqlResultsModal .qc-report-modal-btn.btn-close,
+#sqlResultsModal .qc-report-modal-controls .btn-close{
+  background: transparent;
+  opacity: 1;
+  filter: none;
+  border-radius: 0;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  margin: 0;
+  background-image: none;
+  position: relative;
+}
+#sqlResultsModal .qc-report-modal-controls .btn-close::before{
+  content: "\00D7";
+  color: #fff;
+  font-size: 22px;
+  line-height: 24px;
+  font-weight: 400;
+  display: block;
+  text-align: center;
+}
 
 /* -----------------------
    Simple CSS ripple for interactive elements
@@ -1329,7 +1440,7 @@ body.dark-mode .leaflet-top.leaflet-right .leaflet-bar a{
 
 /* Active (selected) map sidebar tab */
 .nav-tabs .nav-link.active {
-  background-color: #34d399 !important;  /* solid emerald tone */
+  background-color: #36454F!important;  /* solid emerald tone */
   color: #ffffff !important;              /* white icon/text for contrast */
 
   /* Soft lift */
@@ -1338,7 +1449,7 @@ body.dark-mode .leaflet-top.leaflet-right .leaflet-bar a{
     0 3px 6px rgba(0, 0, 0, 0.10);
 
   border: none;
-  border-radius: 50%;
+  border-radius: 19%;
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
@@ -1381,3 +1492,892 @@ body.dark-mode .leaflet-top.leaflet-right .leaflet-bar a{
 
 .relation-title { cursor: pointer; }
 .relation-list.collapsed { display: none; }
+
+.qc-feature-panel .qc-collapsible-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.qc-feature-panel .qc-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.qc-feature-panel .feature-chart-section {
+  padding-left: 12px;
+  padding-right: 12px;
+  box-sizing: border-box;
+  border-top: 1px solid #d0d7de;
+  padding-top: 10px;
+}
+
+.qc-feature-panel .qc-collapsible-body.collapsed {
+  display: none;
+}
+
+/* =========================
+   AGOL-style Sidebar Theme
+   ========================= */
+
+#sidebar.theme-business {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  border: 0 solid var(--md-sys-color-surface-variant);
+  background-color: #2f343a;
+  color: #e5e7eb;
+}
+
+/* LEFT ICON RAIL */
+#sidebar.theme-business .sidebar-tabs {
+  background-color: #24282d;
+  border-right: 1px solid #3a3f44;
+}
+
+#sidebar.theme-business .nav-link {
+  color: #9ca3af;
+  border-radius: 0;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#sidebar.theme-business .nav-link:hover {
+  background-color: #3a3f44;
+  color: #ffffff;
+}
+
+#sidebar.theme-business .nav-link.active {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+}
+
+/* MAIN PANEL */
+#sidebar.theme-business .sidebar-content {
+  background-color: #2f343a;
+  padding: 0;
+}
+
+/* REMOVE WHITE BOX */
+#sidebar.theme-business #layerSelector {
+  background: none;
+  padding: 0;
+}
+
+/* LAYER LIST CONTAINER */
+#sidebar.theme-business #layerToggleList {
+  background: none !important;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* EACH ROW (NO CARDS) */
+#sidebar.theme-business .layer-item {
+  background: none;
+  border: none;
+  border-bottom: 1px solid #3a3f44;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 10px 12px;
+}
+
+/* REMOVE ANY CHILD CARD STYLING */
+#sidebar.theme-business .layer-item * {
+  box-shadow: none !important;
+}
+
+/* HOVER */
+#sidebar.theme-business .layer-item:hover {
+  background-color: #3a3f44;
+}
+
+/* ACTIVE ROW (FULL WIDTH, NOT CARD) */
+#sidebar.theme-business .layer-item.active {
+  background-color: #374151;
+}
+
+/* TEXT */
+#sidebar.theme-business .layer-left {
+  color: #e5e7eb;
+  font-size: 14px;
+}
+
+/* ICONS */
+#sidebar.theme-business .layer-visibility,
+#sidebar.theme-business .layer-menu {
+  color: #9ca3af;
+}
+
+#sidebar.theme-business .layer-menu:hover {
+  color: #ffffff;
+}
+
+/* Layers tab project title only (do not target all sidebar h6 — breaks basemap card labels) */
+#sidebar.theme-business #layers h6 {
+  padding: 12px;
+  margin: 0;
+  border-bottom: 1px solid #3a3f44;
+  font-size: 13px;
+  font-weight: 500;
+  color: #d1d5db;
+}
+
+/* SCROLLBAR */
+#sidebar.theme-business::-webkit-scrollbar {
+  width: 6px;
+}
+
+#sidebar.theme-business::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+}
+
+/* =========================
+   HARD RESET FOR SIDEBAR
+   ========================= */
+
+/* Remove ALL border radius inside sidebar */
+#sidebar.theme-business,
+#sidebar.theme-business * {
+  border-radius: 0 !important;
+}
+
+/* Kill all white backgrounds */
+#sidebar.theme-business .tab-pane,
+#sidebar.theme-business .tab-content,
+#sidebar.theme-business .list-group,
+#sidebar.theme-business .list-group-item,
+#sidebar.theme-business #layerSelector,
+#sidebar.theme-business #layerToggleList {
+  background-color: transparent !important;
+}
+
+/* Ensure full sidebar background is solid */
+#sidebar.theme-business .sidebar-content {
+  background-color: #2f343a !important;
+}
+
+/* Remove padding containers causing "card" feel */
+#sidebar.theme-business .tab-pane {
+  padding: 0 !important;
+}
+
+/* Fix bottom white bleed */
+#sidebar.theme-business {
+  background-color: #2f343a !important;
+}
+
+/* Remove any shadows globally inside sidebar */
+#sidebar.theme-business * {
+  box-shadow: none !important;
+}
+
+/* Ensure full height coverage */
+#sidebar.theme-business .sidebar-container {
+  background-color: #2f343a;
+  height: 100%;
+}
+
+/* Optional: subtle section spacing (AGOL-like) */
+#sidebar.theme-business .tab-pane > *:first-child {
+  margin-top: 8px;
+}
+
+/* =========================
+   CUSTOM DROPDOWN (sidebar)
+   ========================= */
+
+#sidebar .qc-select {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+#sidebar .qc-select-trigger {
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  padding: 8px 10px;
+  border: 1px solid var(--md-sys-color-outline);
+  cursor: pointer;
+  font-size: 13px;
+  outline: none;
+}
+
+#sidebar .qc-select-trigger:hover {
+  background: color-mix(in oklab, var(--md-sys-color-surface), var(--md-sys-color-surface-variant) 25%);
+}
+
+#sidebar .qc-select-trigger:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 1px;
+}
+
+#sidebar .qc-select-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--md-sys-color-surface);
+  border: 1px solid var(--md-sys-color-outline);
+  display: none;
+  z-index: 1000;
+}
+
+#sidebar .qc-select-menu.open {
+  display: block;
+}
+
+#sidebar .qc-option {
+  padding: 8px 10px;
+  cursor: pointer;
+  outline: none;
+}
+
+#sidebar .qc-option:hover {
+  background: color-mix(in oklab, var(--md-sys-color-primary-container), white 70%);
+}
+
+#sidebar .qc-option:focus-visible {
+  background: color-mix(in oklab, var(--md-sys-color-primary-container), white 50%);
+}
+
+/* AGOL-style overrides (business theme) */
+#sidebar.theme-business .qc-select-trigger {
+  background: #1f2327;
+  color: #e5e7eb;
+  border: 1px solid #3a3f44;
+}
+
+#sidebar.theme-business .qc-select-trigger:hover {
+  background: #2a2f34;
+}
+
+#sidebar.theme-business .qc-select-menu {
+  background: #1f2327;
+  border: 1px solid #3a3f44;
+}
+
+#sidebar.theme-business .qc-option:hover {
+  background: #374151;
+}
+
+#sidebar.theme-business .qc-option:focus-visible {
+  background: #374151;
+}
+
+#sidebar.theme-business select {
+  display: none !important;
+}
+
+/* Layers tab: 3-dot context menu (fixed panel; still under #sidebar in DOM) */
+#sidebar.theme-business .layer-menu-content {
+  background-color: #1f2327 !important;
+  color: #e5e7eb !important;
+  border: 1px solid #3a3f44 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+#sidebar.theme-business .layer-menu-content .layer-menu-item {
+  color: #e5e7eb;
+  border-radius: 0 !important;
+}
+
+#sidebar.theme-business .layer-menu-content .layer-menu-item:hover {
+  background-color: #374151 !important;
+}
+
+#sidebar.theme-business .layer-menu-content i {
+  color: #9ca3af;
+}
+
+#sidebar.theme-business .layer-menu-content input[type="range"] {
+  accent-color: #2563eb;
+}
+
+/* Reports tab — titles / descriptions readable on dark panel */
+#sidebar.theme-business #report .saved_layer_report.list-group-item {
+  color: #e5e7eb;
+  border-color: #3a3f44 !important;
+  background-color: transparent !important;
+}
+
+#sidebar.theme-business #report .saved_layer_report strong {
+  color: #f3f4f6 !important;
+}
+
+#sidebar.theme-business #report .saved_layer_report .text-muted {
+  color: #9ca3af !important;
+}
+
+#sidebar.theme-business #report .saved_layer_report:hover,
+#sidebar.theme-business #report .saved_layer_report:focus-visible {
+  background-color: #3a3f44 !important;
+  color: #f9fafb;
+}
+
+#sidebar.theme-business #report .saved_layer_report:hover .text-muted,
+#sidebar.theme-business #report .saved_layer_report:focus-visible .text-muted {
+  color: #d1d5db !important;
+}
+
+/* Property Filters tab — business theme (list rows + heading; was default dark text on dark panel) */
+#sidebar.theme-business #filters h6,
+#sidebar.theme-business #filters .saved-queries-header {
+  color: #d1d5db !important;
+}
+
+#sidebar.theme-business #filters .saved_prop_filter.list-group-item {
+  color: #e5e7eb;
+  border-color: #3a3f44 !important;
+  background-color: transparent !important;
+}
+
+#sidebar.theme-business #filters .saved_prop_filter strong {
+  color: #f3f4f6 !important;
+}
+
+#sidebar.theme-business #filters .saved_prop_filter .text-muted {
+  color: #9ca3af !important;
+}
+
+#sidebar.theme-business #filters .saved_prop_filter:hover,
+#sidebar.theme-business #filters .saved_prop_filter:focus-visible {
+  background-color: #3a3f44 !important;
+  color: #f9fafb;
+}
+
+#sidebar.theme-business #filters .saved_prop_filter:hover .text-muted,
+#sidebar.theme-business #filters .saved_prop_filter:focus-visible .text-muted {
+  color: #d1d5db !important;
+}
+
+/* Metadata tab — business theme legibility (QGIS Info card + accordion) */
+#sidebar.theme-business #meta .metadata-container,
+#sidebar.theme-business #meta .card-body,
+#sidebar.theme-business #meta .accordion-body {
+  color: #e5e7eb;
+}
+
+#sidebar.theme-business #meta .metadata-item strong {
+  color: #f3f4f6 !important;
+}
+
+#sidebar.theme-business #meta .metadata-item i,
+#sidebar.theme-business #meta .metadata-item .text-muted {
+  color: #9ca3af !important;
+}
+
+#sidebar.theme-business #meta .metadata-item {
+  border-bottom-color: #3a3f44 !important;
+}
+
+/* Override MD3 header tokens so title stays readable on dark chrome */
+#sidebar.theme-business #meta .card-header {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+}
+
+#sidebar.theme-business #meta .card-header h5,
+#sidebar.theme-business #meta .card-header .mb-0 {
+  color: #ffffff !important;
+}
+
+#sidebar.theme-business #meta .card-header i {
+  color: #e0e7ff !important;
+}
+
+#sidebar.theme-business #meta .metadata-item .btn-outline-primary {
+  border-color: #60a5fa !important;
+  color: #bfdbfe !important;
+  background-color: transparent !important;
+}
+
+#sidebar.theme-business #meta .metadata-item .btn-outline-primary:hover {
+  background-color: #1e3a5f !important;
+  color: #f0f9ff !important;
+  border-color: #93c5fd !important;
+}
+
+/* Full INSPIRE-style accordion */
+#sidebar.theme-business #meta .accordion-item {
+  background-color: transparent;
+  border-color: #3a3f44 !important;
+}
+
+#sidebar.theme-business #meta .accordion-button {
+  background-color: #24282d !important;
+  color: #e5e7eb !important;
+  box-shadow: none !important;
+}
+
+#sidebar.theme-business #meta .accordion-button:not(.collapsed) {
+  background-color: #1f2327 !important;
+  color: #f9fafb !important;
+}
+
+#sidebar.theme-business #meta .accordion-button::after {
+  filter: brightness(0) invert(0.85);
+}
+
+#sidebar.theme-business #meta .accordion-body {
+  background-color: #2f343a !important;
+  color: #e5e7eb !important;
+}
+
+/* Basemaps tab — dark tiles, readable titles, no white footer stripe */
+#sidebar.theme-business #basemaps .basemaps-container > .mb-3 h6 {
+  color: #e5e7eb !important;
+  padding: 0;
+  margin: 0 0 0.25rem 0;
+  border: none;
+}
+
+#sidebar.theme-business #basemaps .basemaps-container > .mb-3 .text-muted {
+  color: #9ca3af !important;
+}
+
+#sidebar.theme-business #basemaps .basemap-card.card {
+  background-color: #24282d !important;
+  border: 1px solid #3a3f44 !important;
+  border-bottom: 1px solid #3a3f44 !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+
+#sidebar.theme-business #basemaps .basemap-card.card.border-primary {
+  border: 2px solid #2563eb !important;
+}
+
+#sidebar.theme-business #basemaps .basemap-info {
+  background-color: #1f2327;
+  border-top: 1px solid #3a3f44;
+  border-bottom: none !important;
+  padding: 8px 6px;
+  margin: 0;
+}
+
+#sidebar.theme-business #basemaps .basemap-info h6 {
+  color: #f3f4f6 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  font-size: 0.8125rem !important;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+#sidebar.theme-business #basemaps .basemap-thumbnail {
+  background-color: #1a1d21;
+}
+
+#sidebar.theme-business #basemaps #basemapAttribution.bg-light {
+  background-color: #1f2327 !important;
+  color: #9ca3af !important;
+  border: 1px solid #3a3f44 !important;
+}
+
+/* Bookmarks tab — business theme (drop light MD3 “card” chrome) */
+#sidebar.theme-business #bookmarks .bookmark-control {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0;
+  margin-top: 0;
+}
+
+#sidebar.theme-business #bookmarks .bookmark-header .bookmark-button {
+  background-color: #1f2327 !important;
+  color: #e5e7eb !important;
+  border: 1px solid #3a3f44 !important;
+  box-shadow: none !important;
+}
+
+#sidebar.theme-business #bookmarks .bookmark-header .bookmark-button:hover {
+  background-color: #374151 !important;
+  color: #ffffff !important;
+}
+
+#sidebar.theme-business #bookmarks .bookmark-list .bookmark-item {
+  background-color: #24282d !important;
+  border: 1px solid #3a3f44 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: #d1d5db;
+}
+
+#sidebar.theme-business #bookmarks .bookmark-list .bookmark-item:hover {
+  background-color: #3a3f44 !important;
+}
+
+#sidebar.theme-business #bookmarks .bookmark-list .bookmark-name,
+#sidebar.theme-business #bookmarks .bookmark-list .bookmark-item > div {
+  color: #f3f4f6 !important;
+}
+
+#sidebar.theme-business #bookmarks .bookmark-list .bookmark-item .btn-danger {
+  background-color: #7f1d1d !important;
+  border-color: #991b1b !important;
+  color: #fecaca !important;
+}
+
+#sidebar.theme-business #bookmarks .bookmark-list .bookmark-item .btn-danger:hover {
+  background-color: #991b1b !important;
+  color: #ffffff !important;
+}
+
+#sidebar.theme-business #bookmarks .bookmark-list .bookmark-delete,
+#sidebar.theme-business #bookmarks .bookmark-list .bookmark-item .bookmark-button {
+  background-color: #3f1d1d !important;
+  border-color: #7f1d1d !important;
+  color: #fecaca !important;
+}
+
+.qc-feature-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 360px;
+  max-width: 100vw;
+  background: #fff;
+  z-index: 10000;
+  border-left: 1px solid #ccc;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition: transform 0.25s ease;
+  box-shadow: -2px 0 6px rgba(0,0,0,0.1);
+  box-sizing: border-box;
+}
+
+/* Prevent wide GFI rows / Plotly from forcing horizontal scroll */
+.qc-feature-panel #featureContent {
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.qc-feature-panel .popup-content,
+.qc-feature-panel .tab-content,
+.qc-feature-panel .popup-body {
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.qc-feature-panel .qc-feature-actions .qc-action-btn {
+  flex: 1 1 0;
+  width: auto;
+  white-space: nowrap;
+  justify-content: center;
+}
+
+.qc-feature-panel .feature-chart-section {
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.qc-feature-panel #feature-plotly-chart {
+  max-width: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.qc-feature-panel .js-plotly-plot,
+.qc-feature-panel .plotly,
+.qc-feature-panel .plotly-notifier {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.qc-feature-panel.collapsed {
+  transform: translateX(100%);
+}
+
+.qc-feature-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+  background: #f8f9fa;
+}
+
+#qcFeatureClose {
+  border: none;
+  background: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+
+
+
+.qc-feature-panel .feature-chart-section {
+    border-top: 1px solid #d0d7de;
+    padding-top: 10px;
+    padding-left: 33px !important;
+    padding-right: 33px !important;
+}
+
+
+.qc-feature-panel .feature-chart-section {
+  border-top: none !important;
+}
+
+
+.qc-feature-panel .qc-collapsible-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 8px 12px;
+  margin: 4px -12px;   /* ?? THIS is the key */
+
+  background-color: #f2f2f2;
+  border-radius: 6px;
+
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ------------------------------------------------------------------
+   Floating feature popup (QWC2-style compact panel)
+   ------------------------------------------------------------------ */
+
+/* Feature edit / geometry actions (popup + panel) */
+.qc-feature-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.qc-feature-actions.single {
+  display: block;
+}
+
+.qc-feature-actions.single .qc-action-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.qc-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 6px 10px;
+  border-radius: 8px;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  border: 1px solid var(--md-sys-color-surface-variant);
+  background: var(--md-sys-color-surface);
+
+  color: var(--md-sys-color-on-surface);
+
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.qc-action-btn:hover {
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+
+.qc-action-btn i {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.qc-floating-popup {
+  position: absolute;
+  top: 80px;
+  right: 80px;
+  width: 340px;
+  height: 360px; /* default compact height */
+  min-width: 280px;
+  min-height: 200px;
+  max-width: 80vw;
+  max-height: 80vh; /* prevent going off screen */
+  display: flex;
+  flex-direction: column;
+  resize: both;
+  overflow: auto;
+  background: #f4f4f4;
+  border: 1px solid #999;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+  z-index: 10000;
+  font-size: 12px;
+}
+
+.qc-floating-popup.hidden {
+  display: none;
+}
+
+.qc-popup-header {
+  background: #666;
+  color: #fff;
+  padding: 6px 10px;
+  cursor: move;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.qc-popup-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.qc-popup-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.qc-popup-body {
+  flex: 1;
+  overflow: auto;
+  min-height: 0;
+  background: #f9f9f9;
+}
+
+.qc-floating-popup .qc-popup-attrs {
+  min-width: 0;
+}
+
+.qc-floating-popup #featureContent {
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.qc-floating-popup .popup-content,
+.qc-floating-popup .tab-content,
+.qc-floating-popup .popup-body {
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.qc-floating-popup .popup-navigation {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.qc-floating-popup .popup-navigation .nav-btn {
+  flex: 0 0 auto;
+  border: none;
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  padding: 0;
+}
+
+.qc-floating-popup .popup-navigation .nav-btn:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--md-sys-color-on-surface), transparent 90%);
+  color: var(--md-sys-color-on-surface);
+}
+
+.qc-floating-popup .popup-navigation .nav-btn:disabled {
+  opacity: 0.35;
+}
+
+.qc-floating-popup .popup-navigation .nav-counter {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 0 4px;
+  font-size: 0.85rem;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.qc-floating-popup #feature-plotly-chart,
+.qc-floating-popup .qc-feature-plotly-chart {
+  max-width: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.qc-floating-popup .js-plotly-plot,
+.qc-floating-popup .plotly,
+.qc-floating-popup .plotly-notifier {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.qc-floating-popup .qc-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.qc-floating-popup .qc-collapsible-body.collapsed {
+  display: none;
+}
+
+.qc-floating-popup .popup-inner .popup-row {
+  display: grid;
+  grid-template-columns: 45% 55%;
+  padding: 4px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.qc-floating-popup .popup-inner .popup-label {
+  color: #444;
+  font-weight: 500;
+}
+
+.qc-floating-popup .popup-inner .popup-value {
+  color: #111;
+}
+
+.qc-floating-popup .popup-inner .popup-row:nth-child(even) {
+  background: #efefef;
+}
+
+

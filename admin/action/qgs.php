@@ -196,12 +196,18 @@ function update_store($id, $post){
 }
 
 function parseQGISLayouts($xml){
-    $rv = array();
-   list($layouts) = $xml->xpath('/qgis/Layouts//Layout/@name');
-   foreach($layouts as $l){
-       array_push($rv, (String)$l);
-   }
-   return $rv;
+	$rv = [];
+	if (!$xml instanceof SimpleXMLElement) {
+		return $rv;
+	}
+	$layouts = $xml->xpath('/qgis/Layouts//Layout/@name');
+	if (!is_array($layouts)) {
+		return $rv;
+	}
+	foreach ($layouts as $l) {
+		$rv[] = (string) $l;
+	}
+	return $rv;
 }
 	
     $result = ['success' => false, 'message' => 'Error while processing your request!'];
@@ -294,15 +300,22 @@ function parseQGISLayouts($xml){
 					if($qgis_file !== false){
 						
 						$xml = simplexml_load_file($qgis_file);
-						list($DefaultViewExtent) = $xml->xpath('/qgis/ProjectViewSettings/DefaultViewExtent');
-						
-						$bounding_box = $DefaultViewExtent['xmin'].',</br>'.$DefaultViewExtent['ymin'].',</br>'.$DefaultViewExtent['xmax'].',</br>'.$DefaultViewExtent['ymax'];
-						list($projection) = $xml->xpath('/qgis/ProjectViewSettings/DefaultViewExtent/spatialrefsys/authid');
+						$dve = $xml->xpath('/qgis/ProjectViewSettings/DefaultViewExtent');
+						$DefaultViewExtent = (is_array($dve) && isset($dve[0])) ? $dve[0] : null;
+						if ($DefaultViewExtent !== null) {
+							$bounding_box = $DefaultViewExtent['xmin'] . ',</br>' . $DefaultViewExtent['ymin'] . ',</br>' . $DefaultViewExtent['xmax'] . ',</br>' . $DefaultViewExtent['ymax'];
+						} else {
+							$bounding_box = '';
+						}
+						$auth = $xml->xpath('/qgis/ProjectViewSettings/DefaultViewExtent/spatialrefsys/authid');
+						$projection = (is_array($auth) && isset($auth[0])) ? $auth[0] : '';
 						
 						$layout_names = [];
-						list($layouts) = $xml->xpath('/qgis/Layouts//Layout/@name');
-						foreach($layouts as $name){
-						    $layout_names[] = (string)$name;
+						$layouts = $xml->xpath('/qgis/Layouts//Layout/@name');
+						if (is_array($layouts)) {
+							foreach ($layouts as $name) {
+								$layout_names[] = (string) $name;
+							}
 						}
 						
 						$layer_names = qgs_ordered_layers($xml);

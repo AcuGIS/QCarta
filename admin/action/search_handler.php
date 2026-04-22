@@ -11,9 +11,10 @@ require('../class/web_link.php');
 require('../class/doc.php');
 require('../class/dashboard.php');
 require('../class/access_group.php');
+require_once('../incl/report_builder_helpers.php');
 
 // Perform searches based on filters
-$results = ['layers' => [], 'stories' => [], 'links' => [], 'docs' => [], 'dashboards' => []];
+$results = ['layers' => [], 'stories' => [], 'links' => [], 'docs' => [], 'dashboards' => [], 'reports' => []];
 
 // Get search parameters
 $text = $_GET['text'] ?? '';
@@ -49,7 +50,11 @@ if(empty($_SESSION[SESS_USR_KEY])){
 	// super admin sees everything, other admins only owned
 	$usr_grps = ($_SESSION[SESS_USR_KEY]->id == SUPER_ADMIN_ID) ? $acc_obj->getArr()
 															    : $acc_obj->getByKV('user', $_SESSION[SESS_USR_KEY]->id);	
-	$usr_grps_ids = implode(',', array_keys($usr_grps));	
+	$usr_grps_ids = implode(',', array_keys($usr_grps));
+	// Empty IN () breaks PostgreSQL; use a sentinel that matches no real group id.
+	if ($usr_grps_ids === '') {
+		$usr_grps_ids = '-1';
+	}
 	
 	// q.id IN (layers that user group(s) have access to)
     $acc_cond = [
@@ -71,17 +76,23 @@ foreach ($filters as $filter) {
                     $image = file_exists("../../assets/layers/".$row['id'].".png") ? 
                         "assets/layers/".$row['id'].".png" : 
                         "assets/layers/default.png";
+                    $center = $qgsLayer->getLayerCenter($row['id']);
                     $results['layers'][] = [
                         'id' => $row['id'],
+                        'type' => 'map',
                         'name' => str_replace('_', ' ', $row['name']),
                         'description' => $row['description'],
                         'url' => "layers/{$row['id']}/index.php",
                         'last_updated' => substr($row['last_updated'], 0, -7),
-                        'image' => $image.'?v='.filemtime('../../'.$image)
+                        'image' => $image.'?v='.filemtime('../../'.$image),
+                        'lat' => $center ? $center['lat'] : null,
+                        'lng' => $center ? $center['lng'] : null
                     ];
                 }
             }
-            pg_free_result($result);
+            if ($result) {
+                pg_free_result($result);
+            }
             break;
 
         case 'stories':
@@ -101,7 +112,9 @@ foreach ($filters as $filter) {
                     ];
                 }
             }
-            pg_free_result($result);
+            if ($result) {
+                pg_free_result($result);
+            }
             break;
 
         case 'links':
@@ -121,7 +134,9 @@ foreach ($filters as $filter) {
                     ];
                 }
             }
-            pg_free_result($result);
+            if ($result) {
+                pg_free_result($result);
+            }
             break;
         
         case 'docs':
@@ -146,6 +161,7 @@ foreach ($filters as $filter) {
                         'image' => $image.'?v='.filemtime('../../'.$image)
                     ];
                 }
+                pg_free_result($result);
             }
             break;
         case 'dashboards':
@@ -166,6 +182,57 @@ foreach ($filters as $filter) {
                         'image' => $image.'?v='.filemtime('../../'.$image)
                     ];
                 }
+                pg_free_result($result);
+            }
+            break;
+        case 'reports':
+            // Reports currently don't carry Topic/GEMET taxonomy links.
+            // When those filters are active, do not return all reports as false positives.
+            if (trim((string)$topic) !== '' || trim((string)$gemet) !== '') {
+                break;
+            }
+            $whereClauses = ["(r.is_internal IS NULL OR r.is_internal = false)"];
+            $params = [];
+            if ($text !== '') {
+                $params[] = '%' . $text . '%';
+                $whereClauses[] = "(r.title ILIKE $" . count($params) . " OR COALESCE(r.description,'') ILIKE $" . count($params) . ")";
+            }
+            if (!empty($keywords)) {
+                foreach ($keywords as $kw) {
+                    $kw = trim((string)$kw);
+                    if ($kw === '') {
+                        continue;
+                    }
+                    $params[] = '%' . $kw . '%';
+                    $whereClauses[] = "(r.title ILIKE $" . count($params) . " OR COALESCE(r.description,'') ILIKE $" . count($params) . ")";
+                }
+            }
+
+            $sql = "SELECT r.id, r.title, r.description, r.updated_at
+                    FROM reports r
+                    WHERE " . implode(' AND ', $whereClauses) . "
+                    ORDER BY r.updated_at DESC NULLS LAST, r.id DESC";
+            $rres = !empty($params) ? pg_query_params($conn, $sql, $params) : pg_query($conn, $sql);
+            if ($rres) {
+                while ($row = pg_fetch_assoc($rres)) {
+                    $rid = intval($row['id']);
+                    if ($rid <= 0 || !canViewReport($rid, $conn)) {
+                        continue;
+                    }
+                    $image = "assets/docs/default.png";
+                    if (file_exists("../../assets/reports/" . $rid . ".png")) {
+                        $image = "assets/reports/" . $rid . ".png";
+                    }
+                    $results['reports'][] = [
+                        'id' => $rid,
+                        'name' => $row['title'] ?? ('Report ' . $rid),
+                        'description' => $row['description'] ?? '',
+                        'url' => "admin/report_builder/view_report.php?id={$rid}",
+                        'last_updated' => !empty($row['updated_at']) ? substr($row['updated_at'], 0, -7) : null,
+                        'image' => $image . '?v=' . filemtime('../../' . $image)
+                    ];
+                }
+                pg_free_result($rres);
             }
             break;
     }

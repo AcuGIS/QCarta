@@ -1,3 +1,4 @@
 {
-  "login_redirect" : "index.php"
+  "login_redirect" : "index.php",
+  "sidebar_theme": "default"
 }

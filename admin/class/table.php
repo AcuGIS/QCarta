@@ -138,6 +138,73 @@
 				return $this->remove_category('topic', $id) && $this->remove_category('gemet', $id);
 			}
 
+			/** @return int[] */
+			function get_assigned_category_ids($category, $entity_id) {
+				$entity_id = intval($entity_id);
+				if ($entity_id <= 0 || ($category !== 'topic' && $category !== 'gemet')) {
+					return [];
+				}
+				$id_col = $category === 'gemet' ? 'gemet_id' : 'topic_id';
+				$sql = 'SELECT '.$id_col.' AS cid FROM public.'.$category.'_'.$this->table_name.
+					' WHERE '.$this->table_name.'_id = '.$entity_id;
+				$result = pg_query($this->dbconn, $sql);
+				if (!$result) {
+					return [];
+				}
+				$out = [];
+				while ($row = pg_fetch_assoc($result)) {
+					$out[] = intval($row['cid']);
+				}
+				pg_free_result($result);
+				return $out;
+			}
+
+			/**
+			 * Replace topic_* and gemet_* junction rows for this entity (used from admin entity forms).
+			 * @param int[]|mixed $topic_ids
+			 * @param int[]|mixed $gemet_ids
+			 */
+			function sync_topic_gemet_assignments($entity_id, $topic_ids, $gemet_ids) {
+				$entity_id = intval($entity_id);
+				if ($entity_id <= 0) {
+					return false;
+				}
+				$normalize = function ($arr) {
+					if (!is_array($arr)) {
+						return [];
+					}
+					$out = [];
+					foreach ($arr as $v) {
+						$i = intval($v);
+						if ($i > 0) {
+							$out[$i] = true;
+						}
+					}
+					return array_keys($out);
+				};
+				$topic_ids = $normalize($topic_ids);
+				$gemet_ids = $normalize($gemet_ids);
+
+				if (!$this->remove_category('topic', $entity_id) || !$this->remove_category('gemet', $entity_id)) {
+					return false;
+				}
+				foreach ($topic_ids as $tid) {
+					$sql = 'INSERT INTO public.topic_'.$this->table_name.' (topic_id, '.$this->table_name.'_id) VALUES ('.
+						intval($tid).', '.$entity_id.')';
+					if (!pg_query($this->dbconn, $sql)) {
+						return false;
+					}
+				}
+				foreach ($gemet_ids as $gid) {
+					$sql = 'INSERT INTO public.gemet_'.$this->table_name.' (gemet_id, '.$this->table_name.'_id) VALUES ('.
+						intval($gid).', '.$entity_id.')';
+					if (!pg_query($this->dbconn, $sql)) {
+						return false;
+					}
+				}
+				return true;
+			}
+
 		function getPublic(){
             $sql = 'SELECT * from public.'.$this->table_name.' WHERE public = true';
             return pg_query($this->dbconn, $sql);

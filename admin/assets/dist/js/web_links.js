@@ -1,5 +1,13 @@
 var tbl_action = 'web_link';
 
+function parseDataIdList(tr, attrName) {
+	var raw = tr.attr(attrName) || '';
+	if (!raw) {
+		return [];
+	}
+	return raw.split(',').map(function (x) { return String(x).trim(); }).filter(Boolean);
+}
+
 $(document).ready(function() {
 
 $('[data-toggle="tooltip"]').tooltip();
@@ -10,6 +18,10 @@ $(document).on("click", ".add-modal", function() {
 	$('#btn_create').html('Create');
 	
 	$('#id').val(0);
+	if ($('#topic_id').length) {
+		$('#topic_id').val([]);
+		$('#gemet_id').val([]);
+	}
 });
 
 // Edit row on edit button click
@@ -26,6 +38,10 @@ $(document).on("click", ".edit", function() {
 	$('#url').val(tds[3].textContent);
 	$('#public').prop('checked', (tr.attr('data-public') == 'yes'));
 	$('#group_id').val(tr.attr('data-group_id').split(','));
+	if ($('#topic_id').length) {
+		$('#topic_id').val(parseDataIdList(tr, 'data-topic_id'));
+		$('#gemet_id').val(parseDataIdList(tr, 'data-gemet_id'));
+	}
 });
 
 	// Delete row on delete button click
@@ -102,6 +118,10 @@ $(document).on("click", ".edit", function() {
 								dtrow.attr('data-id', response.id);
 								dtrow.attr('data-public', is_public);
 								dtrow.attr('data-group_id', $('#group_id').val().join(','));
+								if ($('#topic_id').length) {
+									dtrow.attr('data-topic_id', ($('#topic_id').val() || []).join(','));
+									dtrow.attr('data-gemet_id', ($('#gemet_id').val() || []).join(','));
+								}
 							}
 						}else{
 							alert("Create failed:" + response.message);

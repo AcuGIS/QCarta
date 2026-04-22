@@ -1,6 +1,19 @@
 <?php
 session_start(['read_and_close' => true]);
 require('../../admin/incl/const.php');
+
+$settings = [];
+$settingsFile = DATA_DIR . '/settings.json';
+
+if (file_exists($settingsFile)) {
+    $decoded = json_decode(file_get_contents($settingsFile), true);
+    if (is_array($decoded)) {
+        $settings = $decoded;
+    }
+}
+
+$SIDEBAR_THEME = $settings['sidebar_theme'] ?? 'default';
+
 require('../../admin/class/database.php');
 require('../../admin/class/table.php');
 require('../../admin/class/access_key.php');

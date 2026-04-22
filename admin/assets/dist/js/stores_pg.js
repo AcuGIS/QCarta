@@ -326,7 +326,7 @@ $(document).on("click", ".import-modal", function() {
 			});
 
 			if(empty){
-				$('#import_form').find(".error").first().focus();
+				$('#pglink_form').find(".error").first().focus();
 				obj.toggle();
 			}else{
 					let data = new FormData($('#pglink_form')[0]);
@@ -336,19 +336,30 @@ $(document).on("click", ".import-modal", function() {
 						data: data,
 						processData: false,
 						contentType: false,
-						dataType: "html",
+						dataType: "json",
 						success: function(response){
 							obj.toggle();
 							$('#conn_modal').modal('hide');
-							
+
+							if (!response.success) {
+								alert(response.message || 'Save failed');
+								return;
+							}
+
+							$('#addnew_modal').modal('hide');
+
 							if(data.get('id') > 0){	// if edit
 								location.reload();
 							}else if(sortTable.rows().count() == 0){ // if no rows in table, there are no data-order tags!
 								location.reload();
 							}else{
+								let grpText = $('#group_id').find(':selected').toArray().map(function (item) { return item.text; }).join(',');
+								let grpVal = $('#group_id').val();
+								let grpDataVal = Array.isArray(grpVal) ? grpVal.join(',') : (grpVal || '');
+
 								let tds = [
 									data.get('name'),
-									data.getAll('group_id[]').join(','),
+									grpText,
 									data.get('host'),
 									data.get('port'),
 									data.get('schema'),
@@ -358,12 +369,18 @@ $(document).on("click", ".import-modal", function() {
 									`<a class="conn_info" title="Show Connection" data-toggle="tooltip"><i class="text-info bi bi-info-circle"></i></a>
 									<a class="pwd_vis" title="Show Password" data-toggle="tooltip"><i class="text-secondary bi bi-eye"></i></a>
 									<a class="edit" title="Edit" data-toggle="tooltip"><i class="text-warning bi bi-pencil-square"></i></a>
-									<a class="delete_pg" title="Delete" data-toggle="tooltip"><i class="text-danger bi bi-x-square"></i></a>`
+									<a class="delete" title="Delete" data-toggle="tooltip"><i class="text-danger bi bi-x-square"></i></a>`
 								];
 
 								sortTable.row.add(tds).draw();
-								$("table tbody tr:last-child").attr('data-id', response.id);
+								let dtrow = sortTable.rows(sortTable.rows().count() - 1).nodes().to$();
+								dtrow.attr('data-id', response.id);
+								dtrow.find('td:eq(1)').attr('data-value', grpDataVal);
 							}
+						},
+						error: function () {
+							obj.toggle();
+							alert('Request failed');
 						}
 					});
 			}
@@ -454,7 +471,7 @@ $(document).on("click", ".import-modal", function() {
 									`<a class="conn_info" title="Show Connection" data-toggle="tooltip"><i class="text-info bi bi-info-circle"></i></a>
 									<a class="pwd_vis" title="Show Password" data-toggle="tooltip"><i class="text-secondary bi bi-eye"></i></a>
 									<a class="edit" title="Edit" data-toggle="tooltip"><i class="text-warning bi bi-pencil-square"></i></a>
-									<a class="delete_pg" title="Delete" data-toggle="tooltip"><i class="text-danger bi bi-x-square"></i></a>`
+									<a class="delete" title="Delete" data-toggle="tooltip"><i class="text-danger bi bi-x-square"></i></a>`
 								];
 
 								sortTable.row.add(tds).draw();

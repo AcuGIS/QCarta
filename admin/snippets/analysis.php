@@ -43,7 +43,7 @@
 
 	$chart_configs = json_decode(file_get_contents(DATA_DIR.'/stores/'.$ql_row->store_id.'/charts.json'), true);
 	$plotly_defaults_file = DATA_DIR.'/stores/'.$ql_row->store_id.'/plotly_defaults.json';
-	$wms_layers = explode(',', 'WMS_LAYERS');
+	$wms_layers = QGIS_LAYERS;
 ?>
 <!DOCTYPE html>
 <html lang="en">

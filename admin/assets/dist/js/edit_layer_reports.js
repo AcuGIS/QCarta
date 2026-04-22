@@ -18,7 +18,10 @@ $(document).on("click", ".edit", function() {
 	$('#description').val(tds[1].textContent);
 	$('#badge').val(tds[2].textContent);
 	$('#database_type').val(tds[3].getAttribute('data-value'));
-	editor1.setValue(tds[4].textContent);
+	// List cell shows truncated SQL; full text is on data-full-sql (see edit_layer_reports.php).
+	var sqlCell = tds[4];
+	var fullSql = sqlCell.getAttribute('data-full-sql');
+	editor1.setValue(fullSql != null ? fullSql : sqlCell.textContent);
 	setTimeout(function() {
 	  editor1.refresh();
   },500);

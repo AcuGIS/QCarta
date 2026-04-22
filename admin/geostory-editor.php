@@ -144,6 +144,16 @@
 	   $story = $_SESSION['story'];
 	}
 
+	$taxonomy_topics = $database->select('SELECT id, name FROM public.topic ORDER BY name');
+	$taxonomy_gemets = $database->select('SELECT id, name FROM public.gemet ORDER BY name');
+	$taxonomy_selected_topic_ids = [];
+	$taxonomy_selected_gemet_ids = [];
+	if (!empty($story['id'])) {
+		$tax_gs = new geostory_Class($database->getConn(), $_SESSION[SESS_USR_KEY]->id);
+		$taxonomy_selected_topic_ids = $tax_gs->get_assigned_category_ids('topic', (int) $story['id']);
+		$taxonomy_selected_gemet_ids = $tax_gs->get_assigned_category_ids('gemet', (int) $story['id']);
+	}
+
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
@@ -352,6 +362,8 @@
 							<span class="input-group-text"><i class="bi bi-shield-lock">Access Groups</i></span>
 						</div>
 					</div>
+
+					<?php require __DIR__.'/incl/taxonomy_multiselect.php'; ?>
                     
                     <?php if (empty($_SESSION['content'])): ?>
                         <div class="empty-state">

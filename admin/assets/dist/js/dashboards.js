@@ -1,5 +1,13 @@
 var tbl_action = 'dashboard';
 
+function parseDataIdList(tr, attrName) {
+	var raw = tr.attr(attrName) || '';
+	if (!raw) {
+		return [];
+	}
+	return raw.split(',').map(function (x) { return String(x).trim(); }).filter(Boolean);
+}
+
 function btn_upload_post(data){
 	$.ajax({
 		type: "POST",
@@ -36,6 +44,10 @@ function btn_upload_post(data){
 					dtrow.attr('data-public', is_public);
 					dtrow.attr('data-layer_id', $('#layer_id').val());
 					dtrow.attr('data-group_id', $('#group_id').val().join(','));
+					if ($('#topic_id').length) {
+						dtrow.attr('data-topic_id', ($('#topic_id').val() || []).join(','));
+						dtrow.attr('data-gemet_id', ($('#gemet_id').val() || []).join(','));
+					}
 				}
 			}else{
 				alert("Upload failed." + response.message);
@@ -62,6 +74,10 @@ $(document).on("click", ".add-modal", function() {
 	
 	$('#id').val(0);
 	$('#filename').prop('disabled', false);
+	if ($('#topic_id').length) {
+		$('#topic_id').val([]);
+		$('#gemet_id').val([]);
+	}
 });
 
 // Edit row on edit button click
@@ -80,6 +96,10 @@ $(document).on("click", ".edit", function() {
 	$('#public').prop('checked', (tr.attr('data-public') == 'yes'));
 	$('#layer_id').val(tr.attr('data-layer_id'));
 	$('#group_id').val(tr.attr('data-group_id').split(','));
+	if ($('#topic_id').length) {
+		$('#topic_id').val(parseDataIdList(tr, 'data-topic_id'));
+		$('#gemet_id').val(parseDataIdList(tr, 'data-gemet_id'));
+	}
 });
 
 	// Delete row on delete button click

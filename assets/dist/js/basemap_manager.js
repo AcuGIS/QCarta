@@ -10,15 +10,9 @@ class BasemapManager {
 
     async init() {
         try {
-            console.log('BasemapManager: Starting initialization...');
             await this.loadBasemaps();
-            console.log('BasemapManager: Basemaps loaded, populating list...');
             this.populateBasemapList();
-        
-            // Try to build the base layer if the map is already available
-            console.log('BasemapManager: Ensuring base layer...');
             this.ensureBaseLayer();
-            console.log('BasemapManager: Initialization complete');
 } catch (error) {
             console.error('Failed to initialize basemap manager:', error);
         }
@@ -34,14 +28,11 @@ class BasemapManager {
             
             if (data.success && data.basemaps && data.basemaps.length > 0) {
                 this.basemaps = data.basemaps;
-                console.log('BasemapManager: Loaded basemaps from server:', this.basemaps);
             } else {
                 this.basemaps = this.getDefaultBasemaps();
-                console.log('BasemapManager: Using default basemaps:', this.basemaps);
             }
         } catch (error) {
             this.basemaps = this.getDefaultBasemaps();
-            console.log('BasemapManager: Error loading basemaps, using defaults:', error);
         }
     }
 
@@ -160,20 +151,14 @@ card.addEventListener('click', () => {
     switchBasemap(basemapId) {
         const basemap = this.basemaps.find(b => b.id == basemapId);
         if (!basemap || !this.map) {
-            console.log('Cannot switch basemap:', { basemap, map: this.map });
             return;
         }
-
-        console.log('Switching to basemap:', basemap.name);
-        console.log('Current baseLayer:', this.baseLayer);
 
         // Use the exact same approach as the working backup system
         if (this.baseLayer) {
             // Just change the URL - this preserves all other layers
-            console.log('Changing basemap URL to:', basemap.url);
             this.baseLayer.setUrl(basemap.url);
         } else {
-            console.warn('baseLayer was null; creating via ensureBaseLayer()...');
             this.ensureBaseLayer();
             if (this.baseLayer) {
                 this.baseLayer.setUrl(basemap.url);
@@ -225,7 +210,6 @@ card.addEventListener('click', () => {
             this.baseLayer.addTo(this.map);
             this.currentBasemap = firstBasemap;
             this.updateAttribution();
-            console.log('BasemapManager: ensureBaseLayer() created initial basemap');
         } catch (e) {
             console.error('BasemapManager.ensureBaseLayer() failed:', e);
         }
@@ -236,19 +220,11 @@ card.addEventListener('click', () => {
         if (!Array.isArray(this.basemaps)) return null;
         
         // First priority: Use the default basemap from layer configuration
-        console.log('Checking for default basemap:', defaultBasemap);
-        console.log('Available basemaps:', this.basemaps);
         if (typeof defaultBasemap !== 'undefined' && defaultBasemap && defaultBasemap.id) {
             const configuredBasemap = this.basemaps.find(b => b.id == defaultBasemap.id);
-            console.log('Found configured basemap:', configuredBasemap);
             if (configuredBasemap) {
-                console.log('Using configured default basemap:', configuredBasemap.name);
                 return configuredBasemap;
-            } else {
-                console.log('Configured basemap not found in available basemaps');
             }
-        } else {
-            console.log('No default basemap configured or invalid data');
         }
         
         // Fallback: Choose Carto Light as the preferred default, regardless of array order
@@ -267,9 +243,7 @@ card.addEventListener('click', () => {
         }
         
         this.map = map;
-        console.log('BasemapManager: Map set successfully');
-        
-        
+
         // Build base layer if basemaps are already loaded
         this.ensureBaseLayer();
 // Create the basemap layer FIRST, before any WMS layers are added
@@ -283,7 +257,6 @@ card.addEventListener('click', () => {
             });
             this.baseLayer.addTo(map);
             this.currentBasemap = firstBasemap;
-            console.log('Basemap layer created and added to map FIRST');
         }
     }
 

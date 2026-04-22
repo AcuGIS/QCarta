@@ -21,6 +21,7 @@ function initializePlotlyDefaults() {
         const chartTypeSelect = document.getElementById('plotlyChartType');
         if (chartTypeSelect) {
             chartTypeSelect.value = defaults.chartType;
+            chartTypeSelect.dispatchEvent(new Event('change', { bubbles: true }));
             console.log('✓ Set chart type to:', defaults.chartType);
         } else {
             console.log('✗ Chart type select not found');
@@ -35,6 +36,7 @@ function initializePlotlyDefaults() {
             const defaultOption = options.find(option => option.value === defaults.chartConfig);
             if (defaultOption) {
                 configSelect.value = defaultOption.value;
+                configSelect.dispatchEvent(new Event('change', { bubbles: true }));
                 console.log('✓ Set chart config to:', defaults.chartConfig);
             } else {
                 console.log('✗ Chart config option not found:', defaults.chartConfig);
@@ -59,7 +61,7 @@ function initializePlotlyDefaults() {
                     console.log('✓ Set layer to:', defaults.layer);
                     
                     // Trigger change event to populate other fields
-                    layerSelect.dispatchEvent(new Event('change'));
+                    layerSelect.dispatchEvent(new Event('change', { bubbles: true }));
                     
                     // Set X and Y fields after a delay to allow field population
                     setTimeout(() => {
@@ -122,6 +124,9 @@ function setFieldDefaults(xField, yField) {
         } else {
             console.log('✗ X field select not found');
         }
+        if (xFieldSelect && xFieldSelect.options.length > 0) {
+            xFieldSelect.dispatchEvent(new Event('change', { bubbles: true }));
+        }
     }
 
     if (yField) {
@@ -151,6 +156,9 @@ function setFieldDefaults(xField, yField) {
             }
         } else {
             console.log('✗ Y field select not found');
+        }
+        if (yFieldSelect && yFieldSelect.options.length > 0) {
+            yFieldSelect.dispatchEvent(new Event('change', { bubbles: true }));
         }
     }
     
@@ -197,6 +205,7 @@ function setLayerDefaults(selectedLayer) {
         const chartTypeSelect = document.getElementById('plotlyChartType');
         if (chartTypeSelect) {
             chartTypeSelect.value = layerDefault.chartType;
+            chartTypeSelect.dispatchEvent(new Event('change', { bubbles: true }));
             console.log('✓ Set layer chart type to:', layerDefault.chartType);
         }
     }
@@ -209,6 +218,7 @@ function setLayerDefaults(selectedLayer) {
             const defaultOption = options.find(option => option.value === layerDefault.chartConfig);
             if (defaultOption) {
                 configSelect.value = defaultOption.value;
+                configSelect.dispatchEvent(new Event('change', { bubbles: true }));
                 console.log('✓ Set layer chart config to:', layerDefault.chartConfig);
             }
         }
@@ -249,6 +259,7 @@ function filterChartTypes(selectedLayer) {
     if (!allowedTypes.includes(currentValue) && allowedTypes.length > 0) {
         chartTypeSelect.value = allowedTypes[0];
     }
+    chartTypeSelect.dispatchEvent(new Event('change', { bubbles: true }));
 }
 
 // Event listener for when the page loads
@@ -325,7 +336,7 @@ function setUrlDefaults() {
                 const defaultOption = options.find(option => option.text === urlDefaults.layer);
                 if (defaultOption) {
                     layerSelect.value = defaultOption.value;
-                    layerSelect.dispatchEvent(new Event('change'));
+                    layerSelect.dispatchEvent(new Event('change', { bubbles: true }));
                 }
             }, 100);
         }
@@ -335,6 +346,7 @@ function setUrlDefaults() {
         const chartTypeSelect = document.getElementById('plotlyChartType');
         if (chartTypeSelect) {
             chartTypeSelect.value = urlDefaults.chartType;
+            chartTypeSelect.dispatchEvent(new Event('change', { bubbles: true }));
         }
     }
 
@@ -342,6 +354,7 @@ function setUrlDefaults() {
         const configSelect = document.getElementById('plotlyConfig');
         if (configSelect) {
             configSelect.value = urlDefaults.chartConfig;
+            configSelect.dispatchEvent(new Event('change', { bubbles: true }));
         }
     }
 

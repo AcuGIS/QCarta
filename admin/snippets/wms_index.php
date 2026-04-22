@@ -115,7 +115,7 @@
     };
 
 // WMS Layer
-	<?php $layers = explode(',', 'WMS_LAYERS'); $li = 0;
+	<?php $layers = QGIS_LAYERS; $li = 0;
 		 foreach($layers as $lay){ ?>
 	const wms<?=$li?> = L.tileLayer.betterWms('<?=$wms_url?>', {
 		layers: '<?=$lay?>',

@@ -114,7 +114,8 @@ CREATE TABLE public.qgs_layer (
 	show_query BOOLEAN DEFAULT False,
 	show_fi_edit BOOLEAN DEFAULT False, /* show feature info edit */
 	print_layout character varying(250) DEFAULT NULL,
-	layers TEXT NOT NULL
+	layers TEXT NOT NULL,
+	popup_chart_config JSONB NOT NULL DEFAULT '{}'::jsonb
 );
 
 CREATE TABLE public.access_key ( id SERIAL PRIMARY KEY,

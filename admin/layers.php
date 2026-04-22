@@ -21,7 +21,10 @@
     }
 		
 	$database = new Database(DB_HOST, DB_NAME, DB_USER, DB_PASS, DB_PORT, DB_SCMA);
-	$dbconn = $database->getConn();	
+	$dbconn = $database->getConn();
+
+	$taxonomy_topics = $database->select('SELECT id, name FROM public.topic ORDER BY name');
+	$taxonomy_gemets = $database->select('SELECT id, name FROM public.gemet ORDER BY name');
 
 	$grp_obj = new access_group_Class($dbconn, $_SESSION[SESS_USR_KEY]->id);
 	$groups = $grp_obj->getArr();
@@ -68,6 +71,10 @@
 			$('#btn_create').html('Create');
 			
 			$('#id').val(0);
+			if ($('#topic_id').length) {
+				$('#topic_id').val([]);
+				$('#gemet_id').val([]);
+			}
 			
 			if($('#store_id').length > 0){	// if PG tab
 				$('#store_id').trigger('change');	// trigger change to reload selects
@@ -76,6 +83,13 @@
 	});
 	</script>
 	<script src="assets/dist/js/html5_uploader.js"></script>
+	<?php
+	$qcarta_cache_purge_token_js = defined('QCARTA_CACHE_PURGE_TOKEN') ? QCARTA_CACHE_PURGE_TOKEN : getenv('QCARTA_CACHE_PURGE_TOKEN');
+	$qcarta_cache_purge_token_js = is_string($qcarta_cache_purge_token_js) ? $qcarta_cache_purge_token_js : '';
+	?>
+	<script>
+	const QCARTA_CACHE_TOKEN = <?= json_encode($qcarta_cache_purge_token_js, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+	</script>
 	<script src="assets/dist/js/layer_<?=$tab?>.js"></script>
 
 

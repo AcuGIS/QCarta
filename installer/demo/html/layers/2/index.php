@@ -78,6 +78,31 @@
 	
 	$qgis_file = urldecode(QGIS_FILENAME_ENCODED);
 	$xml = simplexml_load_file($qgis_file);
+	/**
+	 * True when a published layer has a geometry (Point/Line/Polygon/etc).
+	 */
+	function qc_is_spatial_layer(SimpleXMLElement $projectXml, string $layerName): bool {
+		foreach (($projectXml->xpath('//projectlayers/maplayer') ?: []) as $ml) {
+			if ((string) $ml->layername !== $layerName) {
+				continue;
+			}
+			$wkb = (string) $ml['wkbType'];
+			$geometry = (string) $ml['geometry'];
+			$geomTypeNode = $ml->xpath('./layerGeometryType');
+			$geomType = is_array($geomTypeNode) && isset($geomTypeNode[0]) ? trim((string) $geomTypeNode[0]) : '';
+			if (preg_match('/NoGeometry/i', $wkb) || preg_match('/No geometry/i', $geometry)) {
+				return false;
+			}
+			if ($geomType === '-1' || $geomType === '4') {
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+	$spatial_qgis_layers = array_values(array_filter(QGIS_LAYERS, function ($ln) use ($xml) {
+		return qc_is_spatial_layer($xml, (string) $ln);
+	}));
 	$proj_meta = $xml->xpath('/qgis/projectMetadata');
 	if(is_array($proj_meta)){
 	   $proj_meta = $proj_meta[0];
@@ -89,18 +114,94 @@
 	}
 	list($projection) = $xml->xpath('/qgis/ProjectViewSettings/DefaultViewExtent/spatialrefsys/authid');
 
-	$chart_configs = json_decode(file_get_contents(DATA_DIR.'/stores/'.$ql_row->store_id.'/charts.json'), true);
+	$layer_providers = [];
+	foreach ($spatial_qgis_layers as $ln) {
+		$layer_providers[$ln] = qgis_classify_layer_provider($qgis_file, $ln);
+	}
+	$default_layer_provider = $layer_providers[$spatial_qgis_layers[0] ?? ''] ?? 'ogr';
+
+	// Load chart configs if file exists, otherwise use empty array
+	$charts_json_file = DATA_DIR.'/stores/'.$ql_row->store_id.'/charts.json';
+	$chart_configs = file_exists($charts_json_file) ? json_decode(file_get_contents($charts_json_file), true) : [];
+	if(!is_array($chart_configs)){
+		$chart_configs = [];
+	}
 	$plotly_defaults_file = DATA_DIR.'/stores/'.$ql_row->store_id.'/plotly_defaults.json';
+
+	/**
+	 * Extract QGIS project <DataPlotly> blocks keyed by published map layer short name.
+	 */
+	function qc_extract_plotly_xml_per_layer(SimpleXMLElement $projectXml, array $layerNames): array {
+		$out = array_fill_keys($layerNames, null);
+		$idToShort = [];
+		foreach (($projectXml->xpath('//projectlayers/maplayer') ?: []) as $ml) {
+			$short = (string) $ml->layername;
+			$lid = (string) $ml->id;
+			if ($short !== '' && $lid !== '') {
+				$idToShort[$lid] = $short;
+			}
+		}
+		foreach (($projectXml->xpath('//DataPlotly') ?: []) as $dp) {
+			$sid = '';
+			foreach (($dp->xpath('.//Option[@name="source_layer_id"]') ?: []) as $opt) {
+				$sid = (string) $opt['value'];
+				break;
+			}
+			$target = null;
+			if ($sid !== '' && isset($idToShort[$sid])) {
+				$target = $idToShort[$sid];
+			} elseif (count($layerNames) === 1) {
+				$target = $layerNames[0];
+			}
+			if ($target === null || !in_array($target, $layerNames, true)) {
+				continue;
+			}
+			$xmlStr = $dp->asXML();
+			if ($xmlStr !== '' && $xmlStr !== false) {
+				if ($out[$target] === null) {
+					$out[$target] = $xmlStr;
+				}
+			}
+		}
+		return $out;
+	}
+
+	/**
+	 * Primary key field name for WFS CQL fallback (Postgres key='…' in datasource).
+	 */
+	function qc_layer_pk_field_for_map(SimpleXMLElement $projectXml, string $layerName): string {
+		foreach (($projectXml->xpath('//projectlayers/maplayer') ?: []) as $ml) {
+			if ((string) $ml->layername !== $layerName) {
+				continue;
+			}
+			$ds = (string) $ml->datasource;
+			if (preg_match("/key='([^']+)'/", $ds, $m) || preg_match('/key="([^"]+)"/', $ds, $m)) {
+				return trim($m[1], '"');
+			}
+			break;
+		}
+		return 'fid';
+	}
+
+	$plotly_xml_by_layer = qc_extract_plotly_xml_per_layer($xml, $spatial_qgis_layers);
+	$plotly_layer_defaults = [];
+	if (is_file($plotly_defaults_file)) {
+		$pd = json_decode(file_get_contents($plotly_defaults_file), true);
+		if (is_array($pd) && !empty($pd['layerDefaults']) && is_array($pd['layerDefaults'])) {
+			$plotly_layer_defaults = $pd['layerDefaults'];
+		}
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><?=implode(',', QGIS_LAYERS)?></title>
+  <title><?=implode(',', $spatial_qgis_layers)?></title>
   <!-- Load CSS first -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-measure@3.1.0/dist/leaflet-measure.min.css">
   <link rel="stylesheet" href="../../assets/dist/locationfilter/locationfilter.css">
@@ -110,6 +211,7 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ol@latest/dist/ol.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/leaflet-measure@3.1.0/dist/leaflet-measure.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -118,15 +220,19 @@
   <script src="../../assets/dist/js/leaflet.browser.print.min.js"></script>
   <script src="../../assets/dist/locationfilter/locationfilter.js"></script>
   <script src="../../assets/dist/js/proj.js"></script>
-  <link rel="stylesheet" href="../../assets/dist/css/map_index.css">
+  <link rel="stylesheet" href="../../assets/dist/css/map_index.css?v=fp15">
   <link rel="stylesheet" href="../../assets/dist/css/datatable_style.css">
   <link rel="stylesheet" href="../../assets/dist/css/popup-scroll-fix.css">
 
   <script>
+    window.LAYER_PROVIDER = "<?= htmlspecialchars($default_layer_provider, ENT_QUOTES, 'UTF-8') ?>";
+    window.LAYER_PROVIDER_BY_NAME = <?= json_encode($layer_providers, JSON_UNESCAPED_UNICODE) ?>;
     // Store access key from PHP
     const layerId = <?=LAYER_ID?>; // Get the correct store_id
     const accessKey = '<?=$access_key?>';
-    const WMS_SVC_URL = 'proxy_qgis.php?' + ((accessKey.length === 0) ? '' : 'access_key=' + accessKey);
+    const QGIS_MAP_PATH = "<?= addslashes($qgis_file) ?>";
+    const WMS_SVC_URL = 'proxy_qgis.php?' + ((accessKey.length === 0) ? '' : 'access_key=' + accessKey) + '&_ts=' + Date.now();
+    const WFS_SVC_URL = WMS_SVC_URL;
     const PRINT_URL = '<?= $proto."://".$_SERVER['HTTP_HOST'] ?>/stores/<?=$ql_row->store_id?>/print.php';
     const bbox = {
       minx: -124.731423,
@@ -134,28 +240,34 @@
       maxx: -66.969849,
       maxy: 49.371735
     };
-    const url_layers = '<?=urlencode(implode(',', QGIS_LAYERS))?>';
+    const url_layers = '<?=urlencode(implode(',', $spatial_qgis_layers))?>';
     
-    let layerConfigs = <?= json_encode(array_map(function($name) {
-      // Use layer names directly - no prefix stripping needed
-      return ['name' => $name, 'color' => '#000', 'typename' => $name, 'label' => $name, 'filter' => null];
-    }, QGIS_LAYERS)) ?>;
+    let layerConfigs = <?= json_encode(array_map(function ($name) use ($plotly_xml_by_layer, $plotly_layer_defaults, $xml) {
+      $fallback = (isset($plotly_layer_defaults[$name]) && is_array($plotly_layer_defaults[$name]))
+        ? $plotly_layer_defaults[$name]
+        : [];
+      return [
+        'name' => $name,
+        'color' => '#000',
+        'typename' => $name,
+        'label' => $name,
+        'filter' => null,
+        'wfsTypeName' => $name,
+        'plotlyXmlText' => $plotly_xml_by_layer[$name] ?? null,
+        'chartType' => $fallback['chartType'] ?? null,
+        'xField' => $fallback['xField'] ?? null,
+        'yField' => $fallback['yField'] ?? null,
+        'pkField' => qc_layer_pk_field_for_map($xml, $name),
+      ];
+    }, $spatial_qgis_layers), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
     const qgsTitle = '<?= $qgs_title ?>';
     const printLayout = '<?=$ql_row->print_layout?>';
-    const RELATIONS = <?= json_encode($RELATIONS ?? []) ?>;
-
+    const RELATIONS = <?= json_encode($RELATIONS) ?>;
+    const QC_IS_LOGGED_IN = <?= isset($_SESSION[SESS_USR_KEY]) ? 'true' : 'false' ?>;
+    const QC_CAN_FEATURE_EDIT = <?= (isset($_SESSION[SESS_USR_KEY]) && ($_SESSION[SESS_USR_KEY]->id == $ql_row->owner_id) && ($ql_row->show_fi_edit == 't')) ? 'true' : 'false' ?>;
+    
     // Default basemap configuration
     const defaultBasemap = <?= json_encode($default_basemap_data) ?>;
-    console.log('Default basemap data:', defaultBasemap);
-    console.log('Default basemap ID from layer:', '<?= $default_basemap_id ?>');
-    if (defaultBasemap) {
-        console.log('Default basemap details:', {
-            id: defaultBasemap.id,
-            name: defaultBasemap.name,
-            url: defaultBasemap.url,
-            type: defaultBasemap.type
-        });
-    }
 
     <?php if (file_exists($plotly_defaults_file)) { ?>
       // Plotly default configurations
@@ -187,7 +299,7 @@
       
       // Set layers based on selection
       if (selectedLayer === 'all') {
-        searchUrl.searchParams.set('TYPENAME', '<?= implode(',', QGIS_LAYERS) ?>');
+        searchUrl.searchParams.set('TYPENAME', '<?= implode(',', $spatial_qgis_layers) ?>');
       } else {
         searchUrl.searchParams.set('TYPENAME', selectedLayer);
       }
@@ -300,7 +412,7 @@
   </div>
 </div>
 
-<div id="sidebar">
+<div id="sidebar" class="theme-<?= htmlspecialchars($SIDEBAR_THEME) ?>">
   <div class="sidebar-container">
     <!-- Vertical Tab Navigation -->
     <div class="sidebar-tabs">
@@ -583,7 +695,7 @@
       <label for="search-layer-select">Select Layer:</label>
       <select id="search-layer-select" class="form-select form-select-sm mb-2">
         <option value="all">All Layers</option>
-        <?php foreach(QGIS_LAYERS as $layer): ?>
+        <?php foreach($spatial_qgis_layers as $layer): ?>
         <option value="<?= $layer ?>"><?= $layer ?></option>
         <?php endforeach; ?>
       </select>
@@ -943,8 +1055,22 @@
       </div>
     </div>
 
+    <!-- Floating feature popup (replaces full-height docked qc-feature-panel) -->
+    <div id="featurePopup" class="qc-floating-popup hidden" aria-hidden="true">
+      <div class="qc-popup-header">
+        <span class="qc-popup-title">Feature Info</span>
+        <div class="qc-popup-controls">
+          <button type="button" class="qc-popup-btn" id="qc-popup-min" aria-label="Minimize">–</button>
+          <button type="button" class="qc-popup-btn" id="qc-popup-close" aria-label="Close">×</button>
+        </div>
+      </div>
+      <div id="featureContent" class="qc-popup-body">
+        <div class="qc-popup-attrs"></div>
+      </div>
+    </div>
+
 <script src="../../assets/dist/js/map_index_lib.js"></script>
-<script src="../../assets/dist/js/map_index.js"></script>
+<script src="../../assets/dist/js/map_index.js?v=fp30"></script>
 <script src="../../assets/dist/js/map_index_controls.js"></script>
 <script src="../../assets/dist/js/basemap_manager.js"></script>
 <?php if (file_exists($plotly_defaults_file)) { ?>
@@ -972,8 +1098,8 @@
   </div>
         <ul class="nav nav-tabs" role="tablist">
                 <?php $first = ' active'; $li_first = 'class="nav-item" role="presentation"';
-                        for($i=0; $i < count(QGIS_LAYERS); $i++){
-                                $tabname = QGIS_LAYERS[$i];  ?>
+                        for($i=0; $i < count($spatial_qgis_layers); $i++){
+                                $tabname = $spatial_qgis_layers[$i];  ?>
                         <li <?=$li_first?>>
                                 <button class="nav-link<?=$first?>" data-bs-toggle="tab" data-bs-target="#tab-table<?=$i?>" role="tab" aria-controls="tab-table<?=$i?>" aria-selected="true" onclick="updateDataTable(<?=$i?>)"><?=$tabname?></button>
                         </li>
@@ -982,8 +1108,8 @@
 
         <div class="tab-content pt-2">
                 <?php $first = ' show active';
-                        for($i=0; $i < count(QGIS_LAYERS); $i++){
-                                $tabname = QGIS_LAYERS[$i]; ?>
+                        for($i=0; $i < count($spatial_qgis_layers); $i++){
+                                $tabname = $spatial_qgis_layers[$i]; ?>
                         <div class="tab-pane<?=$first?>" id="tab-table<?=$i?>" role="tabpanel" aria-labelledby="<?=$tabname?>-tab">
                                 <table id="dataTable<?=$i?>" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead></thead>
@@ -1006,11 +1132,11 @@
 <div class="modal fade" id="sqlResultsModal" tabindex="-1" aria-labelledby="sqlResultsModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="sqlResultsModalLabel">SQL Query Results</h5>
-        <div class="ms-auto">
-            <button class="btn btn-success" id="exportResultsModal" title="Export Results"><i id="exportResultsModalIcon" class="fa-solid fa-file-export"></i></button>
-            <button class="btn btn-info" id="limitMapToResultsModal" title="Limit Map to Results"><i id="limitMapToResultsModalIcon" class="fa-solid fa-expand"></i></button>
+      <div class="modal-header qc-report-modal-header">
+        <h5 class="modal-title qc-report-modal-title" id="sqlResultsModalLabel">SQL Query Results</h5>
+        <div class="ms-auto qc-report-modal-controls">
+            <button class="btn btn-success qc-report-modal-btn" id="exportResultsModal" title="Export Results"><i id="exportResultsModalIcon" class="fa-solid fa-file-export"></i></button>
+            <button class="btn btn-info qc-report-modal-btn" id="limitMapToResultsModal" title="Limit Map to Results"><i id="limitMapToResultsModalIcon" class="fa-solid fa-expand"></i></button>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
       </div>

@@ -1,5 +1,5 @@
 <?php
-    const TOPIC_RESOURCES = ['layer', 'geostory', 'web_link', 'doc'];
+    const TOPIC_RESOURCES = ['layer', 'geostory', 'web_link', 'doc', 'dashboard'];
 
     class topic_Class extends table_Class {
         

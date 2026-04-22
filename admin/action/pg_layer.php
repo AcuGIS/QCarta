@@ -98,6 +98,9 @@
           }
 					
 					if($newId > 0){
+						$topic_ids = (isset($_POST['topic_id']) && is_array($_POST['topic_id'])) ? $_POST['topic_id'] : [];
+						$gemet_ids = (isset($_POST['gemet_id']) && is_array($_POST['gemet_id'])) ? $_POST['gemet_id'] : [];
+						$obj->sync_topic_gemet_assignments($newId, $topic_ids, $gemet_ids);
 						$result = ['success' => true, 'message' => 'Layer successfully created!', 'id' => $newId];
 					}else{
 						$result = ['success' => false, 'message' => 'Failed to save layer!'];
@@ -109,7 +112,7 @@
 
     			if(count($ref_ids) > 0){
     				$result = ['success' => false, 'message' => 'Error: Can\'t delete layer because it is used in '.count($ref_ids).' '.$ref_name.'(s) with ID(s) ' . implode(',', $ref_ids) . '!' ];
-    			}else if($obj->delete($id)){
+    			}else if($obj->drop_categories($id) && $obj->delete($id)){
            	        $result = ['success' => true, 'message' => 'Layer successfully deleted!'];
 
 					delete_layer($id);

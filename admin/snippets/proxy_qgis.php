@@ -5,7 +5,18 @@
 	$layers = null;
 	$format = null;
 
-	$_GET = array_change_key_case($_GET, CASE_LOWER); 
+	$_GET = array_change_key_case($_GET, CASE_LOWER);
+
+	$hasCache = false;
+	foreach ($_GET as $k => $v) {
+		if (strcasecmp($k, 'cache') === 0) {
+			$hasCache = true;
+			break;
+		}
+	}
+	if (!$hasCache) {
+		$_GET['cache'] = (defined('CACHE_ENABLED') && CACHE_ENABLED) ? '1' : '0';
+	}
 	
 	if($_GET['request'] == 'GetFeature'){
 		if(!empty($_GET['outputformat'])){

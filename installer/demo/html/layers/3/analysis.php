@@ -43,7 +43,7 @@
 
 	$chart_configs = json_decode(file_get_contents(DATA_DIR.'/stores/'.$ql_row->store_id.'/charts.json'), true);
 	$plotly_defaults_file = DATA_DIR.'/stores/'.$ql_row->store_id.'/plotly_defaults.json';
-	$wms_layers = explode(',', 'Apiary,Tracks,Fields');
+	$wms_layers = QGIS_LAYERS;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,7 +68,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
   
   <!-- Chart Libraries -->

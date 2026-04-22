@@ -73,6 +73,18 @@
 				 }
 			 }
 				
+		/** Center [lng, lat] from layers/{id}/index.php bbox, or null */
+		public function getLayerCenter($id) {
+			$ext = $this->getLayerExtent($id);
+			if (!$ext) {
+				return null;
+			}
+			return [
+				'lng' => ($ext[0] + $ext[2]) / 2,
+				'lat' => ($ext[1] + $ext[3]) / 2
+			];
+		}
+
 		private function getLayerExtent($id) {    
             $content = @file_get_contents(WWW_DIR.'/layers/'.$id.'/index.php');
             if ($content === false) {

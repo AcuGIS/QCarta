@@ -1,4 +1,145 @@
 document.addEventListener('DOMContentLoaded', function() {
+  let wfsOutputFormatsCache = null;
+
+  async function getWfsOutputFormats() {
+    if (Array.isArray(wfsOutputFormatsCache)) {
+      return wfsOutputFormatsCache;
+    }
+    try {
+      const capsUrl = `${WMS_SVC_URL}&service=WFS&request=GetCapabilities`;
+      const response = await fetch(capsUrl);
+      if (!response.ok) {
+        wfsOutputFormatsCache = [];
+        return wfsOutputFormatsCache;
+      }
+      const xmlText = await response.text();
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(xmlText, 'text/xml');
+      const values = new Set();
+      const selectors = [
+        'Operation[name="GetFeature"] Parameter[name="outputFormat"] Value',
+        'Parameter[name="outputFormat"] Value',
+        'ResultFormat > *'
+      ];
+      selectors.forEach((selector) => {
+        xml.querySelectorAll(selector).forEach((node) => {
+          const value = (node.textContent || '').trim();
+          if (value) {
+            values.add(value);
+          }
+        });
+      });
+      wfsOutputFormatsCache = Array.from(values);
+      console.log('Advertised WFS output formats:', wfsOutputFormatsCache);
+      return wfsOutputFormatsCache;
+    } catch (error) {
+      console.warn('Failed to read WFS capabilities formats:', error);
+      wfsOutputFormatsCache = [];
+      return wfsOutputFormatsCache;
+    }
+  }
+
+  function matchesFormatToken(formatValue, token) {
+    return formatValue.toLowerCase().includes(token.toLowerCase());
+  }
+
+  function pickAdvertisedFormat(selectedFormat, advertisedFormats) {
+    if (selectedFormat === 'json') {
+      return 'application/json';
+    }
+    const advertised = Array.isArray(advertisedFormats) ? advertisedFormats : [];
+    if (selectedFormat === 'shp') {
+      return advertised.find((f) =>
+        matchesFormatToken(f, 'shape-zip') ||
+        (matchesFormatToken(f, 'shape') && matchesFormatToken(f, 'zip')) ||
+        matchesFormatToken(f, 'application/zip') ||
+        matchesFormatToken(f, 'zip')
+      ) || null;
+    }
+    if (selectedFormat === 'gpkg') {
+      return advertised.find((f) =>
+        matchesFormatToken(f, 'gpkg') ||
+        matchesFormatToken(f, 'geopackage')
+      ) || null;
+    }
+    return null;
+  }
+
+  function getFallbackFormatCandidates(selectedFormat) {
+    if (selectedFormat === 'shp') {
+      return ['shape-zip', 'SHAPE-ZIP', 'application/zip', 'zip', 'ESRI Shapefile'];
+    }
+    if (selectedFormat === 'gpkg') {
+      return ['GPKG', 'gpkg', 'application/x-gpkg', 'application/geopackage+sqlite3', 'geopackage'];
+    }
+    return ['application/x-' + selectedFormat];
+  }
+
+  async function fetchBinaryExport(baseWfsUrl, selectedFormat) {
+    const advertisedFormats = await getWfsOutputFormats();
+    const preferred = pickAdvertisedFormat(selectedFormat, advertisedFormats);
+    const formatCandidates = [];
+    if (preferred) {
+      formatCandidates.push(preferred);
+    }
+    getFallbackFormatCandidates(selectedFormat).forEach((f) => {
+      if (!formatCandidates.includes(f)) {
+        formatCandidates.push(f);
+      }
+    });
+
+    let lastErrorDetail = '';
+
+    for (const outputFormat of formatCandidates) {
+      const wfsUrl = `${baseWfsUrl}&outputFormat=${encodeURIComponent(outputFormat)}`;
+      console.log('WFS URL:', wfsUrl);
+      const response = await fetch(wfsUrl);
+
+      if (!response.ok) {
+        lastErrorDetail = `HTTP error ${response.status}`;
+        continue;
+      }
+
+      const blob = await response.blob();
+      const responseType = (response.headers.get('content-type') || '').toLowerCase();
+      const maybeText = responseType.includes('xml') || responseType.includes('text') || responseType.includes('html');
+      if (maybeText) {
+        const txt = await blob.text().catch(() => '');
+        const compactText = txt.replace(/\s+/g, ' ').trim();
+        lastErrorDetail = compactText
+          ? compactText.slice(0, 200)
+          : `Server returned text response (${responseType || 'unknown'})`;
+        continue;
+      }
+
+      if (selectedFormat !== 'shp') {
+        return blob;
+      }
+
+      if (blob.size === 0) {
+        lastErrorDetail = 'Received empty zip file';
+        continue;
+      }
+
+      const signature = new Uint8Array(await blob.slice(0, 4).arrayBuffer());
+      const isZip = signature[0] === 0x50 && signature[1] === 0x4b;
+      if (isZip) {
+        return blob;
+      }
+
+      const rawText = await blob.text().catch(() => '');
+      const compactText = rawText.replace(/\s+/g, ' ').trim();
+      lastErrorDetail = compactText
+        ? compactText.slice(0, 200)
+        : `Non-zip response (${response.headers.get('content-type') || 'unknown content type'})`;
+    }
+
+    const advertisedHint = advertisedFormats.length
+      ? ` Advertised formats: ${advertisedFormats.join(', ')}.`
+      : ' Advertised formats: none (not exposed by proxy or server).';
+    throw new Error(`Server did not return a valid ${selectedFormat === 'shp' ? 'zipped shapefile' : selectedFormat} export.${advertisedHint}${lastErrorDetail ? ` Last response: ${lastErrorDetail}` : ''}`);
+  }
+
   // Add custom zoom control
   const zoomControl = L.Control.extend({
     options: {
@@ -192,8 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       const formats = [
         { value: 'json', label: 'GeoJSON' },
-        { value: 'gpkg', label: 'GeoPackage' },
-        { value: 'shp', label: 'Shapefile' }
+        { value: 'gpkg', label: 'GeoPackage' }
       ];
       
       formats.forEach(format => {
@@ -213,10 +353,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedFormat = this.value;
         
         // Get all visible layers
-        const cfgs = layerConfigs.filter(cfg => {
-          const layer = overlayLayers[cfg.name];
-          return cfg.name && map.hasLayer(layer);
-        });
+          const cfgs = layerConfigs.filter(cfg => {
+            const layer = overlayLayers[cfg.name];
+            return cfg.name && !!layer && map.hasLayer(layer);
+          });
         
         if (cfgs.length > 0) {
           try {
@@ -235,25 +375,22 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Fetch data for each layer using WFS
             const layerData = await Promise.all(cfgs.map(async cfg => {
-              const wfsUrl = WMS_SVC_URL +
+              const downloadExt = selectedFormat === 'shp' ? 'zip' : selectedFormat;
+
+              const baseWfsUrl = WMS_SVC_URL +
                 '&service=WFS' +
                 '&version=1.1.0' +
                 '&request=GetFeature' +
-                '&layers=' + cfg.name +
                 '&typeName=' + cfg.typename +
                 '&srsname=EPSG:4326' +
                 '&bbox=' + bbox +
-                '&outputFormat=' + (selectedFormat === 'json' ? 'application/json' : 'application/x-' + selectedFormat) +
                 '&maxFeatures=1000';
               
-              console.log('WFS URL:', wfsUrl); // Debug log
-              
-              const response = await fetch(wfsUrl);
-              if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-              }
-              
               if (selectedFormat === 'json') {
+                const response = await fetch(baseWfsUrl + '&outputFormat=' + encodeURIComponent('application/json'));
+                if (!response.ok) {
+                  throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const data = await response.json();
                 return {
                   layer: cfg.name,
@@ -261,11 +398,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
               } else {
                 // For binary formats, create a download link
-                const blob = await response.blob();
+                const blob = await fetchBinaryExport(baseWfsUrl, selectedFormat);
                 const url = window.URL.createObjectURL(blob);
                 const downloadAnchorNode = document.createElement('a');
                 downloadAnchorNode.setAttribute("href", url);
-                downloadAnchorNode.setAttribute("download", `${cfg.typename}.${selectedFormat}`);
+                downloadAnchorNode.setAttribute("download", `${cfg.typename}.${downloadExt}`);
                 document.body.appendChild(downloadAnchorNode);
                 downloadAnchorNode.click();
                 downloadAnchorNode.remove();
@@ -695,11 +832,13 @@ document.addEventListener('DOMContentLoaded', function() {
           tempContainer.style.left = '50%';
           tempContainer.style.transform = 'translate(-50%, -50%)';
           tempContainer.style.backgroundColor = 'white';
-          tempContainer.style.padding = '20px';
+          tempContainer.style.padding = '24px';
           tempContainer.style.border = '2px solid #ccc';
-          tempContainer.style.borderRadius = '8px';
+          tempContainer.style.borderRadius = '10px';
           tempContainer.style.zIndex = '9999';
-          tempContainer.style.boxShadow = '0 4px 8px rgba(0,0,0,0.3)';
+          tempContainer.style.boxShadow = '0 8px 24px rgba(0,0,0,0.28)';
+          tempContainer.style.width = '360px';
+          tempContainer.style.maxWidth = 'calc(100vw - 32px)';
           
           // Create the export control content
           const exportInstance = new window.exportControl();
@@ -725,7 +864,7 @@ document.addEventListener('DOMContentLoaded', function() {
           const title = document.createElement('h5');
           title.textContent = 'Export Map Data';
           title.style.marginTop = '0';
-          title.style.marginBottom = '15px';
+          title.style.marginBottom = '16px';
           tempContainer.insertBefore(title, tempContainer.firstChild);
           
           // Add to page
@@ -736,26 +875,71 @@ document.addEventListener('DOMContentLoaded', function() {
           const clonedSelect = tempContainer.querySelector('.leaflet-control-export-format');
           
           if (clonedButton && clonedSelect) {
-            // Show format selection when button is clicked
-            clonedButton.onclick = function() {
-              clonedSelect.style.display = clonedSelect.style.display === 'none' ? 'block' : 'none';
-            };
-            
-            // Handle format selection
-            clonedSelect.onchange = async function() {
-              const selectedFormat = this.value;
-              
+            // Keep icon as decorative in modal; export runs via explicit button.
+            clonedButton.style.pointerEvents = 'none';
+            clonedButton.style.marginRight = '12px';
+            clonedButton.style.width = '42px';
+            clonedButton.style.height = '42px';
+            clonedButton.style.lineHeight = '42px';
+            clonedButton.style.textAlign = 'center';
+
+            clonedSelect.style.display = 'inline-block';
+            clonedSelect.style.minWidth = '180px';
+            clonedSelect.style.height = '42px';
+            clonedSelect.style.fontSize = '18px';
+            clonedSelect.style.padding = '6px 10px';
+
+            const row = document.createElement('div');
+            row.style.display = 'flex';
+            row.style.alignItems = 'center';
+            row.style.gap = '12px';
+            row.style.marginBottom = '16px';
+
+            if (clonedButton.parentElement === tempContainer) {
+              tempContainer.removeChild(clonedButton);
+            }
+            if (clonedSelect.parentElement === tempContainer) {
+              tempContainer.removeChild(clonedSelect);
+            }
+            row.appendChild(clonedButton);
+            row.appendChild(clonedSelect);
+            tempContainer.appendChild(row);
+
+            const actions = document.createElement('div');
+            actions.style.display = 'flex';
+            actions.style.justifyContent = 'flex-end';
+            actions.style.gap = '10px';
+
+            const cancelBtn = document.createElement('button');
+            cancelBtn.type = 'button';
+            cancelBtn.className = 'btn btn-outline-secondary btn-sm';
+            cancelBtn.textContent = 'Cancel';
+            cancelBtn.onclick = () => document.body.removeChild(tempContainer);
+
+            const exportNowBtn = document.createElement('button');
+            exportNowBtn.type = 'button';
+            exportNowBtn.className = 'btn btn-primary btn-sm';
+            exportNowBtn.textContent = 'Export';
+
+            actions.appendChild(cancelBtn);
+            actions.appendChild(exportNowBtn);
+            tempContainer.appendChild(actions);
+
+            const runExport = async () => {
+              const selectedFormat = clonedSelect.value;
+
               // Get all visible layers
               const cfgs = layerConfigs.filter(cfg => {
                 const layer = overlayLayers[cfg.name];
-                return cfg.name && map.hasLayer(layer);
+                return cfg.name && !!layer && map.hasLayer(layer);
               });
               
               if (cfgs.length > 0) {
                 try {
                   // Show loading state
                   clonedButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-                  clonedButton.disabled = true;
+                  exportNowBtn.disabled = true;
+                  cancelBtn.disabled = true;
                   
                   // Get the current map bounds
                   const bounds = map.getBounds();
@@ -768,25 +952,22 @@ document.addEventListener('DOMContentLoaded', function() {
                   
                   // Fetch data for each layer using WFS
                   const layerData = await Promise.all(cfgs.map(async cfg => {
-                    const wfsUrl = WMS_SVC_URL +
+                    const downloadExt = selectedFormat === 'shp' ? 'zip' : selectedFormat;
+
+                    const baseWfsUrl = WMS_SVC_URL +
                       '&service=WFS' +
                       '&version=1.1.0' +
                       '&request=GetFeature' +
-                      '&layers=' + cfg.name +
                       '&typeName=' + cfg.typename +
                       '&srsname=EPSG:4326' +
                       '&bbox=' + bbox +
-                      '&outputFormat=' + (selectedFormat === 'json' ? 'application/json' : 'application/x-' + selectedFormat) +
                       '&maxFeatures=1000';
                     
-                    console.log('WFS URL:', wfsUrl);
-                    
-                    const response = await fetch(wfsUrl);
-                    if (!response.ok) {
-                      throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    
                     if (selectedFormat === 'json') {
+                      const response = await fetch(baseWfsUrl + '&outputFormat=' + encodeURIComponent('application/json'));
+                      if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                      }
                       const data = await response.json();
                       return {
                         layer: cfg.name,
@@ -794,11 +975,11 @@ document.addEventListener('DOMContentLoaded', function() {
                       };
                     } else {
                       // For binary formats, create a download link
-                      const blob = await response.blob();
+                      const blob = await fetchBinaryExport(baseWfsUrl, selectedFormat);
                       const url = window.URL.createObjectURL(blob);
                       const downloadAnchorNode = document.createElement('a');
                       downloadAnchorNode.setAttribute("href", url);
-                      downloadAnchorNode.setAttribute("download", `${cfg.typename}.${selectedFormat}`);
+                      downloadAnchorNode.setAttribute("download", `${cfg.typename}.${downloadExt}`);
                       document.body.appendChild(downloadAnchorNode);
                       downloadAnchorNode.click();
                       downloadAnchorNode.remove();
@@ -828,12 +1009,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 } finally {
                   // Reset button state
                   clonedButton.innerHTML = '<i class="fas fa-download"></i>';
-                  clonedButton.disabled = false;
+                  exportNowBtn.disabled = false;
+                  cancelBtn.disabled = false;
                 }
               } else {
                 alert('No layers found to export');
               }
             };
+
+            exportNowBtn.onclick = runExport;
           }
           
         } else {

@@ -13,7 +13,8 @@ require('admin/class/topic.php');
 require('admin/class/dashboard.php');
 require('admin/class/access_group.php');
 
-// --- Resource-type tab routing: ?type=all|maps|dashboards|geostories|documents|links ---
+
+// --- Resource-type tab routing: ?type=all|maps|dashboards|geostories|documents|links|reports ---
 $type = $_GET['type'] ?? 'all';
 $active = $type; // used by header tab classes
 
@@ -22,11 +23,15 @@ $show_dashboards = ($type === 'all' || $type === 'dashboards');
 $show_geostories = ($type === 'all' || $type === 'geostories');
 $show_documents  = ($type === 'all' || $type === 'documents');
 $show_links      = ($type === 'all' || $type === 'links');
+$show_reports = function_exists('get_reports') &&
+               ($type === 'all' || $type === 'reports');
 
 
 $database = new Database(DB_HOST, DB_NAME, DB_USER, DB_PASS, DB_PORT, DB_SCMA);
 $conn = $database->getConn();
 $user_id = isset($_SESSION[SESS_USR_KEY]) ? $_SESSION[SESS_USR_KEY]->id : SUPER_ADMIN_ID;
+$usr_grps_ids = '';
+$usr_grp_names = [];
 
 $topic_obj = new topic_Class($conn, SUPER_ADMIN_ID);
 $gemet_obj = new topic_Class($conn, SUPER_ADMIN_ID, 'gemet');
@@ -49,11 +54,22 @@ if (empty($_SESSION[SESS_USR_KEY])) {
     $acc_obj = new access_group_Class($database->getConn(), $user_id);
     $usr_grps = ($user_id == SUPER_ADMIN_ID) ? $acc_obj->getArr() : $acc_obj->getByKV('user', $user_id);
     $usr_grps_ids = implode(',', array_keys($usr_grps));
-    $layers  = $acc_obj->getGroupRows('layer', $usr_grps_ids);
+    $usr_grp_names = array_values($usr_grps);
+    // Empty IN () breaks PostgreSQL; use a sentinel that matches no real group id.
+    $layer_group_ids = ($usr_grps_ids === '') ? '-1' : $usr_grps_ids;
+    // Catalog maps: QGIS project layers only (exclude PostGIS / layers.php?tab=pg)
+    $sql_layers = "SELECT * FROM public.layer WHERE type = 'qgs' AND (public = true OR id IN (SELECT layer_id FROM public.layer_access WHERE access_group_id IN (".$layer_group_ids.")))";
+    $layers  = pg_query($conn, $sql_layers);
     $stories = $acc_obj->getGroupRows('geostory', $usr_grps_ids);
     $links   = $acc_obj->getGroupRows('web_link', $usr_grps_ids);
     $docs    = $acc_obj->getGroupRows('doc', $usr_grps_ids);
     $dashs   = $acc_obj->getGroupRows('dashboard', $usr_grps_ids);
+}
+
+$reports = [];
+
+if (function_exists('get_reports')) {
+    $reports = get_reports($conn, $user_id, $usr_grp_names, $usr_grps_ids);
 }
 ?>
 <!DOCTYPE html>
@@ -90,8 +106,17 @@ body { --qcarta-accent: #3B82F6; }
 .hover-zoom { transform:scale(1); transition:transform .5s ease; }
 .group:hover .hover-zoom { transform:scale(1.12); }
 
-.card { border:1px solid #d1d5db; transition: box-shadow .2s ease, border-color .2s ease; }
-.group:hover .card { border-color: var(--qcarta-accent); box-shadow: 0 6px 22px rgba(0,0,0,.08) }
+.card { border:1px solid #d1d5db; 
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  transition: box-shadow .2s ease, border-color .2s ease, transform .2s ease; }
+
+.group:hover .card { 
+  border-color: var(--qcarta-accent); 
+  box-shadow: 0 6px 22px rgba(0,0,0,.08);
+  transform: translateY(-2px);
+}
+
+/*.group:hover .card { border-color: var(--qcarta-accent); box-shadow: 0 6px 22px rgba(0,0,0,.08) }*/
 .card-foot { border-top:1px solid #f1f5f9; }
 
 /* Type badges for quick visual parsing */
@@ -106,6 +131,27 @@ body { --qcarta-accent: #3B82F6; }
 .quick-actions { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.0); opacity:0; transition:opacity .2s ease, background .2s ease; }
 .group:hover .quick-actions { background:rgba(0,0,0,.15); opacity:1; }
 
+#exploreCards .group {
+  height: auto !important;
+}
+
+.custom-marker {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  transition: transform 0.15s ease;
+}
+
+.custom-marker:hover {
+  transform: scale(1.3);
+}
+
+.marker-selected {
+  box-shadow: 0 0 0 4px rgba(59,130,246,0.3), 0 2px 6px rgba(0,0,0,0.25);
+}
+
 /* Filter chips */
 .chips-wrap { display:flex; gap:.5rem; flex-wrap:wrap; }
 .chip { background:#e5f0ff; color:#1d4ed8; border:1px solid #bfdbfe; padding:.25rem .5rem; border-radius:9999px; font-size:.75rem; display:flex; align-items:center; gap:.25rem; }
@@ -113,9 +159,27 @@ body { --qcarta-accent: #3B82F6; }
 
 /* Small height tune on thumbs */
 .h-32 { height:10rem !important; }
+
+/* Filter sidebar show/hide */
+#filterSidebar {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+#filterSidebar.is-collapsed {
+  transform: translateX(-100%);
+  pointer-events: none;
+}
+#catalogMain {
+  transition: margin-left 0.2s ease;
+}
+
+.bg-gray-100 {
+    --tw-bg-opacity: 1;
+    background-color: #f9fafb!important;
+}
+
 </style>
 </head>
-<body class="min-h-screen bg-gray-100 font-sans text-gray-800">
+<body class="min-h-screen bg-gray-100 font-sans text-gray-800;">
     <!-- Map Search Modal -->
     <div id="mapSearchModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-[9999]" aria-hidden="true">
         <div class="absolute inset-0 flex items-center justify-center p-4">
@@ -182,6 +246,9 @@ body { --qcarta-accent: #3B82F6; }
         rtab('geostories','GeoStories',$active);
         rtab('documents','Documents',$active);
         rtab('links','Links',$active);
+        if (function_exists('get_reports')) {
+    rtab('reports','Reports',$active);
+}
       ?>
     </nav>
 
@@ -191,33 +258,13 @@ body { --qcarta-accent: #3B82F6; }
   <div class="h-[2px] bg-gradient-to-r from-emerald-500 via-emerald-400 to-emerald-600"></div>
 </header>
 
+<!-- <div style="background-color: rgb(4 120 87 / var(--tw-text-opacity, 1));height: 75px; color:#fff; align=left; padding-left:30px"><span style="color:#fff; font-size:48px">QCarta</span></div> -->
+
     <div class="flex pt-20" style="padding-top: 1rem;">
-        <!-- Sidebar -->
-        <!-- Sidebar -->
-<aside class="qcarta-sidebar w-80 fixed left-0 top-[55px] bottom-0 bg-white p-6 overflow-y-auto">
+<aside id="filterSidebar" class="qcarta-sidebar is-collapsed w-80 fixed left-0 top-[55px] bottom-0 z-30 bg-white p-6 overflow-y-auto shadow-sm">
   <h2 class="text-xl font-semibold text-gray-900 mb-6">
     <i class="fa-solid fa-filter"></i> Filters
   </h2>
-
-  <!-- Text (unchanged position) -->
-  
-<!-- Generic Text Search -->
-<div class="mb-6">
-  <label class="block text-sm font-medium text-gray-700 mb-2">Text</label>
-  <div class="relative">
-    <input type="text" 
-           id="search"
-           name="search"
-           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-           placeholder="Search anything...">
-    <button class="absolute right-2 top-2 text-gray-400 hover:text-gray-600">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-      </svg>
-    </button>
-  </div>
-</div>
-
 
   <!-- Topic (unchanged position) -->
   <div class="mb-6">
@@ -339,6 +386,10 @@ body { --qcarta-accent: #3B82F6; }
         <input type="checkbox" value="dashboards" <?php if($type==='dashboards') echo 'checked'; ?>>
         <span class="ml-2 text-sm text-gray-700">Dashboards</span>
       </label>
+      <label class="flex items-center">
+        <input type="checkbox" value="reports" <?php if($type==='reports') echo 'checked'; ?>>
+        <span class="ml-2 text-sm text-gray-700">Reports</span>
+      </label>
     </div>
   </div>
 
@@ -350,15 +401,60 @@ body { --qcarta-accent: #3B82F6; }
 </aside>
 
         <!-- Main -->
-        <main class="ml-80 flex-1 px-5 max-w-7xl mx-auto" style="margin-left:21rem; margin-top:.7rem; padding-bottom:25px">
+        <main id="catalogMain" class="flex-1 px-5 max-w-7xl mx-auto" style="margin-top:.7rem; padding-bottom:25px">
+            <h1 class="sr-only">QCarta Resources</h1>
+
+            <div class="flex flex-wrap items-end gap-3 mb-5 pl-10 pr-2">
+              <div class="flex-1 min-w-[12rem]" style="padding-top:36px;">
+                <label for="search" class="block text-sm font-medium text-gray-700 mb-2">Search</label>
+                <div class="relative">
+                  <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden="true">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                  </span>
+                  <input type="text"
+                         id="search"
+                         name="search"
+                         class="w-full pl-10 pr-3 py-2 border-0 border-b border-gray-300 rounded-none bg-transparent focus:ring-0 focus:border-blue-500"
+                         placeholder="Search anything..."
+                         autocomplete="off">
+                </div>
+              </div>
+              <button type="button"
+                      id="toggleFilterSidebar"
+                      class="mb-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                      aria-expanded="false"
+                      aria-controls="filterSidebar"
+                      title="Show filter sidebar">
+                <i class="fa-solid fa-sliders text-lg" aria-hidden="true"></i>
+                <span class="sr-only">Show filter sidebar</span>
+              </button>
+              <button type="button"
+                      id="toggleExplore"
+                      class="mb-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                      title="Explore mode">
+                <i class="fa-solid fa-map" aria-hidden="true"></i>
+                <span class="sr-only">Explore mode</span>
+              </button>
+            </div>
+
             <!-- Active filter chips -->
-            <div class="px-4">
+            <div class="pl-10">
                 <div id="activeChips" class="chips-wrap mb-5"></div>
             </div>
 
-            <h1 class="sr-only">QCarta Resources</h1>
+            <div id="exploreContainer" class="hidden pl-10 pr-2 mb-6">
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div id="exploreMap" class="h-[600px] rounded-lg border"></div>
+                <div class="min-h-0 min-w-0">
+                  <div id="resultCount" class="text-sm text-gray-500 mb-2"></div>
+                  <div id="exploreCards" class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-h-[600px] overflow-y-auto"></div>
+                </div>
+              </div>
+            </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pl-10">
+            <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pl-10">
 
 
 
@@ -367,7 +463,11 @@ body { --qcarta-accent: #3B82F6; }
                 <?php while ($row = pg_fetch_object($layers)) {
                     $image = file_exists("assets/layers/".$row->id.".png") ? "assets/layers/".$row->id.".png" : "assets/layers/default.png";
                 ?>
-                <div class="group h-64 relative">
+                <div class="group h-64 relative"
+                     data-id="<?=$row->id?>"
+                     data-type="map"
+                     data-lat="<?=$row->lat ?? ''?>"
+                     data-lng="<?=$row->lng ?? ''?>">
                     <a href="layers/<?=$row->id?>/index.php" class="card bg-white rounded-lg overflow-hidden h-full flex flex-col" target="_blank" aria-label="Open map: <?=htmlspecialchars(str_replace('_', ' ', $row->name))?>">
                         <div class="thumb-wrap relative">
                             <img loading="lazy" src="<?=$image?>?v=<?=filemtime($image)?>" alt="<?=htmlspecialchars(str_replace('_', ' ', $row->name))?> thumbnail"
@@ -400,7 +500,11 @@ body { --qcarta-accent: #3B82F6; }
                 <?php while ($row = pg_fetch_object($dashs)) {
                     $image = file_exists("assets/dashboards/".$row->id.".png") ? "assets/dashboards/".$row->id.".png" : "assets/dashboards/default.png";
                 ?>
-                <div class="group h-64 relative">
+                <div class="group h-64 relative"
+                     data-id="<?=$row->id?>"
+                     data-type="dashboard"
+                     data-lat="<?=$row->lat ?? ''?>"
+                     data-lng="<?=$row->lng ?? ''?>">
                     <a href="dashboard.php?id=<?=$row->id?>" class="card bg-white rounded-lg overflow-hidden h-full flex flex-col" target="_blank" aria-label="Open dashboard: <?=htmlspecialchars($row->name)?>">
                         <div class="thumb-wrap relative">
                             <img loading="lazy" src="<?=$image?>?v=<?=filemtime($image)?>" alt="<?=htmlspecialchars($row->name)?> thumbnail" class="w-full h-32 object-cover hover-zoom">
@@ -426,7 +530,11 @@ body { --qcarta-accent: #3B82F6; }
                 <?php while ($row = pg_fetch_object($stories)) {
                     $image = file_exists("assets/geostories/".$row->id.".png") ? "assets/geostories/".$row->id.".png" : "assets/geostories/default.png";
                 ?>
-                <div class="group h-64 relative">
+                <div class="group h-64 relative"
+                     data-id="<?=$row->id?>"
+                     data-type="geostory"
+                     data-lat="<?=$row->lat ?? ''?>"
+                     data-lng="<?=$row->lng ?? ''?>">
                     <a href="geostories/<?=$row->id?>/index.php" class="card bg-white rounded-lg overflow-hidden h-full flex flex-col" target="_blank" aria-label="Open geostory: <?=htmlspecialchars($row->name)?>">
                         <div class="thumb-wrap relative">
                             <img loading="lazy" src="<?=$image?>?v=<?=filemtime($image)?>" alt="<?=htmlspecialchars($row->name)?> thumbnail" class="w-full h-32 object-cover hover-zoom">
@@ -452,7 +560,11 @@ body { --qcarta-accent: #3B82F6; }
                 <?php while ($row = pg_fetch_object($links)) {
                     $image = file_exists("assets/links/".$row->id.".png") ? "assets/links/".$row->id.".png" : "assets/links/default.png";
                 ?>
-                <div class="group h-64 relative">
+                <div class="group h-64 relative"
+                     data-id="<?=$row->id?>"
+                     data-type="link"
+                     data-lat="<?=$row->lat ?? ''?>"
+                     data-lng="<?=$row->lng ?? ''?>">
                     <a href="<?=$row->url?>" class="card bg-white rounded-lg overflow-hidden h-full flex flex-col" target="_blank" rel="noopener" aria-label="Open link: <?=htmlspecialchars($row->name)?>">
                         <div class="thumb-wrap relative">
                             <img loading="lazy" src="<?=$image?>?v=<?=filemtime($image)?>" alt="<?=htmlspecialchars($row->name)?> thumbnail" class="w-full h-32 object-cover hover-zoom">
@@ -484,7 +596,11 @@ body { --qcarta-accent: #3B82F6; }
                         if (file_exists("assets/docs/".$ext.".png")) $image = "assets/docs/".$ext.".png";
                     }
                 ?>
-                <div class="group h-64 relative">
+                <div class="group h-64 relative"
+                     data-id="<?=$row->id?>"
+                     data-type="document"
+                     data-lat="<?=$row->lat ?? ''?>"
+                     data-lng="<?=$row->lng ?? ''?>">
                     <a href="doc_file.php?id=<?=$row->id?>" class="card bg-white rounded-lg overflow-hidden h-full flex flex-col" target="_blank" aria-label="Open document: <?=htmlspecialchars($row->name)?>">
                         <div class="thumb-wrap relative">
                             <img loading="lazy" src="<?=$image?>?v=<?=filemtime($image)?>" alt="<?=htmlspecialchars($row->name)?> thumbnail" class="w-full h-32 object-cover hover-zoom">
@@ -505,16 +621,24 @@ body { --qcarta-accent: #3B82F6; }
                 <?php } pg_free_result($docs); ?>
             <?php } ?>
 
+            <?php
+            if ($show_reports && function_exists('render_reports')) {
+                render_reports($reports);
+            }
+            ?>
+
             </div>
         </main>
     </div>
 
+    <?php include('admin/reports/frontend.php'); ?>
+    <script src="assets/dist/js/explore.js" defer></script>
     <script>
     // Filter Chips (Topic + Keyword + Resource Type + Text)
     const chipsWrap = document.getElementById('activeChips');
     const topicSelect = document.getElementById('topic_id');
     const gemetSelect = document.getElementById('gemet_id');
-    const textSearch = document.getElementById('textSearch');
+    const textSearch = document.getElementById('search');
     const resourceType = document.getElementById('resourceType');
 
     function chip(label, onRemove) {
@@ -557,6 +681,30 @@ body { --qcarta-accent: #3B82F6; }
     resourceType.addEventListener('change', renderChips);
     renderChips();
 
+    // Filter sidebar toggle
+    const filterSidebar = document.getElementById('filterSidebar');
+    const catalogMain = document.getElementById('catalogMain');
+    const toggleFilterBtn = document.getElementById('toggleFilterSidebar');
+    const sidebarSr = toggleFilterBtn?.querySelector('.sr-only');
+
+    function setFilterSidebarCollapsed(collapsed) {
+      if (!filterSidebar || !catalogMain || !toggleFilterBtn) return;
+      filterSidebar.classList.toggle('is-collapsed', collapsed);
+      /* Only toggle ml-80; do not use ml-0 when open — it overrides mx-auto's margin-left:auto and pins content left. */
+      catalogMain.classList.toggle('ml-80', !collapsed);
+      toggleFilterBtn.setAttribute('aria-expanded', String(!collapsed));
+      const hideLabel = 'Hide filter sidebar';
+      const showLabel = 'Show filter sidebar';
+      toggleFilterBtn.title = collapsed ? showLabel : hideLabel;
+      if (sidebarSr) sidebarSr.textContent = collapsed ? showLabel : hideLabel;
+    }
+
+    toggleFilterBtn?.addEventListener('click', () => {
+      if (!filterSidebar) return;
+      const collapsed = !filterSidebar.classList.contains('is-collapsed');
+      setFilterSidebarCollapsed(collapsed);
+    });
+
     // Map Search modal open/close
     const openMapSearch = document.getElementById('openMapSearch');
     const mapSearchModal = document.getElementById('mapSearchModal');
@@ -582,6 +730,7 @@ body { --qcarta-accent: #3B82F6; }
         // Keeping UX visible while preserving your backend filtering logic.
         alert('Filters applied (wire this to your existing search).');
     });
+
     </script>
 </body>
 </html>

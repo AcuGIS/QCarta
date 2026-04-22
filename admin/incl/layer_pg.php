@@ -16,8 +16,13 @@
 
 			<tbody> <?php while($row = pg_fetch_object($rows)) {
 				$row_grps = $grp_obj->getByKV('layer', $row->id);
+				$topic_ids_row = $obj->get_assigned_category_ids('topic', $row->id);
+				$gemet_ids_row = $obj->get_assigned_category_ids('gemet', $row->id);
 				?>
-				<tr data-id="<?=$row->id?>" align="left">
+				<tr data-id="<?=$row->id?>"
+					data-topic_id="<?=implode(',', $topic_ids_row)?>"
+					data-gemet_id="<?=implode(',', $gemet_ids_row)?>"
+					align="left">
 					<!--<td><?=$row->id?></td>-->
 					<td><?=$row->name?></td>
 					<td><?=$row->public=='t' ? 'yes' : 'no'?></td>
@@ -151,6 +156,8 @@
 						</div>
 					</div>
 					
+					<?php require __DIR__.'/taxonomy_multiselect.php'; ?>
+
 					<!-- Access Groups Section -->
 					<div class="row mb-3">
 						<div class="col-12">

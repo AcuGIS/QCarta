@@ -162,7 +162,8 @@
 		$is_cached = $post['cached'] == 't' ? 'true' : 'false';
 		$qgs_layers = "array('".str_replace(",", "','", $post['layers'])."')";
 		
-		$vars = [ 
+		$vars = [
+			'LAYER_ID' => $id,
 			'IS_PUBLIC' => $is_public, 'QGIS_FILENAME_ENCODED' => "'".urlencode($qgs_file)."'",
 			'QGIS_LAYERS' => $qgs_layers, 'CACHE_ENABLED' => $is_cached];
 
@@ -351,7 +352,10 @@
 						}
           }
 					
-					if($newId > 0){        
+					if($newId > 0){
+						$topic_ids = (isset($_POST['topic_id']) && is_array($_POST['topic_id'])) ? $_POST['topic_id'] : [];
+						$gemet_ids = (isset($_POST['gemet_id']) && is_array($_POST['gemet_id'])) ? $_POST['gemet_id'] : [];
+						$obj->sync_topic_gemet_assignments($newId, $topic_ids, $gemet_ids);
 						$result = ['success' => true, 'message' => 'Layer successfully created!', 'id' => $newId];
 					}else{
 						$result = ['success' => false, 'message' => 'Failed to save layer!'];
@@ -451,6 +455,47 @@
 
 				}else{
 					$result = ['success' => false, 'message' => 'Error: No layer found'];
+				}
+			} else if ($action == 'tile_seed_info') {
+				$res = $obj->getById($id);
+				if (!$res) {
+					$result = ['success' => false, 'message' => 'Error: No layer found'];
+				} else {
+					$row = pg_fetch_object($res);
+					pg_free_result($res);
+					if ($row->cached != 't') {
+						$result = ['success' => false, 'message' => 'Turn on “Enable Tile Cache (qcarta-tiles)” for this layer before warming the cache.'];
+					} else {
+						$qgs_file = find_qgs(DATA_DIR . '/stores/' . $row->store_id);
+						if ($qgs_file === false || $qgs_file === '') {
+							$result = ['success' => false, 'message' => 'QGIS project file not found for this layer’s store.'];
+						} else {
+							$resolved = qc_tile_seed_resolve_extent($qgs_file, $row->layers);
+							if (!($resolved['ok'] ?? false)) {
+								$result = [
+									'success' => false,
+									'message' => $resolved['message'] ?? 'Could not resolve tile seed extent.',
+									'extent_warnings' => $resolved['warnings'] ?? [],
+								];
+							} else {
+								if (!empty($resolved['warnings'])) {
+									error_log('[tile_seed] id=' . $id . ' ' . implode(' | ', $resolved['warnings']));
+								}
+								$result = [
+									'success' => true,
+									'layer_id' => $id,
+									'name' => $row->name,
+									'map' => $qgs_file,
+									'layers' => $row->layers,
+									'extent3857' => $resolved['extent3857'],
+									'extent_source' => $resolved['source'],
+									'extent_warnings' => $resolved['warnings'],
+									'seed_debug_extent' => $resolved['seed_debug_extent'],
+									'seed_debug_gpkg' => $resolved['seed_debug_gpkg'] ?? [],
+								];
+							}
+						}
+					}
 				}
 			}
   }

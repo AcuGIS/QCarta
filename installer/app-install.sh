@@ -1,5 +1,4 @@
 #!/bin/bash -e
-
 APP_DB='qgapp'
 APP_DB_PASS=$(< /dev/urandom tr -dc _A-Za-z0-9 | head -c32);
 
@@ -329,20 +328,35 @@ CMD_EOF
 fi
 
 if [ "${WITH_SSO}" == 'true' ]; then
-    apt-get -y install composer
-    
-    cp installer/sso/*.php installer/sso/composer.{json,lock} ${WWW_DIR}/
-    chown www-data:www-data ${WWW_DIR}/composer.{json,lock}
+    # Install composer if not already installed
+    command -v composer >/dev/null 2>&1 || apt-get -y install composer
 
-    pushd ${WWW_DIR}/
-        sudo -u www-data composer install
-        sudo -u www-data composer require league/oauth2-client
-        sudo -u www-data composer require league/oauth2-github
-        sudo -u www-data composer require thenetworg/oauth2-azure
-        
-        rm -f composer.{json,lock}
-       	sed -i.save 's/?>//' admin/incl/const.php 
-        cat >> admin/incl/const.php <<CAT_EOF
+    # Ensure composer files exist
+    if [ ! -f installer/sso/composer.json ] || [ ! -f installer/sso/composer.lock ]; then
+        echo "ERROR: Missing composer.json or composer.lock in installer/sso"
+        exit 1
+    fi
+
+    # Copy composer config
+    cp installer/sso/composer.json ${WWW_DIR}/
+    cp installer/sso/composer.lock ${WWW_DIR}/
+
+    # Copy SSO PHP files (only if they exist)
+    if compgen -G "installer/sso/*.php" > /dev/null; then
+        cp installer/sso/*.php ${WWW_DIR}/
+    fi
+
+    chown www-data:www-data ${WWW_DIR}/composer.*
+
+    pushd ${WWW_DIR}/ >/dev/null
+
+        # Deterministic install (uses lock file exactly)
+        sudo -u www-data composer install --no-dev --optimize-autoloader --no-interaction
+
+        # Update const.php safely
+        sed -i.save 's/?>//' admin/incl/const.php
+
+        cat >> admin/incl/const.php <<'CAT_EOF'
 const DISABLE_OAUTH_USER_CREATION = true;
 const GITHUB_CLIENT_ID='';
 const GITHUB_CLIENT_SECRET='';
@@ -353,10 +367,11 @@ const GOOGLE_CLIENT_ID='';
 const GOOGLE_CLIENT_SECRET='';
 ?>
 CAT_EOF
-    popd
-    
+
+    popd >/dev/null
+
     chown -R www-data:www-data ${WWW_DIR}
 fi
 
-# save 1Gb of space
+# save space
 apt-get -y clean all

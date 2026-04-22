@@ -17,7 +17,14 @@ StandardError=journal
 
 # Environment variables
 Environment="QGIS_SERVER_URL=http://localhost/cgi-bin/qgis_mapserv.fcgi"
+Environment="QCARTA_METATILE_SIZE=4"
+Environment="QCARTA_METATILE_BUFFER=64"
 Environment="QCARTA_CACHE_PURGE_TOKEN=QCARTA_CACHE_PURGE_TOKEN_VALUE"
+# Honor layers.php “Enable Tile Cache”: qcarta-tiles reads const CACHE_ENABLED from each layers/{id}/env.php
+# If your web root is not /var/www/html, set:
+# Environment="QCARTA_WWW_DIR=/var/www/html"
+# Optional: Environment="QCARTA_LAYER_CACHE_REFRESH_SEC=15"
+# Enable to add debug for cache: Environment="QCARTA_CACHE_DEBUG=1"
 
 # Security settings
 NoNewPrivileges=true
